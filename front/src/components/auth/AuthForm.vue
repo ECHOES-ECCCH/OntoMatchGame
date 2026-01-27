@@ -9,9 +9,9 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'update:errors', 'submit'])
 
 const updateField = (field: string, value: string) => {
-  // Met à jour la valeur
   emit('update:modelValue', { ...props.modelValue, [field]: value })
 
+  // Delete error message if field is modified
   if (props.errors && props.errors[field]) {
     emit('update:errors', { ...props.errors, [field]: '' })
   }
