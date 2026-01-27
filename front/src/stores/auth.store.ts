@@ -1,21 +1,21 @@
-import { reactive, readonly } from 'vue'
+import { ref, readonly } from 'vue'
 
-const state = reactive({ isAuthenticated: localStorage.getItem('isAuthenticated') === 'true' })
+const state = ref({ isAuthenticated: localStorage.getItem('isAuthenticated') === 'true' })
 
 const AUTH_KEY = 'isAuthenticated'
 
 const login = (success: boolean) => {
-  state.isAuthenticated = success
+  state.value.isAuthenticated = success
   localStorage.setItem(AUTH_KEY, String(success))
 }
 
 const logout = () => {
-  state.isAuthenticated = false
+  state.value.isAuthenticated = false
   localStorage.removeItem(AUTH_KEY)
 }
 
 const isAuthenticated = () => {
-  return state.isAuthenticated
+  return state.value.isAuthenticated
 }
 
 export const authStore = {

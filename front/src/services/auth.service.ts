@@ -11,6 +11,11 @@ interface CheckStatusResponse {
   isActive: boolean
 }
 
+interface CheckingResult {
+  doesExist: boolean
+  isActive: boolean
+}
+
 interface LoginResponse {
   login: boolean
 }
@@ -27,13 +32,16 @@ const checkStatus = async (email: string): Promise<CheckStatusResponse | null> =
   }
 }
 
-export const handleCheckingForm = async (email: string): Promise<CheckStatusResponse | null> => {
+export const handleCheckingForm = async (email: string): Promise<CheckingResult | null> => {
   try {
     const { data } = await api.get<CheckEmailResponse>(`/checkemail.php?email=${email}`)
+    console.log(data)
+    if (!data.doesExist) return { doesExist: false, isActive: false }
 
-    if (!data.doesExist) return null
+    const status = await checkStatus(email)
+    if (!status) return { doesExist: true, isActive: false }
 
-    return await checkStatus(email)
+    return { doesExist: true, isActive: status.isActive }
   } catch (err) {
     if (axios.isAxiosError(err)) {
       console.error(err.response?.data, err.message)
@@ -44,6 +52,7 @@ export const handleCheckingForm = async (email: string): Promise<CheckStatusResp
 
 export const login = async (formData: RegisterFormData): Promise<boolean> => {
   try {
+    console.log('formData', formData)
     const { data } = await api.post<LoginResponse>('/login.php', {
       email: formData.email,
       password: formData.password,

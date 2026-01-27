@@ -22,7 +22,7 @@ const requireAuth = (
   from: RouteLocationNormalized,
   next: NavigationGuardNext,
 ) => {
-  if (!authStore.state.isAuthenticated) {
+  if (!authStore.state.value.isAuthenticated) {
     next('/')
   } else {
     next()
@@ -35,7 +35,7 @@ const requireGuest = (
   from: RouteLocationNormalized,
   next: NavigationGuardNext,
 ) => {
-  if (authStore.state.isAuthenticated) {
+  if (authStore.state.value.isAuthenticated) {
     next('/home')
   } else {
     next()

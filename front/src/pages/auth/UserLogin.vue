@@ -12,6 +12,11 @@ const formData = ref<RegisterFormData>({
   password: '',
 })
 
+const errors = ref<RegisterFormData>({
+  email: '',
+  password: '',
+})
+
 const selectedLanguage = ref(langStore.state.language)
 
 watch(selectedLanguage, (newLang) => {
@@ -20,26 +25,41 @@ watch(selectedLanguage, (newLang) => {
 
 const handleSubmit = async (data: RegisterFormData) => {
   const checking = await handleCheckingForm(data.email)
-
   if (!checking) return
 
-  if (!checking.isActive) return
+  if (!checking.doesExist) {
+    errors.value.email = 'static-text.SigninScene.signin-scene-wrongemail-text'
+    return
+  }
+
+  if (!checking.isActive) {
+    errors.value.email = 'static-text.SigninScene.signin-scene-accountnotactivated-text'
+    return
+  }
 
   const success = await login(data)
-
-  if (success && authStore.state.isAuthenticated) {
+  if (success && authStore.state.value.isAuthenticated) {
     router.push('/home')
   }
 }
 </script>
 
 <template>
-  <h1>OnToMatchGame</h1>
+  <h1>
+    {{ langStore.t('static-text.SigninScene.signin-scene-title-text') }}
+  </h1>
+  <p>{{ langStore.t('static-text.SigninScene.signin-scene-intro-text') }}</p>
   <div>
     <label>Français</label>
     <input name="language" type="radio" value="fr" v-model="selectedLanguage" />
     <label>English</label>
     <input name="language" type="radio" value="en" v-model="selectedLanguage" />
   </div>
-  <Form v-model="formData" @submit="handleSubmit"></Form>
+  <Form v-model="formData" v-model:errors="errors" @submit="handleSubmit"></Form>
+  <router-link to="/signup">
+    <label>{{ langStore.t('static-text.SigninScene.signin-scene-noaccount-label') }}</label>
+    <button>
+      {{ langStore.t('static-text.SigninScene.signin-scene-createbutton-label') }}
+    </button>
+  </router-link>
 </template>
