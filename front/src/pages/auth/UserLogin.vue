@@ -1,3 +1,67 @@
-<template>Test Login</template>
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import router from '@/router'
+import Form from '../../components/auth/AuthForm.vue'
+import RequestLoader from '@/components/RequestLoader.vue'
+import { handleCheckingForm, login, isLoading } from '@/services/auth.service'
+import type { RegisterFormData } from '@/types/form'
+import { authStore } from '@/stores/auth.store'
+import { langStore } from '@/stores/lang.store'
 
-<script setup lang="ts"></script>
+const formData = ref<RegisterFormData>({
+  email: '',
+  password: '',
+})
+
+const errors = ref<RegisterFormData>({
+  email: '',
+  password: '',
+})
+
+const selectedLanguage = ref(langStore.state.language)
+
+watch(selectedLanguage, (newLang) => {
+  langStore.handleLanguage(newLang)
+})
+
+const handleSubmit = async (data: RegisterFormData) => {
+  const checking = await handleCheckingForm(data.email)
+  if (!checking) return
+
+  if (!checking.doesExist) {
+    errors.value.email = 'static-text.SigninScene.signin-scene-wrongemail-text'
+    return
+  }
+
+  if (!checking.isActive) {
+    errors.value.email = 'static-text.SigninScene.signin-scene-accountnotactivated-text'
+    return
+  }
+
+  const success = await login(data)
+  if (success && authStore.state.value.isAuthenticated) {
+    router.push('/home')
+  }
+}
+</script>
+
+<template>
+  <RequestLoader v-if="isLoading" />
+  <h1>
+    {{ langStore.t('static-text.SigninScene.signin-scene-title-text') }}
+  </h1>
+  <p>{{ langStore.t('static-text.SigninScene.signin-scene-intro-text') }}</p>
+  <div>
+    <label>Français</label>
+    <input name="language" type="radio" value="fr" v-model="selectedLanguage" />
+    <label>English</label>
+    <input name="language" type="radio" value="en" v-model="selectedLanguage" />
+  </div>
+  <Form v-model="formData" v-model:errors="errors" @submit="handleSubmit" :isLoading></Form>
+  <router-link to="/signup">
+    <label>{{ langStore.t('static-text.SigninScene.signin-scene-noaccount-label') }}</label>
+    <button>
+      {{ langStore.t('static-text.SigninScene.signin-scene-createbutton-label') }}
+    </button>
+  </router-link>
+</template>
