@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import Form from '../../components/auth/AuthForm.vue'
-import { handleCheckingForm, login } from '@/services/auth.service'
 import router from '@/router'
+import Form from '../../components/auth/AuthForm.vue'
+import RequestLoader from '@/components/RequestLoader.vue'
+import { handleCheckingForm, login, isLoading } from '@/services/auth.service'
 import type { RegisterFormData } from '@/types/form'
 import { authStore } from '@/stores/auth.store'
 import { langStore } from '@/stores/lang.store'
@@ -45,6 +46,7 @@ const handleSubmit = async (data: RegisterFormData) => {
 </script>
 
 <template>
+  <RequestLoader v-if="isLoading" />
   <h1>
     {{ langStore.t('static-text.SigninScene.signin-scene-title-text') }}
   </h1>
@@ -55,7 +57,7 @@ const handleSubmit = async (data: RegisterFormData) => {
     <label>English</label>
     <input name="language" type="radio" value="en" v-model="selectedLanguage" />
   </div>
-  <Form v-model="formData" v-model:errors="errors" @submit="handleSubmit"></Form>
+  <Form v-model="formData" v-model:errors="errors" @submit="handleSubmit" :isLoading></Form>
   <router-link to="/signup">
     <label>{{ langStore.t('static-text.SigninScene.signin-scene-noaccount-label') }}</label>
     <button>

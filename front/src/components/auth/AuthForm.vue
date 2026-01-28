@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { langStore } from '@/stores/lang.store'
+import RequestLoader from '../RequestLoader.vue'
 
 const props = defineProps({
   modelValue: Object,
   errors: Object,
+  isLoading: Boolean,
 })
 
 const emit = defineEmits(['update:modelValue', 'update:errors', 'submit'])
@@ -30,7 +32,7 @@ const submitForm = () => {
       type="email"
       :value="modelValue?.email"
       @input="updateField('email', ($event.target as HTMLInputElement).value)"
-      placeholder="email"
+      :placeholder="langStore.t('static-text.SigninScene.signin-scene-email-placeholder-text')"
       required
     />
     <p v-if="errors?.email" id="email-error" class="error">
@@ -43,7 +45,7 @@ const submitForm = () => {
       type="password"
       :value="modelValue?.password"
       @input="updateField('password', ($event.target as HTMLInputElement).value)"
-      placeholder="password"
+      :placeholder="langStore.t('static-text.SigninScene.signin-scene-password-placeholder-text')"
       minlength="6"
       required
     />
@@ -51,7 +53,11 @@ const submitForm = () => {
       {{ langStore.t(errors.password) }}
     </p>
     <button type="submit">
-      {{ langStore.t('static-text.SigninScene.signin-scene-okbutton-text') }}
+      <RequestLoader
+        v-if="isLoading"
+        :text="langStore.t('static-text.SigninScene.signin-scene-waitingmessage-text')"
+      />
+      <span v-else>{{ langStore.t('static-text.SigninScene.signin-scene-okbutton-text') }}</span>
     </button>
   </form>
 </template>
