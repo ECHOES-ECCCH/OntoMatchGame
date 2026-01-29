@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue'
 import router from '@/router'
 import Form from '../../components/auth/AuthForm.vue'
-import RequestLoader from '@/components/RequestLoader.vue'
+import ButtonLoader from '@/components/loader/ButtonLoader.vue'
 import { handleCheckingForm, login, isLoading } from '@/services/auth.service'
 import type { RegisterFormData } from '@/types/form'
 import { authStore } from '@/stores/auth.store'
@@ -46,7 +46,7 @@ const handleSubmit = async (data: RegisterFormData) => {
 </script>
 
 <template>
-  <RequestLoader v-if="isLoading" />
+  <ButtonLoader v-if="isLoading" />
   <h1>
     {{ langStore.t('static-text.SigninScene.signin-scene-title-text') }}
   </h1>

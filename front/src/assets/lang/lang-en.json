@@ -146,6 +146,14 @@
       "goingfurther-scene-officialcidocwebsite-label": "And, of course, you can visit the official CIDOC CRM website:",
       "goingfurther-scene-creators-label": "To contact the creators of OntoMatchGame to discuss\nits use and extension, contact:",
       "goingfurther-scene-contacts-label": "Anaïs Guillem (University of Merced - aguillem@ucmerced.edu)\nGeorge Bruseker (Takin.solutions - george@takin.solutions)\nOlivier Marlet (CNRS, University of Tours - olivier.marlet@univ-tours.fr)\nFrançois-Xavier Talgorn (INDYTION - fx.talgorn@indytion.com)"
+    },
+
+    "ResetGameScene": {
+      "resetgame-scene-title-text": "Clear game data and start over",
+      "resetgame-scene-subtitle-text": "All your statistics will be lost.",
+      "resetgame-scene-cancelbutton-text": "Cancel",
+      "resetgame-scene-deletebutton-text": "Delete",
+      "resetgame-scene-waitingmessage-label": "Deletion in progress..."
     }
   }
 }

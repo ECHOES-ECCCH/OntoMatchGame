@@ -62,7 +62,7 @@ export const login = async (formData: RegisterFormData): Promise<boolean> => {
       password: formData.password,
     })
 
-    authStore.login(data.login)
+    authStore.login(data.login, formData.email)
     return data.login
   } catch (error) {
     handleApiError(error)

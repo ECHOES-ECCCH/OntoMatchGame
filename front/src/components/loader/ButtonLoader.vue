@@ -6,7 +6,7 @@ defineProps({
 
 <template>
   <span>{{ text }}</span>
-  <div class="loader" id="loader-2">
+  <div id="loader-2">
     <span></span>
     <span></span>
     <span></span>

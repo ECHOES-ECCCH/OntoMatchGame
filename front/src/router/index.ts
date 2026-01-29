@@ -13,6 +13,7 @@ const LastChallenge = () => import('@/pages/LastChallenge.vue')
 const ScenariosList = () => import('@/pages/ScenariosList.vue')
 const UserStatistics = () => import('@/pages/UserStatistics.vue')
 const UsersRanking = () => import('@/pages/UsersRanking.vue')
+const FreeMode = () => import('@/pages/FreeMode.vue')
 
 import { authStore } from '@/stores/auth.store'
 
@@ -51,6 +52,7 @@ const routes = [
   { path: '/scenario', component: ScenariosList, beforeEnter: requireAuth },
   { path: '/statistics', component: UserStatistics, beforeEnter: requireAuth },
   { path: '/ranking', component: UsersRanking, beforeEnter: requireAuth },
+  { path: '/free-mode', component: FreeMode, beforeEnter: requireAuth },
 ]
 
 const router = createRouter({
