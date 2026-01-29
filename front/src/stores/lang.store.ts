@@ -1,8 +1,10 @@
 import { readonly, ref, computed } from 'vue'
-import fr from '@/assets/lang/lang-fr.json'
-import en from '@/assets/lang/lang-en.json'
+import fr from '@/assets/json/fr/lang-fr.json'
+import en from '@/assets/json/en/lang-en.json'
+import frScenarii from '@/assets/json/fr/scenariiCatalog.json'
+import enScenarii from '@/assets/json/en/scenariiCatalog.json'
 
-const messages = { fr, en } as const
+const messages = { fr, en }
 
 const AUTH_KEY = 'language'
 
@@ -30,8 +32,13 @@ const t = (key: string): string => {
   )
 }
 
+const scenarioTranslation = computed(() => {
+  return language.value === 'fr' ? frScenarii : enScenarii
+})
+
 export const langStore = {
   handleLanguage,
   state: readonly({ language }),
   t,
+  scenarioTranslation,
 }

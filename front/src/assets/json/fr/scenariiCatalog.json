@@ -1,0 +1,310 @@
+{
+  "scenarii": [
+	{
+		"scenario-title": "Marmoutier FR",
+		"ontologyTags": [
+			"CIDOC CRM"
+		],
+		"domainTags": [
+			"Histoire",
+			"Archéologie",
+			"Patrimoine culturel"
+		],
+		"domainCodes": [
+			"HIS",
+			"ARC",
+			"CUL"
+		],
+		"authorTags": [
+		    "MASA",
+		    "Huma-Num"
+		],
+		"languageTag": "Français",
+		"scenario-description": "Apprends les bases du CIDOC CRM avec les fouilles archéologiques de Marmoutier",
+		"chapters": [
+			{
+			  "chapter-title": "Base des ontologies",
+			  "chapter-description": "Qu'est-ce qu'une ontologie ?",
+			  "chapter-filename": "Chapter1.json"
+			},
+			{
+			  "chapter-title": "Bases du CIDOC CRM",
+			  "chapter-description": "Comment fonctionne le CIDOC CRM ?",
+			  "chapter-filename": "Chapter2.json"
+			},
+			{
+			  "chapter-title": "Instanciation (1)",
+			  "chapter-description": "Associer une instance à une classe du CIDOC",
+			  "chapter-filename": "Chapter3.json"
+			},
+			{
+			  "chapter-title": "Instanciation (2)",
+			  "chapter-description": "Connecter deux instances avec une propriété",
+			  "chapter-filename": "Chapter4.json"
+			},
+			{
+			  "chapter-title": "Instanciation (3)",
+			  "chapter-description": "Réaliser une modélisation complexe avec trois instances",
+			  "chapter-filename": "Chapter5.json"
+			}
+		]
+	}
+	,
+	{
+		"scenario-title": "Marmoutier EN",
+		"ontologyTags": [
+			"CIDOC CRM"
+		],
+		"domainTags": [
+			"History",
+			"Archaeology",
+			"Cultural heritage"
+		],
+		"domainCodes": [
+			"HIS",
+			"ARC",
+			"CUL"
+		],
+		"authorTags": [
+		    "MASA",
+		    "Huma-num"
+		],
+		"languageTag": "English",
+		"scenario-description": "Learn CIDOC CRM basics with the archaeological excavation of Marmoutier (France)",
+		"chapters": [
+			{
+			  "chapter-title": "Ontology basics",
+			  "chapter-description": "What is an ontology?",
+			  "chapter-filename": "Chapter1.json"
+			},
+			{
+			  "chapter-title": "CIDOC CRM Basics",
+			  "chapter-description": "How is structured CIDOC CRM?",
+			  "chapter-filename": "Chapter2.json"
+			},
+			{
+			  "chapter-title": "Instance modelling (1)",
+			  "chapter-description": "Mapping an instance to CIDOC class",
+			  "chapter-filename": "Chapter3.json"
+			},
+			{
+			  "chapter-title": "Instance modelling (2)",
+			  "chapter-description": "Using property to connect two instances",
+			  "chapter-filename": "Chapter4.json"
+			},
+			{
+			  "chapter-title": "Instance modelling (3)",
+			  "chapter-description": "Complex modelling with three instances",
+			  "chapter-filename": "Chapter5.json"
+			}
+		]
+	}
+	,
+	{
+		  "scenario-title": "St-Cosme FR",
+		  "ontologyTags": [
+			"CIDOC CRM"
+		  ],
+		  "domainTags": [
+			"Histoire",
+			"Archéologie",
+			"Patrimoine culturel"
+		  ],
+		"domainCodes" : [
+			"HIS",
+			"ARC",
+			"CUL"
+		  ],
+		"authorTags": [
+		  "MASA",
+		  "Huma-num"
+		  ],
+		  "languageTag": "Français",
+		  "scenario-description": "Modélise l'anthropologie funéraire du site du prieuré St-Cosme avec le CIDOC CRM",
+		  "chapters": [
+			{
+			  "chapter-title": "Instanciation (1)",
+			  "chapter-description": "Associer une instance à une classe du CIDOC",
+			  "chapter-filename": "Chapter1.json"
+			},
+			{
+			  "chapter-title": "Instanciation (2)",
+			  "chapter-description": "Connecter deux instances avec une propriété",
+			  "chapter-filename": "Chapter2.json"
+			},
+			{
+			  "chapter-title": "Instanciation (3)",
+			  "chapter-description": "Modélisation de l'anthropologie funéraire",
+			  "chapter-filename": "Chapter3.json"
+			},
+			{
+			  "chapter-title": "Instanciation (4)",
+			  "chapter-description": "Modélisation des méthodes de détermination",
+			  "chapter-filename": "Chapter4.json"
+			}
+		  ]
+	}
+	,
+	{
+		  "scenario-title": "Rigny FR",
+		  "ontologyTags": [
+			"CIDOC CRM"
+		  ],
+		  "domainTags": [
+			"Histoire",
+			"Archéologie",
+			"Patrimoine culturel"
+		  ],
+		"domainCodes" : [
+			"HIS",
+			"ARC",
+			"CUL"
+		  ],
+		"authorTags": [
+		  "MASA",
+		  "Huma-num"
+		  ],
+		  "languageTag": "Français",
+		  "scenario-description": "Modélise l'anthropologie funéraire du site de Rigny avec le CIDOC CRM",
+		  "chapters": [
+			{
+			  "chapter-title": "Instanciation (1)",
+			  "chapter-description": "Associer une instance à une classe du CIDOC",
+			  "chapter-filename": "Chapter1.json"
+			},
+			{
+			  "chapter-title": "Instanciation (2)",
+			  "chapter-description": "Connecter deux instances avec une propriété",
+			  "chapter-filename": "Chapter2.json"
+			},
+			{
+			  "chapter-title": "Instanciation (3)",
+			  "chapter-description": "Modélisation de l'anthropologie funéraire",
+			  "chapter-filename": "Chapter3.json"
+			},
+			{
+			  "chapter-title": "Instanciation (4)",
+			  "chapter-description": "Modélisation des méthodes de détermination",
+			  "chapter-filename": "Chapter4.json"
+			}
+		  ]
+	}
+	,
+	{
+		"scenario-title": "Louvre FR",
+		"ontologyTags": [
+			"CIDOC CRM"
+		],
+		"domainTags": [
+			"Histoire",
+			"Archéologie",
+			"Patrimoine culturel"
+		],
+		"domainCodes" : [
+			"HIS",
+			"ARC",
+			"CUL"
+		],
+		"authorTags": [
+			"MASA",
+			"Huma-num"
+		],
+		"languageTag": "Français",
+		"scenario-description": "Modélise les collections du Musée du Louvre avec le CIDOC CRM",
+		"chapters": [
+			{
+				"chapter-title": "Instanciation (1)",
+				"chapter-description": "Associer une instance à une classe du CIDOC",
+				"chapter-filename": "Chapter1.json"
+			},
+			{
+				"chapter-title": "Instanciation (2)",
+				"chapter-description": "Connecter les instances avec des propriétés",
+				"chapter-filename": "Chapter2.json"
+			}
+		]
+	}
+	,	
+	{
+		"scenario-title": "CIDOC Explorer",
+		"ontologyTags": [
+			"CIDOC CRM"
+		],
+		"domainTags": [
+			"History",
+			"Archaeology",
+			"Cultural heritage"
+		],
+		"domainCodes" : [
+			"HIS",
+			"ARC",
+			"CUL"
+		],
+		"authorTags": [
+			"MASA",
+			"Huma-num"
+		],
+		"languageTag": "English",
+		"scenario-description": "Discover CIDOC CRM entities and properties with card game",
+		"chapters": [
+			{
+			  "chapter-title": "CIDOC Explorer",
+			  "chapter-description": "Discover CIDOC CRM entities and properties",
+			  "chapter-filename": "Chapter1.json"
+			}
+		]
+	}
+	,
+	{
+		"scenario-title": "YOUR GAME HERE!",
+		"ontologyTags": [
+			"CIDOC CRM"
+		],
+		"domainTags": [
+			"AnyDomain"
+		],
+		"domainCodes": [
+			"ARC",
+			"ACT",
+			"ARK",
+			"ART",
+			"CSV",
+			"ETH",
+			"HIS",
+			"LIN",
+			"LIT",
+			"OLB",
+			"MSM",
+			"MUS"
+		],
+		"authorTags": [
+		    "Your Org."
+		],
+		"languageTag": "English",
+		"scenario-description": "You can create your own games very easily!",
+		"chapters": [
+			{
+			  "chapter-title": "Introduction",
+			  "chapter-description": "This could be your Introduction chapter.",
+			  "chapter-filename": ""
+			},
+			{
+			  "chapter-title": "Level 1",
+			  "chapter-description": "Explain here basic concepts",
+			  "chapter-filename": ""
+			},
+			{
+			  "chapter-title": "Level 2",
+			  "chapter-description": "Bring your audience to a higher level.",
+			  "chapter-filename": ""
+			},
+			{
+			  "chapter-title": "Level 3",
+			  "chapter-description": "Get people involved in your work!",
+			  "chapter-filename": ""
+			}
+		]
+	}
+
+  ]
+}

@@ -154,6 +154,10 @@
       "resetgame-scene-cancelbutton-text": "Cancel",
       "resetgame-scene-deletebutton-text": "Delete",
       "resetgame-scene-waitingmessage-label": "Deletion in progress..."
+    },
+
+    "Footer": {
+      "footer-backbutton": "Back"
     }
   }
 }

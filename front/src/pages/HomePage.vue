@@ -50,7 +50,7 @@ const handleReset = () => {
         </router-link>
       </li>
       <li>
-        <router-link to="/scenario">
+        <router-link to="/game-selection">
           {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-choosebutton-label') }}
         </router-link>
       </li>

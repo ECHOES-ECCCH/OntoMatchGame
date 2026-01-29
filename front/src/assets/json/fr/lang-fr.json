@@ -158,6 +158,10 @@
       "resetgame-scene-cancelbutton-text": "Annuler",
       "resetgame-scene-deletebutton-text": "Supprimer",
       "resetgame-scene-waitingmessage-label": "Suppression en cours..."
+    },
+
+    "Footer": {
+      "footer-backbutton": "Retour"
     }
   }
 }
