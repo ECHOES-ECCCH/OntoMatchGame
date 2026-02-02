@@ -76,7 +76,8 @@
       "gameselection-scene-ontology-label": "Ontology",
       "gameselection-scene-language-label": "Language",
       "gameselection-scene-language1-text": "English",
-      "gameselection-scene-language2-text": "French"
+      "gameselection-scene-language2-text": "French",
+      "gameselection-scene-noscenario-text": "No scenarios available"
     },
     "MainMenuScene": {
       "mainmenu-scene-welcometitle-text": "Hello",

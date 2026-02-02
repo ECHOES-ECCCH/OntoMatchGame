@@ -30,10 +30,6 @@ const t = (key: string): string => {
   )
 }
 
-// const scenarioTranslation = computed(() => {
-//   return language.value === 'fr' ? frScenarii : enScenarii
-// })
-
 export const langStore = {
   handleLanguage,
   state: readonly({ language }),

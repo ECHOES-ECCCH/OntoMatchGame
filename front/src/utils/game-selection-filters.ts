@@ -71,11 +71,12 @@ export const selectedFilters = ref({
   language: [
     {
       name: langStore.t('static-text.GameSelectionScene.gameselection-scene-language2-text'),
-
+      language: 'Français',
       selected: true,
     },
     {
       name: langStore.t('static-text.GameSelectionScene.gameselection-scene-language1-text'),
+      language: 'English',
       selected: true,
     },
   ],

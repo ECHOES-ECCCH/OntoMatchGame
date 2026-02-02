@@ -17,25 +17,14 @@ watch(
   (newFilters) => {
     filteredScenarii.value = scenarii.filter(
       (s) =>
-        newFilters.language.some((filter) => s.languageTag === filter.name && filter.selected) &&
         s.domainCodes.some((tag) =>
-          newFilters.theme.some((filter) => tag === filter.domainCodes && filter.selected),
-        ),
+          newFilters.theme.some((filter) => filter.selected && filter.domainCodes.includes(tag)),
+        ) &&
+        newFilters.language.some((filter) => filter.selected && s.languageTag === filter.language),
     )
-
-    // filteredScenarii.value = scenarii.filter((s) =>
-    //   newFilters.language.some((filter) => s.languageTag === filter.name && filter.selected),
-    // )
-
-    console.log('filtre', newFilters.language)
-
-    console.log('filteredScenarii', filteredScenarii)
   },
   { deep: true },
 )
-
-console.log('scenarii', scenarii)
-console.log(selectedFilters.value)
 </script>
 
 <template>
@@ -44,7 +33,10 @@ console.log(selectedFilters.value)
     <ScenarioFilter />
     <div>
       {{ langStore.t('static-text.GameSelectionScene.gameselection-scene-listofscenarii-label') }}
-      <ScenarioAccordion :scenario="filteredScenarii" />
+      <ScenarioAccordion v-if="filteredScenarii.length" :scenario="filteredScenarii" />
+      <div v-else>
+        {{ langStore.t('static-text.GameSelectionScene.gameselection-scene-noscenario-text') }}
+      </div>
     </div>
   </section>
   <MainFooter />
