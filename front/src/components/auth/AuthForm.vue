@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { langStore } from '@/stores/lang.store'
-import RequestLoader from '../RequestLoader.vue'
+import ButtonLoader from '../loader/ButtonLoader.vue'
 
 const props = defineProps({
   modelValue: Object,
@@ -53,7 +53,7 @@ const submitForm = () => {
       {{ langStore.t(errors.password) }}
     </p>
     <button type="submit">
-      <RequestLoader
+      <ButtonLoader
         v-if="isLoading"
         :text="langStore.t('static-text.SigninScene.signin-scene-waitingmessage-text')"
       />
