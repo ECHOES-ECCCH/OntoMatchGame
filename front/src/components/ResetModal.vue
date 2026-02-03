@@ -11,8 +11,8 @@ defineProps({
 
 <template>
   {{ console.log(isResetLoading) }}
-  <div class="container">
-    <div class="modal">
+  <div class="modal-container">
+    <div class="modal-content">
       <h1>{{ langStore.t('static-text.ResetGameScene.resetgame-scene-title-text') }}</h1>
       <p>{{ langStore.t('static-text.ResetGameScene.resetgame-scene-subtitle-text') }}</p>
 
@@ -32,22 +32,3 @@ defineProps({
     </div>
   </div>
 </template>
-
-<style>
-.container {
-  background-color: rgba(190, 190, 190, 0.4);
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-}
-
-.modal {
-  width: 400px;
-  height: 200px;
-  background-color: white;
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-</style>

@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import router from '@/router';
-import { authStore } from '@/stores/auth.store';
+import router from '@/router'
+import { authStore } from '@/stores/auth.store'
+import close from '@/assets/img/close.png'
 
 const handleLogout = () => {
-    authStore.logout()
-    router.push("/")
+  authStore.logout()
+  router.push('/')
 }
 </script>
 
 <template>
-    <button @click="handleLogout">Quitter le jeu</button>
+  <button class="logout" @click="handleLogout"><img :src="close" /> Quitter le jeu</button>
 </template>
-

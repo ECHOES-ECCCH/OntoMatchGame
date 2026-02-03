@@ -4,9 +4,11 @@ import LogOut from './auth/LogOut.vue'
 </script>
 
 <template>
-  <header>
-    <img :src="logo" />
-    <h1>OntoMatchGame</h1>
+  <header class="main-header">
+    <div class="game-title">
+      <span><img :src="logo" /></span>
+      <h1>OntoMatchGame</h1>
+    </div>
     <LogOut />
   </header>
 </template>

@@ -29,7 +29,7 @@ const handleReset = () => {
   <div v-if="user.isUserInfoLoading || isHistoryLoading">
     <PagesLoader />
   </div>
-  <div class="menu" v-else>
+  <div class="homepage-modal" v-else>
     <ResetModal
       v-if="modal === true"
       :handleModal="handleModal"
@@ -37,49 +37,65 @@ const handleReset = () => {
       :isResetLoading="isResetLoading"
     />
     <MainHeader />
-    <h1>
-      {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-welcometitle-text') }}
-      {{ user.userInfo.userName }}
-    </h1>
-    <ul>
-      <li>
-        <router-link to="/challenge">
-          {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-continue-text') }}
-          {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-continuebutton-text') }}
-          {{ userHistory?.scenarioName }} {{ userHistory?.chapterName }}
-        </router-link>
-      </li>
-      <li>
-        <router-link to="/scenario">
-          {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-choosebutton-label') }}
-        </router-link>
-      </li>
-      <li>
-        <router-link to="/statistics">
-          {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-statistics-label') }}
-        </router-link>
-      </li>
-      <li>
-        <router-link to="/free-mode">
-          {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-freemode-label') }}
-        </router-link>
-      </li>
-      <li>
-        <router-link to="/ranking">
-          {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-hallbutton-label') }}
-        </router-link>
-      </li>
-      <li>
-        <button @click="handleModal(true)">
-          {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-reset-label') }}
-        </button>
-      </li>
-    </ul>
+    <section class="homepage">
+      <div class="homepage-content">
+        <h2>
+          {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-welcometitle-text') }}
+          {{ user.userInfo.userName }}
+        </h2>
+        <ul class="menu">
+          <li class="menu-challenge">
+            <router-link to="/challenge">
+              <div class="last-challenge">
+                <div>
+                  <p>{{ langStore.t('static-text.MainMenuScene.mainmenu-scene-continue-text') }}</p>
+
+                  <p>{{ userHistory?.scenarioName }} / {{ userHistory?.chapterName }}</p>
+                </div>
+                <div>
+                  <button>
+                    ►
+                    {{
+                      langStore.t('static-text.MainMenuScene.mainmenu-scene-continuebutton-text')
+                    }}
+                  </button>
+                </div>
+              </div>
+            </router-link>
+          </li>
+          <li class="menu-scenario">
+            <router-link to="/scenario">
+              {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-choosebutton-label') }}
+              <button>►</button>
+            </router-link>
+          </li>
+          <li class="menu-statistics">
+            <router-link to="/statistics">
+              {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-statistics-label') }}
+              <button>►</button>
+            </router-link>
+          </li>
+          <li class="menu-free-mode">
+            <router-link to="/free-mode">
+              {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-freemode-label') }}
+              <button>►</button>
+            </router-link>
+          </li>
+          <li class="menu-ranking">
+            <router-link to="/ranking">
+              {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-hallbutton-label') }}
+              <button>►</button>
+            </router-link>
+          </li>
+          <li class="menu-reset-game">
+            <button @click="handleModal(true)">
+              {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-reset-label') }}
+            </button>
+          </li>
+        </ul>
+      </div>
+    </section>
   </div>
 </template>
 
-<style>
-.menu {
-  position: relative;
-}
-</style>
+<style></style>
