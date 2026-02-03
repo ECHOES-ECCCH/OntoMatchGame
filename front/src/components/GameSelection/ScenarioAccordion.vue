@@ -2,12 +2,13 @@
 import { computed } from 'vue'
 import Accordion from '@/components/TemplateAccordion.vue'
 import { createSession } from '@/services/sessions.service'
-import type { Scenario } from '@/types/game-selection'
+import { isResetProgressionLoading, resetProgression } from '@/services/reset.service'
 import { userStats, isUsersStatsLoading } from '@/composables/useUserStats'
 import { useUserInformations } from '@/stores/userInformations.store'
 import { getChapterProgression, isChapterStarted } from '@/utils/chapters-progression'
-import { resetProgression } from '@/services/reset.service'
+import type { Scenario } from '@/types/game-selection'
 import PagesLoader from '../loader/PagesLoader.vue'
+import ButtonLoader from '../loader/ButtonLoader.vue'
 
 const userStore = useUserInformations()
 defineProps<{
@@ -27,14 +28,6 @@ const handleCreateSessionData = (scenario: string, chapter: string) => {
     userId: userStore.userInfo.userId,
     scenarioTitle: scenario,
     chapterTitle: chapter,
-  })
-}
-
-const handleResetProgression = (scenario, chapter) => {
-  resetProgression({
-    userId: userStore.userInfo.userId,
-    currentScenario: scenario,
-    currentChapter: chapter,
   })
 }
 </script>
@@ -71,7 +64,7 @@ const handleResetProgression = (scenario, chapter) => {
           <li v-for="(chapter, i) in scenario[index]?.chapters" :key="i">
             {{ chapter['chapter-title'] }}
             {{ chapter['chapter-description'] }}
-            <div>{{ getChapterProgression(chapter) || 0 }}</div>
+            <div>{{ getChapterProgression(chapter) || 0 }}%</div>
 
             <router-link
               :to="{
@@ -86,6 +79,8 @@ const handleResetProgression = (scenario, chapter) => {
               <button
                 v-else
                 @click="
+                  scenario[index] &&
+                  chapter &&
                   handleCreateSessionData(
                     scenario[index]['scenario-title'],
                     chapter['chapter-filename'],
@@ -95,12 +90,18 @@ const handleResetProgression = (scenario, chapter) => {
                 Go
               </button>
             </router-link>
+            <ButtonLoader v-if="isResetProgressionLoading" />
             <button
+              v-else
+              :disabled="isResetProgressionLoading"
               @click="
-                handleResetProgression(
-                  scenario[index]['scenario-title'],
-                  chapter['chapter-filename'],
-                )
+                scenario[index] &&
+                chapter &&
+                resetProgression({
+                  userId: userStore.userInfo.userId,
+                  currentScenario: scenario[index]?.['scenario-title'],
+                  currentChapter: chapter['chapter-filename'],
+                })
               "
             >
               Reset
