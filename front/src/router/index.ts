@@ -10,7 +10,7 @@ const Signup = () => import('@/pages/auth/UserSignUp.vue')
 const ResetPassword = () => import('@/pages/auth/UserResetPassword.vue')
 const HomePage = () => import('@/pages/HomePage.vue')
 const LastChallenge = () => import('@/pages/LastChallenge.vue')
-const ScenariosList = () => import('@/pages/ScenariosList.vue')
+const ScenariosList = () => import('@/pages/GameSelection.vue')
 const UserStatistics = () => import('@/pages/UserStatistics.vue')
 const UsersRanking = () => import('@/pages/UsersRanking.vue')
 const FreeMode = () => import('@/pages/FreeMode.vue')
@@ -49,7 +49,7 @@ const routes = [
   { path: '/reset-password', component: ResetPassword, beforeEnter: requireGuest },
   { path: '/home', component: HomePage, beforeEnter: requireAuth },
   { path: '/challenge', component: LastChallenge, beforeEnter: requireAuth },
-  { path: '/scenario', component: ScenariosList, beforeEnter: requireAuth },
+  { path: '/game-selection', component: ScenariosList, beforeEnter: requireAuth },
   { path: '/statistics', component: UserStatistics, beforeEnter: requireAuth },
   { path: '/ranking', component: UsersRanking, beforeEnter: requireAuth },
   { path: '/free-mode', component: FreeMode, beforeEnter: requireAuth },

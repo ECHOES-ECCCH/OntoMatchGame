@@ -76,7 +76,8 @@
       "gameselection-scene-ontology-label": "Ontology",
       "gameselection-scene-language-label": "Language",
       "gameselection-scene-language1-text": "English",
-      "gameselection-scene-language2-text": "French"
+      "gameselection-scene-language2-text": "French",
+      "gameselection-scene-noscenario-text": "No scenarios available"
     },
     "MainMenuScene": {
       "mainmenu-scene-welcometitle-text": "Hello",
@@ -154,6 +155,10 @@
       "resetgame-scene-cancelbutton-text": "Cancel",
       "resetgame-scene-deletebutton-text": "Delete",
       "resetgame-scene-waitingmessage-label": "Deletion in progress..."
+    },
+
+    "Footer": {
+      "footer-backbutton": "Back"
     }
   }
 }

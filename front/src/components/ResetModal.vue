@@ -10,7 +10,6 @@ defineProps({
 </script>
 
 <template>
-  {{ console.log(isResetLoading) }}
   <div class="container">
     <div class="modal">
       <h1>{{ langStore.t('static-text.ResetGameScene.resetgame-scene-title-text') }}</h1>
