@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import logo from '@/assets/img/logo.png'
 import LogOut from './auth/LogOut.vue'
+import LanguageSelection from './LanguageSelection.vue'
 </script>
 
 <template>
@@ -9,6 +10,9 @@ import LogOut from './auth/LogOut.vue'
       <span><img :src="logo" /></span>
       <h1>OntoMatchGame</h1>
     </div>
-    <LogOut />
+    <div class="header-right">
+      <LanguageSelection />
+      <LogOut />
+    </div>
   </header>
 </template>

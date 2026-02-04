@@ -8,7 +8,7 @@ export const shouldReloadHistory = ref(false)
 
 const userStore = useUserInformations()
 
-const fetchUserHistory = async (userId: string | null) => {
+const fetchUserHistory = async (userId: string) => {
   if (!userId) return
   isHistoryLoading.value = true
   try {

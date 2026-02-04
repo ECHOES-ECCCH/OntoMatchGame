@@ -78,7 +78,8 @@
       "gameselection-scene-ontology-label": "Ontologie",
       "gameselection-scene-language-label": "Langue",
       "gameselection-scene-language1-text": "Anglais",
-      "gameselection-scene-language2-text": "Français"
+      "gameselection-scene-language2-text": "Français",
+      "gameselection-scene-noscenario-text": "Aucun scénario disponible"
     },
 
     "MainMenuScene": {
@@ -158,6 +159,10 @@
       "resetgame-scene-cancelbutton-text": "Annuler",
       "resetgame-scene-deletebutton-text": "Supprimer",
       "resetgame-scene-waitingmessage-label": "Suppression en cours..."
+    },
+
+    "Footer": {
+      "footer-backbutton": "Retour"
     }
   }
 }

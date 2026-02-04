@@ -30,7 +30,7 @@
 
 body {
   background: linear-gradient(120deg, var(--bc1) 20%, var(--bc2) 70%);
-  height: 100vh;
+  max-height: 100vh;
   font-family: 'Archivo', sans-serif;
   color: var(--black);
   margin: 0 auto;
@@ -79,6 +79,26 @@ header.main-header .game-title h1 {
   font-weight: 900;
   font-size: 24px;
   padding: 0 15px;
+}
+
+header.main-header .header-right {
+  display: flex;
+}
+
+header.main-header .header-right .language {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+}
+
+header.main-header .header-right .language button {
+  font-weight: 700;
+}
+
+header.main-header .header-right button.selectedlanguage {
+  text-decoration: underline;
+  color: var(--main-color3);
 }
 
 button.logout {
@@ -201,6 +221,43 @@ button.logout img {
   font-weight: 500;
 }
 
+.homepage .homepage-content ul.menu li.menu-challenge a .last-challenge div p:nth-child(1) {
+  margin-bottom: 27px;
+  margin-top: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.homepage .homepage-content ul.menu li.menu-challenge a progress {
+  width: 250px;
+  height: 14px;
+  appearance: none;
+  border: none;
+  border-radius: var(--box-radius);
+  -webkit-appearance: none;
+}
+
+.homepage .homepage-content ul.menu li.menu-challenge a progress::-webkit-progress-bar {
+  background-color: #dddddd;
+  border-radius: var(--box-radius);
+}
+
+.homepage .homepage-content ul.menu li.menu-challenge a progress::-webkit-progress-value {
+  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
+  border-radius: var(--box-radius);
+}
+
+/* Firefox */
+progress::-moz-progress-bar {
+  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
+  border-radius: var(--box-radius);
+}
+
+.percent {
+  margin-left: 10px;
+  font-weight: 500;
+}
+
 .homepage .homepage-content ul.menu li.menu-challenge a .last-challenge button {
   background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
   color: white;
@@ -209,6 +266,7 @@ button.logout img {
   border-radius: var(--box-radius);
   font-size: 16px;
   box-shadow: var(--shadow);
+  font-weight: 600;
 }
 
 .homepage .homepage-content ul.menu li.menu-challenge a .last-challenge button:hover {
@@ -350,11 +408,13 @@ button.logout img {
   display: flex;
   justify-content: center;
   height: 60px;
-  margin-bottom: 0;
   font-size: 14px;
   font-weight: 700;
   border-top: 1px solid #dfdfdf;
   background-color: white;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
 }
 
 .footer button {
