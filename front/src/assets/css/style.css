@@ -32,7 +32,7 @@ body {
   background: linear-gradient(120deg, var(--bc1) 20%, var(--bc2) 70%);
   height: 100vh;
   font-family: 'Archivo', sans-serif;
-  color: #4d4d4d;
+  color: var(--black);
   margin: 0 auto;
 }
 
@@ -145,11 +145,26 @@ button.logout img {
   border-left: 7px solid var(--main-color1);
 }
 
+.homepage .homepage-content ul.menu li.menu-challenge .no-session {
+  text-align: center;
+  width: 100%;
+}
+
+.homepage .homepage-content ul.menu li.menu-challenge:hover {
+  background-color: transparent !important;
+  cursor: not-allowed;
+}
+
 .homepage .homepage-content ul.menu li a {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.homepage .homepage-content ul.menu li {
+  border: solid 1px var(--main-color2);
+  border-left: solid 7px var(--main-color2);
 }
 
 .homepage .homepage-content ul.menu li a button {
@@ -160,6 +175,22 @@ button.logout img {
   border-radius: var(--box-radius);
   padding-left: 10px;
   font-size: 16px;
+}
+
+.homepage .homepage-content ul.menu li:hover {
+  background-color: #fff3e2;
+}
+
+.homepage .homepage-content ul.menu li a button:hover {
+  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
+}
+
+.homepage .homepage-content ul.menu li.no-session {
+  background-color: #e9e9e9 !important;
+  color: rgb(196, 196, 196);
+  cursor: not-allowed !important;
+  box-shadow: none;
+  border-color: rgb(196, 196, 196) !important;
 }
 
 .homepage .homepage-content ul.menu li.menu-challenge a .last-challenge {
@@ -180,12 +211,15 @@ button.logout img {
   box-shadow: var(--shadow);
 }
 
+.homepage .homepage-content ul.menu li.menu-challenge a .last-challenge button:hover {
+  background: linear-gradient(90deg, #ffcf87 0%, var(--main-color1) 100%);
+}
+
 .homepage .homepage-content ul.menu li.menu-scenario {
   grid-column: span 3 / span 3;
   grid-row-start: 2;
   box-shadow: var(--shadow);
   height: 64px;
-  border: solid 1px var(--main-color2);
 }
 
 .homepage .homepage-content ul.menu li.menu-statistics {
@@ -193,14 +227,12 @@ button.logout img {
   grid-column-start: 4;
   grid-row-start: 2;
   height: 64px;
-  border: solid 1px var(--main-color2);
 }
 
 .homepage .homepage-content ul.menu li.menu-free-mode {
   grid-column: span 3 / span 3;
   grid-row-start: 3;
   height: 64px;
-  border: solid 1px var(--main-color2);
 }
 
 .homepage .homepage-content ul.menu li.menu-ranking {
@@ -208,7 +240,6 @@ button.logout img {
   grid-column-start: 4;
   grid-row-start: 3;
   height: 64px;
-  border: solid 1px var(--main-color2);
 }
 
 .homepage .homepage-content ul.menu li.menu-reset-game {
@@ -228,6 +259,10 @@ button.logout img {
   box-shadow: none;
 }
 
+.homepage .homepage-content ul.menu li.menu-reset-game:hover {
+  background-color: #c6e4df;
+}
+
 .homepage .homepage-content ul.menu li.menu-reset-game button {
   color: var(--main-color3);
   font-weight: 600;
@@ -241,19 +276,92 @@ button.logout img {
 /* Modal */
 
 .modal-container {
-  background-color: rgba(190, 190, 190, 0.4);
+  background-color: rgba(173, 173, 173, 0.4);
   width: 100vw;
   height: 100vh;
   position: absolute;
 }
 
 .modal-container .modal-content {
-  width: 400px;
-  height: 200px;
+  width: 500px;
+  height: 170px;
   background-color: white;
   position: relative;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: var(--box-radius);
+  border: 1px solid var(--main-color1);
+  border-left: 7px solid var(--main-color1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 10px;
+  box-shadow: var(--shadow);
+}
+
+.modal-container .modal-content div p:nth-child(1) {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.modal-container .modal-content div p:nth-child(2) {
+  font-size: 16px;
+}
+
+.modal-container .modal-content .button {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-container .modal-content .button button {
+  flex: 1;
+  height: 47px;
+  margin: 0 14px;
+  border-radius: var(--box-radius);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.modal-container .modal-content .button button:nth-child(1) {
+  border: 1px solid var(--black);
+  padding: 0;
+}
+
+.modal-container .modal-content .button button:nth-child(1):hover {
+  background-color: #f0f0f0;
+}
+
+.modal-container .modal-content .button button:nth-child(2) {
+  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
+  color: white;
+  box-shadow: var(--shadow);
+}
+
+.modal-container .modal-content .button button:nth-child(2):hover {
+  background: linear-gradient(90deg, #ffcf87 0%, var(--main-color1) 100%);
+  color: white;
+}
+
+/* Footer */
+
+.footer {
+  display: flex;
+  justify-content: center;
+  height: 60px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 700;
+  border-top: 1px solid #dfdfdf;
+  background-color: white;
+}
+
+.footer button {
+  margin: 0 10px;
+  font-weight: 600;
+}
+
+.footer button:hover {
+  color: var(--main-color1);
 }
