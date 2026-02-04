@@ -9,6 +9,7 @@ import { getChapterProgression, isChapterStarted } from '@/utils/chapters-progre
 import type { Scenario } from '@/types/game-selection'
 import PagesLoader from '../loader/PagesLoader.vue'
 import ButtonLoader from '../loader/ButtonLoader.vue'
+import { shouldReloadHistory } from '@/composables/useUserHistory'
 
 const userStore = useUserInformations()
 defineProps<{

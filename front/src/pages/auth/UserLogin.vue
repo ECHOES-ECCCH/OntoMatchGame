@@ -7,6 +7,7 @@ import { handleCheckingForm, login, isLoading } from '@/services/auth.service'
 import type { RegisterFormData } from '@/types/form'
 import { authStore } from '@/stores/auth.store'
 import { langStore } from '@/stores/lang.store'
+import LanguageSelection from '@/components/LanguageSelection.vue'
 
 const formData = ref<RegisterFormData>({
   email: '',
@@ -51,12 +52,7 @@ const handleSubmit = async (data: RegisterFormData) => {
     {{ langStore.t('static-text.SigninScene.signin-scene-title-text') }}
   </h1>
   <p>{{ langStore.t('static-text.SigninScene.signin-scene-intro-text') }}</p>
-  <div>
-    <label>Français</label>
-    <input name="language" type="radio" value="fr" v-model="selectedLanguage" />
-    <label>English</label>
-    <input name="language" type="radio" value="en" v-model="selectedLanguage" />
-  </div>
+  <LanguageSelection />
   <Form v-model="formData" v-model:errors="errors" @submit="handleSubmit" :isLoading></Form>
   <router-link to="/signup">
     <label>{{ langStore.t('static-text.SigninScene.signin-scene-noaccount-label') }}</label>

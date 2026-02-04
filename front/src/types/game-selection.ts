@@ -1,4 +1,5 @@
 export interface Chapter {
+  chapterName: string
   'chapter-title': string
   'chapter-description': string
   'chapter-filename': string

@@ -11,12 +11,18 @@ export const isChapterStarted = (chapter: Chapter | null) => {
 export const getChapterProgression = (chapter: Chapter | null) => {
   if (!chapter) return false
 
-  const result = userStats.value.find((s) => s.chapterName.includes(chapter['chapter-title']))
+  const result = userStats.value.find((s) =>
+    s.chapterName.includes(chapter['chapter-title'] || chapter['chapterName']),
+  )
+
+  console.log(result)
+
   if (result) {
     const chapterProgression =
       parseInt(result.lastChallengeId) === 1
         ? 0
         : Math.round((parseInt(result.lastChallengeId) / parseInt(result.maxChallengeCount)) * 100)
+
     return chapterProgression
   }
 }
