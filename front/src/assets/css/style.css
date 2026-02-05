@@ -30,7 +30,7 @@
 
 body {
   background: linear-gradient(120deg, var(--bc1) 20%, var(--bc2) 70%);
-  max-height: 100vh;
+  min-height: 100vh;
   font-family: 'Archivo', sans-serif;
   color: var(--black);
   margin: 0 auto;
@@ -65,7 +65,7 @@ header.main-header {
   padding: 8px 20px;
 }
 
-header.main-header .game-title {
+header.main-header .game-title a {
   display: flex;
   align-items: center;
 }
@@ -124,6 +124,7 @@ button.logout img {
   height: calc(100vh - 140px);
   align-content: space-around;
   flex-flow: wrap;
+  overflow-y: auto;
 }
 
 .homepage .homepage-content {
@@ -400,6 +401,38 @@ progress::-moz-progress-bar {
 .modal-container .modal-content .button button:nth-child(2):hover {
   background: linear-gradient(90deg, #ffcf87 0%, var(--main-color1) 100%);
   color: white;
+}
+
+/* Challenge */
+
+.challenge-instructions {
+  position: fixed;
+  bottom: 0;
+  height: 40vh;
+  background-color: white;
+  width: 100%;
+}
+
+.hide-challenge-instructions {
+  height: 14vh;
+}
+
+.challenge-instructions .instructions-title {
+  height: 30px;
+  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
+  color: white;
+  text-align: center;
+  align-content: center;
+  cursor: pointer;
+  font-size: 1vw;
+}
+
+.challenge-instructions .instructions {
+  overflow-y: scroll;
+}
+
+.challenge-instructions .instructions p {
+  font-size: 0.8rem;
 }
 
 /* Footer */

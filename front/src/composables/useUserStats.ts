@@ -2,9 +2,9 @@ import { ref, watch } from 'vue'
 import api from '@/services/api'
 import { handleApiError } from '@/services/error.handler'
 import { useUserInformations } from '@/stores/userInformations.store'
-import type { UserStats } from '@/types/user-stats'
+import type { ChapterStats } from '@/types/chapter'
 
-export const userStats = ref<UserStats[]>([])
+export const userStats = ref<ChapterStats[]>([])
 export const isUsersStatsLoading = ref(false)
 export const userStatsError = ref(null)
 
@@ -17,7 +17,7 @@ export const fetchUserStats = async (userId: string) => {
   userStatsError.value = null
 
   try {
-    const { data } = await api.get<UserStats[]>(`/getuserstats.php?userId=${userId}`)
+    const { data } = await api.get<ChapterStats[]>(`/getuserstats.php?userId=${userId}`)
     userStats.value = data
   } catch (error) {
     handleApiError(error)

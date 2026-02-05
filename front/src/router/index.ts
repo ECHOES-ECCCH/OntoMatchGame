@@ -9,7 +9,7 @@ const Login = () => import('../pages/auth/UserLogin.vue')
 const Signup = () => import('@/pages/auth/UserSignUp.vue')
 const ResetPassword = () => import('@/pages/auth/UserResetPassword.vue')
 const HomePage = () => import('@/pages/HomePage.vue')
-const LastChallenge = () => import('@/pages/LastChallenge.vue')
+const ChallengeGame = () => import('@/pages/ChallengeGame.vue')
 const ScenariosList = () => import('@/pages/GameSelection.vue')
 const UserStatistics = () => import('@/pages/UserStatistics.vue')
 const UsersRanking = () => import('@/pages/UsersRanking.vue')
@@ -48,7 +48,7 @@ const routes = [
   { path: '/signup', component: Signup, beforeEnter: requireGuest },
   { path: '/reset-password', component: ResetPassword, beforeEnter: requireGuest },
   { path: '/home', component: HomePage, beforeEnter: requireAuth },
-  { path: '/challenge', component: LastChallenge, beforeEnter: requireAuth },
+  { path: '/challenge', component: ChallengeGame, beforeEnter: requireAuth },
   { path: '/game-selection', component: ScenariosList, beforeEnter: requireAuth },
   { path: '/statistics', component: UserStatistics, beforeEnter: requireAuth },
   { path: '/ranking', component: UsersRanking, beforeEnter: requireAuth },
