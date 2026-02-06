@@ -8,6 +8,7 @@ import type { ChapterData } from '@/types/chapter'
 const scenarioCatalog = scenarioCatalogRaw as ScenarioCatalog
 
 const chapters = import.meta.glob('@/assets/json/**/chapter/*/*.json')
+const isLoadingChapter = ref(false)
 
 export function useChapterData() {
   const route = useRoute()
@@ -77,6 +78,8 @@ export function useChapterData() {
       return
     }
 
+    isLoadingChapter.value = true
+
     try {
       const module = await chapters[key]()
       chapterData.value = module.default[challengeId] ?? null
@@ -88,6 +91,8 @@ export function useChapterData() {
         error.value = 'Erreur chargement inconnue'
       }
       chapterData.value = null
+    } finally {
+      isLoadingChapter.value = false
     }
   }
 
@@ -111,5 +116,6 @@ export function useChapterData() {
     chapterData,
     error,
     chapterStats,
+    isLoadingChapter,
   }
 }

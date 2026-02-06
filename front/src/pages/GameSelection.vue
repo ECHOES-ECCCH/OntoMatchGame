@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import MainHeader from '@/components/MainHeader.vue'
 import { langStore } from '@/stores/lang.store'
 import MainFooter from '@/components/footer/MainFooter.vue'
 import ScenarioAccordion from '@/components/gameSelection/ScenarioAccordion.vue'
@@ -28,7 +27,6 @@ watch(
 </script>
 
 <template>
-  <MainHeader />
   <section>
     <ScenarioFilter />
     <div>

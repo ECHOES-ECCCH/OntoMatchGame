@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import MainHeader from '@/components/MainHeader.vue'
 import { userHistory, isHistoryLoading, shouldReloadHistory } from '@/composables/useUserHistory'
 import { langStore } from '@/stores/lang.store'
 import { useUserInformations } from '@/stores/userInformations.store'
@@ -34,7 +33,6 @@ onMounted(() => {
 </script>
 
 <template>
-  {{ console.log('userHistory', userHistory) }}
   <div v-if="user.isUserInfoLoading || isHistoryLoading">
     <PagesLoader />
   </div>
@@ -47,7 +45,6 @@ onMounted(() => {
     />
   </div>
 
-  <MainHeader />
   <section class="homepage">
     <div class="homepage-content">
       <h2>
