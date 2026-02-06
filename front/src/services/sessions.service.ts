@@ -3,6 +3,7 @@ import api from './api'
 import { ref } from 'vue'
 import { handleApiError } from './error.handler'
 import { shouldReloadHistory } from '@/composables/useUserHistory'
+import { fetchUserStats } from '@/composables/useUserStats'
 
 export const isCreateSessionLoading = ref(false)
 
@@ -18,6 +19,7 @@ export const createSession = async (createSessionData: CreateSessionData) => {
 
     if (data.result) {
       shouldReloadHistory.value = true
+      fetchUserStats(createSessionData.userId)
     }
 
     return data

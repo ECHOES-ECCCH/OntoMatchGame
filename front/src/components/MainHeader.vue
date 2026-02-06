@@ -7,8 +7,10 @@ import LanguageSelection from './LanguageSelection.vue'
 <template>
   <header class="main-header">
     <div class="game-title">
-      <span><img :src="logo" /></span>
-      <h1>OntoMatchGame</h1>
+      <router-link to="/home">
+        <span><img :src="logo" /></span>
+        <h1>OntoMatchGame</h1></router-link
+      >
     </div>
     <div class="header-right">
       <LanguageSelection />

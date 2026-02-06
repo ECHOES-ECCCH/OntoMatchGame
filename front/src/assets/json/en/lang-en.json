@@ -101,6 +101,7 @@
     },
 
     "BoardScene": {
+      "boardscene-scene-challenge-text": "Last challenge",
       "boardscene-scene-winbanner-text": "BRAVO! Good answer.",
       "boardscene-scene-loosebanner-text": "Ooops! Try again !",
       "boardscene-scene-validatebutton-text": "Validate",

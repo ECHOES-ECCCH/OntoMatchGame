@@ -9,7 +9,6 @@ import { getChapterProgression, isChapterStarted } from '@/utils/chapters-progre
 import type { Scenario } from '@/types/game-selection'
 import PagesLoader from '../loader/PagesLoader.vue'
 import ButtonLoader from '../loader/ButtonLoader.vue'
-import { shouldReloadHistory } from '@/composables/useUserHistory'
 
 const userStore = useUserInformations()
 defineProps<{
@@ -59,20 +58,17 @@ const handleCreateSessionData = (scenario: string, chapter: string) => {
           </div>
         </div>
       </template>
-
       <template #content="{ index }">
         <ul>
           <li v-for="(chapter, i) in scenario[index]?.chapters" :key="i">
             {{ chapter['chapter-title'] }}
             {{ chapter['chapter-description'] }}
             <div>{{ getChapterProgression(chapter) || 0 }}%</div>
-
             <router-link
               :to="{
                 path: '/challenge',
                 query: {
-                  scenario: scenario[index]?.['scenario-title'],
-                  chapter: chapter['chapter-filename'],
+                  chapterName: chapter['chapter-title'],
                 },
               }"
             >

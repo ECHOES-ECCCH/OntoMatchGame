@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import MainHeader from '@/components/MainHeader.vue'
 import { userHistory, isHistoryLoading, shouldReloadHistory } from '@/composables/useUserHistory'
 import { langStore } from '@/stores/lang.store'
 import { useUserInformations } from '@/stores/userInformations.store'
 import PagesLoader from '@/components/loader/PagesLoader.vue'
 import ResetModal from '@/components/ResetModal.vue'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { resetGame, isResetLoading } from '@/services/reset.service'
-import FooterHome from '@/components/FooterHome.vue'
+import FooterHome from '@/components/footer/FooterHome.vue'
 import { getChapterProgression } from '@/utils/chapters-progression'
 
 const user = useUserInformations()
 
 const modal = ref(false)
-
+const lastChallenge = ref()
 const handleModal = (displayModal: boolean) => {
   modal.value = displayModal
 }
@@ -26,13 +25,14 @@ const handleReset = () => {
   shouldReloadHistory.value = true
 }
 
-const lastChallenge = computed(() => {
-  return userHistory.value.historyId ? true : false
+onMounted(() => {
+  lastChallenge.value = computed(() => {
+    return userHistory?.value.historyId ? true : false
+  })
 })
 </script>
 
 <template>
-  {{ console.log('userHistory', userHistory) }}
   <div v-if="user.isUserInfoLoading || isHistoryLoading">
     <PagesLoader />
   </div>
@@ -45,7 +45,6 @@ const lastChallenge = computed(() => {
     />
   </div>
 
-  <MainHeader />
   <section class="homepage">
     <div class="homepage-content">
       <h2>
@@ -54,7 +53,15 @@ const lastChallenge = computed(() => {
       </h2>
       <ul class="menu">
         <li class="menu-challenge">
-          <router-link to="/challenge" v-if="userHistory.historyId">
+          <router-link
+            :to="{
+              path: '/challenge',
+              query: {
+                chapterName: userHistory['chapterName'],
+              },
+            }"
+            v-if="userHistory?.historyId"
+          >
             <div class="last-challenge">
               <div>
                 <p>
