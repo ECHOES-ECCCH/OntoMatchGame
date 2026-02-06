@@ -3,13 +3,13 @@ import { computed, ref } from 'vue'
 import type { ChapterData } from '@/types/chapter'
 
 const props = defineProps<{
-  chapterData: ChapterData
+  chapterData: ChapterData | null
 }>()
 
 const showInstruction = ref(true)
 
 const statement = computed(() => {
-  const statement = props.chapterData.Statement
+  const statement = props.chapterData?.Statement
   if (!statement) return { before: '', after: '' }
 
   const marker = 'Pour ce défi'
