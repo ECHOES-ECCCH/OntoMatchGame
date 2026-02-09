@@ -28,7 +28,7 @@ const secondText = computed(() => statement.value.after)
 </script>
 
 <template>
-  <div
+  <!-- <div
     class="challenge-instructions"
     :class="showInstruction ? 'challenge-instructions' : 'hide-challenge-instructions'"
   >
@@ -40,5 +40,5 @@ const secondText = computed(() => statement.value.after)
       <p>{{ chapterData?.Explanation }}</p>
       <p>{{ firstText }} {{ secondText }}</p>
     </div>
-  </div>
+  </div> -->
 </template>
