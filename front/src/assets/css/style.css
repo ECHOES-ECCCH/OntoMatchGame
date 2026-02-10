@@ -490,6 +490,10 @@ progress::-moz-progress-bar {
   display: block;
 }
 
+.cards-container .content-cards .carousel-container .entity-card.active.wrong {
+  background-color: color-mix(in srgb, var(--card-color) 30%, transparent);
+}
+
 .cards-container .content-cards .carousel-container .number {
   display: none;
   height: 100%;
