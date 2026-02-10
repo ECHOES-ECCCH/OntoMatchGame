@@ -9,9 +9,10 @@ import iconForms from '../img/iconForms.png'
 import iconMoebius from '../img/iconMoebius.png'
 import iconRuler from '../img/iconRuler.png'
 import iconPrimitive from '../img/iconPrimitive.png'
+import logo from '../img/logo-g.png'
 
 export const colors = {
-  entity: { color: '#FFFFFF', icon: '' },
+  entity: { color: '#FFFFFF', icon: logo },
   conceptual: { color: '#fddc34', icon: iconIdea },
   actor: { color: '#ffbdca', icon: iconUser },
   place: { color: '#94cc7d', icon: iconLocation },

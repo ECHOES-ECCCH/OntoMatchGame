@@ -1,2 +1,8 @@
 <script setup lang="ts"></script>
-<template></template>
+<template>
+  <div class="entity-superclasses-subclasses">
+    <ul>
+      <li></li>
+    </ul>
+  </div>
+</template>

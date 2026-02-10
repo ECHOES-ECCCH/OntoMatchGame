@@ -5,19 +5,21 @@ import type { ChapterData } from '@/types/chapter'
 import { colors } from '@/assets/cards/colors.js'
 import logo from '@/assets/img/logo-g.png'
 import TypesFilter from './BranchesFilter.vue'
-import { getColor } from '@/utils/getColorTypes'
+import { getColor } from '@/utils/get-color-types'
 import BranchesFilter from './BranchesFilter.vue'
 import { useSelectedCards } from '@/composables/useSelectedCards'
+import { langStore } from '@/stores/lang.store'
 
 const props = defineProps<{
   dataCards: { id: string }[]
 }>()
 
 const chapterStore = useChapterData()
+
 const branches = reactive({
-  eleft: 'entity',
-  emiddle: 'entity',
-  eright: 'entity',
+  eleft: ['entity'],
+  emiddle: ['entity'],
+  eright: ['entity'],
 })
 
 const selectedCards = useSelectedCards(chapterStore.chapterData, props.dataCards, branches)
@@ -32,34 +34,6 @@ const splitId = (id: string): { prefix: string; name: string } => {
   }
 }
 
-/** Find the cards associated to the challenge */
-
-// const selectedCards = computed(() => {
-//   const chapter = chapterStore.chapterData.value
-//   if (!chapter) return []
-//   return ['ELeftInit', 'EMiddleInit', 'ERightInit'].map((pos) => {
-//     const value = chapter[pos as keyof ChapterData] as string
-//     const ids = value ? value.split(',').map((id) => id.trim()) : []
-
-//     return {
-//       position: pos.replace('Init', '').toLowerCase(),
-//       cards: ids
-//         .flatMap((id) =>
-//           id === '*' ? props.dataCards : props.dataCards.find((card) => card.id === id),
-//         )
-//         .filter(Boolean),
-//     }
-//   })
-// })
-
-// watch(
-//   () => chapterStore.chapterData.value,
-//   (chapter) => {
-//     if (!chapter) return
-//   },
-//   { immediate: true },
-// )
-
 const isChapterReady = computed(() => !!chapterStore.chapterData)
 
 const currentIndexes = computed(() => {
@@ -69,22 +43,19 @@ const currentIndexes = computed(() => {
 })
 
 const getIcon = (branch: string) => colors[branch]?.icon
-
-console.log(selectedCards)
 </script>
 
 <template>
-  <!-- <div v-if="chapterStore.isLoadingChapter">Chargement du chapitre…</div> -->
   <div class="content-cards" v-if="isChapterReady">
     <div v-for="dataCards in selectedCards" :key="dataCards.position">
-      {{ console.log('data', dataCards) }}
       <div v-if="!dataCards.cards.length" class="empty-card-entity">
         <p>OntoMatchGame</p>
         <img :src="logo" />
       </div>
-      <div v-else-if="dataCards.cards === 'rien'" class="empty-card-entity">
-        <p>Aucune carte dans ce filtre</p>
-        <img :src="logo" />
+      <div v-else-if="dataCards.cards === 'no card'">
+        <div class="empty-card-entity">
+          <p>{{ langStore.t('static-text.BoardScene.boardscene-scene-filter-entity-text') }}</p>
+        </div>
         <BranchesFilter
           :model-value="branches[dataCards.position]"
           @update:model-value="branches[dataCards.position] = $event"
@@ -150,7 +121,7 @@ console.log(selectedCards)
           v-for="(card, index) in dataCards.cards"
           :key="index"
         >
-          {{ index + 1 }}/{{ dataCards.cards.length }}
+          {{ dataCards.cards.length }}/{{ dataCards.totalCards }}
         </div>
       </div>
     </div>

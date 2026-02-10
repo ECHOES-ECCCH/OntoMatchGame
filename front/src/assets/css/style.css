@@ -461,6 +461,7 @@ progress::-moz-progress-bar {
   box-shadow: var(--shadow);
   z-index: 1000;
   position: relative;
+  background-color: white;
 }
 
 .cards-container .content-cards .empty-card-entity {
@@ -468,11 +469,13 @@ progress::-moz-progress-bar {
   width: 211px;
   border: 2px solid #cdcdcd;
   border-radius: var(--box-radius);
-  background-color: #e9e9e9;
+  background-color: #f0f0f0;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  z-index: 1000;
+  position: relative;
 }
 
 .cards-container .content-cards .empty-card-entity p {
@@ -563,6 +566,7 @@ progress::-moz-progress-bar {
 .cards-container .content-cards .types-filter ul li.type {
   width: 12px;
   height: 12px;
+  cursor: pointer;
 }
 
 .cards-container .content-cards .types-filter ul li.type.active {
