@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { colors } from '@/assets/cards/colors.js'
+import { colors } from '@/assets/cards/colors.ts'
 
 const props = defineProps<{
   modelValue: string[]

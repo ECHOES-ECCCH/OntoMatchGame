@@ -8,7 +8,10 @@ export interface ChapterStats {
 }
 
 export interface ChapterData {
-  Statement: string
-  Title: string
-  Explanation: string
+  Statement?: string
+  Title?: string
+  Explanation?: string
+  ELeftInit?: string
+  EMiddleInit?: string
+  ERightInit?: string
 }

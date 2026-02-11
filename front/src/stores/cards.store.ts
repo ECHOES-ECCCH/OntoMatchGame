@@ -1,10 +1,10 @@
-import { defineStore } from 'pinia'
 import { parseClasses } from '@/utils/parses-xml-classes'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { types } from '@/assets/cards/types.js'
+import type { CardInfo } from '@/types/cardInfo'
 
 export const useSelectedXML = () => {
-  const dataCards = ref([])
+  const dataCards = ref<CardInfo[]>([])
   const isDataCardsLoading = ref(false)
   const error = ref<string | null>(null)
   const finalData = ref()
@@ -14,7 +14,7 @@ export const useSelectedXML = () => {
     error.value = null
     try {
       const xml = await fetch('/data/data.xml').then((r) => r.text())
-      const doc = new DOMParser().parseFromString(xml, 'text/xml')
+      const doc: Document = new DOMParser().parseFromString(xml, 'text/xml')
       dataCards.value = parseClasses(doc)
 
       /**
@@ -35,9 +35,6 @@ export const useSelectedXML = () => {
       isDataCardsLoading.value = false
     }
   }
-  // watch(dataCards, (val) => {
-  //   if (!val || val.length === 0) return
-  // })
 
   return { dataCards, finalData, load, isDataCardsLoading, error }
 }

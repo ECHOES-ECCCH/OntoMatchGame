@@ -1,20 +1,21 @@
-import { computed, watchEffect } from 'vue'
+import type { CardInfo, CardPositionInfo } from '@/types/cardInfo'
+import { computed } from 'vue'
 
-export function useSuperSubClasses(cardInfo, dataCards: { id: string }[]) {
+export function useSuperSubClasses(cardInfo: CardPositionInfo, dataCards: CardInfo[]) {
   const subClassOf = computed(() => {
-    const result = {
-      eleft: dataCards
-        .find((card) => card.about === cardInfo.eleft.about)
-        ?.subClasses.map((s) => s),
-      emiddle: dataCards
-        .find((card) => card.about === cardInfo.emiddle.about)
-        ?.subClasses.map((s) => s),
-      eright: dataCards
-        .find((card) => card.about === cardInfo.eright.about)
-        ?.subClasses.map((s) => s),
+    const subClass = {
+      eleft:
+        dataCards.find((card) => card.about === cardInfo.eleft.about)?.subClasses.map((s) => s) ??
+        [],
+      emiddle:
+        dataCards.find((card) => card.about === cardInfo.emiddle.about)?.subClasses.map((s) => s) ??
+        [],
+      eright:
+        dataCards.find((card) => card.about === cardInfo.eright.about)?.subClasses.map((s) => s) ??
+        [],
     }
 
-    return result
+    return subClass
   })
 
   const superClassOf = computed(() => {
@@ -39,11 +40,6 @@ export function useSuperSubClasses(cardInfo, dataCards: { id: string }[]) {
     }
 
     return superClass
-  })
-
-  watchEffect(() => {
-    subClassOf.value
-    superClassOf.value
   })
 
   return { subClassOf, superClassOf }

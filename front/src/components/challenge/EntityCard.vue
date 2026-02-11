@@ -1,37 +1,37 @@
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, reactive, watch } from 'vue'
 import { useChapterData } from '@/composables/useChapter'
-import type { ChapterData } from '@/types/chapter'
-import { colors } from '@/assets/cards/colors.js'
+import { colors } from '@/assets/cards/colors.ts'
 import logo from '@/assets/img/logo-g.png'
-import TypesFilter from './BranchesFilter.vue'
 import { getColor } from '@/utils/get-color-types'
 import BranchesFilter from './BranchesFilter.vue'
 import { useSelectedCards } from '@/composables/useSelectedCards'
 import { langStore } from '@/stores/lang.store'
 import { useSuperSubClasses } from '@/composables/useSuperSubClasses'
 import EntitySuperclassesSubclasses from './EntitySuperclassesSubclasses.vue'
+import type { CardInfo, CardPositionInfo, CurrentIndexes, Position } from '@/types/cardInfo'
+import type { Branch, BranchPositions } from '@/types/branch'
 
 const props = defineProps<{
-  dataCards: { id: string }[]
+  dataCards: CardInfo[]
 }>()
 
 const chapterStore = useChapterData()
-const branches = reactive({
+const branches = reactive(<Branch>{
   eleft: ['entity'],
   emiddle: ['entity'],
   eright: ['entity'],
 })
 
-const cardInfo = reactive({
-  eleft: { about: '' },
-  emiddle: { about: '' },
-  eright: { about: '' },
+const cardInfo = reactive<Record<Position, CardInfo>>({
+  eleft: { id: '', about: '', labels: {}, comment: '', subClasses: [], branch: '' },
+  emiddle: { id: '', about: '', labels: {}, comment: '', subClasses: [], branch: '' },
+  eright: { id: '', about: '', labels: {}, comment: '', subClasses: [], branch: '' },
 })
 
 const selectedCards = useSelectedCards(chapterStore.chapterData, props.dataCards, branches)
 
-const currentIndexes = reactive({
+const currentIndexes = reactive<CurrentIndexes>({
   eleft: 0,
   emiddle: 0,
   eright: 0,
@@ -39,26 +39,38 @@ const currentIndexes = reactive({
 
 const superSubClasses = useSuperSubClasses(cardInfo, props.dataCards)
 
-const splitId = (id: string): { prefix: string; name: string } => {
+const splitId = (id: string): { prefix: string | undefined; name: string | undefined } => {
   const match = id.match(/^(E\d+)_(.+)$/)
   if (!match) return { prefix: '', name: id }
 
   return {
     prefix: match[1],
-    name: match[2].replace(/_/g, ' '),
+    name: match[2]?.replace(/_/g, ' '),
   }
 }
 
 const isChapterReady = computed(() => !!chapterStore.chapterData)
 
-const getIcon = (branch: string) => colors[branch]?.icon
+const getIcon = (branch: BranchPositions) => colors[branch]?.icon
 
-const updateCardInfo = (position: string, cards: any[]) => {
+const updateCardInfo = (position: Position, cards: CardInfo[]) => {
   const index = currentIndexes[position]
-  if (cards && cards[index]) {
-    const about = cards[index].about
 
-    cardInfo[position] = { about: about }
+  if (cards && cards[index]) {
+    const result = props.dataCards.find((c) => c.about === cards[index]?.about)
+
+    if (result) {
+      cardInfo[position] = result
+    } else {
+      cardInfo[position] = {
+        id: '',
+        about: '',
+        labels: {},
+        comment: '',
+        subClasses: [],
+        branch: null,
+      }
+    }
   }
 }
 
@@ -66,31 +78,40 @@ watch(
   selectedCards,
   (newCards) => {
     newCards.forEach((data) => {
-      if (data.cards && data.cards !== 'no card' && data.cards.length > 0) {
-        if (currentIndexes[data.position] >= data.cards.length) {
-          currentIndexes[data.position] = 0
-        }
+      if (['eleft', 'emiddle', 'eright'].includes(data.position)) {
+        const position = data.position as Position
+        if (data.cards && data.cards !== 'no card' && data.cards.length > 0) {
+          if (currentIndexes[position] >= data.cards.length) {
+            currentIndexes[position] = 0
+          }
 
-        updateCardInfo(data.position, data.cards)
+          updateCardInfo(position, data.cards)
+        }
       }
     })
   },
   { immediate: true, deep: true },
 )
 
-const handlePrevious = (position: string, cards: any[]) => {
+const handlePrevious = (position: Position, cards: CardInfo[]) => {
   currentIndexes[position] = Math.max(currentIndexes[position] - 1, 0)
   updateCardInfo(position, cards)
 }
 
-const handleNext = (position: string, cards: any[]) => {
+const handleNext = (position: Position, cards: CardInfo[]) => {
   currentIndexes[position] = Math.min(currentIndexes[position] + 1, cards.length - 1)
   updateCardInfo(position, cards)
 }
 
-const handleSliderChange = (position: string, value: number, cards: any[]) => {
+const handleSliderChange = (position: Position, value: number, cards: CardInfo[]) => {
   currentIndexes[position] = value
   updateCardInfo(position, cards)
+}
+
+const handleCardInfoUpdate = (newCardInfo: CardPositionInfo) => {
+  cardInfo.eleft = { ...cardInfo.eleft, ...newCardInfo.eleft }
+  cardInfo.emiddle = { ...cardInfo.emiddle, ...newCardInfo.emiddle }
+  cardInfo.eright = { ...cardInfo.eright, ...newCardInfo.eright }
 }
 </script>
 
@@ -106,55 +127,73 @@ const handleSliderChange = (position: string, value: number, cards: any[]) => {
           <p>{{ langStore.t('static-text.BoardScene.boardscene-scene-filter-entity-text') }}</p>
         </div>
         <BranchesFilter
-          :model-value="branches[data.position]"
-          @update:model-value="branches[data.position] = $event"
+          :model-value="branches[data.position as Position]"
+          @update:model-value="branches[data.position as Position] = $event"
         />
       </div>
       <div v-else class="carousel-container">
-        <div v-for="(card, index) in data.cards" :key="index">
-          <!-- {{ console.log('card', card.about) }}-->
-          {{ console.log('card2', cardInfo[data.position].about) }}
-
-          <div
-            class="entity-card"
-            :class="{ active: index === currentIndexes[data.position] }"
-            :style="{ '--card-color': getColor(card.branch) }"
-          >
-            <div class="card-name">
-              <div>
-                <span class="prefix">{{ splitId(card.about).prefix }}</span>
-                <span class="name">{{ splitId(card.about).name }}</span>
-              </div>
-              <span class="image-card"><img :src="getIcon(card.branch ?? null)" /></span>
+        <div
+          class="entity-card"
+          :class="{
+            wrong: Array.isArray(data.cards)
+              ? !data.cards.some((c) => c?.id === cardInfo[data.position as Position].id)
+              : false,
+          }"
+          :style="{ '--card-color': getColor(cardInfo[data.position as Position].branch) }"
+        >
+          <div class="card-name">
+            <div>
+              <span class="prefix">{{
+                splitId(cardInfo[data.position as Position].about).prefix
+              }}</span>
+              <span class="name">{{
+                splitId(cardInfo[data.position as Position].about).name
+              }}</span>
             </div>
-            <EntitySuperclassesSubclasses
-              :position="data.position"
-              v-model:cardInfo="cardInfo"
-              :superSubClasses="superSubClasses"
-            />
+            <span class="image-card"
+              ><img :src="getIcon(cardInfo[data.position as Position].branch ?? null)"
+            /></span>
           </div>
+          <EntitySuperclassesSubclasses
+            :position="data.position"
+            :cardInfo="cardInfo"
+            @update:cardInfo="handleCardInfoUpdate"
+            :superSubClasses="superSubClasses"
+            :dataCards="dataCards"
+          />
+          <div class="scope-note">Scope Note</div>
         </div>
         <BranchesFilter
-          :model-value="branches[data.position]"
-          @update:model-value="branches[data.position] = $event"
+          :model-value="branches[data.position as Position]"
+          @update:model-value="branches[data.position as Position] = $event"
         />
         <div class="range">
-          <button type="button" @click="handlePrevious(data.position, data.cards)">-</button>
+          <button type="button" @click="handlePrevious(data.position as Position, data.cards)">
+            -
+          </button>
           <input
             type="range"
             min="0"
             :max="data.cards?.length - 1"
             class="slider"
-            :value="currentIndexes[data.position]"
-            @input="handleSliderChange(data.position, Number($event.target.value), data.cards)"
+            :value="currentIndexes[data.position as Position]"
+            @input="
+              handleSliderChange(
+                data.position as Position,
+                Number(($event.target as HTMLInputElement).value),
+                data.cards,
+              )
+            "
           />
           <div class="slider-buttons">
-            <button type="button" @click="handleNext(data.position, data.cards)">+</button>
+            <button type="button" @click="handleNext(data.position as Position, data.cards)">
+              +
+            </button>
           </div>
         </div>
         <div
           class="number"
-          :class="{ active: index === currentIndexes[data.position] }"
+          :class="{ active: index === currentIndexes[data.position as Position] }"
           v-for="(card, index) in data.cards"
           :key="index"
         >
