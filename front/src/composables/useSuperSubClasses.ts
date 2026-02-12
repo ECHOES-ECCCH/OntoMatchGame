@@ -1,4 +1,4 @@
-import type { CardInfo, CardPositionInfo } from '@/types/cardInfo'
+import type { CardInfo, CardPositionInfo } from '@/types/card/cardInfo'
 import { computed } from 'vue'
 
 export function useSuperSubClasses(cardInfo: CardPositionInfo, dataCards: CardInfo[]) {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Position } from '@/types/cardInfo'
+import type { Position } from '@/types/card/cardInfo'
 import { computed } from 'vue'
 
 const props = defineProps<{

@@ -1,6 +1,6 @@
 import { computed, type Ref } from 'vue'
 import type { ChapterData } from '@/types/chapter'
-import type { CardInfo, Position } from '@/types/cardInfo'
+import type { CardInfo, Position } from '@/types/card/cardInfo'
 type ChapterPositionKeys = 'ELeftInit' | 'EMiddleInit' | 'ERightInit'
 
 export function useSelectedCards(

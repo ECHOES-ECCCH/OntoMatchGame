@@ -1,3 +1,5 @@
+import type { BranchName } from './branch'
+
 export type Position = 'eleft' | 'emiddle' | 'eright'
 
 export interface CardInfo {
@@ -6,7 +8,7 @@ export interface CardInfo {
   labels: object
   comment: string
   subClasses: string[]
-  branch?: string | null
+  branch?: BranchName | null
 }
 
 export type CardPositionInfo = {

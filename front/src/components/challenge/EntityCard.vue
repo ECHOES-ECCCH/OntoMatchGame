@@ -2,15 +2,15 @@
 import { computed, reactive, watch } from 'vue'
 import { useChapterData } from '@/composables/useChapter'
 import { colors } from '@/assets/cards/colors.ts'
-import logo from '@/assets/img/logo-g.png'
 import { getColor } from '@/utils/get-color-types'
 import BranchesFilter from './BranchesFilter.vue'
 import { useSelectedCards } from '@/composables/useSelectedCards'
 import { langStore } from '@/stores/lang.store'
 import { useSuperSubClasses } from '@/composables/useSuperSubClasses'
 import EntitySuperclassesSubclasses from './EntitySuperclassesSubclasses.vue'
-import type { CardInfo, CardPositionInfo, CurrentIndexes, Position } from '@/types/cardInfo'
-import type { Branch, BranchPositions } from '@/types/branch'
+import type { CardInfo, CardPositionInfo, CurrentIndexes, Position } from '@/types/card/cardInfo'
+import type { Branch, BranchName } from '@/types/card/branch'
+import EmptyCard from './EmptyCard.vue'
 
 const props = defineProps<{
   dataCards: CardInfo[]
@@ -24,9 +24,9 @@ const branches = reactive(<Branch>{
 })
 
 const cardInfo = reactive<Record<Position, CardInfo>>({
-  eleft: { id: '', about: '', labels: {}, comment: '', subClasses: [], branch: '' },
-  emiddle: { id: '', about: '', labels: {}, comment: '', subClasses: [], branch: '' },
-  eright: { id: '', about: '', labels: {}, comment: '', subClasses: [], branch: '' },
+  eleft: { id: '', about: '', labels: {}, comment: '', subClasses: [], branch: null },
+  emiddle: { id: '', about: '', labels: {}, comment: '', subClasses: [], branch: null },
+  eright: { id: '', about: '', labels: {}, comment: '', subClasses: [], branch: null },
 })
 
 const selectedCards = useSelectedCards(chapterStore.chapterData, props.dataCards, branches)
@@ -51,7 +51,10 @@ const splitId = (id: string): { prefix: string | undefined; name: string | undef
 
 const isChapterReady = computed(() => !!chapterStore.chapterData)
 
-const getIcon = (branch: BranchPositions) => colors[branch]?.icon
+const getIcon = (branch: BranchName | null | undefined) => {
+  if (!branch) return colors.entity.icon
+  return colors[branch]?.icon ?? colors.entity.icon
+}
 
 const updateCardInfo = (position: Position, cards: CardInfo[]) => {
   const index = currentIndexes[position]
@@ -118,10 +121,7 @@ const handleCardInfoUpdate = (newCardInfo: CardPositionInfo) => {
 <template>
   <div class="content-cards" v-if="isChapterReady">
     <div v-for="data in selectedCards" :key="data.position">
-      <div v-if="!data.cards.length" class="empty-card-entity">
-        <p>OntoMatchGame</p>
-        <img :src="logo" />
-      </div>
+      <EmptyCard v-if="!data.cards.length" />
       <div v-else-if="data.cards === 'no card'">
         <div class="empty-card-entity">
           <p>{{ langStore.t('static-text.BoardScene.boardscene-scene-filter-entity-text') }}</p>

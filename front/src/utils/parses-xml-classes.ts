@@ -1,4 +1,4 @@
-import type { CardInfo } from '@/types/cardInfo'
+import type { CardInfo } from '@/types/card/cardInfo'
 
 export function parseClasses(doc: Document) {
   const RDFS_NS = doc.documentElement.lookupNamespaceURI('rdfs')

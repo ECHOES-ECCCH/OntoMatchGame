@@ -1,7 +1,7 @@
 import { parseClasses } from '@/utils/parses-xml-classes'
 import { ref } from 'vue'
 import { types } from '@/assets/cards/types.js'
-import type { CardInfo } from '@/types/cardInfo'
+import type { CardInfo } from '@/types/card/cardInfo'
 
 export const useSelectedXML = () => {
   const dataCards = ref<CardInfo[]>([])

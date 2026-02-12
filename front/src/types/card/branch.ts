@@ -4,12 +4,6 @@ export type Branch = {
   [key in Position]: string[]
 }
 
-export type BranchPositions = {
-  eleft: string[]
-  emiddle: string[]
-  eright: string[]
-}
-
 export type BranchName =
   | 'entity'
   | 'temporal'
@@ -21,3 +15,5 @@ export type BranchName =
   | 'type'
   | 'primitive'
   | 'spacetime-volume'
+  | 'time-span'
+  | 'dimension'

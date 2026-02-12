@@ -10,7 +10,7 @@ const { chapterData, chapterStats, isLoadingChapter } = useChapterData()
 </script>
 
 <template>
-  <!-- <PagesLoader v-if="isLoadingChapter" /> -->
+  <PagesLoader v-if="isLoadingChapter" />
   <section>
     <ChallengeInfo :chapterStats="chapterStats" />
     <ChallengeInstruction :chapterData="chapterData" />
