@@ -109,7 +109,8 @@
       "boardscene-scene-retrybutton-text": "Retry",
       "boardscene-scene-quitbutton-text": "Quit",
       "boardscene-scene-gethint-text": "Hint",
-      "boardscene-scene-getanswer-text": "Answer"
+      "boardscene-scene-getanswer-text": "Answer",
+      "boardscene-scene-filter-entity-text": "No card matches color selection. Try another one."
     },
 
     "StatsScene": {

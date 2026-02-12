@@ -435,6 +435,193 @@ progress::-moz-progress-bar {
   font-size: 0.8rem;
 }
 
+.cards-container .content-cards {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+/* Challenge cards */
+
+.cards-container {
+  display: flex;
+  width: 100%;
+}
+
+.cards-container .content-cards .carousel-container .entity-card {
+  height: 322px;
+  width: 211px;
+  border-left: 8px solid var(--card-color, transparent);
+  border-right: 8px solid var(--card-color, transparent);
+  border-radius: 8px;
+  text-align: center;
+  font-size: 20px;
+  transition: all 0.3s;
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  position: relative;
+  background-color: white;
+}
+
+.cards-container .content-cards .carousel-container .entity-card.wrong {
+  background: color-mix(in srgb, var(--card-color, currentColor) 20%, transparent);
+}
+
+.cards-container .content-cards .empty-card-entity {
+  height: 322px;
+  width: 211px;
+  border: 2px solid #cdcdcd;
+  border-radius: var(--box-radius);
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1000;
+  position: relative;
+}
+
+.cards-container .content-cards .empty-card-entity p {
+  color: #c2c2c2;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  justify-self: flex-start;
+}
+
+.cards-container .content-cards .carousel-container .number {
+  display: none;
+  height: 100%;
+}
+
+.cards-container .content-cards .carousel-container .number.active {
+  display: block;
+}
+
+.cards-container .content-cards .carousel-container .slider {
+  width: 100%;
+}
+
+.cards-container .content-cards .carousel-container .card-name {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cards-container .content-cards .carousel-container .card-name div {
+  display: flex;
+}
+
+.cards-container .content-cards .carousel-container .card-name .prefix {
+  width: 32px;
+  height: 32px;
+  color: white;
+  background-color: var(--card-color, transparent);
+  font-size: 12px;
+  border-radius: var(--box-radius);
+  text-align: center;
+  align-content: center;
+  margin: 10px;
+}
+
+.cards-container .content-cards .carousel-container .card-name .name {
+  font-size: 10px;
+  align-content: center;
+  font-weight: 600;
+}
+
+.cards-container .content-cards .carousel-container .card-name .image-card {
+  flex: 2;
+  display: flex;
+  justify-content: right;
+}
+
+.cards-container .content-cards .carousel-container .card-name img {
+  width: 31px;
+  height: 27px;
+  margin: 10px;
+  align-content: center;
+}
+
+.cards-container .content-cards .carousel-container .range {
+  display: flex;
+}
+
+.cards-container .content-cards .types-filter {
+  height: 40px;
+  background-color: #e6e6e6;
+  border-bottom-left-radius: var(--box-radius);
+  border-bottom-right-radius: var(--box-radius);
+  padding: 0 10px;
+}
+
+.cards-container .content-cards .types-filter ul {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 15px 0;
+  margin: -5px;
+}
+
+.cards-container .content-cards .types-filter ul li.type {
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+}
+
+.cards-container .content-cards .types-filter ul li.type.active {
+  border-radius: 50px;
+}
+
+.cards-container .content-cards .carousel-container .entity-card .entity-classes {
+  height: 230px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.cards-container .content-cards .carousel-container .entity-card .entity-classes .hierarchy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem;
+}
+
+.cards-container .content-cards .carousel-container .entity-card .entity-classes .hierarchy-btn {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 10px;
+  width: 100%;
+  margin: 5px 10px;
+}
+
+.cards-container
+  .content-cards
+  .carousel-container
+  .entity-card
+  .entity-classes
+  .hierarchy-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.cards-container .content-cards .carousel-container .entity-card .entity-classes .current {
+  padding: 0.5rem;
+  font-weight: bold;
+  text-align: center;
+  border: 2px solid var(--card-color, currentColor);
+  border-radius: 4px;
+  font-size: 10px;
+  background: color-mix(in srgb, var(--card-color, currentColor) 10%, transparent);
+}
+
+.cards-container .content-cards .carousel-container .entity-card .scope-note {
+  color: #e38700;
+  font-size: 8px;
+  padding: 20px;
+}
+
 /* Footer */
 
 .footer {
@@ -457,4 +644,30 @@ progress::-moz-progress-bar {
 
 .footer button:hover {
   color: var(--main-color1);
+}
+
+/* Chrome, Safari, Edge */
+.my-scroll {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #e4e4e4 #ffffff; /* Firefox: thumb color / track color */
+}
+
+.my-scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.my-scroll::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 5px;
+}
+
+.my-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--black);
+  border-radius: 5px;
+  border: 2px solid #f0f0f0;
+}
+
+.my-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: var(--black);
 }

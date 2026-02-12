@@ -113,7 +113,8 @@
       "boardscene-scene-quitbutton-text": "Quitter",
       "boardscene-scene-branchmistake-text": "Erreur de branche",
       "boardscene-scene-gethint-text": "Indice",
-      "boardscene-scene-getanswer-text": "Solution"
+      "boardscene-scene-getanswer-text": "Solution",
+      "boardscene-scene-filter-entity-text": "Aucune carte ne correspond à la sélection de couleur. Essayez-en une autre"
     },
 
     "StatsScene": {
