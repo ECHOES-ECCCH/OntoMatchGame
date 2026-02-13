@@ -14,4 +14,6 @@ export interface ChapterData {
   ELeftInit?: string
   EMiddleInit?: string
   ERightInit?: string
+  PLeftInit?: string
+  PRightInit?: string
 }

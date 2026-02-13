@@ -13,7 +13,7 @@ const props = defineProps<{
     emiddle: { about: '' }
     eright: { about: '' }
   }
-  dataCards: Array<{ about: string }>
+  entityDataCards: Array<{ about: string }>
 }>()
 
 const emit = defineEmits<{
@@ -21,7 +21,7 @@ const emit = defineEmits<{
 }>()
 
 const switchCard = (aboutValue: string) => {
-  const newCard = props.dataCards.find((c) => c.about === aboutValue)
+  const newCard = props.entityDataCards.find((c) => c.about === aboutValue)
 
   if (newCard) {
     const updatedCardInfo = {
@@ -37,6 +37,7 @@ const superClasses = computed(() => props.superSubClasses.superClassOf.value[pro
 </script>
 
 <template>
+  <h2>SubClasses & SuperClasses</h2>
   <div class="entity-classes my-scroll">
     <button v-for="sub in subClasses" :key="sub" @click="switchCard(sub)" class="hierarchy-btn sub">
       ↑ {{ sub }}
