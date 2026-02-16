@@ -35,7 +35,6 @@ export function useCardNavigation(
         }
       }
     }
-    console.log('up', cardInfo)
   }
 
   const handlePrevious = (position: Position, cards: CardInfo[]) => {

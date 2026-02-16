@@ -27,7 +27,7 @@ export const colors: Record<Branch, ColorConfig> = {
   physical: { color: '#c78e66', icon: iconCube },
   appellation: { color: '#fddc34', icon: iconID },
   type: { color: '#fddc34', icon: iconForms },
-  'spacetime-volume': { color: '#cc80ff', icon: iconMoebius },
+  'spacetime-volume': { color: '#bc8df0', icon: iconMoebius },
   dimension: { color: '#cccccc', icon: iconRuler },
   primitive: { color: '#e5e0c3', icon: iconPrimitive },
 }

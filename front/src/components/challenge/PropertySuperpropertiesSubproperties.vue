@@ -1,5 +1,61 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { switchCard } from '@/utils/switch-card'
+import { computed } from 'vue'
+
+const props = defineProps<{
+  position: string
+  superSubProperties: {
+    subPropertyOf: { value: Record<string, string[]> }
+    superPropertyOf: { value: Record<string, string[]> }
+  }
+  cardInfo: {
+    eleft: { about: '' }
+    emiddle: { about: '' }
+    eright: { about: '' }
+  }
+  propertyDataCards: Array<{ about: string }>
+}>()
+const emit = defineEmits<{
+  'update:cardInfo': [value: typeof props.cardInfo]
+}>()
+
+const switchPropertyCard = (aboutValue: string) => {
+  const updated = switchCard(aboutValue, props.position, props.propertyDataCards, props.cardInfo)
+
+  if (updated) {
+    emit('update:cardInfo', updated)
+  }
+}
+
+const subProperties = computed(
+  () => props.superSubProperties.subPropertyOf.value[props.position] || [],
+)
+const superProperties = computed(
+  () => props.superSubProperties.superPropertyOf.value[props.position] || [],
+)
+</script>
 
 <template>
-  <h2>Superproperties & subproperties</h2>
+  <h2>SuperProperties & SubProperties</h2>
+  <div class="property-classes my-scroll">
+    <button
+      v-for="sub in subProperties"
+      :key="sub"
+      @click="switchPropertyCard(sub)"
+      class="hierarchy-btn sub"
+    >
+      ↑ {{ sub }}
+    </button>
+
+    <div class="current">{{ cardInfo[position as Position].about }}</div>
+
+    <button
+      v-for="sup in superProperties"
+      :key="sup"
+      @click="switchPropertyCard(sup)"
+      class="hierarchy-btn super"
+    >
+      ↓ {{ sup }}
+    </button>
+  </div>
 </template>

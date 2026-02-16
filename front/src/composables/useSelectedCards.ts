@@ -12,7 +12,7 @@ export function useSelectedCards(
   return computed(() => {
     const chapter = chapterData.value
     if (!chapter) return []
-    console.log(entityDataCards)
+
     return (['ELeftInit', 'EMiddleInit', 'ERightInit'] as EntityPositionKeys[]).map((pos) => {
       /**
        * Cartes selectionnées selon le challenge et la position
@@ -29,12 +29,13 @@ export function useSelectedCards(
        *  FILTRE : Filtrer avec plusieurs branches
        */
       const selectedBranches = branches[positionKey]
+
       const filteredCards = selectedBranches?.includes('entity')
         ? allEntityCards
         : allEntityCards.filter(
-            (card) => card?.branch != null && selectedBranches.includes(card.branch),
+            (card) => card.branch != null && card.branch.some((b) => selectedBranches.includes(b)),
           )
-      console.log(filteredCards)
+
       return {
         type: 'entity',
         position: positionKey,

@@ -274,13 +274,14 @@ const handleCardInfoUpdate = (newCardInfo: CardPositionInfo) => {
   cardInfo.eleft = { ...cardInfo.eleft, ...newCardInfo.eleft }
   cardInfo.emiddle = { ...cardInfo.emiddle, ...newCardInfo.emiddle }
   cardInfo.eright = { ...cardInfo.eright, ...newCardInfo.eright }
+  cardInfo.pleft = { ...cardInfo.pleft, ...newCardInfo.pleft }
+  cardInfo.pright = { ...cardInfo.pright, ...newCardInfo.pright }
 }
 </script>
 
 <template>
   <div class="content-cards" v-if="chapterStore.chapterData">
     <div v-for="item in boardCards" :key="item.position">
-      {{ console.log('item', cardInfo) }}
       <EntityCard
         v-if="item.type === 'entity'"
         :data="item"
@@ -300,7 +301,8 @@ const handleCardInfoUpdate = (newCardInfo: CardPositionInfo) => {
         :branches="branches"
         :cardInfo="cardInfo"
         :currentIndexes="currentIndexes"
-        :entityDataCards="propertyDataCards"
+        :entityDataCards="entityDataCards"
+        :propertyDataCards="propertyDataCards"
         :handlePrevious="handlePrevious"
         :handleNext="handleNext"
         :handleSliderChange="handleSliderChange"

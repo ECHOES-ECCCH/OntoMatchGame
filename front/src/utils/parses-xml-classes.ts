@@ -81,9 +81,16 @@ export function parseClasses(doc: Document, card) {
       const rangeEl = el.getElementsByTagNameNS(RDFS_NS, 'range')[0]
       const range = rangeEl?.getAttributeNS(RDF_NS, 'resource') ?? null
 
+      const subPropertyOfEl = el.getElementsByTagNameNS(RDFS_NS, 'subPropertyOf')
+      const subPropertyOf = [...subPropertyOfEl]
+        .map((s) => s.getAttributeNS(RDF_NS, 'resource'))
+        .filter((s): s is string => !!s)
+
       // récupère le inverseOf
-      const inverseOfEl = el.getElementsByTagNameNS(OWL, 'inverseOf')[0]
-      const inverseOf = inverseOfEl?.getAttributeNS(RDF_NS, 'resource') ?? null
+      const inverseOfEl = el.getElementsByTagNameNS(OWL, 'inverseOf')
+      const inverseOf = [...inverseOfEl]
+        .map((s) => s.getAttributeNS(RDF_NS, 'resource'))
+        .filter((s): s is string => !!s)
 
       // récupère le lien CIDOC
       const onlineResourceEl = el.getElementsByTagName('onlineresource')[0]
@@ -97,6 +104,7 @@ export function parseClasses(doc: Document, card) {
         labels,
         domain,
         range,
+        subPropertyOf,
         inverseOf,
         onlineResource,
       }

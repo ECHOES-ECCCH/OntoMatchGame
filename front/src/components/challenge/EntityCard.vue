@@ -38,9 +38,12 @@ const emit = defineEmits<{
 
 const superSubClasses = useSuperSubClasses(props.cardInfo, props.entityDataCards)
 
-const getIcon = (branch: BranchName | null | undefined) => {
-  if (!branch) return colors.entity.icon
-  return colors[branch]?.icon ?? colors.entity.icon
+const getIcon = (branches: Branch[] | null | undefined): string[] => {
+  if (!branches || branches.length === 0) {
+    return [colors.entity.icon]
+  }
+
+  return branches.map((b) => colors[b]?.icon).filter((icon): icon is string => Boolean(icon))
 }
 
 const handleCardInfoUpdate = (newCardInfo: CardPositionInfo) => {
@@ -85,7 +88,11 @@ const isNoCard = computed(() => {
           <span class="name">{{ cardInfo[data.position as Position].labels.en }}</span>
         </div>
         <span class="image-card">
-          <img :src="getIcon(cardInfo[data.position as Position].branch ?? null)" />
+          <img
+            v-for="icon in getIcon(cardInfo[data.position as Position].branch)"
+            :key="icon"
+            :src="icon"
+          />
         </span>
       </div>
 
