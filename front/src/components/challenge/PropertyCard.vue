@@ -6,6 +6,7 @@ import PropertySuperpropertiesSubproperties from './PropertySuperpropertiesSubpr
 import { ref } from 'vue'
 import { useSuperSubProperties } from '@/composables/useSuperSubProperties'
 import { getColor } from '@/utils/get-color-types'
+import BranchesFilter from './BranchesFilter.vue'
 
 const props = defineProps<{
   data: CardInfo[]
@@ -27,7 +28,6 @@ const superSubProperties = useSuperSubProperties(props.cardInfo, props.propertyD
 const handleCardInfoUpdate = (newCardInfo: CardPositionInfo) => {
   emit('update:cardInfo', newCardInfo)
 }
-const position = ref('')
 
 const resolveEntityPosition = (propertyPosition: string, DR: 'domain' | 'range') => {
   if (DR === 'domain') {
@@ -36,6 +36,7 @@ const resolveEntityPosition = (propertyPosition: string, DR: 'domain' | 'range')
     return propertyPosition === 'pleft' ? 'emiddle' : 'eright'
   }
 }
+
 const switchCard = (aboutValue: string, propertyPosition, DR) => {
   const newCard = props.entityDataCards.find((c) => c.about === aboutValue)
 
@@ -51,63 +52,89 @@ const switchCard = (aboutValue: string, propertyPosition, DR) => {
   }
 }
 
-const handlePropertyColor = (propertyPosition, DR) => {
+const handlePropertyColor = (propertyPosition: Position, DR: 'domain' | 'range') => {
   const resolvedPosition = resolveEntityPosition(propertyPosition, DR)
+  const propertyCard = props.cardInfo[propertyPosition]
+  const entityAbout = propertyCard[DR]
 
-  return getColor(props.cardInfo[resolvedPosition].branch)
+  const displayedEntity = props.cardInfo[resolvedPosition]
+
+  if (displayedEntity?.about === entityAbout) {
+    return getColor(displayedEntity.branch)
+  }
+
+  const entity = props.entityDataCards.find((e) => e.about === entityAbout)
+
+  return entity ? getColor(entity.branch) : '#ccc'
 }
+
+console.log(props.propertyDataCards)
 </script>
 
 <template>
-  {{ console.log(position) }}
   <EmptyCardProperty v-if="!data.cards.length" />
   <div v-else class="carousel-container">
-    <div
-      class="property-card"
-      :class="{
-        wrong: Array.isArray(data.cards)
-          ? !data.cards.some((c) => c?.id === cardInfo[data.position as Position].id)
-          : false,
-      }"
-    >
-      <!-- Domain button - vertical left -->
-      <button
-        class="vertical-button vertical-left"
-        @click="switchCard(cardInfo[data.position]?.domain, data.position, 'domain')"
-        :style="{ '--card-color': handlePropertyColor(data.position, 'domain') }"
+    <div class="property">
+      <BranchesFilter
+        :model-value="branches[`${data.position}_domain`]"
+        @update:model-value="branches[`${data.position}_domain`] = $event"
+        orientation="vertical-left"
+      />
+      <div
+        class="property-card"
+        :class="{
+          wrong: Array.isArray(data.cards)
+            ? !data.cards.some((c) => c?.id === cardInfo[data.position as Position].id)
+            : false,
+        }"
       >
-        <span>Domain</span>
-        <p>{{ cardInfo[data.position].domain }}</p>
-      </button>
+        <!-- Domain button - vertical left -->
+        <button
+          class="vertical-button vertical-left"
+          @click="switchCard(cardInfo[data.position]?.domain, data.position, 'domain')"
+          :style="{ '--card-color': handlePropertyColor(data.position, 'domain') }"
+        >
+          <span>Domain</span>
+          <p>{{ cardInfo[data.position].domain }}</p>
+        </button>
 
-      <!-- Main card content -->
-      <div class="card-content">
-        <div class="card-name">
+        <!-- Main card content -->
+        <div class="card-content">
           <div>
-            {{ cardInfo[data.position].id }}
-            {{ cardInfo[data.position]?.labels.en }}
+            <div class="card-name">
+              <div>
+                {{ cardInfo[data.position].id }}
+                {{ cardInfo[data.position]?.labels.en }}
+              </div>
+            </div>
+            <PropertySuperpropertiesSubproperties
+              :position="data.position"
+              :cardInfo="cardInfo"
+              @update:cardInfo="handleCardInfoUpdate"
+              :superSubProperties="superSubProperties"
+              :propertyDataCards="propertyDataCards"
+            />
           </div>
+
+          <div class="scope-note">Scope Note</div>
         </div>
-        <PropertySuperpropertiesSubproperties
-          :position="data.position"
-          :cardInfo="cardInfo"
-          @update:cardInfo="handleCardInfoUpdate"
-          :superSubProperties="superSubProperties"
-          :propertyDataCards="propertyDataCards"
-        />
+
+        <!-- Range button - vertical right -->
+        <button
+          class="vertical-button vertical-right"
+          @click="switchCard(cardInfo[data.position]?.range, data.position, 'range')"
+          :style="{ '--card-color': handlePropertyColor(data.position, 'range') }"
+        >
+          <span>Range</span>
+          <p>{{ cardInfo[data.position].range }}</p>
+        </button>
       </div>
-
-      <!-- Range button - vertical right -->
-      <button
-        class="vertical-button vertical-right"
-        @click="switchCard(cardInfo[data.position]?.range, data.position, 'range')"
-        :style="{ '--card-color': handlePropertyColor(data.position, 'range') }"
-      >
-        <span>Range</span>
-        <p>{{ cardInfo[data.position].range }}</p>
-      </button>
+      <BranchesFilter
+        :model-value="branches[`${data.position}_range`]"
+        @update:model-value="branches[`${data.position}_range`] = $event"
+        orientation="vertical-right"
+      />
     </div>
-
     <div class="range">
       <button
         type="button"

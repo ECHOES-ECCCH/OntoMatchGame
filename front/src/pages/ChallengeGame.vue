@@ -5,16 +5,21 @@ import PagesLoader from '@/components/loader/PagesLoader.vue'
 import ChallengeInstruction from '@/components/challenge/ChallengeInstruction.vue'
 import ChallengeInfo from '@/components/challenge/ChallengeInfo.vue'
 import ChallengeCards from '@/components/challenge/ChallengeCards.vue'
+import { ref } from 'vue'
 
 const { chapterData, chapterStats, isLoadingChapter } = useChapterData()
+
+const showInstruction = ref(true)
 </script>
 
 <template>
   <PagesLoader v-if="isLoadingChapter" />
-  <section>
+  <section class="challenge">
     <ChallengeInfo :chapterStats="chapterStats" />
-    <ChallengeInstruction :chapterData="chapterData" />
-    <ChallengeCards />
+    <div class="challenge-game">
+      <ChallengeInstruction :chapterData="chapterData" v-model:showInstruction="showInstruction" />
+      <ChallengeCards :showInstruction="showInstruction" />
+    </div>
   </section>
   <FooterChallenge />
 </template>

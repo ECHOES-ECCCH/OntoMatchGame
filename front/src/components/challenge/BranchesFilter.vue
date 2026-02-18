@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { colors } from '@/assets/cards/colors.ts'
+import { colors } from '@/assets/cards/colors'
 
 const props = defineProps<{
   modelValue: string[]
+  orientation: string
 }>()
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string[]): void
 }>()
+
 const toggleBranch = (branches: string[]) => {
   const currentValue = [...props.modelValue]
 
@@ -37,29 +39,38 @@ const toggleBranch = (branches: string[]) => {
   }
 }
 
-/**
- * Retourne un objet où chaque clé est une couleur
- * et la valeur est le tableau des branches qui ont cette couleur
- */
+type Branch = keyof typeof colors
+
 const groupBranchesByColor = (): Record<string, Branch[]> => {
   const result: Record<string, Branch[]> = {}
 
   Object.entries(colors).forEach(([branch, config]) => {
     const color = config.color
+
     if (!result[color]) {
       result[color] = []
     }
+
     result[color].push(branch as Branch)
   })
 
   return result
 }
-
+console.log(props.orientation)
 const groupedBranches = groupBranchesByColor()
 </script>
 
 <template>
-  <div class="types-filter">
+  <div
+    :class="[
+      'types-filter',
+      orientation === 'vertical-left'
+        ? 'vertical-filter vertical-filter-left'
+        : orientation === 'vertical-right'
+          ? 'vertical-filter vertical-filter-right'
+          : 'horizontal-filter',
+    ]"
+  >
     <ul>
       <li
         v-for="(branches, color) in groupedBranches"

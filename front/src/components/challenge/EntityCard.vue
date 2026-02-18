@@ -110,6 +110,7 @@ const isNoCard = computed(() => {
     <BranchesFilter
       :model-value="branches[data.position as Position]"
       @update:model-value="branches[data.position as Position] = $event"
+      orientation="horizontal"
     />
 
     <div class="range">

@@ -97,7 +97,6 @@ header.main-header .header-right .language button {
 }
 
 header.main-header .header-right button.selectedlanguage {
-  text-decoration: underline;
   color: var(--main-color3);
 }
 
@@ -405,16 +404,21 @@ progress::-moz-progress-bar {
 
 /* Challenge */
 
+.challenge .challenge-game {
+  display: flex;
+}
+
 .challenge-instructions {
-  position: fixed;
-  bottom: 0;
+  left: 0;
   height: 40vh;
   background-color: white;
-  width: 100%;
+  width: 25%;
+  display: flex;
 }
 
 .hide-challenge-instructions {
   height: 14vh;
+  width: 2%;
 }
 
 .challenge-instructions .instructions-title {
@@ -425,10 +429,13 @@ progress::-moz-progress-bar {
   align-content: center;
   cursor: pointer;
   font-size: 1vw;
+  align-self: center;
+  display: flex;
 }
 
 .challenge-instructions .instructions {
   overflow-y: scroll;
+  height: 100vh;
 }
 
 .challenge-instructions .instructions p {
@@ -445,7 +452,13 @@ progress::-moz-progress-bar {
 
 .cards-container {
   display: flex;
-  width: 100%;
+  height: auto;
+  width: 75%;
+  overflow-y: auto;
+}
+
+.cards-container.expand {
+  width: 95%;
 }
 
 .cards-container .content-cards .carousel-container .entity-card {
@@ -459,6 +472,12 @@ progress::-moz-progress-bar {
   z-index: 1000;
   position: relative;
   background-color: white;
+}
+
+.scope-note {
+  color: #e38700;
+  font-size: 8px;
+  padding: 20px;
 }
 
 /* Bordure gauche */
@@ -486,7 +505,8 @@ progress::-moz-progress-bar {
 }
 
 .cards-container .content-cards .carousel-container .entity-card.wrong {
-  background: color-mix(in srgb, var(--card-color, currentColor) 20%, transparent);
+  background-color: #e6e6e6;
+  /* background: color-mix(in srgb, var(--card-color, currentColor) 20%, transparent); */
 }
 
 .cards-container .content-cards .empty-card-entity {
@@ -577,13 +597,42 @@ progress::-moz-progress-bar {
   display: flex;
 }
 
-.cards-container .content-cards .types-filter {
+.cards-container .content-cards .types-filter.horizontal-filter {
   height: 40px;
   background-color: #e6e6e6;
   border-bottom-left-radius: var(--box-radius);
   border-bottom-right-radius: var(--box-radius);
   padding: 0 10px;
 }
+
+.cards-container .content-cards .types-filter.vertical-filter {
+  width: 10px;
+  background-color: #e6e6e6;
+  padding: 0 10px;
+}
+
+.cards-container .content-cards .types-filter.vertical-filter.vertical-filter-left {
+  border-top-left-radius: var(--box-radius);
+  border-bottom-left-radius: var(--box-radius);
+}
+
+.cards-container .content-cards .types-filter.vertical-filter.vertical-filter-right {
+  border-top-right-radius: var(--box-radius);
+  border-bottom-right-radius: var(--box-radius);
+}
+
+.cards-container .content-cards .types-filter.vertical-filter ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  margin-top: -15px;
+}
+
+/* .cards-container .content-cards .types-filter.vertical-filter ul li {
+  display: flex;
+  justify-content: space-around;
+} */
 
 .cards-container .content-cards .types-filter ul {
   display: flex;
@@ -597,6 +646,7 @@ progress::-moz-progress-bar {
   width: 12px;
   height: 12px;
   cursor: pointer;
+  padding: 0.5px;
 }
 
 .cards-container .content-cards .types-filter ul li.type.active {
@@ -651,10 +701,8 @@ progress::-moz-progress-bar {
   background: color-mix(in srgb, var(--card-color, currentColor) 10%, transparent);
 }
 
-.cards-container .content-cards .carousel-container .entity-card .scope-note {
-  color: #e38700;
-  font-size: 8px;
-  padding: 20px;
+.cards-container .content-cards .property {
+  display: flex;
 }
 
 .cards-container .content-cards .property-card {
@@ -691,10 +739,14 @@ progress::-moz-progress-bar {
   flex: 1;
 }
 
+.cards-container .content-cards .carousel-container .property-card.wrong {
+  background-color: #e6e6e6;
+  /* background: color-mix(in srgb, var(--card-color, currentColor) 20%, transparent); */
+}
+
 .cards-container .content-cards .carousel-container .property-card .vertical-button {
   writing-mode: vertical-rl;
   text-orientation: mixed;
-  padding: 1rem 0.5rem;
   cursor: pointer;
   background-color: #f5f5f5;
   transition: background-color 0.2s;
@@ -806,6 +858,12 @@ progress::-moz-progress-bar {
   border-radius: 4px;
   font-size: 10px;
   background: color-mix(in srgb, var(--card-color, currentColor) 10%, transparent);
+}
+
+.cards-container .content-cards .carousel-container .property .types-filter ul.vertical-filter {
+  display: flex;
+  flex-direction: column;
+  height: auto;
 }
 
 /* Footer */

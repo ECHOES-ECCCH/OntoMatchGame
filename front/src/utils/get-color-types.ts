@@ -13,15 +13,6 @@ export const getColor = (branches: Branch[] | null | undefined): string => {
     return colors.entity.color
   }
 
-  const branchPriority: Branch[] = [
-    'actor',
-    'physical',
-    'place',
-    'conceptual',
-    'temporal',
-    'entity',
-  ]
-
   // Filtrer les branches valides qui ont une couleur
   const validBranches = branches.filter((b) => colors[b]?.color)
 
@@ -34,9 +25,7 @@ export const getColor = (branches: Branch[] | null | undefined): string => {
   }
 
   // Si 2 couleurs ou plus, retourner un dégradé
-  const branchColors = validBranches
-    .slice(0, 2) // Prendre les 2 premières couleurs
-    .map((b) => colors[b].color)
+  const branchColors = validBranches.slice(0, 3).map((b) => colors[b].color)
 
   return `linear-gradient(to bottom, ${branchColors.join(', ')})`
 }

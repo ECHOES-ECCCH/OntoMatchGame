@@ -4,9 +4,12 @@ import type { ChapterData } from '@/types/chapter'
 
 const props = defineProps<{
   chapterData: ChapterData | null
+  showInstruction: boolean
 }>()
 
-const showInstruction = ref(true)
+const emit = defineEmits<{
+  (e: 'update:showInstruction', value: boolean): void
+}>()
 
 const statement = computed(() => {
   const statement = props.chapterData?.Statement
@@ -28,17 +31,17 @@ const secondText = computed(() => statement.value.after)
 </script>
 
 <template>
-  <!-- <div
+  <div
     class="challenge-instructions"
     :class="showInstruction ? 'challenge-instructions' : 'hide-challenge-instructions'"
   >
-    <div class="instructions-title" @click="showInstruction = !showInstruction">
-      Instruction et aides ▼
-    </div>
     <div v-if="showInstruction" class="instructions">
       <p>{{ chapterData?.Title }}</p>
       <p>{{ chapterData?.Explanation }}</p>
       <p>{{ firstText }} {{ secondText }}</p>
     </div>
-  </div> -->
+    <div class="instructions-title" @click="emit('update:showInstruction', !props.showInstruction)">
+      <
+    </div>
+  </div>
 </template>

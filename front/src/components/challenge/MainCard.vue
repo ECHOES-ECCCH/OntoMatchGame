@@ -228,6 +228,10 @@ const branches = reactive<Record<EntityPosition, string[]>>({
   eleft: ['entity'],
   emiddle: ['entity'],
   eright: ['entity'],
+  pleft_domain: ['entity'],
+  pleft_range: ['entity'],
+  pright_domain: ['entity'],
+  pright_range: ['entity'],
 })
 
 const cardInfo = reactive<Record<Position, CardInfo>>({
