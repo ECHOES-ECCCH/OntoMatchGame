@@ -60,8 +60,9 @@ const isNoCard = computed(() => {
 </script>
 
 <template>
-  <EmptyCard v-if="isEmpty" />
-
+  <div v-if="isEmpty" class="carousel-container">
+    <EmptyCard />
+  </div>
   <div v-else-if="isNoCard">
     <div class="empty-card-entity">
       <p>{{ langStore.t('static-text.BoardScene.boardscene-scene-filter-entity-text') }}</p>
@@ -80,7 +81,7 @@ const isNoCard = computed(() => {
           ? !data.cards.some((c) => c?.id === cardInfo[data.position as Position].id)
           : false,
       }"
-      :style="{ '--card-color': getColor(cardInfo[data.position as Position].branch) }"
+      :style="getColor(cardInfo[data.position as Position].branch)"
     >
       <div class="card-name">
         <div>

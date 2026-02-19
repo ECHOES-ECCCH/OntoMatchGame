@@ -3,10 +3,11 @@ import EmptyCardProperty from './EmptyCardProperty.vue'
 import type { CardInfo, CardPositionInfo, CurrentIndexes, Position } from '@/types/card/cardInfo'
 import type { Branch } from '@/types/card/branch'
 import PropertySuperpropertiesSubproperties from './PropertySuperpropertiesSubproperties.vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useSuperSubProperties } from '@/composables/useSuperSubProperties'
 import { getColor } from '@/utils/get-color-types'
 import BranchesFilter from './BranchesFilter.vue'
+import { langStore } from '@/stores/lang.store'
 
 const props = defineProps<{
   data: CardInfo[]
@@ -68,11 +69,30 @@ const handlePropertyColor = (propertyPosition: Position, DR: 'domain' | 'range')
   return entity ? getColor(entity.branch) : '#ccc'
 }
 
-console.log(props.propertyDataCards)
+const isNoCard = computed(() => {
+  return props.data.cards === 'no card'
+})
 </script>
 
 <template>
-  <EmptyCardProperty v-if="!data.cards.length" />
+  <div v-if="!data.cards.length" class="carousel-container">
+    <EmptyCardProperty />
+  </div>
+  <div v-else-if="isNoCard">
+    <div class="empty-card-property">
+      <p>{{ langStore.t('static-text.BoardScene.boardscene-scene-filter-entity-text') }}</p>
+      <!-- <BranchesFilter
+        :model-value="branches[`${data.position}_domain`]"
+        @update:model-value="branches[`${data.position}_domain`] = $event"
+        orientation="vertical-left"
+      />
+      <BranchesFilter
+        :model-value="branches[`${data.position}_domain`]"
+        @update:model-value="branches[`${data.position}_domain`] = $event"
+        orientation="vertical-right"
+      /> -->
+    </div>
+  </div>
   <div v-else class="carousel-container">
     <div class="property">
       <BranchesFilter
@@ -92,7 +112,7 @@ console.log(props.propertyDataCards)
         <button
           class="vertical-button vertical-left"
           @click="switchCard(cardInfo[data.position]?.domain, data.position, 'domain')"
-          :style="{ '--card-color': handlePropertyColor(data.position, 'domain') }"
+          :style="handlePropertyColor(data.position, 'domain')"
         >
           <span>Domain</span>
           <p>{{ cardInfo[data.position].domain }}</p>
@@ -100,21 +120,17 @@ console.log(props.propertyDataCards)
 
         <!-- Main card content -->
         <div class="card-content">
-          <div>
-            <div class="card-name">
-              <div>
-                {{ cardInfo[data.position].id }}
-                {{ cardInfo[data.position]?.labels.en }}
-              </div>
-            </div>
-            <PropertySuperpropertiesSubproperties
-              :position="data.position"
-              :cardInfo="cardInfo"
-              @update:cardInfo="handleCardInfoUpdate"
-              :superSubProperties="superSubProperties"
-              :propertyDataCards="propertyDataCards"
-            />
+          <div class="property card-name">
+            <span class="property prefix"> {{ cardInfo[data.position].id }}</span>
+            <span class="property name">{{ cardInfo[data.position]?.labels.en }}</span>
           </div>
+          <PropertySuperpropertiesSubproperties
+            :position="data.position"
+            :cardInfo="cardInfo"
+            @update:cardInfo="handleCardInfoUpdate"
+            :superSubProperties="superSubProperties"
+            :propertyDataCards="propertyDataCards"
+          />
 
           <div class="scope-note">Scope Note</div>
         </div>
@@ -123,10 +139,10 @@ console.log(props.propertyDataCards)
         <button
           class="vertical-button vertical-right"
           @click="switchCard(cardInfo[data.position]?.range, data.position, 'range')"
-          :style="{ '--card-color': handlePropertyColor(data.position, 'range') }"
+          :style="handlePropertyColor(data.position, 'range')"
         >
-          <span>Range</span>
           <p>{{ cardInfo[data.position].range }}</p>
+          <span>Range</span>
         </button>
       </div>
       <BranchesFilter
