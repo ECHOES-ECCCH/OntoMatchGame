@@ -416,38 +416,120 @@ progress::-moz-progress-bar {
   overflow-x: hidden;
 }
 
+.challenge .chapter-info {
+  border-radius: var(--box-radius);
+  border: 1px solid #d6d6d6;
+  margin: 10px;
+  padding: 20px 10px;
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 20px;
+}
+
+.challenge .chapter-info h2 {
+  margin-top: 0;
+}
+
+.chapter-info > div:first-child span:first-of-type {
+  font-weight: 600;
+  font-size: clamp(0.6rem, 1vw, 1.4rem);
+}
+
+.chapter-info > div:first-child span:nth-of-type(2) {
+  background-color: var(--main-color2);
+  padding: clamp(3px, 1vw, 8px) clamp(3px, 1vw, 18px);
+  color: white;
+  border-radius: var(--box-radius);
+  font-size: clamp(0.4rem, 0.9vw, 1rem);
+  margin-left: 10px;
+}
+
+.challenge .chapter-info .challenge-score {
+  font-size: clamp(0.7rem, 1vw, 3rem);
+  justify-content: flex-end;
+  color: var(--main-color1);
+  font-weight: 600;
+  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
+  padding: 12px;
+  align-content: center;
+  border-radius: 16px;
+  height: clamp(30px, 2vw, 120px);
+  padding: clamp(8px, 1vw, 16px);
+}
+
+.challenge .chapter-info .challenge-score span:first-child {
+  color: white;
+  margin-right: 10px;
+}
+
+.challenge .chapter-info .challenge-score span:nth-child(2) {
+  background-color: white;
+  width: 81px;
+  height: 52px;
+  border-radius: 50px;
+  padding: clamp(8px, 1vw, 10px);
+}
+
 .challenge-instructions {
   flex: 0 0 clamp(180px, 20vw, 350px);
   transition: flex-basis 0.3s ease;
   background-color: white;
   display: flex;
-  flex-direction: column;
+  height: 100vh;
+  border: 1px solid var(--main-color3);
+  border-left: none;
+  border-radius: var(--box-radius);
+  border-top-left-radius: unset;
+  border-bottom-left-radius: unset;
+  box-sizing: border-box;
+  margin-right: 20px;
 }
 
 .hide-challenge-instructions {
   flex-basis: 0;
-  flex: 0 0 clamp(20px, 3vw, 40px);
+  flex: 0 0 clamp(3px, 3vw, 20px);
 }
 
 .challenge-instructions .instructions-title {
   font-size: clamp(0.7rem, 1vw, 1rem);
   height: 30px;
-  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
+  /* background: linear-gradient(180deg, var(--main-color1) 0%, #ffcf87 100%); */
   color: white;
   text-align: center;
   align-content: center;
   cursor: pointer;
   align-self: center;
   display: flex;
+  background-color: var(--main-color3);
+  width: 10px;
+  border-top-left-radius: var(--box-radius);
+  border-bottom-left-radius: var(--box-radius);
+  padding: 2px 5px;
+  align-items: center;
 }
 
 .challenge-instructions .instructions {
   overflow-y: auto;
   font-size: clamp(0.7rem, 0.9vw, 1rem);
+  padding: 20px;
 }
 
 .challenge-instructions .instructions p {
   font-size: 0.8rem;
+}
+
+.challenge-instructions .instructions .chapter-progress {
+  display: flex;
+  justify-content: space-between;
+}
+
+.challenge-instructions .instructions .chapter-progress span {
+  background-color: var(--main-color3);
+  color: white;
+  font-size: clamp(0.6rem, 0.7vw, 1rem);
+  align-content: center;
+  padding: clamp(6px, 0.7vw, 10px);
+  border-radius: clamp(20px, 0.7vw, 50px);
 }
 
 .content-cards {
@@ -465,7 +547,6 @@ progress::-moz-progress-bar {
   flex: 1 0 clamp(120px, 12vw, 300px);
   max-width: clamp(200px, 18vw, 420px);
   min-width: clamp(120px, 12vw, 300px);
-  overflow: hidden;
 }
 
 .cards-container .content-cards .carousel-container:has(.entity-card) {
@@ -509,11 +590,11 @@ progress::-moz-progress-bar {
   min-width: 0;
   max-width: 100%;
 }
-
+/* 
 .cards-container .content-cards .carousel-container .entity-card,
 .cards-container .content-cards .carousel-container .entity-card * {
   box-sizing: border-box;
-}
+} */
 
 .cards-container .content-cards .carousel-container .entity-card::before {
   content: '';
@@ -580,6 +661,23 @@ progress::-moz-progress-bar {
   overflow: hidden;
 }
 
+.cards-container .content-cards .no-card-property {
+  flex: 1 0 clamp(180px, 14vw, 350px);
+  min-width: 0;
+  max-width: 100%;
+  aspect-ratio: 265 / 186;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e4e4e4;
+  color: #c2c2c2;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  justify-self: flex-start;
+  padding: 10px;
+}
+
 .cards-container .content-cards .empty-card-entity p {
   color: #c2c2c2;
   text-align: center;
@@ -595,6 +693,8 @@ progress::-moz-progress-bar {
 
 .cards-container .content-cards .carousel-container .number.active {
   display: block;
+  text-align: center;
+  font-size: clamp(0.6rem, 1vw, 1rem);
 }
 
 .cards-container .content-cards .carousel-container .slider {
@@ -612,8 +712,8 @@ progress::-moz-progress-bar {
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: clamp(10px, 1.2vw, 20px);
+    height: clamp(10px, 1.2vw, 20px);
     border-radius: 50%;
     background: var(--main-color1);
     cursor: pointer;
@@ -622,8 +722,8 @@ progress::-moz-progress-bar {
 
   /* Thumb - Firefox */
   &::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
+    width: clamp(10px, 1.2vw, 20px);
+    height: clamp(10px, 1.2vw, 20px);
     border-radius: 50%;
     background: var(--main-color1);
     cursor: pointer;
@@ -671,6 +771,7 @@ progress::-moz-progress-bar {
   margin: 5px;
   min-width: clamp(20px, 2vw, 40px);
   font-weight: 600;
+  padding: 5px;
 }
 
 .cards-container .content-cards .carousel-container .card-name .property.prefix {
@@ -707,20 +808,26 @@ progress::-moz-progress-bar {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .range button {
-  font-size: clamp(0.7rem, 0.7vw, 0.7rem);
-  width: clamp(0.7rem, 0.7vw, 0.7rem);
-  height: clamp(0.7rem, 0.7vw, 0.7rem);
-  background: color-mix(in srgb, var(--main-color1, currentColor) 10%, transparent);
+  width: clamp(16px, 2vw, 25px);
+  height: clamp(16px, 2vw, 25px);
   border-radius: 50%;
-  border: 1px solid var(--main-color1);
-  padding: clamp(0.5rem, 0.7vw, 0.7rem);
+  background: var(--main-color1);
   color: var(--main-color1);
   font-weight: bold;
-  align-content: center;
+  border: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  padding: 0;
+  line-height: 1;
+  margin: 0 5px;
+  background: color-mix(in srgb, var(--main-color1, currentColor) 10%, transparent);
+  border: 1px solid var(--main-color1);
 }
 
 .cards-container .content-cards .types-filter.horizontal-filter {

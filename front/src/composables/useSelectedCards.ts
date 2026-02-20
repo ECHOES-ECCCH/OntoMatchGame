@@ -71,7 +71,7 @@ export function usePropertyCards(
       // 👇 nouveaux filtres
       const domainBranches = branches[`${positionKey}_domain`]
       const rangeBranches = branches[`${positionKey}_range`]
-      console.log('rangeBranches', rangeBranches)
+
       let filteredCards = allPropertyCards
 
       // Filtrage via les entités Domain
@@ -112,8 +112,6 @@ export function useBoardCards(
   propertyDataCards: CardInfo[],
   branches: Record<Position, string[]>,
 ) {
-  console.log('branch', branches)
-
   const selectedCards = useSelectedCards(chapterData, entityDataCards, branches)
   const propertyCards = usePropertyCards(chapterData, propertyDataCards, entityDataCards, branches)
 

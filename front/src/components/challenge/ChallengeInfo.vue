@@ -9,8 +9,14 @@ defineProps<{
 
 <template>
   <div class="chapter-info">
-    <h2>{{ langStore.t('static-text.BoardScene.boardscene-scene-challenge-text') }}</h2>
-    <div>{{ chapterStats?.scenarioName }} {{ chapterStats?.chapterName }}</div>
-    <div>Score {{ chapterStats?.score }} / {{ chapterStats?.maxPossibleScore }}</div>
+    <div>
+      <h2>{{ langStore.t('static-text.BoardScene.boardscene-scene-challenge-text') }}</h2>
+      <span>{{ chapterStats?.scenarioName }}</span>
+      <span>{{ chapterStats?.chapterName }}</span>
+    </div>
+    <div class="challenge-score">
+      <span>Score</span>
+      <span>{{ chapterStats?.score }} / {{ chapterStats?.maxPossibleScore }}</span>
+    </div>
   </div>
 </template>

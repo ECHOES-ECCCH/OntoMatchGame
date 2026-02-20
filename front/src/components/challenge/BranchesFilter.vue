@@ -56,7 +56,7 @@ const groupBranchesByColor = (): Record<string, Branch[]> => {
 
   return result
 }
-console.log(props.orientation)
+
 const groupedBranches = groupBranchesByColor()
 </script>
 

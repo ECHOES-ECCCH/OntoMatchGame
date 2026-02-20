@@ -78,19 +78,21 @@ const isNoCard = computed(() => {
   <div v-if="!data.cards.length" class="carousel-container">
     <EmptyCardProperty />
   </div>
-  <div v-else-if="isNoCard">
-    <div class="empty-card-property">
-      <p>{{ langStore.t('static-text.BoardScene.boardscene-scene-filter-entity-text') }}</p>
-      <!-- <BranchesFilter
+  <div v-else-if="isNoCard" class="carousel-container">
+    <div class="property">
+      <BranchesFilter
         :model-value="branches[`${data.position}_domain`]"
         @update:model-value="branches[`${data.position}_domain`] = $event"
         orientation="vertical-left"
       />
+      <div class="no-card-property">
+        <p>{{ langStore.t('static-text.BoardScene.boardscene-scene-filter-entity-text') }}</p>
+      </div>
       <BranchesFilter
-        :model-value="branches[`${data.position}_domain`]"
-        @update:model-value="branches[`${data.position}_domain`] = $event"
+        :model-value="branches[`${data.position}_range`]"
+        @update:model-value="branches[`${data.position}_range`] = $event"
         orientation="vertical-right"
-      /> -->
+      />
     </div>
   </div>
   <div v-else class="carousel-container">

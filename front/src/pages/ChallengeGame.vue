@@ -17,7 +17,11 @@ const showInstruction = ref(true)
   <section class="challenge">
     <ChallengeInfo :chapterStats="chapterStats" />
     <div class="challenge-game">
-      <ChallengeInstruction :chapterData="chapterData" v-model:showInstruction="showInstruction" />
+      <ChallengeInstruction
+        :chapterData="chapterData"
+        :chapterStats="chapterStats"
+        v-model:showInstruction="showInstruction"
+      />
       <ChallengeCards :showInstruction="showInstruction" />
     </div>
   </section>

@@ -12,8 +12,6 @@ const { entityDataCards, propertyDataCards, loadCard, isDataCardsLoading } = use
 onMounted(() => {
   loadCard()
 })
-
-console.log(props.showInstruction)
 </script>
 
 <template>
