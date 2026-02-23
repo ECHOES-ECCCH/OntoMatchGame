@@ -16,17 +16,25 @@ const statement = computed(() => {
   const statement = props.chapterData?.Statement
   if (!statement) return { before: '', after: '' }
 
-  const marker = 'Pour ce défi'
-  // const marker = 'For this challenge'
+  const markers = ['Pour ce défi', 'For this challenge', 'Find classes and properties']
 
-  const index = statement.indexOf(marker)
+  let firstIndex = -1
 
-  return index === -1
-    ? { before: statement.trim(), after: '' }
-    : {
-        before: statement.slice(0, index).trim(),
-        after: statement.slice(index).trim(),
-      }
+  markers.forEach((marker) => {
+    const index = statement.indexOf(marker)
+    if (index !== -1 && (firstIndex === -1 || index < firstIndex)) {
+      firstIndex = index
+    }
+  })
+
+  if (firstIndex === -1) {
+    return { before: statement.trim(), after: '' }
+  }
+
+  return {
+    before: statement.slice(0, firstIndex).trim(),
+    after: statement.slice(firstIndex).trim(),
+  }
 })
 
 const firstText = computed(() => statement.value.before)
@@ -39,14 +47,13 @@ const secondText = computed(() => statement.value.after)
     :class="showInstruction ? 'challenge-instructions' : 'hide-challenge-instructions'"
   >
     <div v-if="showInstruction" class="instructions">
-      {{ console.log(chapterData) }}
-
       <div class="chapter-progress">
-        <p>{{ chapterData?.Title }}</p>
+        <h3>{{ chapterData?.Title }}</h3>
         <span>{{ chapterStats.lastChallengeId }} / {{ chapterStats.maxChallengeCount }}</span>
       </div>
       <p>{{ chapterData?.Explanation }}</p>
-      <p>{{ firstText }} {{ secondText }}</p>
+      <p>{{ firstText }}</p>
+      <p>{{ secondText }}</p>
     </div>
     <div class="instructions-title" @click="emit('update:showInstruction', !props.showInstruction)">
       <

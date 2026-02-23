@@ -1,33 +1,53 @@
 import { colors } from '@/assets/cards/colors.ts'
 
-// export const getColor = (branches: Branch[] | null | undefined): string[] => {
-//   if (!branches || branches.length === 0) {
-//     return [colors.entity.color]
-//   }
+const isLightColor = (color: string): boolean => {
+  const hex = color.replace('#', '')
 
-//   return branches.map((b) => colors[b]?.color).filter((color): color is string => Boolean(color))
-// }
+  if (hex.length !== 6) return false
+
+  const r = parseInt(hex.substring(0, 2), 16)
+  const g = parseInt(hex.substring(2, 4), 16)
+  const b = parseInt(hex.substring(4, 6), 16)
+
+  // Luminance perceptuelle
+  const luminance = 0.299 * r + 0.587 * g + 0.114 * b
+
+  return luminance > 230
+}
 
 export const getColor = (branches: Branch[] | null | undefined): Record<string, string> => {
+  const defaultColor = colors.entity.color
+
   if (!branches || branches.length === 0) {
-    return { '--card-color': colors.entity.color }
+    return {
+      '--card-color': defaultColor,
+      '--card-text-color': isLightColor(defaultColor) ? '#757575' : '#ffffff',
+    }
   }
 
   const validBranches = branches.filter((b) => colors[b]?.color)
 
   if (validBranches.length === 0) {
-    return { '--card-color': colors.entity.color }
+    return {
+      '--card-color': defaultColor,
+      '--card-text-color': isLightColor(defaultColor) ? '#757575' : '#ffffff',
+    }
   }
 
   if (validBranches.length === 1) {
-    const color = colors[validBranches[0]]?.color ?? colors.entity.color
-    return { '--card-color': color }
+    const color = colors[validBranches[0]]?.color ?? defaultColor
+
+    return {
+      '--card-color': color,
+      '--card-text-color': isLightColor(color) ? '#757575' : '#ffffff',
+    }
   }
 
   const branchColors = validBranches.slice(0, 3).map((b) => colors[b].color)
 
   return {
-    '--card-color': branchColors[0], // couleur principale pour border/text
+    '--card-color': branchColors[0],
     '--card-gradient': `linear-gradient(to bottom, ${branchColors.join(', ')})`,
+    '--card-text-color': isLightColor(branchColors[0]) ? '#757575' : '#ffffff',
   }
 }

@@ -34,26 +34,28 @@ const superClasses = computed(() => props.superSubClasses.superClassOf.value[pro
 </script>
 
 <template>
-  <h2>SubClasses & SuperClasses</h2>
-  <div class="entity-classes my-scroll">
-    <button
-      v-for="sub in subClasses"
-      :key="sub"
-      @click="switchEntityCard(sub)"
-      class="hierarchy-btn sub"
-    >
-      ↑ {{ sub }}
-    </button>
+  <div class="entity-classes-wrapper">
+    <h2>SubClasses & SuperClasses</h2>
+    <div class="entity-classes my-scroll">
+      <button
+        v-for="sub in subClasses"
+        :key="sub"
+        @click="switchEntityCard(sub)"
+        class="hierarchy-btn sub"
+      >
+        ↑ {{ sub }}
+      </button>
 
-    <div class="current">{{ cardInfo[position as Position].about }}</div>
+      <div class="current">{{ cardInfo[position as Position].about }}</div>
 
-    <button
-      v-for="sup in superClasses"
-      :key="sup"
-      @click="switchEntityCard(sup)"
-      class="hierarchy-btn super"
-    >
-      ↓ {{ sup }}
-    </button>
+      <button
+        v-for="sup in superClasses"
+        :key="sup"
+        @click="switchEntityCard(sup)"
+        class="hierarchy-btn super"
+      >
+        ↓ {{ sup }}
+      </button>
+    </div>
   </div>
 </template>

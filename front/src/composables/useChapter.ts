@@ -21,12 +21,16 @@ export function useChapterData() {
    */
   const chapterStats = computed(() => {
     const chapterName = route.query.chapterName
+    const scenarioName = route.query.scenario
+
     if (!chapterName || typeof chapterName !== 'string') return null
 
-    return findChapterStats({
-      chapterName,
-      'chapter-title': chapterName,
+    const stats = findChapterStats({
+      chapterName: chapterName,
+      scenarioName: scenarioName,
     })
+
+    return stats
   })
 
   /**
@@ -51,10 +55,6 @@ export function useChapterData() {
     }
   })
 
-  const scenarioKey = computed(() => {
-    return chapterStats.value?.scenarioName.split(' ')[0] || ''
-  })
-
   const lastChallengeId = computed(() => {
     return chapterStats.value?.lastChallengeId ?? '0'
   })
@@ -70,7 +70,9 @@ export function useChapterData() {
   ) {
     if (!chapterName || !scenario || !info) return
 
-    const key = `/src/assets/json/${info.lang}/chapter/${scenario}/${info.filename}.json`
+    const scenarioKey = scenario.split(' ')[0] || ''
+
+    const key = `/src/assets/json/${info.lang}/chapter/${scenarioKey}/${info.filename}.json`
 
     if (!chapters[key]) {
       error.value = `Chapitre introuvable : ${key}`
@@ -97,7 +99,7 @@ export function useChapterData() {
   }
 
   watch(
-    [() => route.query.chapterName, scenarioKey, lastChallengeId, chapterInfo],
+    [() => route.query.chapterName, () => route.query.scenario, lastChallengeId, chapterInfo],
     ([chapterName, scenarioValue, challengeId, info]) => {
       if (
         typeof chapterName !== 'string' ||

@@ -63,16 +63,19 @@ const handleCreateSessionData = (scenario: string, chapter: string) => {
           <li v-for="(chapter, i) in scenario[index]?.chapters" :key="i">
             {{ chapter['chapter-title'] }}
             {{ chapter['chapter-description'] }}
-            <div>{{ getChapterProgression(chapter) || 0 }}%</div>
+            <div>{{ getChapterProgression(chapter, scenario[index]['scenario-title']) || 0 }}%</div>
             <router-link
               :to="{
                 path: '/challenge',
                 query: {
+                  scenario: scenario[index]['scenario-title'],
                   chapterName: chapter['chapter-title'],
                 },
               }"
             >
-              <button v-if="isChapterStarted(chapter)">Go</button>
+              <button v-if="isChapterStarted(chapter, scenario[index]['scenario-title'])">
+                Go
+              </button>
               <button
                 v-else
                 @click="

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { langStore } from '@/stores/lang.store'
 import type { Branch, BranchName } from '@/types/card/branch'
 import type {
@@ -35,6 +35,8 @@ const props = defineProps<{
 const emit = defineEmits<{
   'update:cardInfo': [newCardInfo: CardPositionInfo]
 }>()
+
+const showScopeNote = ref(false)
 
 const superSubClasses = useSuperSubClasses(props.cardInfo, props.entityDataCards)
 
@@ -83,29 +85,37 @@ const isNoCard = computed(() => {
       }"
       :style="getColor(cardInfo[data.position as Position].branch)"
     >
-      <div class="card-name">
-        <div>
-          <span class="prefix">{{ cardInfo[data.position as Position].id }}</span>
-          <span class="name">{{ cardInfo[data.position as Position].labels.en }}</span>
-        </div>
-        <span class="image-card">
-          <img
-            v-for="icon in getIcon(cardInfo[data.position as Position].branch)"
-            :key="icon"
-            :src="icon"
-          />
-        </span>
+      <div class="scope-note-text" v-show="showScopeNote">
+        <p>{{ cardInfo[data.position as Position].comment }}</p>
+        <button @click="showScopeNote = false">Close</button>
       </div>
+      <div v-show="!showScopeNote" class="card-inner">
+        <div class="card-name">
+          <div>
+            <span class="prefix">{{ cardInfo[data.position as Position].id }}</span>
+            <span class="name">{{ cardInfo[data.position as Position].labels.en }}</span>
+          </div>
+          <span class="image-card">
+            <img
+              v-for="icon in getIcon(cardInfo[data.position as Position].branch)"
+              :key="icon"
+              :src="icon"
+            />
+          </span>
+        </div>
 
-      <EntitySuperclassesSubclasses
-        :position="data.position"
-        :cardInfo="cardInfo"
-        @update:cardInfo="handleCardInfoUpdate"
-        :superSubClasses="superSubClasses"
-        :entityDataCards="entityDataCards"
-      />
+        <div class="card-content">
+          <EntitySuperclassesSubclasses
+            :position="data.position"
+            :cardInfo="cardInfo"
+            @update:cardInfo="handleCardInfoUpdate"
+            :superSubClasses="superSubClasses"
+            :entityDataCards="entityDataCards"
+          />
 
-      <div class="scope-note">Scope Note</div>
+          <button @click="showScopeNote = !showScopeNote" class="scope-note">Scope Note</button>
+        </div>
+      </div>
     </div>
 
     <BranchesFilter

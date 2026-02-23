@@ -57,6 +57,7 @@ onMounted(() => {
             :to="{
               path: '/challenge',
               query: {
+                scenario: userHistory['scenarioName'],
                 chapterName: userHistory['chapterName'],
               },
             }"
