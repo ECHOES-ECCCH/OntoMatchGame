@@ -1,7 +1,16 @@
-import type { Position } from './cardInfo'
+import type { EntityPosition, Position } from './cardInfo'
+
+export type BranchKey =
+  | Position
+  | `${EntityPosition}_domain`
+  | `${EntityPosition}_range`
+  | `pleft_domain`
+  | `pleft_range`
+  | `pright_domain`
+  | `pright_range`
 
 export type Branch = {
-  [key in Position]: string[]
+  [key in BranchKey]?: string[]
 }
 
 export type BranchName =

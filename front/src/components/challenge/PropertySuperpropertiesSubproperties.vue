@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { CardInfo } from '@/types/card/cardInfo'
 import { switchCard } from '@/utils/switch-card'
 import { computed } from 'vue'
 
@@ -8,11 +9,7 @@ const props = defineProps<{
     subPropertyOf: { value: Record<string, string[]> }
     superPropertyOf: { value: Record<string, string[]> }
   }
-  cardInfo: {
-    eleft: { about: '' }
-    emiddle: { about: '' }
-    eright: { about: '' }
-  }
+  cardInfo: CardInfo
   propertyDataCards: Array<{ about: string }>
 }>()
 const emit = defineEmits<{

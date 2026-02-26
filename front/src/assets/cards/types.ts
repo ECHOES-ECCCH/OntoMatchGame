@@ -1,20 +1,8 @@
-export type Branch =
-  | 'entity'
-  | 'conceptual'
-  | 'actor'
-  | 'place'
-  | 'time-span'
-  | 'temporal'
-  | 'physical'
-  | 'appellation'
-  | 'type'
-  | 'spacetime-volume'
-  | 'dimension'
-  | 'primitive'
+import type { BranchName } from '@/types/card/branch'
 
 export interface OntoType {
   id: string
-  branch: Branch[]
+  branch: BranchName[]
 }
 
 export const types: OntoType[] = [

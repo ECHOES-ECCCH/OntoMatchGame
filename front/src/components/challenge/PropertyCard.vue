@@ -1,21 +1,33 @@
 <script setup lang="ts">
-import EmptyCardProperty from './EmptyCardProperty.vue'
-import type { CardInfo, CardPositionInfo, CurrentIndexes, Position } from '@/types/card/cardInfo'
-import type { Branch } from '@/types/card/branch'
-import PropertySuperpropertiesSubproperties from './PropertySuperpropertiesSubproperties.vue'
 import { computed, ref } from 'vue'
+import EmptyCardProperty from './EmptyCardProperty.vue'
+import type {
+  CardInfo,
+  CardPositionInfo,
+  CardPropertyInfo,
+  CurrentIndexes,
+  EntityPosition,
+  Position,
+} from '@/types/card/cardInfo'
+import PropertySuperpropertiesSubproperties from './PropertySuperpropertiesSubproperties.vue'
 import { useSuperSubProperties } from '@/composables/useSuperSubProperties'
 import { getColor } from '@/utils/get-color-types'
 import BranchesFilter from './BranchesFilter.vue'
 import { langStore } from '@/stores/lang.store'
+import type { Branch } from '@/assets/cards/types'
 
 const props = defineProps<{
-  data: CardInfo[]
+  totalCards: {
+    type: string
+    position: Position
+    cards: CardPropertyInfo[] | 'no card'
+    totalCards: number
+  }
   branches: Branch
-  cardInfo: CardInfo[]
+  cardInfo: Record<Position, CardPropertyInfo>
   currentIndexes: CurrentIndexes
   entityDataCards: CardInfo[]
-  propertyDataCards
+  propertyDataCards: CardPropertyInfo[]
   handlePrevious: (position: Position, cards: CardInfo[]) => void
   handleNext: (position: Position, cards: CardInfo[]) => void
   handleSliderChange: (position: Position, value: number, cards: CardInfo[]) => void
@@ -23,9 +35,13 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   'update:cardInfo': [newCardInfo: CardPositionInfo]
+  'update:branches': [{ position: string; value: string[] }]
 }>()
 
+const showScopeNote = ref(false)
+
 const superSubProperties = useSuperSubProperties(props.cardInfo, props.propertyDataCards)
+
 const handleCardInfoUpdate = (newCardInfo: CardPositionInfo) => {
   emit('update:cardInfo', newCardInfo)
 }
@@ -38,9 +54,8 @@ const resolveEntityPosition = (propertyPosition: string, DR: 'domain' | 'range')
   }
 }
 
-const switchCard = (aboutValue: string, propertyPosition, DR) => {
+const switchCard = (aboutValue: string, propertyPosition: Position, DR: 'domain' | 'range') => {
   const newCard = props.entityDataCards.find((c) => c.about === aboutValue)
-
   const resolvedPosition = resolveEntityPosition(propertyPosition, DR)
 
   if (newCard) {
@@ -70,126 +85,177 @@ const handlePropertyColor = (propertyPosition: Position, DR: 'domain' | 'range')
 }
 
 const isNoCard = computed(() => {
-  return props.data.cards === 'no card'
+  return props.totalCards.cards === 'no card'
 })
+
+console.log(props.totalCards)
 </script>
 
 <template>
-  <div v-if="!data.cards.length" class="carousel-container">
+  <!-- EMPTY -->
+  <div v-if="!totalCards.cards?.length" class="carousel-container">
     <EmptyCardProperty />
   </div>
+
+  <!-- NO CARD -->
   <div v-else-if="isNoCard" class="carousel-container">
     <div class="property">
       <BranchesFilter
-        :model-value="branches[`${data.position}_domain`]"
-        @update:model-value="branches[`${data.position}_domain`] = $event"
+        :model-value="branches[`${totalCards.position}_domain`]"
+        @update:model-value="
+          $emit('update:branches', { position: totalCards.position as Position, value: $event })
+        "
         orientation="vertical-left"
       />
       <div class="no-card-property">
         <p>{{ langStore.t('static-text.BoardScene.boardscene-scene-filter-entity-text') }}</p>
       </div>
       <BranchesFilter
-        :model-value="branches[`${data.position}_range`]"
-        @update:model-value="branches[`${data.position}_range`] = $event"
+        :model-value="branches[`${totalCards.position}_range`]"
+        @update:model-value="
+          $emit('update:branches', { position: totalCards.position as Position, value: $event })
+        "
         orientation="vertical-right"
       />
     </div>
   </div>
+
+  <!-- NORMAL -->
   <div v-else class="carousel-container">
     <div class="property">
+      <!-- LEFT FILTER -->
       <BranchesFilter
-        :model-value="branches[`${data.position}_domain`]"
-        @update:model-value="branches[`${data.position}_domain`] = $event"
+        :model-value="branches[`${totalCards.position}_domain`]"
+        @update:model-value="
+          $emit('update:branches', { position: `${totalCards.position}_domain`, value: $event })
+        "
         orientation="vertical-left"
       />
+
       <div
         class="property-card"
         :class="{
-          wrong: Array.isArray(data.cards)
-            ? !data.cards.some((c) => c?.id === cardInfo[data.position as Position].id)
+          wrong: Array.isArray(totalCards.cards)
+            ? !totalCards.cards.some((c) => c?.id === cardInfo[totalCards.position as Position].id)
             : false,
         }"
       >
-        <!-- Domain button - vertical left -->
+        <!-- DOMAIN BUTTON -->
         <button
           class="vertical-button vertical-left"
-          @click="switchCard(cardInfo[data.position]?.domain, data.position, 'domain')"
-          :style="handlePropertyColor(data.position, 'domain')"
+          @click="
+            switchCard(
+              cardInfo[totalCards.position as Position]?.domain,
+              totalCards.position,
+              'domain',
+            )
+          "
+          :style="handlePropertyColor(totalCards.position, 'domain')"
         >
           <span>Domain</span>
-          <p>{{ cardInfo[data.position].domain }}</p>
+          <p>{{ cardInfo[totalCards.position as Position].domain }}</p>
         </button>
 
-        <!-- Main card content -->
+        <!-- CENTER CONTENT -->
         <div class="card-content">
-          <div class="property card-name">
-            <span class="property prefix"> {{ cardInfo[data.position].id }}</span>
-            <span class="property name">{{ cardInfo[data.position]?.labels.en }}</span>
+          <!-- Scope Note -->
+          <div v-if="showScopeNote" class="scope-note-text">
+            <p>{{ cardInfo[totalCards.position as Position].comment }}</p>
+            <button @click="showScopeNote = false">Close</button>
           </div>
-          <PropertySuperpropertiesSubproperties
-            :position="data.position"
-            :cardInfo="cardInfo"
-            @update:cardInfo="handleCardInfoUpdate"
-            :superSubProperties="superSubProperties"
-            :propertyDataCards="propertyDataCards"
-          />
 
-          <div class="scope-note">Scope Note</div>
+          <!-- Normal Content -->
+          <template v-else>
+            <div class="property card-name">
+              <span class="property prefix">
+                {{ cardInfo[totalCards.position as Position].id }}
+              </span>
+              <span class="property name">
+                {{ cardInfo[totalCards.position as Position]?.labels.en }}
+              </span>
+            </div>
+
+            <PropertySuperpropertiesSubproperties
+              :position="totalCards.position"
+              :cardInfo="cardInfo"
+              @update:cardInfo="handleCardInfoUpdate"
+              :superSubProperties="superSubProperties"
+              :propertyDataCards="propertyDataCards"
+            />
+
+            <button @click="showScopeNote = true" class="scope-note">Scope Note</button>
+          </template>
         </div>
 
-        <!-- Range button - vertical right -->
+        <!-- RANGE BUTTON -->
         <button
           class="vertical-button vertical-right"
-          @click="switchCard(cardInfo[data.position]?.range, data.position, 'range')"
-          :style="handlePropertyColor(data.position, 'range')"
+          @click="
+            switchCard(
+              cardInfo[totalCards.position as Position]?.range,
+              totalCards.position,
+              'range',
+            )
+          "
+          :style="handlePropertyColor(totalCards.position, 'range')"
         >
-          <p>{{ cardInfo[data.position].range }}</p>
+          <p>{{ cardInfo[totalCards.position as Position].range }}</p>
           <span>Range</span>
         </button>
       </div>
+
+      <!-- RIGHT FILTER -->
       <BranchesFilter
-        :model-value="branches[`${data.position}_range`]"
-        @update:model-value="branches[`${data.position}_range`] = $event"
+        :model-value="branches[`${totalCards.position}_range`]"
+        @update:model-value="
+          $emit('update:branches', { position: `${totalCards.position}_range`, value: $event })
+        "
         orientation="vertical-right"
       />
     </div>
+
+    <!-- SLIDER -->
     <div class="range">
       <button
         type="button"
-        @click="handlePrevious(data.position as Position, data.cards as CardInfo[])"
+        @click="handlePrevious(totalCards.position as Position, totalCards.cards as CardInfo[])"
       >
         -
       </button>
+
       <input
         type="range"
         min="0"
-        :max="(data.cards as CardInfo[])?.length - 1"
+        :max="(totalCards.cards as CardInfo[])?.length - 1"
         class="slider"
-        :value="currentIndexes[data.position]"
+        :value="currentIndexes[totalCards.position]"
         @input="
           handleSliderChange(
-            data.position,
+            totalCards.position,
             Number(($event.target as HTMLInputElement).value),
-            data.cards as CardInfo[],
+            totalCards.cards as CardInfo[],
           )
         "
       />
+
       <div class="slider-buttons">
         <button
           type="button"
-          @click="handleNext(data.position as Position, data.cards as CardInfo[])"
+          @click="handleNext(totalCards.position as Position, totalCards.cards as CardInfo[])"
         >
           +
         </button>
       </div>
     </div>
+
+    <!-- COUNTER -->
     <div
       class="number"
-      :class="{ active: index === currentIndexes[data.position as Position] }"
-      v-for="(card, index) in data.cards"
+      :class="{ active: index === currentIndexes[totalCards.position as Position] }"
+      v-for="(card, index) in totalCards.cards"
       :key="index"
     >
-      {{ (data.cards as CardInfo[]).length }}/{{ data.totalCards }}
+      {{ (totalCards.cards as CardInfo[]).length }}/{{ totalCards.totalCards }}
     </div>
   </div>
 </template>

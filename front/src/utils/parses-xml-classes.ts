@@ -1,6 +1,4 @@
-import type { CardInfo } from '@/types/card/cardInfo'
-
-export function parseClasses(doc: Document, card) {
+export function parseClasses(doc: Document, card: string) {
   const RDFS_NS = doc.documentElement.lookupNamespaceURI('rdfs')
   const RDF_NS = doc.documentElement.lookupNamespaceURI('rdf')
   const OWL = doc.documentElement.lookupNamespaceURI('owl')
@@ -50,7 +48,7 @@ export function parseClasses(doc: Document, card) {
         subClasses,
         onlineResource,
         branch: null,
-      } as CardInfo
+      }
     })
   } else if (card === 'property') {
     const classEls = [...doc.getElementsByTagNameNS(RDF_NS, 'Property')]
@@ -72,6 +70,10 @@ export function parseClasses(doc: Document, card) {
           labels[lang] = l.textContent.trim()
         }
       }
+
+      // récupère le commentaire
+      const commentEl = el.getElementsByTagNameNS(RDFS_NS, 'comment')[0]
+      const comment = commentEl?.textContent?.trim() ?? ''
 
       // récupère le domain
       const domainEl = el.getElementsByTagNameNS(RDFS_NS, 'domain')[0]
@@ -102,6 +104,7 @@ export function parseClasses(doc: Document, card) {
         id,
         about: aboutAttr,
         labels,
+        comment,
         domain,
         range,
         subPropertyOf,

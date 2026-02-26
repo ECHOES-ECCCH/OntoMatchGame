@@ -1,4 +1,5 @@
 import { colors } from '@/assets/cards/colors.ts'
+import type { BranchName } from '@/types/card/branch'
 
 const isLightColor = (color: string): boolean => {
   const hex = color.replace('#', '')
@@ -15,7 +16,7 @@ const isLightColor = (color: string): boolean => {
   return luminance > 230
 }
 
-export const getColor = (branches: Branch[] | null | undefined): Record<string, string> => {
+export const getColor = (branches: BranchName[] | null | undefined): Record<string, string> => {
   const defaultColor = colors.entity.color
 
   if (!branches || branches.length === 0) {
@@ -25,7 +26,7 @@ export const getColor = (branches: Branch[] | null | undefined): Record<string, 
     }
   }
 
-  const validBranches = branches.filter((b) => colors[b]?.color)
+  const validBranches = branches.filter((b): b is BranchName => b in colors)
 
   if (validBranches.length === 0) {
     return {
@@ -35,19 +36,19 @@ export const getColor = (branches: Branch[] | null | undefined): Record<string, 
   }
 
   if (validBranches.length === 1) {
-    const color = colors[validBranches[0]]?.color ?? defaultColor
-
+    const color = colors[validBranches[0]!]?.color ?? defaultColor
     return {
       '--card-color': color,
       '--card-text-color': isLightColor(color) ? '#757575' : '#ffffff',
     }
   }
 
-  const branchColors = validBranches.slice(0, 3).map((b) => colors[b].color)
+  const branchColors = validBranches.slice(0, 3).map((b) => colors[b]?.color)
+  const firstColor = branchColors[0] ?? defaultColor
 
   return {
-    '--card-color': branchColors[0],
+    '--card-color': firstColor,
     '--card-gradient': `linear-gradient(to bottom, ${branchColors.join(', ')})`,
-    '--card-text-color': isLightColor(branchColors[0]) ? '#757575' : '#ffffff',
+    '--card-text-color': isLightColor(firstColor) ? '#757575' : '#ffffff',
   }
 }

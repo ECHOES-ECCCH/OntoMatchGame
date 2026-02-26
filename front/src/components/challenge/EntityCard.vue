@@ -17,7 +17,7 @@ import { colors } from '@/assets/cards/colors'
 import { useSuperSubClasses } from '@/composables/useSuperSubClasses'
 
 const props = defineProps<{
-  data: {
+  totalCards: {
     type: string
     position: EntityPosition
     cards: CardInfo[] | 'no card'
@@ -34,13 +34,14 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   'update:cardInfo': [newCardInfo: CardPositionInfo]
+  'update:branches': [{ position: Position; value: string[] }]
 }>()
 
 const showScopeNote = ref(false)
 
 const superSubClasses = useSuperSubClasses(props.cardInfo, props.entityDataCards)
 
-const getIcon = (branches: Branch[] | null | undefined): string[] => {
+const getIcon = (branches: BranchName[] | null | undefined): string[] => {
   if (!branches || branches.length === 0) {
     return [colors.entity.icon]
   }
@@ -53,11 +54,14 @@ const handleCardInfoUpdate = (newCardInfo: CardPositionInfo) => {
 }
 
 const isEmpty = computed(() => {
-  return !props.data.cards || (Array.isArray(props.data.cards) && props.data.cards.length === 0)
+  return (
+    !props.totalCards.cards ||
+    (Array.isArray(props.totalCards.cards) && props.totalCards.cards.length === 0)
+  )
 })
 
 const isNoCard = computed(() => {
-  return props.data.cards === 'no card'
+  return props.totalCards.cards === 'no card'
 })
 </script>
 
@@ -70,8 +74,11 @@ const isNoCard = computed(() => {
       <p>{{ langStore.t('static-text.BoardScene.boardscene-scene-filter-entity-text') }}</p>
     </div>
     <BranchesFilter
-      :model-value="branches[data.position as Position]"
-      @update:model-value="branches[data.position as Position] = $event"
+      :model-value="branches[totalCards.position as Position]"
+      @update:model-value="
+        $emit('update:branches', { position: totalCards.position as Position, value: $event })
+      "
+      orientation="horizontal"
     />
   </div>
 
@@ -79,25 +86,25 @@ const isNoCard = computed(() => {
     <div
       class="entity-card"
       :class="{
-        wrong: Array.isArray(data.cards)
-          ? !data.cards.some((c) => c?.id === cardInfo[data.position as Position].id)
+        wrong: Array.isArray(totalCards.cards)
+          ? !totalCards.cards.some((c) => c?.id === cardInfo[totalCards.position as Position].id)
           : false,
       }"
-      :style="getColor(cardInfo[data.position as Position].branch)"
+      :style="getColor(cardInfo[totalCards.position as Position].branch)"
     >
       <div class="scope-note-text" v-show="showScopeNote">
-        <p>{{ cardInfo[data.position as Position].comment }}</p>
+        <p>{{ cardInfo[totalCards.position as Position].comment }}</p>
         <button @click="showScopeNote = false">Close</button>
       </div>
       <div v-show="!showScopeNote" class="card-inner">
         <div class="card-name">
           <div>
-            <span class="prefix">{{ cardInfo[data.position as Position].id }}</span>
-            <span class="name">{{ cardInfo[data.position as Position].labels.en }}</span>
+            <span class="prefix">{{ cardInfo[totalCards.position as Position].id }}</span>
+            <span class="name">{{ cardInfo[totalCards.position as Position].labels.en }}</span>
           </div>
           <span class="image-card">
             <img
-              v-for="icon in getIcon(cardInfo[data.position as Position].branch)"
+              v-for="icon in getIcon(cardInfo[totalCards.position as Position].branch)"
               :key="icon"
               :src="icon"
             />
@@ -106,7 +113,7 @@ const isNoCard = computed(() => {
 
         <div class="card-content">
           <EntitySuperclassesSubclasses
-            :position="data.position"
+            :position="totalCards.position"
             :cardInfo="cardInfo"
             @update:cardInfo="handleCardInfoUpdate"
             :superSubClasses="superSubClasses"
@@ -119,36 +126,38 @@ const isNoCard = computed(() => {
     </div>
 
     <BranchesFilter
-      :model-value="branches[data.position as Position]"
-      @update:model-value="branches[data.position as Position] = $event"
+      :model-value="branches[totalCards.position as Position]"
+      @update:model-value="
+        $emit('update:branches', { position: totalCards.position as EntityPosition, value: $event })
+      "
       orientation="horizontal"
     />
 
     <div class="range">
       <button
         type="button"
-        @click="handlePrevious(data.position as Position, data.cards as CardInfo[])"
+        @click="handlePrevious(totalCards.position as Position, totalCards.cards as CardInfo[])"
       >
         -
       </button>
       <input
         type="range"
         min="0"
-        :max="(data.cards as CardInfo[])?.length - 1"
+        :max="(totalCards.cards as CardInfo[])?.length - 1"
         class="slider"
-        :value="currentIndexes[data.position]"
+        :value="currentIndexes[totalCards.position]"
         @input="
           handleSliderChange(
-            data.position,
+            totalCards.position,
             Number(($event.target as HTMLInputElement).value),
-            data.cards as CardInfo[],
+            totalCards.cards as CardInfo[],
           )
         "
       />
       <div class="slider-buttons">
         <button
           type="button"
-          @click="handleNext(data.position as Position, data.cards as CardInfo[])"
+          @click="handleNext(totalCards.position as Position, totalCards.cards as CardInfo[])"
         >
           +
         </button>
@@ -157,11 +166,11 @@ const isNoCard = computed(() => {
 
     <div
       class="number"
-      :class="{ active: index === currentIndexes[data.position as Position] }"
-      v-for="(card, index) in data.cards"
+      :class="{ active: index === currentIndexes[totalCards.position as Position] }"
+      v-for="(card, index) in totalCards.cards"
       :key="index"
     >
-      {{ (data.cards as CardInfo[]).length }}/{{ data.totalCards }}
+      {{ (totalCards.cards as CardInfo[]).length }}/{{ totalCards.totalCards }}
     </div>
   </div>
 </template>
