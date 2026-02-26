@@ -1,14 +1,33 @@
 import type { BranchName } from './branch'
 
-export type Position = 'eleft' | 'emiddle' | 'eright'
+export type EntityPosition = 'eleft' | 'emiddle' | 'eright' | 'pleft' | 'pright'
+export type PropertyPosition = 'pleft' | 'pright'
+export type Position = EntityPosition | PropertyPosition
 
 export interface CardInfo {
   id: string
   about: string
-  labels: object
+  labels: {
+    en: string
+    fr: string
+  }
   comment: string
   subClasses: string[]
-  branch?: BranchName | null
+  branch?: BranchName[] | null
+}
+
+export interface CardPropertyInfo {
+  id: string
+  about: string
+  labels: {
+    en: string
+    fr: string
+  }
+  comment: string
+  subClasses: string[]
+  branch?: BranchName[] | null
+  domain: string
+  range: string
 }
 
 export type CardPositionInfo = {

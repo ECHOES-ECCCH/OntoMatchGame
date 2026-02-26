@@ -1,5 +1,7 @@
 @import './variables.css';
 
+/* ===================== FONTS ===================== */
+
 @font-face {
   font-family: 'Archivo';
   src: url('@/assets/fonts/Archivo-Regular.ttf') format('truetype');
@@ -28,6 +30,8 @@
   font-style: normal;
 }
 
+/* ===================== GENERAL ===================== */
+
 body {
   background: linear-gradient(120deg, var(--bc1) 20%, var(--bc2) 70%);
   min-height: 100vh;
@@ -35,8 +39,6 @@ body {
   color: var(--black);
   margin: 0 auto;
 }
-
-/* GENERAL */
 
 button {
   background-color: transparent;
@@ -54,7 +56,7 @@ a {
   color: inherit;
 }
 
-/* HEADER */
+/* ===================== HEADER ===================== */
 
 header.main-header {
   display: flex;
@@ -62,7 +64,15 @@ header.main-header {
   box-shadow: 1px 2px 8px -1px rgba(0, 0, 0, 0.25);
   -webkit-box-shadow: 1px 2px 8px -1px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 1px 2px 8px -1px rgba(0, 0, 0, 0.25);
-  padding: 8px 20px;
+  padding: clamp(2px, 0.5vw, 6px) clamp(10px, 2vw, 20px);
+  top: 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+  background-color: white;
+}
+
+header.main-header.header-hidden {
+  transform: translateY(-100%);
 }
 
 header.main-header .game-title a {
@@ -71,14 +81,14 @@ header.main-header .game-title a {
 }
 
 header.main-header .game-title img {
-  width: 58px;
-  height: 58px;
+  width: clamp(26px, 3vw, 58px);
+  height: clamp(26px, vw, 58px);
 }
 
 header.main-header .game-title h1 {
   font-weight: 900;
-  font-size: 24px;
-  padding: 0 15px;
+  font-size: clamp(16px, 2vw, 24px);
+  padding: 0 clamp(8px, 1vw, 15px);
 }
 
 header.main-header .header-right {
@@ -89,7 +99,7 @@ header.main-header .header-right .language {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 20px;
+  margin-right: clamp(10px, 2vw, 20px);
 }
 
 header.main-header .header-right .language button {
@@ -97,7 +107,6 @@ header.main-header .header-right .language button {
 }
 
 header.main-header .header-right button.selectedlanguage {
-  text-decoration: underline;
   color: var(--main-color3);
 }
 
@@ -105,18 +114,17 @@ button.logout {
   font-weight: 700;
   display: flex;
   align-items: center;
-  color: white;
-  background-color: var(--main-color1);
   border-radius: 50px;
-  padding: 0 10px;
+  padding: 0 clamp(6px, 1vw, 10px);
   margin: 5px 0;
+  text-decoration: underline;
 }
 
 button.logout img {
-  margin: 0 7px;
+  margin: 0 clamp(4px, 0.7vw, 7px);
 }
 
-/* HOMEPAGE */
+/* ===================== HOMEPAGE ===================== */
 
 .homepage {
   display: flex;
@@ -155,6 +163,8 @@ button.logout img {
   padding: 0 20px;
   align-items: center;
   cursor: pointer;
+  border: solid 1px var(--main-color2);
+  border-left: solid 7px var(--main-color2);
 }
 
 .homepage .homepage-content ul.menu li.menu-challenge {
@@ -181,11 +191,6 @@ button.logout img {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.homepage .homepage-content ul.menu li {
-  border: solid 1px var(--main-color2);
-  border-left: solid 7px var(--main-color2);
 }
 
 .homepage .homepage-content ul.menu li a button {
@@ -248,7 +253,6 @@ button.logout img {
   border-radius: var(--box-radius);
 }
 
-/* Firefox */
 progress::-moz-progress-bar {
   background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
   border-radius: var(--box-radius);
@@ -332,7 +336,7 @@ progress::-moz-progress-bar {
   position: relative;
 }
 
-/* Modal */
+/* ===================== MODAL ===================== */
 
 .modal-container {
   background-color: rgba(173, 173, 173, 0.4);
@@ -400,76 +404,278 @@ progress::-moz-progress-bar {
 
 .modal-container .modal-content .button button:nth-child(2):hover {
   background: linear-gradient(90deg, #ffcf87 0%, var(--main-color1) 100%);
-  color: white;
 }
 
-/* Challenge */
+/* ===================== CHALLENGE ===================== */
+
+.challenge .challenge-game {
+  display: flex;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.challenge .chapter-info {
+  border-radius: var(--box-radius);
+  border: 1px solid #d6d6d6;
+  margin: 10px;
+  padding: 20px 10px;
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 20px;
+}
+
+.challenge .chapter-info h2 {
+  margin-top: 0;
+}
+
+.chapter-info > div:first-child span:first-of-type {
+  font-weight: 600;
+  font-size: clamp(0.6rem, 1vw, 1.4rem);
+}
+
+.chapter-info > div:first-child span:nth-of-type(2) {
+  background-color: var(--main-color2);
+  padding: clamp(3px, 1vw, 8px) clamp(3px, 1vw, 18px);
+  color: white;
+  border-radius: var(--box-radius);
+  font-size: clamp(0.4rem, 0.9vw, 1rem);
+  margin-left: 10px;
+}
+
+.challenge .chapter-info .challenge-score {
+  font-size: clamp(0.7rem, 1vw, 3rem);
+  justify-content: flex-end;
+  color: var(--main-color1);
+  font-weight: 600;
+  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
+  padding: 12px;
+  align-content: center;
+  border-radius: 16px;
+  height: clamp(30px, 2vw, 120px);
+  padding: clamp(8px, 1vw, 16px);
+}
+
+.challenge .chapter-info .challenge-score span:first-child {
+  color: white;
+  margin-right: 10px;
+}
+
+.challenge .chapter-info .challenge-score span:nth-child(2) {
+  background-color: white;
+  width: 81px;
+  height: 52px;
+  border-radius: 50px;
+  padding: clamp(8px, 1vw, 10px);
+}
 
 .challenge-instructions {
-  position: fixed;
-  bottom: 0;
-  height: 40vh;
+  flex: 0 0 clamp(180px, 20vw, 350px);
+  transition: flex-basis 0.3s ease;
   background-color: white;
-  width: 100%;
+  display: flex;
+  height: 100vh;
+  border: 1px solid var(--main-color3);
+  border-left: none;
+  border-radius: var(--box-radius);
+  border-top-left-radius: unset;
+  border-bottom-left-radius: unset;
+  box-sizing: border-box;
+  margin-right: 20px;
 }
 
 .hide-challenge-instructions {
-  height: 14vh;
+  flex-basis: 0;
+  flex: 0 0 clamp(3px, 3vw, 20px);
 }
 
 .challenge-instructions .instructions-title {
+  font-size: clamp(0.7rem, 1vw, 1rem);
   height: 30px;
-  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
+  /* background: linear-gradient(180deg, var(--main-color1) 0%, #ffcf87 100%); */
   color: white;
   text-align: center;
   align-content: center;
   cursor: pointer;
-  font-size: 1vw;
+  align-self: center;
+  display: flex;
+  background-color: var(--main-color3);
+  width: 10px;
+  border-top-left-radius: var(--box-radius);
+  border-bottom-left-radius: var(--box-radius);
+  padding: 2px 5px;
+  align-items: center;
 }
 
 .challenge-instructions .instructions {
-  overflow-y: scroll;
+  overflow-y: auto;
+  font-size: clamp(0.7rem, 0.9vw, 1rem);
+  padding: 20px;
+}
+
+.challenge-instructions .instructions h3 {
+  font-size: clamp(0.7rem, 1vw, 1.3rem);
+  flex: 1;
 }
 
 .challenge-instructions .instructions p {
   font-size: 0.8rem;
+  text-align: justify;
+  line-height: 1.5;
+  margin: 20px 0;
 }
 
-.cards-container .content-cards {
+.challenge-instructions .instructions .chapter-progress {
   display: flex;
-  justify-content: space-around;
-  width: 100%;
+  justify-content: space-between;
 }
 
-/* Challenge cards */
+.challenge-instructions .instructions .chapter-progress span {
+  background-color: var(--main-color3);
+  color: white;
+  font-size: clamp(0.6rem, 0.7vw, 1rem);
+  align-content: center;
+  padding: clamp(6px, 0.7vw, 10px);
+  border-radius: clamp(20px, 0.7vw, 50px);
+}
+
+.content-cards {
+  display: flex;
+  gap: clamp(5px, 1vw, 20px);
+  flex: 1 1 auto;
+  justify-content: space-evenly;
+}
+
+.content-cards > div {
+  display: contents;
+}
+
+.cards-container .content-cards .carousel-container {
+  /* flex: 1 0 clamp(120px, 12vw, 300px); */
+  max-width: clamp(200px, 18vw, 420px);
+  min-width: clamp(120px, 12vw, 300px);
+}
+
+.cards-container .content-cards .carousel-container:has(.entity-card) {
+  flex: 1 0 clamp(100px, 10vw, 240px);
+  max-width: clamp(160px, 14vw, 320px);
+  min-width: clamp(100px, 10vw, 240px);
+}
+
+.entity-card,
+.property-card {
+  flex: 1 1 clamp(140px, 14vw, 211px);
+  min-width: 140px;
+  max-width: 211px;
+  flex-shrink: 1;
+}
+
+/* ===================== CARDS ===================== */
 
 .cards-container {
   display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: clamp(5px, 1vw, 15px);
   width: 100%;
 }
 
-.cards-container .content-cards .carousel-container .entity-card {
-  height: 322px;
-  width: 211px;
-  border-left: 8px solid var(--card-color, transparent);
-  border-right: 8px solid var(--card-color, transparent);
-  border-radius: 8px;
+.cards-container.expand {
+  width: 95%;
+}
+
+.scope-note {
+  font-size: clamp(0.5rem, 0.7vw, 0.6rem);
+  padding: clamp(8px, 1vw, 10px);
   text-align: center;
-  font-size: 20px;
-  transition: all 0.3s;
-  box-shadow: var(--shadow);
-  z-index: 1000;
-  position: relative;
-  background-color: white;
+  color: #ffcf87;
+  flex-shrink: 0;
+}
+
+.card-inner {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.scope-note-text {
+  margin: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.scope-note-text p {
+  font-size: clamp(0.5rem, 0.7vw, 1rem);
+  padding: clamp(8px, 1vw, 12px);
+  line-height: 1.3;
+  text-align: justify;
+  overflow-y: auto;
+}
+
+.scope-note-text button {
+  margin-bottom: 0;
+  padding: 10px;
+  font-weight: bold;
+  border-top: 1px solid rgb(231, 231, 231);
+  font-size: clamp(0.5rem, 0.7vw, 1rem);
+}
+
+.cards-container .content-cards .carousel-container .property-card {
+  flex: 1 0 clamp(180px, 14vw, 350px);
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+/* 
+.cards-container .content-cards .carousel-container .entity-card,
+.cards-container .content-cards .carousel-container .entity-card * {
+  box-sizing: border-box;
+} */
+
+.cards-container .content-cards .carousel-container .entity-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  border-radius: 8px 0 0 8px;
+  background: var(
+    --card-gradient,
+    color-mix(in srgb, var(--card-color, currentColor) 100%, transparent)
+  );
+}
+
+.cards-container .content-cards .carousel-container .entity-card::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  border-radius: 0 8px 8px 0;
+  background: var(
+    --card-gradient,
+    color-mix(in srgb, var(--card-color, currentColor) 100%, transparent)
+  );
 }
 
 .cards-container .content-cards .carousel-container .entity-card.wrong {
-  background: color-mix(in srgb, var(--card-color, currentColor) 20%, transparent);
+  background-color: #e6e6e6;
+  flex: 1 1 clamp(140px, 10vw, 211px);
+  box-sizing: border-box;
 }
 
-.cards-container .content-cards .empty-card-entity {
-  height: 322px;
-  width: 211px;
+.cards-container .content-cards .empty-card-entity,
+.content-cards .empty-card-entity {
+  flex: 1 0 clamp(100px, 10vw, 240px);
+  max-width: clamp(160px, 14vw, 320px);
+  min-width: clamp(100px, 10vw, 240px);
+  aspect-ratio: 265 / 400;
   border: 2px solid #cdcdcd;
   border-radius: var(--box-radius);
   background-color: #f0f0f0;
@@ -479,6 +685,44 @@ progress::-moz-progress-bar {
   flex-direction: column;
   z-index: 1000;
   position: relative;
+  overflow: hidden;
+}
+
+.cards-container .content-cards .empty-card-property,
+.content-cards .empty-card-property {
+  flex: 1 0 clamp(120px, 12vw, 300px);
+  max-width: clamp(200px, 18vw, 420px);
+  min-width: clamp(120px, 12vw, 300px);
+  aspect-ratio: 265 / 186;
+  border: 2px solid #cdcdcd;
+  border-radius: var(--box-radius);
+  background-color: #f0f0f0;
+  align-content: center;
+  overflow: hidden;
+  color: #c2c2c2;
+  text-align: center;
+}
+
+.cards-container .content-cards .empty-card-property,
+.content-cards .empty-card-property img {
+  max-width: clamp(50px, 0.6vw, 160px);
+}
+
+.cards-container .content-cards .no-card-property {
+  flex: 1 0 clamp(180px, 14vw, 350px);
+  min-width: 0;
+  max-width: 100%;
+  aspect-ratio: 265 / 186;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e4e4e4;
+  color: #c2c2c2;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  justify-self: flex-start;
+  padding: 10px;
 }
 
 .cards-container .content-cards .empty-card-entity p {
@@ -496,10 +740,49 @@ progress::-moz-progress-bar {
 
 .cards-container .content-cards .carousel-container .number.active {
   display: block;
+  text-align: center;
+  font-size: clamp(0.6rem, 1vw, 1rem);
 }
 
 .cards-container .content-cards .carousel-container .slider {
-  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 60%;
+  border-radius: 50px;
+  outline: none;
+  border: 1px solid var(--main-color1);
+  background: color-mix(in srgb, var(--main-color1, currentColor) 10%, transparent);
+  transition: transform 0.3s ease;
+  height: 5px;
+
+  /* Thumb - Chrome/Safari */
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: clamp(10px, 1.2vw, 20px);
+    height: clamp(10px, 1.2vw, 20px);
+    border-radius: 50%;
+    background: var(--main-color1);
+    cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+
+  /* Thumb - Firefox */
+  &::-moz-range-thumb {
+    width: clamp(10px, 1.2vw, 20px);
+    height: clamp(10px, 1.2vw, 20px);
+    border-radius: 50%;
+    background: var(--main-color1);
+    cursor: pointer;
+    border: none;
+  }
+
+  /* Track - Firefox */
+  &::-moz-range-track {
+    background: #e4e4e4;
+    height: 4px;
+    border-radius: 50px;
+  }
 }
 
 .cards-container .content-cards .carousel-container .card-name {
@@ -507,51 +790,127 @@ progress::-moz-progress-bar {
   justify-content: space-between;
 }
 
+.cards-container .content-cards .carousel-container .property.card-name {
+  flex-direction: column;
+  align-items: center;
+}
+
 .cards-container .content-cards .carousel-container .card-name div {
   display: flex;
+  flex: 2;
+  align-items: center;
+  margin-top: 5px;
+  padding-left: 10px;
 }
 
 .cards-container .content-cards .carousel-container .card-name .prefix {
-  width: 32px;
-  height: 32px;
-  color: white;
-  background-color: var(--card-color, transparent);
-  font-size: 12px;
+  width: clamp(20px, 2vw, 40px);
+  height: clamp(20px, 2vw, 40px);
+  font-size: clamp(0.5rem, 0.8vw, 0.9rem);
+  background: var(
+    --card-gradient,
+    color-mix(in srgb, var(--card-color, currentColor) 100%, transparent)
+  );
   border-radius: var(--box-radius);
+  color: var(--card-text-color, white);
   text-align: center;
   align-content: center;
-  margin: 10px;
+  margin: 5px;
+  min-width: clamp(20px, 2vw, 40px);
+  font-weight: 600;
+  padding: 5px;
+  border: 1px solid var(--card-text-color, transparent);
+}
+
+.cards-container .content-cards .carousel-container .card-name .property.prefix {
+  background-color: var(--main-color1);
+  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .cards-container .content-cards .carousel-container .card-name .name {
-  font-size: 10px;
-  align-content: center;
+  font-size: clamp(0.4rem, 0.9vw, 1rem);
   font-weight: 600;
+  margin-left: 5px;
+}
+
+.cards-container .content-cards .carousel-container .card-name .property.name {
+  font-size: clamp(0.4rem, 0.7vw, 0.8rem);
 }
 
 .cards-container .content-cards .carousel-container .card-name .image-card {
-  flex: 2;
   display: flex;
   justify-content: right;
+  margin: 10px;
+  align-items: center;
 }
 
 .cards-container .content-cards .carousel-container .card-name img {
-  width: 31px;
+  width: clamp(8px, 1.4vw, 36px);
   height: 27px;
-  margin: 10px;
-  align-content: center;
+  object-fit: contain;
 }
 
 .cards-container .content-cards .carousel-container .range {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
 }
 
-.cards-container .content-cards .types-filter {
+.range button {
+  width: clamp(16px, 2vw, 25px);
+  height: clamp(16px, 2vw, 25px);
+  border-radius: 50%;
+  background: var(--main-color1);
+  color: var(--main-color1);
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  padding: 0;
+  line-height: 1;
+  margin: 0 5px;
+  background: color-mix(in srgb, var(--main-color1, currentColor) 10%, transparent);
+  border: 1px solid var(--main-color1);
+}
+
+.cards-container .content-cards .types-filter.horizontal-filter {
   height: 40px;
   background-color: #e6e6e6;
   border-bottom-left-radius: var(--box-radius);
   border-bottom-right-radius: var(--box-radius);
   padding: 0 10px;
+  border-top: none;
+  background: color-mix(in srgb, var(--main-color1, currentColor) 10%, transparent);
+}
+
+.cards-container .content-cards .types-filter.vertical-filter {
+  flex: 0 1 auto;
+  min-width: 0;
+  background: color-mix(in srgb, var(--main-color1, currentColor) 10%, transparent);
+  padding: 0 clamp(0.3rem, 0.7vw, 1.2rem);
+}
+
+.cards-container .content-cards .types-filter.vertical-filter.vertical-filter-left {
+  border-top-left-radius: var(--box-radius);
+  border-bottom-left-radius: var(--box-radius);
+}
+
+.cards-container .content-cards .types-filter.vertical-filter.vertical-filter-right {
+  border-top-right-radius: var(--box-radius);
+  border-bottom-right-radius: var(--box-radius);
+}
+
+.cards-container .content-cards .types-filter.vertical-filter ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  margin-top: -15px;
 }
 
 .cards-container .content-cards .types-filter ul {
@@ -563,19 +922,77 @@ progress::-moz-progress-bar {
 }
 
 .cards-container .content-cards .types-filter ul li.type {
-  width: 12px;
-  height: 12px;
+  width: clamp(3px, 0.6vw, 12px);
+  height: clamp(3px, 0.6vw, 12px);
   cursor: pointer;
+  min-width: 0;
+  white-space: normal;
 }
 
 .cards-container .content-cards .types-filter ul li.type.active {
   border-radius: 50px;
 }
 
+.cards-container .content-cards .carousel-container .entity-card {
+  flex: 1 0 clamp(180px, 12vw, 300px);
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: white;
+  border-radius: var(--box-radius);
+  box-shadow: var(--shadow);
+  font-size: clamp(0.7rem, 0.6vw, 1.1rem);
+  transition: all 0.3s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 265 / 400;
+}
+
+.cards-container .content-cards .carousel-container .entity-card .card-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden; /* ← empêche le débordement */
+  margin-top: clamp(0.7rem, 0.6vw, 1.1rem);
+}
+
+.entity-card .entity-classes .hierarchy-btn,
+.entity-card .entity-classes .current {
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: clamp(2px, 0.3vw, 6px);
+  font-size: clamp(0.5rem, 0.5vw, 1.5rem);
+}
+
 .cards-container .content-cards .carousel-container .entity-card .entity-classes {
-  height: 230px;
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
+  padding: 0.5rem 0 0.5rem 1.3rem;
+}
+
+.cards-container .content-cards .carousel-container .entity-card h2 {
+  font-size: clamp(0.4rem, 0.5vw, 0.8rem);
+  text-align: center;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.entity-classes-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .cards-container .content-cards .carousel-container .entity-card .entity-classes .hierarchy {
@@ -583,18 +1000,29 @@ progress::-moz-progress-bar {
   flex-direction: column;
   gap: 0.25rem;
   padding: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.entity-classes,
+.property-classes {
+  font-size: clamp(0.6rem, 0.8vw, 0.9rem);
 }
 
 .cards-container .content-cards .carousel-container .entity-card .entity-classes .hierarchy-btn {
-  padding: 0.25rem 0.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   background: transparent;
   cursor: pointer;
   transition: background 0.2s;
-  font-size: 10px;
-  width: 100%;
-  margin: 5px 10px;
+  width: 95%;
+  font-size: clamp(0.5rem, 0.5vw, 0.85rem);
+  padding: clamp(2px, 0.4vw, 8px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 5px 5px 0 5px;
+  text-align: left;
 }
 
 .cards-container
@@ -607,22 +1035,246 @@ progress::-moz-progress-bar {
 }
 
 .cards-container .content-cards .carousel-container .entity-card .entity-classes .current {
-  padding: 0.5rem;
+  padding: clamp(2px, 0.5vw, 8px);
   font-weight: bold;
   text-align: center;
-  border: 2px solid var(--card-color, currentColor);
   border-radius: 4px;
-  font-size: 10px;
+  font-size: clamp(0.5rem, 0.5vw, 0.9rem);
   background: color-mix(in srgb, var(--card-color, currentColor) 10%, transparent);
+  box-sizing: border-box;
+  width: 95%;
+  margin: 5px 5px 0 5px;
+  border: 2px solid color-mix(in srgb, var(--card-text-color) 30%, var(--card-color));
+  text-align: left;
 }
 
-.cards-container .content-cards .carousel-container .entity-card .scope-note {
-  color: #e38700;
-  font-size: 8px;
-  padding: 20px;
+.cards-container .content-cards .property {
+  display: flex;
 }
 
-/* Footer */
+.cards-container .content-cards .carousel-container .property-card .property-classes,
+.cards-container .content-cards .carousel-container .property-card .property-classes .hierarchy-btn,
+.cards-container .content-cards .carousel-container .property-card .property-classes .current {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 2px 4px;
+  overflow-wrap: break-word;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.property-classes .current,
+.property-classes .hierarchy-btn {
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cards-container .content-cards .property-card {
+  width: 100%;
+  aspect-ratio: 265 / 186;
+  height: auto;
+  border-radius: 8px;
+  text-align: center;
+  font-size: clamp(0.6rem, 0.9vw, 1rem);
+  transition: all 0.3s;
+  box-shadow: var(--shadow);
+  background-color: white;
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  overflow: hidden;
+}
+
+.cards-container .content-cards .carousel-container .property-card h2 {
+  font-size: clamp(0.4rem, 0.5vw, 0.8rem);
+}
+
+.cards-container .content-cards .carousel-container .property-card .property-classes {
+  height: 120px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0.5rem 0 0.5rem 1.3rem;
+  margin: 0;
+  min-width: 0;
+  font-size: clamp(0.5rem, 0.8vw, 0.9rem);
+}
+
+.cards-container .content-cards .carousel-container .property-card .card-content {
+  min-height: 0; /* ← clé du problème dans un flex container */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cards-container .content-cards .carousel-container .property-card.wrong {
+  background-color: #e6e6e6;
+  flex: 1 1 clamp(140px, 10vw, 211px);
+  box-sizing: border-box;
+}
+
+.cards-container .content-cards .carousel-container .property-card .vertical-button {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: clamp(20px, 2vw, 30px);
+  flex-shrink: 1;
+  max-width: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: clamp(2px, 0.8vw, 6px);
+  font-size: clamp(0.35rem, 0.6vw, 0.7rem);
+  background-color: color-mix(in srgb, var(--card-color, currentColor) 10%, transparent);
+}
+
+.cards-container .content-cards .carousel-container .property-card .vertical-button span {
+  color: #ffcf87;
+  text-transform: uppercase;
+  padding-top: 3px;
+  font-size: clamp(0.2rem, 0.6vw, 0.7rem);
+}
+
+.cards-container .content-cards .carousel-container .property-card .vertical-button p {
+  color: var(--black);
+  font-size: clamp(0.35rem, 0.8vw, 0.8rem);
+  height: 100%;
+  background: var(color-mix(in srgb, var(--card-color, currentColor) 50%, transparent));
+  padding: 10px 5px;
+  margin-left: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cards-container
+  .content-cards
+  .carousel-container
+  .property-card
+  .vertical-button.vertical-left::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 7px;
+  border-radius: 4px 0 0 4px;
+  background: var(
+    --card-gradient,
+    color-mix(in srgb, var(--card-color, currentColor) 100%, transparent)
+  );
+}
+
+.cards-container .content-cards .carousel-container .property-card .vertical-button.vertical-right {
+  writing-mode: sideways-lr;
+  padding: 0;
+}
+
+.cards-container
+  .content-cards
+  .carousel-container
+  .property-card
+  .vertical-button.vertical-right
+  p {
+  margin-right: 25px;
+}
+
+.cards-container
+  .content-cards
+  .carousel-container
+  .property-card
+  .vertical-button.vertical-right
+  span {
+  color: #ffcf87;
+  text-transform: uppercase;
+}
+
+.cards-container
+  .content-cards
+  .carousel-container
+  .property-card
+  .vertical-button.vertical-right::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 7px;
+  border-radius: 0 4px 4px 0;
+  background: var(
+    --card-gradient,
+    color-mix(in srgb, var(--card-color, currentColor) 100%, transparent)
+  );
+}
+
+.cards-container .content-cards .carousel-container .property-card .property-classes .hierarchy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cards-container
+  .content-cards
+  .carousel-container
+  .property-card
+  .property-classes
+  .hierarchy-btn {
+  padding: clamp(2px, 0.3vw, 5px);
+  font-size: clamp(0.3rem, 0.5vw, 0.7rem);
+  border-radius: 4px;
+  /* border: 1px solid rgba(0, 0, 0, 0.2); */
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: 100%;
+  margin: clamp(3px, 0.5vw, 5px) 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cards-container
+  .content-cards
+  .carousel-container
+  .property-card
+  .property-classes
+  .hierarchy-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.cards-container .content-cards .carousel-container .property-card .property-classes .current {
+  padding: clamp(2px, 0.4vw, 5px);
+  font-size: clamp(0.35rem, 0.5vw, 0.6rem);
+  font-weight: bold;
+  text-align: center;
+  border: 2px solid var(--main-color1);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--main-color1) 10%, transparent);
+  text-align: left;
+}
+
+.cards-container .content-cards .carousel-container .property .types-filter ul.vertical-filter {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+/* ===================== FOOTER ===================== */
 
 .footer {
   display: flex;
@@ -646,10 +1298,13 @@ progress::-moz-progress-bar {
   color: var(--main-color1);
 }
 
-/* Chrome, Safari, Edge */
+/* ===================== SCROLLBAR ===================== */
+
 .my-scroll {
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: #e4e4e4 #ffffff; /* Firefox: thumb color / track color */
+  scrollbar-width: thin;
+  scrollbar-color: #e4e4e4 #ffffff;
+  right: 10px;
+  position: relative;
 }
 
 .my-scroll::-webkit-scrollbar {

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Position } from '@/types/card/cardInfo'
+import { switchCard } from '@/utils/switch-card'
 import { computed } from 'vue'
 
 const props = defineProps<{
@@ -13,22 +14,18 @@ const props = defineProps<{
     emiddle: { about: '' }
     eright: { about: '' }
   }
-  dataCards: Array<{ about: string }>
+  entityDataCards: Array<{ about: string }>
 }>()
 
 const emit = defineEmits<{
   'update:cardInfo': [value: typeof props.cardInfo]
 }>()
 
-const switchCard = (aboutValue: string) => {
-  const newCard = props.dataCards.find((c) => c.about === aboutValue)
+const switchEntityCard = (aboutValue: string) => {
+  const updated = switchCard(aboutValue, props.position, props.entityDataCards, props.cardInfo)
 
-  if (newCard) {
-    const updatedCardInfo = {
-      ...props.cardInfo,
-      [props.position]: newCard,
-    }
-    emit('update:cardInfo', updatedCardInfo)
+  if (updated) {
+    emit('update:cardInfo', updated)
   }
 }
 
@@ -37,20 +34,28 @@ const superClasses = computed(() => props.superSubClasses.superClassOf.value[pro
 </script>
 
 <template>
-  <div class="entity-classes my-scroll">
-    <button v-for="sub in subClasses" :key="sub" @click="switchCard(sub)" class="hierarchy-btn sub">
-      ↑ {{ sub }}
-    </button>
+  <div class="entity-classes-wrapper">
+    <h2>SubClasses & SuperClasses</h2>
+    <div class="entity-classes my-scroll">
+      <button
+        v-for="sub in subClasses"
+        :key="sub"
+        @click="switchEntityCard(sub)"
+        class="hierarchy-btn sub"
+      >
+        ↑ {{ sub }}
+      </button>
 
-    <div class="current">{{ cardInfo[position as Position].about }}</div>
+      <div class="current">{{ cardInfo[position as Position].about }}</div>
 
-    <button
-      v-for="sup in superClasses"
-      :key="sup"
-      @click="switchCard(sup)"
-      class="hierarchy-btn super"
-    >
-      ↓ {{ sup }}
-    </button>
+      <button
+        v-for="sup in superClasses"
+        :key="sup"
+        @click="switchEntityCard(sup)"
+        class="hierarchy-btn super"
+      >
+        ↓ {{ sup }}
+      </button>
+    </div>
   </div>
 </template>

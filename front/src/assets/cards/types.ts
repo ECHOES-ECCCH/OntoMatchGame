@@ -1,20 +1,8 @@
-export type Branch =
-  | 'entity'
-  | 'conceptual'
-  | 'actor'
-  | 'place'
-  | 'time-span'
-  | 'temporal'
-  | 'physical'
-  | 'appellation'
-  | 'type'
-  | 'spacetime-volume'
-  | 'dimension'
-  | 'primitive'
+import type { BranchName } from '@/types/card/branch'
 
 export interface OntoType {
   id: string
-  branch: Branch[]
+  branch: BranchName[]
 }
 
 export const types: OntoType[] = [
@@ -35,6 +23,7 @@ export const types: OntoType[] = [
   { id: 'E15', branch: ['temporal'] },
   { id: 'E16', branch: ['temporal'] },
   { id: 'E17', branch: ['temporal'] },
+
   { id: 'E18', branch: ['physical'] },
   { id: 'E19', branch: ['physical'] },
   { id: 'E20', branch: ['physical'] },
@@ -44,6 +33,7 @@ export const types: OntoType[] = [
   { id: 'E25', branch: ['physical'] },
   { id: 'E26', branch: ['physical'] },
   { id: 'E27', branch: ['place', 'physical'] },
+
   { id: 'E28', branch: ['conceptual'] },
   { id: 'E29', branch: ['conceptual'] },
   { id: 'E30', branch: ['conceptual'] },
@@ -54,20 +44,27 @@ export const types: OntoType[] = [
   { id: 'E35', branch: ['conceptual', 'appellation'] },
   { id: 'E36', branch: ['conceptual'] },
   { id: 'E37', branch: ['conceptual'] },
+
   { id: 'E39', branch: ['actor'] },
+
   { id: 'E41', branch: ['appellation'] },
   { id: 'E42', branch: ['appellation'] },
+
   { id: 'E52', branch: ['time-span'] },
   { id: 'E53', branch: ['place'] },
+
   { id: 'E54', branch: ['dimension'] },
+
   { id: 'E55', branch: ['type'] },
   { id: 'E56', branch: ['type'] },
   { id: 'E57', branch: ['type'] },
   { id: 'E58', branch: ['type'] },
+
   { id: 'E59', branch: ['primitive'] },
   { id: 'E60', branch: ['primitive'] },
   { id: 'E61', branch: ['appellation', 'primitive'] },
   { id: 'E62', branch: ['primitive'] },
+
   { id: 'E63', branch: ['temporal'] },
   { id: 'E64', branch: ['temporal'] },
   { id: 'E65', branch: ['temporal'] },
@@ -75,13 +72,19 @@ export const types: OntoType[] = [
   { id: 'E67', branch: ['temporal'] },
   { id: 'E68', branch: ['temporal'] },
   { id: 'E69', branch: ['temporal'] },
+
   { id: 'E70', branch: ['physical', 'conceptual'] },
   { id: 'E71', branch: ['physical', 'conceptual'] },
   { id: 'E72', branch: ['physical', 'conceptual'] },
+
   { id: 'E73', branch: ['conceptual'] },
+
   { id: 'E74', branch: ['actor'] },
+
   { id: 'E77', branch: ['actor', 'physical', 'conceptual'] },
+
   { id: 'E78', branch: ['physical'] },
+
   { id: 'E79', branch: ['temporal'] },
   { id: 'E80', branch: ['temporal'] },
   { id: 'E81', branch: ['temporal'] },
@@ -89,16 +92,23 @@ export const types: OntoType[] = [
   { id: 'E85', branch: ['temporal'] },
   { id: 'E86', branch: ['temporal'] },
   { id: 'E87', branch: ['temporal'] },
+
   { id: 'E89', branch: ['conceptual'] },
   { id: 'E90', branch: ['conceptual'] },
+
   { id: 'E92', branch: ['spacetime-volume'] },
   { id: 'E93', branch: ['spacetime-volume'] },
+
   { id: 'E94', branch: ['appellation', 'primitive'] },
   { id: 'E95', branch: ['appellation', 'primitive'] },
+
   { id: 'E96', branch: ['temporal'] },
+
   { id: 'E97', branch: ['dimension'] },
+
   { id: 'E98', branch: ['type'] },
   { id: 'E99', branch: ['type'] },
+
   { id: 'S1', branch: ['temporal'] },
   { id: 'S2', branch: ['temporal'] },
   { id: 'S3', branch: ['temporal'] },
@@ -107,21 +117,27 @@ export const types: OntoType[] = [
   { id: 'S6', branch: ['temporal'] },
   { id: 'S7', branch: ['temporal'] },
   { id: 'S8', branch: ['temporal'] },
+
   { id: 'S9', branch: ['type'] },
+
   { id: 'S10', branch: ['physical'] },
   { id: 'S11', branch: ['physical'] },
   { id: 'S12', branch: ['physical'] },
   { id: 'S13', branch: ['physical'] },
   { id: 'S14', branch: ['physical'] },
+
   { id: 'S15', branch: ['temporal', 'physical'] },
+
   { id: 'S17', branch: ['temporal'] },
   { id: 'S18', branch: ['temporal'] },
   { id: 'S19', branch: ['temporal'] },
+
   { id: 'S20', branch: ['place', 'physical'] },
   { id: 'S21', branch: ['temporal'] },
   { id: 'S22', branch: ['place', 'physical'] },
   { id: 'S23', branch: ['temporal'] },
   { id: 'S24', branch: ['temporal'] },
+
   { id: 'A1', branch: ['temporal'] },
   { id: 'A2', branch: ['place', 'physical'] },
   { id: 'A3', branch: ['place', 'physical'] },
@@ -132,6 +148,7 @@ export const types: OntoType[] = [
   { id: 'A8', branch: ['place', 'physical'] },
   { id: 'A9', branch: ['temporal'] },
   { id: 'A10', branch: ['place', 'physical'] },
+
   { id: 'B1', branch: ['physical', 'spacetime-volume'] },
   { id: 'B2', branch: ['physical', 'spacetime-volume'] },
   { id: 'B3', branch: ['physical', 'spacetime-volume'] },

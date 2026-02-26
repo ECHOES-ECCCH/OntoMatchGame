@@ -1,26 +1,40 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import type { ChapterData } from '@/types/chapter'
+import type { ChapterData, ChapterStats } from '@/types/chapter'
 
 const props = defineProps<{
   chapterData: ChapterData | null
+  chapterStats: ChapterStats
+  showInstruction: boolean
 }>()
 
-const showInstruction = ref(true)
+const emit = defineEmits<{
+  (e: 'update:showInstruction', value: boolean): void
+}>()
 
 const statement = computed(() => {
   const statement = props.chapterData?.Statement
   if (!statement) return { before: '', after: '' }
 
-  const marker = 'Pour ce défi'
-  const index = statement.indexOf(marker)
+  const markers = ['Pour ce défi', 'For this challenge', 'Find classes and properties']
 
-  return index === -1
-    ? { before: statement.trim(), after: '' }
-    : {
-        before: statement.slice(0, index).trim(),
-        after: statement.slice(index).trim(),
-      }
+  let firstIndex = -1
+
+  markers.forEach((marker) => {
+    const index = statement.indexOf(marker)
+    if (index !== -1 && (firstIndex === -1 || index < firstIndex)) {
+      firstIndex = index
+    }
+  })
+
+  if (firstIndex === -1) {
+    return { before: statement.trim(), after: '' }
+  }
+
+  return {
+    before: statement.slice(0, firstIndex).trim(),
+    after: statement.slice(firstIndex).trim(),
+  }
 })
 
 const firstText = computed(() => statement.value.before)
@@ -28,17 +42,21 @@ const secondText = computed(() => statement.value.after)
 </script>
 
 <template>
-  <!-- <div
+  <div
     class="challenge-instructions"
     :class="showInstruction ? 'challenge-instructions' : 'hide-challenge-instructions'"
   >
-    <div class="instructions-title" @click="showInstruction = !showInstruction">
-      Instruction et aides ▼
-    </div>
     <div v-if="showInstruction" class="instructions">
-      <p>{{ chapterData?.Title }}</p>
+      <div class="chapter-progress">
+        <h3>{{ chapterData?.Title }}</h3>
+        <span>{{ chapterStats.lastChallengeId }} / {{ chapterStats.maxChallengeCount }}</span>
+      </div>
       <p>{{ chapterData?.Explanation }}</p>
-      <p>{{ firstText }} {{ secondText }}</p>
+      <p>{{ firstText }}</p>
+      <p>{{ secondText }}</p>
     </div>
-  </div> -->
+    <div class="instructions-title" @click="emit('update:showInstruction', !props.showInstruction)">
+      <
+    </div>
+  </div>
 </template>
