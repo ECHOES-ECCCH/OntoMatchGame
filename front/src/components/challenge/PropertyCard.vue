@@ -87,13 +87,11 @@ const handlePropertyColor = (propertyPosition: Position, DR: 'domain' | 'range')
 const isNoCard = computed(() => {
   return props.totalCards.cards === 'no card'
 })
-
-console.log(props.totalCards)
 </script>
 
 <template>
   <!-- EMPTY -->
-  <div v-if="!totalCards.cards?.length" class="carousel-container">
+  <div v-if="!totalCards.cards?.length" class="empty-property carousel-container">
     <EmptyCardProperty />
   </div>
 
@@ -103,7 +101,7 @@ console.log(props.totalCards)
       <BranchesFilter
         :model-value="branches[`${totalCards.position}_domain`]"
         @update:model-value="
-          $emit('update:branches', { position: totalCards.position as Position, value: $event })
+          $emit('update:branches', { position: `${totalCards.position}_domain`, value: $event })
         "
         orientation="vertical-left"
       />
@@ -113,7 +111,7 @@ console.log(props.totalCards)
       <BranchesFilter
         :model-value="branches[`${totalCards.position}_range`]"
         @update:model-value="
-          $emit('update:branches', { position: totalCards.position as Position, value: $event })
+          $emit('update:branches', { position: `${totalCards.position}_range`, value: $event })
         "
         orientation="vertical-right"
       />
@@ -182,8 +180,14 @@ console.log(props.totalCards)
               :superSubProperties="superSubProperties"
               :propertyDataCards="propertyDataCards"
             />
-
-            <button @click="showScopeNote = true" class="scope-note">Scope Note</button>
+            <div class="scope-note">
+              <button
+                v-if="cardInfo[totalCards.position as Position].comment"
+                @click="showScopeNote = true"
+              >
+                Scope Note
+              </button>
+            </div>
           </template>
         </div>
 

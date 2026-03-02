@@ -1,0 +1,20 @@
+[
+ {
+   "Id": "I1",
+   "Title": "George Bruseker",
+   "Label": "https://orcid.org/0000-0001-7519-1970",
+   "ImageName": "GeorgeBruseker.jpg"
+ },
+ {
+   "Id": "I2",
+   "Title": "Anaïs Guillem",
+   "Label": "https://orcid.org/0000-0002-1473-7594",
+   "ImageName": "AnaisGuillem.jpg"
+ },
+ {
+   "Id": "I3",
+   "Title": "Olivier Marlet",
+   "Label": "https://orcid.org/0000-0001-9422-1418",
+   "ImageName": "OlivierMarlet.jpg"
+ }
+]

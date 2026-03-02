@@ -114,6 +114,7 @@
       "boardscene-scene-branchmistake-text": "Erreur de branche",
       "boardscene-scene-gethint-text": "Indice",
       "boardscene-scene-getanswer-text": "Solution",
+      "boardscene-scene-insctruction-text": "Consigne",
       "boardscene-scene-filter-entity-text": "Aucune carte ne correspond à la sélection de couleur. Essayez-en une autre"
     },
 

@@ -66,7 +66,7 @@ const isNoCard = computed(() => {
 </script>
 
 <template>
-  <div v-if="isEmpty" class="carousel-container">
+  <div v-if="isEmpty" class="empty carousel-container">
     <EmptyCard />
   </div>
   <div v-else-if="isNoCard">
@@ -119,8 +119,14 @@ const isNoCard = computed(() => {
             :superSubClasses="superSubClasses"
             :entityDataCards="entityDataCards"
           />
-
-          <button @click="showScopeNote = !showScopeNote" class="scope-note">Scope Note</button>
+          <div class="scope-note">
+            <button
+              v-if="cardInfo[totalCards.position as Position].comment"
+              @click="showScopeNote = !showScopeNote"
+            >
+              Scope Note
+            </button>
+          </div>
         </div>
       </div>
     </div>
