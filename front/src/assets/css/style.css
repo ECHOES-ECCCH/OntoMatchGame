@@ -503,8 +503,8 @@ progress::-moz-progress-bar {
 
 button.detail {
   background-color: var(--main-color3);
-  width: clamp(20px, 2vw, 50px);
-  height: clamp(20px, 2vw, 50px);
+  width: clamp(20px, 3vw, 50px);
+  height: clamp(20px, 3vw, 50px);
   border-radius: 50px;
   align-items: center;
   display: flex;
@@ -519,7 +519,7 @@ button.detail {
 .hide-instructions-title .detail:hover,
 .hide-instructions-title .hint:hover,
 .hide-instructions-title .solution:hover {
-  opacity: 0.8;
+  opacity: 0.7;
 }
 
 .hide-instructions-title button {
@@ -683,7 +683,10 @@ button.solution {
 }
 
 .cards-container .content-cards .empty.carousel-container {
+  flex: 1 0 clamp(120px, 12vw, 300px);
   align-self: self-start;
+  display: flex;
+  justify-content: center;
 }
 
 .cards-container .content-cards .carousel-container:has(.entity-card),
@@ -1403,6 +1406,10 @@ button.solution {
   border-radius: 4px;
   background: color-mix(in srgb, var(--main-color1) 10%, transparent);
   text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 
 .cards-container .content-cards .carousel-container .property .types-filter ul.vertical-filter {
