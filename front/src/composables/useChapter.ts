@@ -8,12 +8,17 @@ import type { ChapterData } from '@/types/chapter'
 const scenarioCatalog = scenarioCatalogRaw as ScenarioCatalog
 
 const chapters = import.meta.glob('@/assets/json/**/chapter/*/*.json')
+const instances = import.meta.glob('@/assets/json/**/chapter/*/Instances/Instances.json')
+
 const isLoadingChapter = ref(false)
 
 export function useChapterData() {
   const route = useRoute()
 
   const chapterData = ref<ChapterData | null>(null)
+  const chapterInstances = ref(null)
+  const imgInstanceURL = ref(null)
+
   const error = ref<string | null>(null)
 
   /**
@@ -73,10 +78,18 @@ export function useChapterData() {
     const scenarioKey = scenario.split(' ')[0] || ''
 
     const key = `/src/assets/json/${info.lang}/chapter/${scenarioKey}/${info.filename}.json`
+    const keyInstances = `/src/assets/json/${info.lang}/chapter/${scenarioKey}/Instances/Instances.json`
+    imgInstanceURL.value = `/src/assets/json/${info.lang}/chapter/${scenarioKey}/Instances/Images/`
 
     if (!chapters[key]) {
       error.value = `Chapitre introuvable : ${key}`
       chapterData.value = null
+      return
+    }
+
+    if (!instances[keyInstances]) {
+      error.value = `Instances introuvables : ${key}`
+      chapterInstances.value = null
       return
     }
 
@@ -85,6 +98,10 @@ export function useChapterData() {
     try {
       const module = await chapters[key]()
       chapterData.value = module.default[challengeId] ?? null
+
+      const moduleInstances = await instances[keyInstances]()
+      chapterInstances.value = moduleInstances.default ?? null
+
       error.value = null
     } catch (err) {
       if (err instanceof Error) {
@@ -116,6 +133,8 @@ export function useChapterData() {
 
   return {
     chapterData,
+    chapterInstances,
+    imgInstanceURL,
     error,
     chapterStats,
     isLoadingChapter,

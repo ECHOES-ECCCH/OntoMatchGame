@@ -1,10 +1,10 @@
 import { computed, type Ref } from 'vue'
 import type { ChapterData } from '@/types/chapter'
-import type { CardInfo, Position } from '@/types/card/cardInfo'
+import type { CardInfo, CardPropertyInfo, Position } from '@/types/card/cardInfo'
 type EntityPositionKeys = 'ELeftInit' | 'EMiddleInit' | 'ERightInit'
 type PropertyPositionKeys = 'PLeftInit' | 'PRightInit'
 
-export function useSelectedCards(
+export function useEntityCards(
   chapterData: Ref<ChapterData | null>,
   entityDataCards: CardInfo[],
   branches: Record<Position, string[]>,
@@ -18,6 +18,7 @@ export function useSelectedCards(
        */
       const positionKey = pos.replace('Init', '').toLowerCase() as Position
       const ids = chapter[pos]?.split(',').map((id: string) => id.trim()) ?? []
+
       const allEntityCards = ids
         .flatMap((id: string) =>
           id === '*' ? entityDataCards : entityDataCards.find((card: CardInfo) => card.id === id),
@@ -106,17 +107,37 @@ export function usePropertyCards(
   })
 }
 
+export function useInstancesCards(chapterData: Ref<ChapterData | null>, chapterInstances) {
+  return computed(() => {
+    const chapter = chapterData.value
+    const instances = chapterInstances.value
+
+    if (!chapter || !instances) return []
+
+    return ['ILeftInit', 'IMiddleInit', 'IRightInit'].map((pos) => {
+      const positionKey = pos.replace('Init', '').toLowerCase() as Position
+      const id = chapter[pos]
+
+      if (!id) return { position: positionKey, card: null }
+
+      const matchedCard = instances.find((inst) => inst.Id === id)
+
+      return { position: positionKey, card: matchedCard || null }
+    })
+  })
+}
+
 export function useBoardCards(
   chapterData: Ref<ChapterData | null>,
   entityDataCards: CardInfo[],
-  propertyDataCards: CardInfo[],
+  propertyDataCards: CardPropertyInfo[],
   branches: Record<Position, string[]>,
 ) {
-  const selectedCards = useSelectedCards(chapterData, entityDataCards, branches)
+  const entityCards = useEntityCards(chapterData, entityDataCards, branches)
   const propertyCards = usePropertyCards(chapterData, propertyDataCards, entityDataCards, branches)
 
   const boardCards = computed(() => {
-    const entities = selectedCards.value
+    const entities = entityCards.value
     const properties = propertyCards.value
 
     if (!entities.length) return []
@@ -132,7 +153,7 @@ export function useBoardCards(
 
   return {
     boardCards,
-    selectedCards,
+    entityCards,
     propertyCards,
   }
 }

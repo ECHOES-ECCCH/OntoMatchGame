@@ -3,8 +3,9 @@ import { onMounted } from 'vue'
 import { useSelectedXML } from '@/stores/cards.store'
 import PagesLoader from '../loader/PagesLoader.vue'
 import MainCards from './MainCard.vue'
+import InstancesCards from './InstancesCards.vue'
 
-const props = defineProps<{
+defineProps<{
   showInstruction: boolean
 }>()
 
@@ -18,5 +19,6 @@ onMounted(() => {
   <PagesLoader v-if="isDataCardsLoading" />
   <div v-else :class="showInstruction ? 'cards-container' : 'cards-container expand'">
     <MainCards :entityDataCards="entityDataCards" :propertyDataCards="propertyDataCards" />
+    <InstancesCards />
   </div>
 </template>

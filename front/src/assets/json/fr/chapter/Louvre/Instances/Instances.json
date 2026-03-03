@@ -1,0 +1,338 @@
+[
+ {
+   "Id": "I1",
+   "Title": "La Joconde",
+   "Label": "https://collections.louvre.fr/en/ark:/53355/cl010062370",
+   "ImageName": "01.jpg"
+ },
+ {
+   "Id": "I2",
+   "Title": "\"La Joconde\"",
+   "Label": "",
+   "ImageName": "02.jpg"
+ },
+ {
+   "Id": "I3",
+   "Title": "Étiquette au dos du tableau",
+   "Label": "",
+   "ImageName": "03.jpg"
+ },
+ {
+   "Id": "I4",
+   "Title": "\"INV 779\"",
+   "Label": "",
+   "ImageName": "04.jpg"
+ },
+ {
+   "Id": "I5",
+   "Title": "Identification",
+   "Label": "",
+   "ImageName": "05.jpg"
+ },
+ {
+   "Id": "I6",
+   "Title": "Frédéric Villot",
+   "Label": "http://viaf.org/viaf/24733526",
+   "ImageName": "06.jpg"
+ },
+ {
+   "Id": "I7",
+   "Title": "Numéro d'inventaire",
+   "Label": "",
+   "ImageName": "07.jpg"
+ },
+ {
+   "Id": "I8",
+   "Title": "1854",
+   "Label": "",
+   "ImageName": "08.jpg"
+ },
+ {
+   "Id": "I9",
+   "Title": "Peinture à l'huile",
+   "Label": "http://vocab.getty.edu/page/aat/300033799",
+   "ImageName": "09.jpg"
+ },
+ {
+   "Id": "I10",
+   "Title": "Tableau",
+   "Label": "http://vocab.getty.edu/page/aat/300033618",
+   "ImageName": "10.jpg"
+ },
+ {
+   "Id": "I11",
+   "Title": "Lisa Gherardini",
+   "Label": "https://fr.wikipedia.org/wiki/Lisa_Gherardini",
+   "ImageName": "11.jpg"
+ },
+ {
+   "Id": "I12",
+   "Title": "Léonard de Vinci",
+   "Label": "http://viaf.org/viaf/24604287",
+   "ImageName": "12.jpg"
+ },
+ {
+   "Id": "I13",
+   "Title": "Mesure de la Joconde",
+   "Label": "",
+   "ImageName": "13.jpg"
+ },
+ {
+   "Id": "I14",
+   "Title": "Dimension observée",
+   "Label": "",
+   "ImageName": "14.jpg"
+ },
+ {
+   "Id": "I15",
+   "Title": "0,794",
+   "Label": "",
+   "ImageName": "15.jpg"
+ },
+ {
+   "Id": "I16",
+   "Title": "mètre",
+   "Label": "",
+   "ImageName": "16.jpg"
+ },
+ {
+   "Id": "I17",
+   "Title": "Hauteur",
+   "Label": "",
+   "ImageName": "17.jpg"
+ },
+ {
+   "Id": "I18",
+   "Title": "Bois (peuplier)",
+   "Label": "https://ark.frantiq.fr/ark:/26678/pcrt4OanARQmgf",
+   "ImageName": "18.jpg"
+ },
+ {
+   "Id": "I19",
+   "Title": "Observation de l'état",
+   "Label": "",
+   "ImageName": "19.jpg"
+ },
+ {
+   "Id": "I20",
+   "Title": "État de la Joconde",
+   "Label": "https://fr.wikipedia.org/wiki/Vol_de_La_Joconde",
+   "ImageName": "20.jpg"
+ },
+ {
+   "Id": "I21",
+   "Title": "Volée",
+   "Label": "https://ark.frantiq.fr/ark:/26678/pcrtIL90nOvWjf",
+   "ImageName": "21.jpg"
+ },
+ {
+   "Id": "I22",
+   "Title": "1911",
+   "Label": "",
+   "ImageName": "22.jpg"
+ },
+ {
+   "Id": "I23",
+   "Title": "Moutardier d'un ensemble",
+   "Label": "https://collections.louvre.fr/en/ark:/53355/cl010208867",
+   "ImageName": "23.jpg"
+ },
+ {
+   "Id": "I24",
+   "Title": "Moutardier et salières",
+   "Label": "https://collections.louvre.fr/en/ark:/53355/cl010110053",
+   "ImageName": "24.jpg"
+ },
+ {
+   "Id": "I25",
+   "Title": "Vaisselle",
+   "Label": "https://ark.frantiq.fr/ark:/26678/pcrtM4tR8ZGTvw",
+   "ImageName": "25.jpg"
+ },
+ {
+   "Id": "I26",
+   "Title": "Moutardier",
+   "Label": "https://ark.frantiq.fr/ark:/26678/pcrtUS3NLWWe0U",
+   "ImageName": "26.jpg"
+ },
+ {
+   "Id": "I27",
+   "Title": "Réalisation de la Joconde",
+   "Label": "",
+   "ImageName": "27.jpg"
+ },
+ {
+   "Id": "I28",
+   "Title": "Réalisation du dessin de Raphaël",
+   "Label": "https://collections.louvre.fr/en/ark:/53355/cl020101111",
+   "ImageName": "28.jpg"
+ },
+ {
+   "Id": "I29",
+   "Title": "Florence",
+   "Label": "https://www.geonames.org/3176959",
+   "ImageName": "29.jpg"
+ },
+ {
+   "Id": "I30",
+   "Title": "Peinture à l'huile",
+   "Label": "http://vocab.getty.edu/page/aat/300015050",
+   "ImageName": "30.jpg"
+ },
+ {
+   "Id": "I31",
+   "Title": "1503 / 1519",
+   "Label": "(1er quart du XVIe siècle)",
+   "ImageName": "31.jpg"
+ },
+ {
+   "Id": "I32",
+   "Title": "Renaissance",
+   "Label": "http://n2t.net/ark:/99152/p0qhb66pk6z",
+   "ImageName": "32.jpg"
+ },
+ {
+   "Id": "I33",
+   "Title": "Le Louvre, Niv.1, aile Denon, Salle 711",
+   "Label": "(emplacement d'exposition)",
+   "ImageName": "33.jpg"
+ },
+ {
+   "Id": "I34",
+   "Title": "Emplacement en réserve",
+   "Label": "",
+   "ImageName": "34.jpg"
+ },
+ {
+   "Id": "I35",
+   "Title": "Monna Lisa dévoilée",
+   "Label": "(P. Cotte, 2019)",
+   "ImageName": "35.jpg"
+ },
+ {
+   "Id": "I36",
+   "Title": "\"Monna Lisa dévoilée\"",
+   "Label": "",
+   "ImageName": "36.jpg"
+ },
+ {
+   "Id": "I37",
+   "Title": "Création du livre de P. Cotte",
+   "Label": "",
+   "ImageName": "37.jpg"
+ },
+ {
+   "Id": "I38",
+   "Title": "2019",
+   "Label": "(publication du livre)",
+   "ImageName": "38.jpg"
+ },
+ {
+   "Id": "I39",
+   "Title": "Paris",
+   "Label": "http://www.geonames.org/2988507",
+   "ImageName": "39.jpg"
+ },
+ {
+   "Id": "I40",
+   "Title": "Pascal Cotte",
+   "Label": "http://viaf.org/viaf/166323047",
+   "ImageName": "40.jpg"
+ },
+ {
+   "Id": "I41",
+   "Title": "Notice n°010062370",
+   "Label": "",
+   "ImageName": "41.jpg"
+ },
+ {
+   "Id": "I42",
+   "Title": "\"010062370\"",
+   "Label": "",
+   "ImageName": "42.jpg"
+ },
+ {
+   "Id": "I43",
+   "Title": "Droits sur la Joconde",
+   "Label": "",
+   "ImageName": "43.jpg"
+ },
+ {
+   "Id": "I44",
+   "Title": "Le Louvre",
+   "Label": "https://www.louvre.fr/",
+   "ImageName": "44.jpg"
+ },
+ {
+   "Id": "I45",
+   "Title": "Transfère de responsabilité",
+   "Label": "",
+   "ImageName": "45.jpg"
+ },
+ {
+   "Id": "I46",
+   "Title": "Droit de propriété",
+   "Label": "",
+   "ImageName": "46.jpg"
+ },
+ {
+   "Id": "I47",
+   "Title": "Droit de dépôt",
+   "Label": "",
+   "ImageName": "47.jpg"
+ },
+ {
+   "Id": "I48",
+   "Title": "National Gallery of Art (Washington)",
+   "Label": "https://www.nga.gov/",
+   "ImageName": "48.jpg"
+ },
+ {
+   "Id": "I49",
+   "Title": "décembre 1962",
+   "Label": "",
+   "ImageName": "49.jpg"
+ },
+ {
+   "Id": "I50",
+   "Title": "Conservation-Restauration",
+   "Label": "https://fr.wikipedia.org/wiki/Conservation-restauration_de_peinture",
+   "ImageName": "50.jpg"
+ },
+ {
+   "Id": "I51",
+   "Title": "Cinzia Pasquali",
+   "Label": "http://viaf.org/viaf/281946122",
+   "ImageName": "51.jpg"
+ },
+ {
+   "Id": "I52",
+   "Title": "Retouches",
+   "Label": "https://fr.wikipedia.org/wiki/Retouche_d%27image#Peinture",
+   "ImageName": "52.jpg"
+ },
+ {
+   "Id": "I53",
+   "Title": "Ateliers du Louvre",
+   "Label": "",
+   "ImageName": "53.jpg"
+ },
+ {
+   "Id": "I54",
+   "Title": "2016",
+   "Label": "",
+   "ImageName": "54.jpg"
+ },
+ {
+   "Id": "I55",
+   "Title": "Note d'Agostino Vespucci",
+   "Label": "(1503)",
+   "ImageName": "55.jpg"
+ },
+ {
+   "Id": "I56",
+   "Title": "\"Moutardier\"",
+   "Label": "",
+   "ImageName": "56.jpg"
+ }
+]
