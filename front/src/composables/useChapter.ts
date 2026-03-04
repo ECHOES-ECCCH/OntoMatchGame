@@ -116,7 +116,7 @@ export function useChapterData() {
   }
 
   watch(
-    [() => route.query.chapterName, () => route.query.scenario, lastChallengeId, chapterInfo],
+    [() => route?.query?.chapterName, () => route?.query?.scenario, lastChallengeId, chapterInfo],
     ([chapterName, scenarioValue, challengeId, info]) => {
       if (
         typeof chapterName !== 'string' ||
@@ -138,5 +138,6 @@ export function useChapterData() {
     error,
     chapterStats,
     isLoadingChapter,
+    chapterInfo,
   }
 }

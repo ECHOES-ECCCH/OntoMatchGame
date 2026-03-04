@@ -57,8 +57,8 @@ onMounted(() => {
             :to="{
               path: '/challenge',
               query: {
-                scenario: userHistory['scenarioName'],
-                chapterName: userHistory['chapterName'],
+                scenario: userHistory?.['scenarioName'],
+                chapterName: userHistory?.['chapterName'],
               },
             }"
             v-if="userHistory?.historyId"
@@ -73,8 +73,13 @@ onMounted(() => {
                   {{ userHistory?.scenarioName }} / {{ userHistory?.chapterName }} /
                   {{ userHistory?.challengeId }}
                 </p>
-                <progress :value="getChapterProgression(userHistory) || 0" max="100"></progress>
-                <span class="percent">{{ getChapterProgression(userHistory) || 0 }}% </span>
+                <progress
+                  :value="getChapterProgression(userHistory, userHistory?.scenarioName) || 0"
+                  max="100"
+                ></progress>
+                <span class="percent"
+                  >{{ getChapterProgression(userHistory, userHistory?.scenarioName) || 0 }}%
+                </span>
               </div>
               <div>
                 <button>
@@ -119,8 +124,8 @@ onMounted(() => {
         <li v-else class="menu-ranking no-session">
           {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-hallbutton-label') }}
         </li>
-        <li v-if="lastChallenge" class="menu-reset-game">
-          <button @click="handleModal(true)">
+        <li @click="handleModal(true)" v-if="lastChallenge" class="menu-reset-game">
+          <button>
             {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-reset-label') }}
           </button>
         </li>

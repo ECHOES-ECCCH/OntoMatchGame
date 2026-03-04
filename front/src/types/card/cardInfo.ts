@@ -43,3 +43,10 @@ export interface SelectedCardData {
   totalCards: number
   cards: CardInfo[] | 'no card'
 }
+
+export interface CardInstances {
+  Id: string
+  Title: string
+  Label: string
+  ImageName: string
+}

@@ -1,6 +1,6 @@
 import { computed, type Ref } from 'vue'
 import type { ChapterData } from '@/types/chapter'
-import type { CardInfo, CardPropertyInfo, Position } from '@/types/card/cardInfo'
+import type { CardInfo, CardInstances, CardPropertyInfo, Position } from '@/types/card/cardInfo'
 type EntityPositionKeys = 'ELeftInit' | 'EMiddleInit' | 'ERightInit'
 type PropertyPositionKeys = 'PLeftInit' | 'PRightInit'
 
@@ -107,7 +107,10 @@ export function usePropertyCards(
   })
 }
 
-export function useInstancesCards(chapterData: Ref<ChapterData | null>, chapterInstances) {
+export function useInstancesCards(
+  chapterData: Ref<ChapterData | null>,
+  chapterInstances: Ref<CardInstances | null>,
+) {
   return computed(() => {
     const chapter = chapterData.value
     const instances = chapterInstances.value
@@ -120,7 +123,7 @@ export function useInstancesCards(chapterData: Ref<ChapterData | null>, chapterI
 
       if (!id) return { position: positionKey, card: null }
 
-      const matchedCard = instances.find((inst) => inst.Id === id)
+      const matchedCard = instances.find((inst: CardInstances) => inst.Id === id)
 
       return { position: positionKey, card: matchedCard || null }
     })

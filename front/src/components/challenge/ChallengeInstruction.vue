@@ -12,14 +12,20 @@ const props = defineProps<{
   chapterData: ChapterData | null
   chapterStats: ChapterStats
   showInstruction: boolean
+  showExplanation: boolean
 }>()
 
 const emit = defineEmits<{
   (e: 'update:showInstruction', value: boolean): void
+  (e: 'update:showExplanation', value: boolean): void
 }>()
 
 const firstText = computed(() => splitStatement(props.chapterData?.Statement).after)
 const secondText = computed(() => splitStatement(props.chapterData?.Statement).after)
+
+const displaySolution = () => {
+  console.log('test')
+}
 </script>
 
 <template>
@@ -47,22 +53,18 @@ const secondText = computed(() => splitStatement(props.chapterData?.Statement).a
       </div>
     </div>
     <div class="instruction-help">
-      <button class="hint">
+      <button
+        v-if="chapterData?.Explanation"
+        @click="emit('update:showExplanation', !props.showExplanation)"
+        class="hint-window"
+      >
         <img title="hint" :src="hint" class="hint-icon" />
+        <span>{{ langStore.t('static-text.BoardScene.boardscene-scene-gethint-text') }}</span>
       </button>
-      <button class="solution">
+      <button class="solution-window">
         <img title="solution" :src="answer" class="solution-icon" />
+        <span>{{ langStore.t('static-text.BoardScene.boardscene-scene-getanswer-text') }}</span>
       </button>
-      <!-- <button>
-        <img title="hint" :src="hint" class="hint-icon" />{{
-          langStore.t('static-text.BoardScene.boardscene-scene-gethint-text')
-        }}
-      </button>
-      <button>
-        <img title="solution" :src="answer" class="solution-icon" />{{
-          langStore.t('static-text.BoardScene.boardscene-scene-getanswer-text')
-        }}
-      </button> -->
     </div>
   </div>
   <div v-else class="hide-instructions-title">
@@ -73,14 +75,18 @@ const secondText = computed(() => splitStatement(props.chapterData?.Statement).a
         class="info-icon"
       />
     </button>
-    <button class="hint">
+    <button
+      v-if="chapterData?.Explanation"
+      @click="emit('update:showExplanation', !props.showExplanation)"
+      class="hint"
+    >
       <img
         :title="langStore.t('static-text.BoardScene.boardscene-scene-gethint-text')"
         :src="hint"
         class="hint-icon"
       />
     </button>
-    <button class="solution">
+    <button @click="displaySolution" class="solution">
       <img
         :title="langStore.t('static-text.BoardScene.boardscene-scene-getanswer-text')"
         :src="answer"

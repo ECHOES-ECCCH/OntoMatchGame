@@ -12,6 +12,9 @@ import type {
 } from '@/types/card/cardInfo'
 import EntityCard from './EntityCard.vue'
 import PropertyCard from './PropertyCard.vue'
+import { useCardInfoStore } from '@/stores/cardInfo.store'
+import { storeToRefs } from 'pinia'
+const cardInfoStore = useCardInfoStore()
 
 const props = defineProps<{
   entityDataCards: CardInfo[]
@@ -30,13 +33,7 @@ const branches = reactive<Record<EntityPosition, string[]>>({
   pright_range: ['entity'],
 })
 
-const cardInfo = reactive<Record<Position, CardInfo>>({
-  eleft: { id: '', about: '', labels: {}, comment: '', subClasses: [], branch: null },
-  emiddle: { id: '', about: '', labels: {}, comment: '', subClasses: [], branch: null },
-  eright: { id: '', about: '', labels: {}, comment: '', subClasses: [], branch: null },
-  pleft: { id: '', about: '', labels: {}, comment: '', subClasses: [], branch: null },
-  pright: { id: '', about: '', labels: {}, comment: '', subClasses: [], branch: null },
-})
+const { cardInfo } = storeToRefs(cardInfoStore)
 
 // Utilisation de useBoardCards pour combiner entities et properties
 const { boardCards } = useBoardCards(
@@ -48,7 +45,7 @@ const { boardCards } = useBoardCards(
 
 // Utilisation de useCardNavigation pour gérer la navigation
 const { currentIndexes, updateCardInfo, handlePrevious, handleNext, handleSliderChange } =
-  useCardNavigation(boardCards, cardInfo)
+  useCardNavigation(boardCards, cardInfo.value) // ← .value ici
 
 // Watch pour mettre à jour les cardInfo quand boardCards change
 watch(
@@ -71,11 +68,11 @@ watch(
 )
 
 const handleCardInfoUpdate = (newCardInfo: CardPositionInfo) => {
-  cardInfo.eleft = { ...cardInfo.eleft, ...newCardInfo.eleft }
-  cardInfo.emiddle = { ...cardInfo.emiddle, ...newCardInfo.emiddle }
-  cardInfo.eright = { ...cardInfo.eright, ...newCardInfo.eright }
-  cardInfo.pleft = { ...cardInfo.pleft, ...newCardInfo.pleft }
-  cardInfo.pright = { ...cardInfo.pright, ...newCardInfo.pright }
+  cardInfoStore.cardInfo.eleft = { ...cardInfoStore.cardInfo.eleft, ...newCardInfo.eleft }
+  cardInfoStore.cardInfo.emiddle = { ...cardInfoStore.cardInfo.emiddle, ...newCardInfo.emiddle }
+  cardInfoStore.cardInfo.eright = { ...cardInfoStore.cardInfo.eright, ...newCardInfo.eright }
+  cardInfoStore.cardInfo.pleft = { ...cardInfoStore.cardInfo.pleft, ...newCardInfo.pleft }
+  cardInfoStore.cardInfo.pright = { ...cardInfoStore.cardInfo.pright, ...newCardInfo.pright }
 }
 
 const handleBranchesUpdate = ({ position, value }: { position: string; value: string[] }) => {

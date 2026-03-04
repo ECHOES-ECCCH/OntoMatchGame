@@ -410,6 +410,7 @@ progress::-moz-progress-bar {
 
 .challenge {
   padding-bottom: 60px;
+  position: relative;
 }
 
 .challenge .challenge-game {
@@ -526,9 +527,40 @@ button.detail {
   margin: 5px 20px;
 }
 
+button.hint-window span {
+  background-color: var(--main-color2);
+  color: white;
+  padding: 5px 10px;
+  border-radius: var(--box-radius);
+}
+
+button.solution-window span {
+  background-color: var(--main-color1);
+  color: white;
+  padding: 5px 10px;
+  border-radius: var(--box-radius);
+}
+
+button.hint-window .hint-icon {
+  background-color: var(--main-color2);
+  margin-left: 0;
+  padding: 5px;
+  border-radius: 50px;
+  margin-right: 5px;
+}
+
+button.solution-window .solution-icon {
+  background-color: var(--main-color1);
+  margin-left: 0;
+  padding: 5px;
+  border-radius: var(--box-radius);
+  margin-right: 5px;
+  border-radius: 50px;
+}
+
 button.hint,
 button.solution {
-  background-color: var(--main-color1);
+  background-color: var(--main-color2);
   width: clamp(7px, 2vw, 30px);
   height: clamp(7px, 2vw, 30px);
   border-radius: 50px;
@@ -542,7 +574,7 @@ button.solution {
 }
 
 button.solution {
-  background-color: var(--main-color2);
+  background-color: var(--main-color1);
 }
 
 .info-icon {
@@ -570,6 +602,19 @@ button.solution {
   background-color: #e9f7f5;
   color: var(--main-color3);
   margin-bottom: 30px;
+}
+
+.challenge-explanation {
+  justify-self: center;
+  padding: clamp(6px, 1vw, 12px);
+  font-size: clamp(0.5rem, 0.7vw, 1rem);
+  border: solid 2px var(--main-color2);
+  width: fit-content;
+  border-radius: var(--box-radius);
+  background-color: #fff5e7;
+  color: var(--main-color2);
+  margin-bottom: 30px;
+  font-weight: bold;
 }
 
 .challenge-instructions .instructions-title {
@@ -600,6 +645,7 @@ button.solution {
   overflow-y: auto;
   font-size: clamp(0.7rem, 0.9vw, 1rem);
   padding: clamp(0.7rem, 0.9vw, 1rem);
+  width: 100%;
 }
 
 .challenge-instructions .instructions h3 {
@@ -633,27 +679,23 @@ button.solution {
 .challenge-instructions .instruction-help {
   display: flex;
   padding: clamp(8px, 1vw, 14px);
+  gap: 20px;
+  align-self: center;
 }
 
 .challenge-instructions .instruction-help button {
   flex: 1;
-  color: white;
   border-radius: var(--box-radius);
   font-size: clamp(0.6rem, 0.7vw, 1rem);
-  padding: clamp(2px, 1vw, 8px);
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  display: flex;
+  align-items: center;
 }
 
 .challenge-instructions .instruction-help button img {
   align-items: center;
-}
-
-.challenge-instructions .instruction-help button:first-child {
-  background-color: var(--main-color1);
-  border: 1px solid var(--main-color1);
-}
-
-.challenge-instructions .instruction-help button:nth-child(2) {
-  background-color: var(--main-color2);
 }
 
 .content-cards {
@@ -703,6 +745,47 @@ button.solution {
   min-width: 140px;
   max-width: 211px;
   flex-shrink: 1;
+}
+
+.challenge-completed-container {
+  position: fixed;
+  inset: 0;
+  background-color: #ff6b6b21;
+  z-index: 1000;
+}
+
+.challenge-completed-container .challenge-completed-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.challenge-completed-container .challenge-completed-content p:first-child {
+  font-size: clamp(2rem, 3vw, 14rem);
+  font-weight: bolder;
+}
+
+.challenge-completed-container .challenge-completed-content p.score {
+  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
+  max-width: clamp(160px, 14vw, 320px);
+  min-width: clamp(100px, 10vw, 240px);
+  font-size: clamp(2rem, 3vw, 14rem);
+  padding: clamp(8px, 1vw, 10px);
+  text-align: center;
+  border-radius: var(--box-radius);
+}
+
+.challenge-completed-container .challenge-completed-content button.next-challenge {
+  background-color: var(--main-color1);
+  width: clamp(160px, 14vw, 320px);
+  height: clamp(160px, 14vw, 320px);
+  border-radius: 50%;
+}
+
+.challenge-completed-container .challenge-completed-content button.next-challenge img {
+  width: clamp(60px, 7vw, 180px);
+  height: clamp(60px, 7vw, 180px);
 }
 
 /* ===================== CARDS ===================== */
