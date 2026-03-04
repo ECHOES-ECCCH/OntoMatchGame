@@ -28,6 +28,7 @@ const props = defineProps<{
   currentIndexes: CurrentIndexes
   entityDataCards: CardInfo[]
   propertyDataCards: CardPropertyInfo[]
+  errorCards
   handlePrevious: (position: Position, cards: CardInfo[]) => void
   handleNext: (position: Position, cards: CardInfo[]) => void
   handleSliderChange: (position: Position, value: number, cards: CardInfo[]) => void
@@ -132,11 +133,16 @@ const isNoCard = computed(() => {
 
       <div
         class="property-card"
-        :class="{
-          wrong: Array.isArray(totalCards.cards)
-            ? !totalCards.cards.some((c) => c?.id === cardInfo[totalCards.position as Position].id)
-            : false,
-        }"
+        :class="[
+          {
+            wrong: Array.isArray(totalCards.cards)
+              ? !totalCards.cards.some(
+                  (c) => c?.id === cardInfo[totalCards.position as Position].id,
+                )
+              : false,
+          },
+          errorCards[totalCards.position] === 'incorrect' ? 'error' : '',
+        ]"
       >
         <!-- DOMAIN BUTTON -->
         <button

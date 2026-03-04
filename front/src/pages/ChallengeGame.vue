@@ -9,6 +9,8 @@ import ChallengeInfo from '@/components/challenge/ChallengeInfo.vue'
 import ChallengeCards from '@/components/challenge/ChallengeCards.vue'
 import ChallengeCompleted from '@/components/challenge/ChallengeCompleted.vue'
 import { splitStatement } from '@/utils/statement'
+import { useSelectedXML } from '@/stores/cards.store'
+const { entityDataCards, propertyDataCards, loadCard, isDataCardsLoading } = useSelectedXML()
 
 const { isComplete, reset } = useChallengeChecker()
 const { chapterData, chapterStats, chapterInfo, isLoadingChapter } = useChapterData()
@@ -19,8 +21,11 @@ const secondText = computed(() => statement.value.after)
 const showInstruction = ref(true)
 const showExplanation = ref(false)
 
+onMounted(() => {
+  loadCard()
+})
+
 onMounted(() => reset())
-console.log(isComplete)
 
 const showCompleted = ref(false)
 
@@ -44,7 +49,7 @@ function closeCompleted() {
   />
   <section class="challenge">
     <ChallengeInfo :chapterStats="chapterStats" />
-    <div class="challenge-order" v-if="!showInstruction">{{ secondText }}</div>
+    <div class="challenge-order" v-if="!showInstruction && secondText">{{ secondText }}</div>
     <div class="challenge-explanation" v-if="showExplanation">{{ chapterData?.Explanation }}</div>
     <div class="challenge-game">
       <ChallengeInstruction
@@ -53,8 +58,13 @@ function closeCompleted() {
         v-model:showInstruction="showInstruction"
         v-model:showExplanation="showExplanation"
       />
-      <ChallengeCards :showInstruction="showInstruction" />
+      <ChallengeCards
+        :showInstruction="showInstruction"
+        :entityDataCards="entityDataCards"
+        :propertyDataCards="propertyDataCards"
+        :isDataCardsLoading="isDataCardsLoading"
+      />
     </div>
   </section>
-  <FooterChallenge />
+  <FooterChallenge :entityDataCards="entityDataCards" :propertyDataCards="propertyDataCards" />
 </template>

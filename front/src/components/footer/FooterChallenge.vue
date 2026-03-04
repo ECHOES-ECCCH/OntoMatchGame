@@ -3,15 +3,20 @@ import { langStore } from '@/stores/lang.store'
 import { useChallengeChecker } from '@/composables/useChallengeChecker'
 import { isUpdateSessionLoading } from '@/services/sessions.service'
 import ButtonLoader from '../loader/ButtonLoader.vue'
+import type { CardInfo, CardPropertyInfo } from '@/types/card/cardInfo'
 const { check } = useChallengeChecker()
 
+const props = defineProps<{
+  entityDataCards: CardInfo[]
+  propertyDataCards: CardPropertyInfo[]
+}>()
+
 const handleValidation = () => {
-  check()
+  check(props.entityDataCards, props.propertyDataCards)
 }
 </script>
 
 <template>
-  {{ console.log(isUpdateSessionLoading) }}
   <div class="footer">
     <button>
       <router-link to="/home">

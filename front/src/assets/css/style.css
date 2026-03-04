@@ -703,6 +703,7 @@ button.solution {
   gap: clamp(5px, 1vw, 20px);
   flex: 1 1 auto;
   justify-content: space-between;
+  margin: 5px;
 }
 
 .content-cards > div {
@@ -853,6 +854,9 @@ button.solution {
   width: 100%;
   min-width: 0;
   max-width: 100%;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.1);
 }
 /* 
 .cards-container .content-cards .carousel-container .entity-card,
@@ -1166,7 +1170,9 @@ button.solution {
   overflow: hidden;
   background-color: white;
   border-radius: var(--box-radius);
-  box-shadow: var(--shadow);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.1);
   font-size: clamp(0.7rem, 0.6vw, 1.1rem);
   transition: all 0.3s;
   position: relative;
@@ -1510,7 +1516,9 @@ button.solution {
   overflow: hidden;
   background-color: white;
   border-radius: var(--box-radius);
-  box-shadow: var(--shadow);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.1);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -1550,6 +1558,18 @@ button.solution {
   object-fit: cover;
   margin-top: 10px;
 }
+
+.error {
+  border: solid 2px red;
+}
+
+.error-cards {
+  z-index: 10000;
+  background-color: white;
+  position: relative;
+  border: solid 2px red;
+}
+
 /* ===================== FOOTER ===================== */
 
 .footer {

@@ -13,29 +13,68 @@ const reset = () => {
 }
 
 function getStatus(
-  current: string,
+  current: any,
   answer: string | undefined,
+  entityDataCards: any[],
+  propertyDataCards: any[],
 ): 'correct' | 'incorrect' | 'empty' | 'unused' {
-  if (answer === undefined || answer === null || answer === '') return 'unused'
-  if (answer === '*') return current ? 'correct' : 'empty'
+  if (!answer) return 'unused'
   if (!current) return 'empty'
-  return current === answer ? 'correct' : 'incorrect'
+  if (answer === '*') return 'correct'
+
+  const possibleAnswers = answer.split(',').map((a) => a.trim())
+  const isCorrect = possibleAnswers.includes(current.id)
+
+  if (isCorrect) return 'correct'
+
+  // getErrorDetails doit retourner quelque chose !
+  return getErrorDetails(current, possibleAnswers, entityDataCards, propertyDataCards)
+}
+
+const getErrorDetails = (
+  current: any,
+  answers: string[],
+  entityDataCards: any[],
+  propertyDataCards: any[],
+): string => {
+  const allCards = [...entityDataCards, ...propertyDataCards]
+  const found = allCards.find((c) => answers.includes(c.id))
+  console.log(found)
+  console.log(current)
+
+  if (!found) return 'incorrect'
+
+  const currentBranches = Array.isArray(current.branch) ? current.branch : [current.branch]
+  const foundBranches = Array.isArray(found.branch) ? found.branch : [found.branch]
+
+  const hasCommonBranch = currentBranches.some((b) => foundBranches.includes(b))
+
+  if (!hasCommonBranch) return 'Mauvaise branche'
+
+  const isSubClasses = found.subClasses && found.subClasses.includes(current.about)
+
+  console.log('isSubClasses', isSubClasses)
+  if (hasCommonBranch && isSubClasses) {
+    return 'Trop générique'
+  }
+
+  return 'Trop spécifique'
 }
 
 export function useChallengeChecker() {
   const cardInfoStore = useCardInfoStore()
   const { chapterData } = useChapterData()
 
-  const check = async () => {
+  const check = async (entityDataCards: any[], propertyDataCards: any[]) => {
     const cardInfo = cardInfoStore.cardInfo
     const data = isRef(chapterData) ? chapterData.value : chapterData
 
     results.value = {
-      eleft: getStatus(cardInfo.eleft.id, data.ELeftAnswer),
-      emiddle: getStatus(cardInfo.emiddle.id, data.EMiddleAnswer),
-      eright: getStatus(cardInfo.eright.id, data.ERightAnswer),
-      pleft: getStatus(cardInfo.pleft.id, data.PLeftAnswer),
-      pright: getStatus(cardInfo.pright.id, data.PRightAnswer),
+      eleft: getStatus(cardInfo.eleft, data.ELeftAnswer, entityDataCards, propertyDataCards),
+      emiddle: getStatus(cardInfo.emiddle, data.EMiddleAnswer, entityDataCards, propertyDataCards),
+      eright: getStatus(cardInfo.eright, data.ERightAnswer, entityDataCards, propertyDataCards),
+      pleft: getStatus(cardInfo.pleft, data.PLeftAnswer, entityDataCards, propertyDataCards),
+      pright: getStatus(cardInfo.pright, data.PRightAnswer, entityDataCards, propertyDataCards),
     }
 
     isComplete.value = Object.values(results.value)

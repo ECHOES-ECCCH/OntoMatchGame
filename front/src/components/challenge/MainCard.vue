@@ -14,7 +14,9 @@ import EntityCard from './EntityCard.vue'
 import PropertyCard from './PropertyCard.vue'
 import { useCardInfoStore } from '@/stores/cardInfo.store'
 import { storeToRefs } from 'pinia'
+import { useChallengeChecker } from '@/composables/useChallengeChecker'
 const cardInfoStore = useCardInfoStore()
+const { results } = useChallengeChecker()
 
 const props = defineProps<{
   entityDataCards: CardInfo[]
@@ -90,6 +92,7 @@ const handleBranchesUpdate = ({ position, value }: { position: string; value: st
         :cardInfo="cardInfo"
         :currentIndexes="currentIndexes"
         :entityDataCards="entityDataCards"
+        :errorCards="results"
         :handlePrevious="handlePrevious"
         :handleNext="handleNext"
         :handleSliderChange="handleSliderChange"
@@ -105,6 +108,7 @@ const handleBranchesUpdate = ({ position, value }: { position: string; value: st
         :currentIndexes="currentIndexes"
         :entityDataCards="entityDataCards"
         :propertyDataCards="propertyDataCards"
+        :errorCards="results"
         :handlePrevious="handlePrevious"
         :handleNext="handleNext"
         :handleSliderChange="handleSliderChange"
