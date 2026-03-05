@@ -1,8 +1,17 @@
 import { ref, isRef } from 'vue'
 import { useCardInfoStore } from '@/stores/cardInfo.store'
 import { useChapterData } from '@/composables/useChapter'
+import { langStore } from '@/stores/lang.store'
 
-const results = ref<Record<string, 'correct' | 'incorrect' | 'empty' | 'unused'>>({})
+const results = ref<
+  Record<
+    string,
+    {
+      status: 'correct' | 'incorrect' | 'empty' | 'unused'
+      message?: string
+    }
+  >
+>({})
 const isComplete = ref(false)
 const score = ref(0)
 
@@ -17,18 +26,22 @@ function getStatus(
   answer: string | undefined,
   entityDataCards: any[],
   propertyDataCards: any[],
-): 'correct' | 'incorrect' | 'empty' | 'unused' {
-  if (!answer) return 'unused'
-  if (!current) return 'empty'
-  if (answer === '*') return 'correct'
+) {
+  if (!answer) return { status: 'unused' }
+  if (!current) return { status: 'empty' }
+  if (answer === '*') return { status: 'correct' }
 
   const possibleAnswers = answer.split(',').map((a) => a.trim())
   const isCorrect = possibleAnswers.includes(current.id)
 
-  if (isCorrect) return 'correct'
+  if (isCorrect) return { status: 'correct' }
 
-  // getErrorDetails doit retourner quelque chose !
-  return getErrorDetails(current, possibleAnswers, entityDataCards, propertyDataCards)
+  const message = getErrorDetails(current, possibleAnswers, entityDataCards, propertyDataCards)
+
+  return {
+    status: 'incorrect',
+    message,
+  }
 }
 
 const getErrorDetails = (
@@ -39,26 +52,44 @@ const getErrorDetails = (
 ): string => {
   const allCards = [...entityDataCards, ...propertyDataCards]
   const found = allCards.find((c) => answers.includes(c.id))
-  console.log(found)
-  console.log(current)
-
   if (!found) return 'incorrect'
+
+  const errors: string[] = []
 
   const currentBranches = Array.isArray(current.branch) ? current.branch : [current.branch]
   const foundBranches = Array.isArray(found.branch) ? found.branch : [found.branch]
-
   const hasCommonBranch = currentBranches.some((b) => foundBranches.includes(b))
 
-  if (!hasCommonBranch) return 'Mauvaise branche'
-
-  const isSubClasses = found.subClasses && found.subClasses.includes(current.about)
-
-  console.log('isSubClasses', isSubClasses)
-  if (hasCommonBranch && isSubClasses) {
-    return 'Trop générique'
+  if (!hasCommonBranch) {
+    errors.push(langStore.t('static-text.BoardScene.boardscene-scene-error-branch'))
+  } else if (found.subClasses?.includes(current.about)) {
+    errors.push(langStore.t('static-text.BoardScene.boardscene-scene-error-generic'))
   }
 
-  return 'Trop spécifique'
+  const getBranch = (about: string) => entityDataCards.find((e) => e.about === about)?.branch ?? []
+
+  const hasCommonDomain =
+    !found.domain ||
+    !current.domain ||
+    getBranch(current.domain).some((b: any) => getBranch(found.domain).includes(b))
+
+  const hasCommonRange =
+    !found.range ||
+    !current.range ||
+    getBranch(current.range).some((b: any) => getBranch(found.range).includes(b))
+
+  if (!hasCommonDomain)
+    errors.push(langStore.t('static-text.BoardScene.boardscene-scene-error-domain-branch'))
+  if (!hasCommonRange)
+    errors.push(langStore.t('static-text.BoardScene.boardscene-scene-error-range-branch'))
+
+  if (hasCommonBranch && hasCommonRange && found.isSubPropertyOf?.includes(current.about)) {
+    errors.push(langStore.t('static-text.BoardScene.boardscene-scene-error-generic'))
+  }
+
+  return errors.length > 0
+    ? errors.join(' | ')
+    : langStore.t('static-text.BoardScene.boardscene-scene-error-specific')
 }
 
 export function useChallengeChecker() {
@@ -78,8 +109,8 @@ export function useChallengeChecker() {
     }
 
     isComplete.value = Object.values(results.value)
-      .filter((v) => v !== 'unused')
-      .every((v) => v === 'correct')
+      .filter((v) => v.status !== 'unused')
+      .every((v) => v.status === 'correct')
 
     score.value = isComplete.value ? data.Score : 0
   }

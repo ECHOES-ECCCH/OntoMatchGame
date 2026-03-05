@@ -4,7 +4,6 @@ import { ref } from 'vue'
 import { handleApiError } from './error.handler'
 import { shouldReloadHistory } from '@/composables/useUserHistory'
 import { fetchUserStats } from '@/composables/useUserStats'
-
 export const isCreateSessionLoading = ref(false)
 export const isUpdateSessionLoading = ref(false)
 
@@ -46,7 +45,6 @@ export const updateSession = async (updateSessionData: UpdateSessionData) => {
     if (data.result) {
       shouldReloadHistory.value = true
       fetchUserStats(updateSessionData.userId)
-      fetchUserHistory(updateSessionData.userId)
     }
 
     return data
@@ -55,7 +53,4 @@ export const updateSession = async (updateSessionData: UpdateSessionData) => {
   } finally {
     isUpdateSessionLoading.value = false
   }
-}
-function fetchUserHistory(userId: string | null) {
-  throw new Error('Function not implemented.')
 }

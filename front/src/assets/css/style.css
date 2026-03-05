@@ -477,7 +477,7 @@ progress::-moz-progress-bar {
   flex: 0 0 clamp(180px, 20vw, 350px);
   transition: flex-basis 0.3s ease;
   display: flex;
-  border: 2px solid var(--main-color3);
+  border: 1px solid #6b6b6b;
   border-left: none;
   border-radius: var(--box-radius);
   border-top-left-radius: unset;
@@ -486,7 +486,6 @@ progress::-moz-progress-bar {
   margin-right: 20px;
   height: fit-content;
   max-height: 100%;
-  box-shadow: var(--shadow);
   flex-direction: column;
 }
 
@@ -503,7 +502,7 @@ progress::-moz-progress-bar {
 }
 
 button.detail {
-  background-color: var(--main-color3);
+  background-color: #6b6b6b;
   width: clamp(20px, 3vw, 50px);
   height: clamp(20px, 3vw, 50px);
   border-radius: 50px;
@@ -528,17 +527,19 @@ button.detail {
 }
 
 button.hint-window span {
-  background-color: var(--main-color2);
-  color: white;
+  background-color: #fff5e7;
+  color: var(--main-color2);
+  border: solid 1px var(--main-color2);
   padding: 5px 10px;
   border-radius: var(--box-radius);
 }
 
 button.solution-window span {
-  background-color: var(--main-color1);
-  color: white;
+  background-color: #ffdede;
+  color: var(--main-color1);
   padding: 5px 10px;
   border-radius: var(--box-radius);
+  border: 1px solid var(--main-color1);
 }
 
 button.hint-window .hint-icon {
@@ -627,7 +628,7 @@ button.solution {
   cursor: pointer;
   align-self: center;
   display: flex;
-  background-color: var(--main-color3);
+  background-color: #6b6b6b;
   width: 10px;
   border-top-left-radius: var(--box-radius);
   border-bottom-left-radius: var(--box-radius);
@@ -751,7 +752,7 @@ button.solution {
 .challenge-completed-container {
   position: fixed;
   inset: 0;
-  background-color: #ff6b6b21;
+  background-color: #6b6b6b21;
   z-index: 1000;
 }
 
@@ -1564,18 +1565,26 @@ button.solution {
 }
 
 .error-cards {
-  z-index: 10000;
+  z-index: 2000;
   background-color: white;
   position: relative;
   border: solid 2px red;
+  justify-self: center;
+  background-color: red;
+  border-radius: 10px;
+  color: white;
+  padding: 5px 10px;
+  width: fit-content;
+  font-size: clamp(0.4rem, 0.7vw, 1rem);
+  margin-bottom: 10px;
 }
 
 /* ===================== FOOTER ===================== */
 
 .footer {
   display: flex;
-  justify-content: center;
-  height: 40px;
+  justify-content: space-between;
+  height: clamp(26px, 3vw, 60px);
   font-size: 14px;
   font-weight: 700;
   border-top: 1px solid #dfdfdf;
@@ -1590,8 +1599,67 @@ button.solution {
   font-weight: 600;
 }
 
-.footer button:hover {
+.footer button.back a {
+  display: flex;
+}
+
+.footer button.back:hover {
   color: var(--main-color1);
+}
+
+.footer button.back span {
+  align-self: center;
+  font-size: clamp(0.4rem, 0.7vw, 1rem);
+}
+
+.footer button.back img {
+  max-width: clamp(10px, 1vw, 40px);
+}
+
+.footer .finish-challenge {
+  align-self: center;
+  display: flex;
+}
+
+.footer button.validation {
+  background-color: var(--main-color3);
+  color: white;
+  border-radius: var(--box-radius);
+  height: clamp(26px, 2vw, 45px);
+  display: flex;
+  align-items: center;
+  font-size: clamp(0.4rem, 0.7vw, 1rem);
+  padding: 10px;
+}
+
+.footer button.validation:hover {
+  opacity: 0.7;
+}
+
+.footer button.validation img {
+  max-width: clamp(10px, 1.2vw, 50px);
+  margin-right: 3px;
+}
+
+.footer button.next {
+  background-color: #f0f0f0;
+  border-radius: var(--box-radius);
+  height: clamp(26px, 2vw, 45px);
+  display: flex;
+  align-items: center;
+  font-size: clamp(0.4rem, 0.7vw, 1rem);
+  padding: 10px;
+  border: 1px solid #dadada;
+}
+
+.footer button.next img {
+  filter: invert(1);
+  opacity: 0.8;
+  margin-right: 3px;
+}
+
+.footer button.next:hover {
+  background-color: #e2e2e2;
 }
 
 /* ===================== SCROLLBAR ===================== */

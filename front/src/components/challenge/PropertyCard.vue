@@ -6,7 +6,6 @@ import type {
   CardPositionInfo,
   CardPropertyInfo,
   CurrentIndexes,
-  EntityPosition,
   Position,
 } from '@/types/card/cardInfo'
 import PropertySuperpropertiesSubproperties from './PropertySuperpropertiesSubproperties.vue'
@@ -15,6 +14,7 @@ import { getColor } from '@/utils/get-color-types'
 import BranchesFilter from './BranchesFilter.vue'
 import { langStore } from '@/stores/lang.store'
 import type { Branch } from '@/assets/cards/types'
+import ChallengeError from './ChallengeError.vue'
 
 const props = defineProps<{
   totalCards: {
@@ -121,6 +121,10 @@ const isNoCard = computed(() => {
 
   <!-- NORMAL -->
   <div v-else class="carousel-container">
+    <ChallengeError v-if="errorCards[totalCards.position]?.status === 'incorrect'" />
+    <div v-show="errorCards[totalCards.position]?.status === 'incorrect'" class="error-cards">
+      {{ errorCards[totalCards.position]?.message }}
+    </div>
     <div class="property">
       <!-- LEFT FILTER -->
       <BranchesFilter
@@ -141,7 +145,7 @@ const isNoCard = computed(() => {
                 )
               : false,
           },
-          errorCards[totalCards.position] === 'incorrect' ? 'error' : '',
+          errorCards[totalCards.position]?.status === 'incorrect' ? 'error' : '',
         ]"
       >
         <!-- DOMAIN BUTTON -->

@@ -85,12 +85,9 @@ const isNoCard = computed(() => {
   </div>
 
   <div v-else class="carousel-container">
-    <ChallengeError
-      v-if="errorCards[totalCards.position]"
-      :errorCards="errorCards[totalCards.position]"
-    />
-    <div v-show="errorCards[totalCards.position]" class="error-cards">
-      {{ errorCards[totalCards.position] }}
+    <ChallengeError v-if="errorCards[totalCards.position]?.status === 'incorrect'" />
+    <div v-show="errorCards[totalCards.position]?.status === 'incorrect'" class="error-cards">
+      {{ errorCards[totalCards.position]?.message }}
     </div>
     <div
       class="entity-card"
@@ -100,7 +97,7 @@ const isNoCard = computed(() => {
             ? !totalCards.cards.some((c) => c?.id === cardInfo[totalCards.position as Position].id)
             : false,
         },
-        errorCards[totalCards.position] === 'incorrect' ? 'error' : '',
+        errorCards[totalCards.position]?.status === 'incorrect' ? 'error' : '',
       ]"
       :style="getColor(cardInfo[totalCards.position as Position].branch)"
     >

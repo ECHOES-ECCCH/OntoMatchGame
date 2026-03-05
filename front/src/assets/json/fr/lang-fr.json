@@ -115,7 +115,12 @@
       "boardscene-scene-gethint-text": "Indice",
       "boardscene-scene-getanswer-text": "Solution",
       "boardscene-scene-insctruction-text": "Consigne",
-      "boardscene-scene-filter-entity-text": "Aucune carte ne correspond à la sélection de couleur. Essayez-en une autre"
+      "boardscene-scene-filter-entity-text": "Aucune carte ne correspond à la sélection de couleur. Essayez-en une autre",
+      "boardscene-scene-error-branch": "Mauvaise branche",
+      "boardscene-scene-error-domain-branch": "Mauvais domaine",
+      "boardscene-scene-error-range-branch": "Mauvais co-domaine",
+      "boardscene-scene-error-generic": "Trop générique",
+      "boardscene-scene-error-specific": "Trop specifique"
     },
 
     "StatsScene": {

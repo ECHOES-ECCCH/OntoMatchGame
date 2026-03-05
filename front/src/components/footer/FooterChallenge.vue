@@ -2,14 +2,20 @@
 import { langStore } from '@/stores/lang.store'
 import { useChallengeChecker } from '@/composables/useChallengeChecker'
 import { isUpdateSessionLoading } from '@/services/sessions.service'
-import ButtonLoader from '../loader/ButtonLoader.vue'
 import type { CardInfo, CardPropertyInfo } from '@/types/card/cardInfo'
-const { check } = useChallengeChecker()
+import { useFinishChallenge } from '@/composables/useSessionsChallenge'
+import checkValidation from '@/assets/img/check.svg'
+import next from '@/assets/img/next.svg'
+import back from '@/assets/img/back.svg'
+import PagesLoader from '../loader/PagesLoader.vue'
 
 const props = defineProps<{
   entityDataCards: CardInfo[]
   propertyDataCards: CardPropertyInfo[]
 }>()
+
+const { check } = useChallengeChecker()
+const { finishChallenge } = useFinishChallenge()
 
 const handleValidation = () => {
   check(props.entityDataCards, props.propertyDataCards)
@@ -18,14 +24,25 @@ const handleValidation = () => {
 
 <template>
   <div class="footer">
-    <button>
+    <button class="back">
       <router-link to="/home">
-        {{ langStore.t('static-text.Footer.footer-backbutton') }}</router-link
+        <img :src="back" alt="back" />
+        <span>{{ langStore.t('static-text.Footer.footer-backbutton') }}</span></router-link
       >
     </button>
-    <ButtonLoader v-if="isUpdateSessionLoading.value" />
-    <button v-else @click="handleValidation">
-      {{ langStore.t('static-text.BoardScene.boardscene-scene-validatebutton-text') }}
-    </button>
+    <div class="finish-challenge">
+      <button class="next" @click="finishChallenge(0)">
+        <img :src="next" alt="next" />
+
+        {{ langStore.t('static-text.BoardScene.boardscene-scene-nextbutton-text') }}
+      </button>
+      <PagesLoader v-if="isUpdateSessionLoading" />
+      <button class="validation" v-else @click="handleValidation">
+        <img :src="checkValidation" alt="validation" />
+        <span>{{
+          langStore.t('static-text.BoardScene.boardscene-scene-validatebutton-text')
+        }}</span>
+      </button>
+    </div>
   </div>
 </template>
