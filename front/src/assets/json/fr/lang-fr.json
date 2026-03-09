@@ -120,7 +120,9 @@
       "boardscene-scene-error-domain-branch": "Mauvais domaine",
       "boardscene-scene-error-range-branch": "Mauvais co-domaine",
       "boardscene-scene-error-generic": "Trop générique",
-      "boardscene-scene-error-specific": "Trop specifique"
+      "boardscene-scene-error-specific": "Trop specifique",
+      "boardscene-scene-chapter-completed": "Chapitre terminé",
+      "boardscene-scene-change-chapter": "Choisir un autre chapitre"
     },
 
     "StatsScene": {

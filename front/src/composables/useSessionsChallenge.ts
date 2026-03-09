@@ -22,7 +22,10 @@ export function useFinishChallenge() {
         userId,
         currentScenario: scenarioName,
         currentChapter: filename + '.json',
-        currentChallengeIndex: parseInt(lastChallengeId ?? '0', 10) + 1,
+        currentChallengeIndex:
+          parseInt(lastChallengeId) < parseInt(chapterStats.value.maxChallengeCount)
+            ? parseInt(lastChallengeId ?? '0', 10) + 1
+            : chapterStats.value.maxChallengeCount,
         currentScore,
       })
     } catch (e) {

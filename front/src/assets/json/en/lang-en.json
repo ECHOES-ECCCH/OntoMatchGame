@@ -116,7 +116,9 @@
       "boardscene-scene-error-domain-branch": "Wrong domain",
       "boardscene-scene-error-range-branch": "Wrong range",
       "boardscene-scene-error-generic": "Too generic",
-      "boardscene-scene-error-specific": "Too specific"
+      "boardscene-scene-error-specific": "Too specific",
+      "boardscene-scene-chapter-completed": "Chapter completed",
+      "boardscene-scene-change-chapter": "Choose another chapter"
     },
 
     "StatsScene": {

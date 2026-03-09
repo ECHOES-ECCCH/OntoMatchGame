@@ -20,7 +20,7 @@ const emit = defineEmits<{
   (e: 'update:showExplanation', value: boolean): void
 }>()
 
-const firstText = computed(() => splitStatement(props.chapterData?.Statement).after)
+const firstText = computed(() => splitStatement(props.chapterData?.Statement).before)
 const secondText = computed(() => splitStatement(props.chapterData?.Statement).after)
 
 const displaySolution = () => {

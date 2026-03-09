@@ -8,6 +8,8 @@ import checkValidation from '@/assets/img/check.svg'
 import next from '@/assets/img/next.svg'
 import back from '@/assets/img/back.svg'
 import PagesLoader from '../loader/PagesLoader.vue'
+import { useChapterData } from '@/composables/useChapter'
+const { chapterStats } = useChapterData()
 
 const props = defineProps<{
   entityDataCards: CardInfo[]
@@ -31,7 +33,11 @@ const handleValidation = () => {
       >
     </button>
     <div class="finish-challenge">
-      <button class="next" @click="finishChallenge(0)">
+      <button
+        v-if="parseInt(chapterStats.lastChallengeId) < parseInt(chapterStats.maxChallengeCount)"
+        class="next"
+        @click="finishChallenge(0)"
+      >
         <img :src="next" alt="next" />
 
         {{ langStore.t('static-text.BoardScene.boardscene-scene-nextbutton-text') }}
