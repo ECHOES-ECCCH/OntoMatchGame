@@ -32,7 +32,26 @@ function getStatus(
   if (answer === '*') return { status: 'correct' }
 
   const possibleAnswers = answer.split(',').map((a) => a.trim())
-  const isCorrect = possibleAnswers.includes(current.id)
+  const getBranch = (about: string) => entityDataCards.find((e) => e.about === about)?.branch ?? []
+
+  // Cas branche : les answers sont des noms de branches, pas des IDs
+  const hasCommonBranch =
+    current.branch && current.branch.some((b: string) => possibleAnswers.includes(b))
+
+  const hasCommonDomain =
+    !current.domain || getBranch(current.domain).some((b: string) => possibleAnswers[0] === b)
+  const hasCommonRange =
+    !current.range || getBranch(current.range).some((b: string) => possibleAnswers[1] === b)
+
+  const byBranch = current.domain || current.range ? hasCommonDomain && hasCommonRange : false
+
+  const byBranchEntity = !current.domain && !current.range ? hasCommonBranch : false
+
+  // Cas ID : les answers sont des IDs de cartes
+
+  const byId = possibleAnswers.includes(current.id)
+
+  const isCorrect = byId || byBranch || byBranchEntity
 
   if (isCorrect) return { status: 'correct' }
 
@@ -50,15 +69,55 @@ const getErrorDetails = (
   entityDataCards: any[],
   propertyDataCards: any[],
 ): string => {
+  const getBranch = (about: string) => entityDataCards.find((e) => e.about === about)?.branch ?? []
+  const isBranchEntityAnswer = !current.domain && !current.range && current.branch
+  const isBranchPropertyAnswer = current.domain || current.range
+
+  // Cas branche : les answers sont des noms de branches, pas des IDs
+
+  // Cas branche entité
+  if (isBranchEntityAnswer) {
+    const errors: string[] = []
+    const hasCommonBranch = current.branch.some((b: string) => answers.includes(b))
+
+    if (!hasCommonBranch)
+      errors.push(langStore.t('static-text.BoardScene.boardscene-scene-error-branch'))
+
+    return errors.length > 0
+      ? errors.join(' | ')
+      : langStore.t('static-text.BoardScene.boardscene-scene-error-specific')
+  }
+
+  // Cas branche propriété
+  if (isBranchPropertyAnswer) {
+    const errors: string[] = []
+
+    const hasCommonDomain =
+      !current.domain || getBranch(current.domain).some((b: string) => answers[0] === b)
+    const hasCommonRange =
+      !current.range || getBranch(current.range).some((b: string) => answers[1] === b)
+
+    if (!hasCommonDomain)
+      errors.push(langStore.t('static-text.BoardScene.boardscene-scene-error-domain-branch'))
+    if (!hasCommonRange)
+      errors.push(langStore.t('static-text.BoardScene.boardscene-scene-error-range-branch'))
+
+    return errors.length > 0
+      ? errors.join(' | ')
+      : langStore.t('static-text.BoardScene.boardscene-scene-error-specific')
+  }
+
+  // Cas ID : les answers sont des IDs de cartes
   const allCards = [...entityDataCards, ...propertyDataCards]
   const found = allCards.find((c) => answers.includes(c.id))
+
   if (!found) return 'incorrect'
 
   const errors: string[] = []
 
   const currentBranches = Array.isArray(current.branch) ? current.branch : [current.branch]
   const foundBranches = Array.isArray(found.branch) ? found.branch : [found.branch]
-  const hasCommonBranch = currentBranches.some((b) => foundBranches.includes(b))
+  const hasCommonBranch = currentBranches.some((b: string) => foundBranches.includes(b))
 
   if (!hasCommonBranch) {
     errors.push(langStore.t('static-text.BoardScene.boardscene-scene-error-branch'))
@@ -66,17 +125,14 @@ const getErrorDetails = (
     errors.push(langStore.t('static-text.BoardScene.boardscene-scene-error-generic'))
   }
 
-  const getBranch = (about: string) => entityDataCards.find((e) => e.about === about)?.branch ?? []
-
   const hasCommonDomain =
     !found.domain ||
     !current.domain ||
-    getBranch(current.domain).some((b: any) => getBranch(found.domain).includes(b))
-
+    getBranch(current.domain).some((b: string) => getBranch(found.domain).includes(b))
   const hasCommonRange =
     !found.range ||
     !current.range ||
-    getBranch(current.range).some((b: any) => getBranch(found.range).includes(b))
+    getBranch(current.range).some((b: string) => getBranch(found.range).includes(b))
 
   if (!hasCommonDomain)
     errors.push(langStore.t('static-text.BoardScene.boardscene-scene-error-domain-branch'))

@@ -17,6 +17,8 @@ import { storeToRefs } from 'pinia'
 import { useChallengeChecker } from '@/composables/useChallengeChecker'
 const cardInfoStore = useCardInfoStore()
 const { results } = useChallengeChecker()
+const { chapterData } = useChapterData()
+const { cardInfo } = storeToRefs(cardInfoStore)
 
 const props = defineProps<{
   entityDataCards: CardInfo[]
@@ -35,7 +37,11 @@ const branches = reactive<Record<EntityPosition, string[]>>({
   pright_range: ['entity'],
 })
 
-const { cardInfo } = storeToRefs(cardInfoStore)
+watch(chapterData, () => {
+  Object.keys(branches).forEach((k) => {
+    branches[k as EntityPosition] = ['entity']
+  })
+})
 
 // Utilisation de useBoardCards pour combiner entities et properties
 const { boardCards } = useBoardCards(
@@ -47,7 +53,7 @@ const { boardCards } = useBoardCards(
 
 // Utilisation de useCardNavigation pour gérer la navigation
 const { currentIndexes, updateCardInfo, handlePrevious, handleNext, handleSliderChange } =
-  useCardNavigation(boardCards, cardInfo.value) // ← .value ici
+  useCardNavigation(boardCards, cardInfo.value)
 
 // Watch pour mettre à jour les cardInfo quand boardCards change
 watch(

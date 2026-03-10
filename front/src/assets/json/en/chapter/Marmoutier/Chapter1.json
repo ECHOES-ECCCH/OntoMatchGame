@@ -112,11 +112,11 @@
     "PRightInit": "",
     "ERightInit": "*",
     "Explanation": "Use the white tab to reset all tabs (the white tab corresponds to no colour filter activated).",
-    "ELeftAnswer": ":Blue",
+    "ELeftAnswer": "temporal",
     "PLeftAnswer": "",
-    "EMiddleAnswer": ":Brown",
+    "EMiddleAnswer": "physical",
     "PRightAnswer": "",
-    "ERightAnswer": ":Yellow",
+    "ERightAnswer": "conceptual, appellation, type",
     "Score": 20
   },
   {
@@ -253,7 +253,7 @@
     "ERightInit": "",
     "Explanation": "Use the colored tabs to filter the property cards by expected domain and co-domain: blue on the left; brown on the right.",
     "ELeftAnswer": "",
-    "PLeftAnswer": "[:Blue; :Brown]",
+    "PLeftAnswer": "temporal, physical",
     "EMiddleAnswer": "",
     "PRightAnswer": "",
     "ERightAnswer": "",
