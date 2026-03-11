@@ -70,39 +70,38 @@ const getErrorDetails = (
   propertyDataCards: any[],
 ): string => {
   const getBranch = (about: string) => entityDataCards.find((e) => e.about === about)?.branch ?? []
-  const isBranchEntityAnswer = !current.domain && !current.range && current.branch
-  const isBranchPropertyAnswer = current.domain || current.range
+  const isBranchAnswer = !answers[0]?.match(/^[EP]\d+/)
+  const isProperty = current.domain || current.range
+  const isEntity = !current.domain && !current.range
 
-  // Cas branche : les answers sont des noms de branches, pas des IDs
-
-  // Cas branche entité
-  if (isBranchEntityAnswer) {
+  if (isBranchAnswer && isEntity) {
     const errors: string[] = []
-    const hasCommonBranch = current.branch.some((b: string) => answers.includes(b))
+
+    const hasCommonBranch =
+      current.branch && current.branch.some((b: string) => answers.includes(b))
 
     if (!hasCommonBranch)
       errors.push(langStore.t('static-text.BoardScene.boardscene-scene-error-branch'))
 
-    return errors.length > 0
+    return errors.length
       ? errors.join(' | ')
       : langStore.t('static-text.BoardScene.boardscene-scene-error-specific')
   }
 
-  // Cas branche propriété
-  if (isBranchPropertyAnswer) {
+  if (isBranchAnswer && isProperty) {
     const errors: string[] = []
 
-    const hasCommonDomain =
-      !current.domain || getBranch(current.domain).some((b: string) => answers[0] === b)
-    const hasCommonRange =
-      !current.range || getBranch(current.range).some((b: string) => answers[1] === b)
+    const hasCommonDomain = !current.domain || getBranch(current.domain).includes(answers[0])
+
+    const hasCommonRange = !current.range || getBranch(current.range).includes(answers[1])
 
     if (!hasCommonDomain)
       errors.push(langStore.t('static-text.BoardScene.boardscene-scene-error-domain-branch'))
+
     if (!hasCommonRange)
       errors.push(langStore.t('static-text.BoardScene.boardscene-scene-error-range-branch'))
 
-    return errors.length > 0
+    return errors.length
       ? errors.join(' | ')
       : langStore.t('static-text.BoardScene.boardscene-scene-error-specific')
   }
@@ -121,7 +120,7 @@ const getErrorDetails = (
 
   if (!hasCommonBranch) {
     errors.push(langStore.t('static-text.BoardScene.boardscene-scene-error-branch'))
-  } else if (found.subClasses?.includes(current.about)) {
+  } else if (foundBranches.subClasses?.includes(currentBranches.about)) {
     errors.push(langStore.t('static-text.BoardScene.boardscene-scene-error-generic'))
   }
 
