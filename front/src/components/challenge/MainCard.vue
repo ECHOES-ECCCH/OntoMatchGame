@@ -41,6 +41,9 @@ watch(chapterData, () => {
   Object.keys(branches).forEach((k) => {
     branches[k as EntityPosition] = ['entity']
   })
+  Object.keys(currentIndexes).forEach((k) => {
+    currentIndexes[k as Position] = 0
+  })
 })
 
 // Utilisation de useBoardCards pour combiner entities et properties
