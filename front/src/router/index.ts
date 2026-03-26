@@ -16,6 +16,8 @@ const UsersRanking = () => import('@/pages/UsersRanking.vue')
 const FreeMode = () => import('@/pages/FreeMode.vue')
 
 import { authStore } from '@/stores/auth.store'
+import { useSolution } from '@/composables/useSolution'
+const { resetSolution } = useSolution()
 
 // Connexion requise pour accéder aux pages du jeu
 const requireAuth = (
@@ -58,6 +60,11 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+})
+
+// Met à jour showSolution au changement de page pour être rediriger vers le bon challenge
+router.beforeEach(() => {
+  resetSolution()
 })
 
 export default router

@@ -3,16 +3,16 @@ import { ref } from 'vue'
 import { types } from '@/assets/cards/types.ts'
 import type { CardInfo } from '@/types/card/cardInfo'
 
+const entityDataCards = ref<CardInfo[]>([])
+const propertyDataCards = ref<CardInfo[]>([])
+const isDataCardsLoading = ref(false)
+const error = ref<string | null>(null)
+
 export const useSelectedXML = () => {
-  const entityDataCards = ref<CardInfo[]>([])
-  const propertyDataCards = ref<CardInfo[]>([])
-
-  const isDataCardsLoading = ref(false)
-  const error = ref<string | null>(null)
-
   async function loadCard() {
     isDataCardsLoading.value = true
     error.value = null
+
     try {
       const xml = await fetch('/data/data.xml').then((r) => r.text())
       const doc: Document = new DOMParser().parseFromString(xml, 'text/xml')

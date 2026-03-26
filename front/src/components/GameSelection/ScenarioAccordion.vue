@@ -6,7 +6,7 @@ import { isResetProgressionLoading, resetProgression } from '@/services/reset.se
 import { userStats, isUsersStatsLoading } from '@/composables/useUserStats'
 import { useUserInformations } from '@/stores/userInformations.store'
 import { getChapterProgression, isChapterStarted } from '@/utils/chapters-progression'
-import type { Scenario } from '@/types/game-selection'
+import type { Chapter, Scenario } from '@/types/game-selection'
 import PagesLoader from '../loader/PagesLoader.vue'
 import ButtonLoader from '../loader/ButtonLoader.vue'
 
@@ -14,6 +14,21 @@ const userStore = useUserInformations()
 defineProps<{
   scenario: Scenario[]
 }>()
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+function goToChallenge(scenario: Scenario, chapter: Chapter) {
+  handleCreateSessionData(scenario['scenario-title'], chapter['chapter-filename'])
+  router.push({
+    path: '/challenge',
+    query: {
+      scenario: scenario['scenario-title'],
+      chapterName: chapter['chapter-title'],
+      challengeId: 1,
+    },
+  })
+}
 
 const isFullyLoaded = computed(() => {
   return (
@@ -63,32 +78,22 @@ const handleCreateSessionData = (scenario: string, chapter: string) => {
           <li v-for="(chapter, i) in scenario[index]?.chapters" :key="i">
             {{ chapter['chapter-title'] }}
             {{ chapter['chapter-description'] }}
-            <div>{{ getChapterProgression(chapter, scenario[index]['scenario-title']) || 0 }}%</div>
+            <div>
+              {{ getChapterProgression(chapter, scenario[index]?.['scenario-title']) || 0 }}%
+            </div>
             <router-link
               :to="{
                 path: '/challenge',
                 query: {
-                  scenario: scenario[index]['scenario-title'],
+                  scenario: scenario[index]?.['scenario-title'],
                   chapterName: chapter['chapter-title'],
                 },
               }"
             >
-              <button v-if="isChapterStarted(chapter, scenario[index]['scenario-title'])">
+              <button v-if="isChapterStarted(chapter, scenario[index]?.['scenario-title'])">
                 Go
               </button>
-              <button
-                v-else
-                @click="
-                  scenario[index] &&
-                  chapter &&
-                  handleCreateSessionData(
-                    scenario[index]['scenario-title'],
-                    chapter['chapter-filename'],
-                  )
-                "
-              >
-                Go
-              </button>
+              <button v-else @click="goToChallenge(scenario[index]!, chapter)">Go</button>
             </router-link>
             <ButtonLoader v-if="isResetProgressionLoading" />
             <button

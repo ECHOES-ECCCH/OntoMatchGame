@@ -5,7 +5,7 @@ export interface CreateSessionData {
 }
 
 export interface UpdateSessionData {
-  userId: string | null
+  userId: string
   currentScenario: string
   currentChapter: string
   currentChallengeIndex: number

@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import { handleApiError } from './error.handler'
 import { shouldReloadHistory } from '@/composables/useUserHistory'
 import { fetchUserStats } from '@/composables/useUserStats'
+
 export const isCreateSessionLoading = ref(false)
 export const isUpdateSessionLoading = ref(false)
 
@@ -17,7 +18,7 @@ export const createSession = async (createSessionData: CreateSessionData) => {
       chapterTitle: createSessionData.chapterTitle,
     })
 
-    if (data.result) {
+    if (data.result && createSessionData.userId) {
       shouldReloadHistory.value = true
       fetchUserStats(createSessionData.userId)
     }
@@ -42,7 +43,7 @@ export const updateSession = async (updateSessionData: UpdateSessionData) => {
       currentScore: updateSessionData.currentScore,
     })
 
-    if (data.result) {
+    if (data.result && updateSessionData.userId) {
       shouldReloadHistory.value = true
       fetchUserStats(updateSessionData.userId)
     }

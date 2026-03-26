@@ -93,6 +93,7 @@ header.main-header .game-title h1 {
 
 header.main-header .header-right {
   display: flex;
+  align-items: center;
 }
 
 header.main-header .header-right .language {
@@ -117,7 +118,13 @@ button.logout {
   border-radius: 50px;
   padding: 0 clamp(6px, 1vw, 10px);
   margin: 5px 0;
-  text-decoration: underline;
+  height: clamp(26px, 2vw, 45px);
+  background-color: #ff6b6b33;
+  font-size: clamp(0.3rem, 0.8vw, 0.8rem);
+}
+
+button.logout:hover {
+  background-color: #ff6b6b54;
 }
 
 button.logout img {
@@ -501,6 +508,10 @@ progress::-moz-progress-bar {
   flex-direction: column;
 }
 
+.hide-instructions-title span {
+  font-size: clamp(0.6rem, 0.8vw, 2rem);
+}
+
 button.detail {
   background-color: #6b6b6b;
   width: clamp(20px, 3vw, 50px);
@@ -519,7 +530,8 @@ button.detail {
 .hide-instructions-title .detail:hover,
 .hide-instructions-title .hint:hover,
 .hide-instructions-title .solution:hover {
-  opacity: 0.7;
+  opacity: 0.9;
+  transform: scale(1.1);
 }
 
 .hide-instructions-title button {
@@ -665,9 +677,8 @@ button.solution {
 }
 
 .challenge-instructions .instructions .chapter-progress span {
-  font-size: clamp(0.6rem, 0.7vw, 1rem);
+  font-size: clamp(0.6rem, 0.7vw, 2rem);
   align-content: center;
-  padding: clamp(6px, 0.7vw, 10px);
   border-radius: clamp(20px, 0.7vw, 50px);
 }
 
@@ -680,6 +691,10 @@ button.solution {
   padding: clamp(8px, 1vw, 14px);
   gap: 20px;
   align-self: center;
+}
+
+.challenge-instructions .instruction-help button:hover {
+  transform: scale(1.05);
 }
 
 .challenge-instructions .instruction-help button {
@@ -750,7 +765,7 @@ button.solution {
 .challenge-error-container {
   position: fixed;
   inset: 0;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(0.5px);
   z-index: 1000;
 }
@@ -1935,11 +1950,23 @@ button.solution {
   font-weight: 600;
 }
 
+.footer button.back {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
 .footer button.back a {
   display: flex;
 }
 
 .footer button.back:hover {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   color: var(--main-color1);
 }
 
@@ -1966,15 +1993,30 @@ button.solution {
   align-items: center;
   font-size: clamp(0.4rem, 0.7vw, 1rem);
   padding: 10px;
+  font-weight: 600;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
 }
 
 .footer button.validation:hover {
-  opacity: 0.7;
+  box-shadow:
+    0 0 15px rgba(42, 157, 143, 0.6),
+    0 0 30px rgba(42, 157, 143, 0.4);
+  transform: translateY(-1px);
 }
 
-.footer button.validation img {
-  max-width: clamp(10px, 1.2vw, 50px);
-  margin-right: 3px;
+.footer button.validation:hover:not(:disabled) {
+  box-shadow: 0 0 12px rgba(0, 255, 0, 0.5);
+  transform: scale(1.03);
+}
+
+.footer button.validation:disabled {
+  background-color: #c0c0c0;
+  color: #eee;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
 .footer button.next {
@@ -1991,7 +2033,7 @@ button.solution {
 .footer button.next img {
   filter: invert(1);
   opacity: 0.8;
-  margin-right: 3px;
+  margin-right: 5px;
 }
 
 .footer button.next:hover {

@@ -10,5 +10,5 @@ const handleLogout = () => {
 </script>
 
 <template>
-  <button class="logout" @click="handleLogout"><img :src="close" /> Quitter le jeu</button>
+  <button class="logout" @click="handleLogout">Deconnexion</button>
 </template>

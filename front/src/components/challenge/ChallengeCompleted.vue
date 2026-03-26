@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import next from '@/assets/img/next.svg'
 import { langStore } from '@/stores/lang.store'
 import { useFinishChallenge } from '@/composables/useSessionsChallenge'
+import type { ChapterData, ChapterStats } from '@/types/chapter'
 
-const props = defineProps({
-  chapterStats: Object,
-  chapterData: Object,
-  chapterInfo: Object,
-})
+const props = defineProps<{
+  chapterStats: ChapterStats
+  chapterData: ChapterData
+}>()
+
 const emit = defineEmits(['close'])
 
 const { finishChallenge } = useFinishChallenge()
 
 const isLastChallenge =
-  parseInt(String(props.chapterStats?.lastChallengeId ?? 0)) ===
-  props.chapterStats?.maxChallengeCount
+  Number(props.chapterStats?.lastChallengeId) === Number(props.chapterStats?.maxChallengeCount)
 
 onMounted(() => {
   if (!isLastChallenge) {
@@ -75,7 +75,7 @@ async function handleFinish() {
       </div>
       <button class="next-button" @click="handleFinish">
         <img :src="next" alt="Next" />
-        Next
+        {{ langStore.t('static-text.BoardScene.boardscene-scene-nextbutton-text') }}
       </button>
     </div>
   </div>
