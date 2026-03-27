@@ -6,7 +6,6 @@ import type {
   CardPositionInfo,
   CardPropertyInfo,
   CurrentIndexes,
-  EntityPosition,
   Position,
 } from '@/types/card/cardInfo'
 import PropertySuperpropertiesSubproperties from './PropertySuperpropertiesSubproperties.vue'
@@ -15,6 +14,7 @@ import { getColor } from '@/utils/get-color-types'
 import BranchesFilter from './BranchesFilter.vue'
 import { langStore } from '@/stores/lang.store'
 import type { Branch } from '@/assets/cards/types'
+import ChallengeError from './ChallengeError.vue'
 
 const props = defineProps<{
   totalCards: {
@@ -28,6 +28,7 @@ const props = defineProps<{
   currentIndexes: CurrentIndexes
   entityDataCards: CardInfo[]
   propertyDataCards: CardPropertyInfo[]
+  errorCards
   handlePrevious: (position: Position, cards: CardInfo[]) => void
   handleNext: (position: Position, cards: CardInfo[]) => void
   handleSliderChange: (position: Position, value: number, cards: CardInfo[]) => void
@@ -120,6 +121,10 @@ const isNoCard = computed(() => {
 
   <!-- NORMAL -->
   <div v-else class="carousel-container">
+    <ChallengeError v-if="errorCards[totalCards.position]?.status === 'incorrect'" />
+    <div v-show="errorCards[totalCards.position]?.status === 'incorrect'" class="error-cards">
+      {{ errorCards[totalCards.position]?.message }}
+    </div>
     <div class="property">
       <!-- LEFT FILTER -->
       <BranchesFilter
@@ -132,11 +137,16 @@ const isNoCard = computed(() => {
 
       <div
         class="property-card"
-        :class="{
-          wrong: Array.isArray(totalCards.cards)
-            ? !totalCards.cards.some((c) => c?.id === cardInfo[totalCards.position as Position].id)
-            : false,
-        }"
+        :class="[
+          {
+            wrong: Array.isArray(totalCards.cards)
+              ? !totalCards.cards.some(
+                  (c) => c?.id === cardInfo[totalCards.position as Position].id,
+                )
+              : false,
+          },
+          errorCards[totalCards.position]?.status === 'incorrect' ? 'error' : '',
+        ]"
       >
         <!-- DOMAIN BUTTON -->
         <button

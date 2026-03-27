@@ -1,6 +1,6 @@
 export function splitStatement(statement?: string | null) {
   if (!statement) return { before: '', after: '' }
-  console.log(statement)
+
   const markers = ['Pour ce défi', 'For this challenge', 'Find classes and properties']
 
   let firstIndex = -1

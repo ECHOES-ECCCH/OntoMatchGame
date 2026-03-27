@@ -111,7 +111,14 @@
       "boardscene-scene-gethint-text": "Hint",
       "boardscene-scene-getanswer-text": "Answer",
       "boardscene-scene-insctruction-text": "Instructions",
-      "boardscene-scene-filter-entity-text": "No card matches color selection. Try another one."
+      "boardscene-scene-filter-entity-text": "No card matches color selection. Try another one.",
+      "boardscene-scene-error-branch": "Wrong branch",
+      "boardscene-scene-error-domain-branch": "Wrong domain",
+      "boardscene-scene-error-range-branch": "Wrong range",
+      "boardscene-scene-error-generic": "Too generic",
+      "boardscene-scene-error-specific": "Too specific",
+      "boardscene-scene-chapter-completed": "Chapter completed",
+      "boardscene-scene-change-chapter": "Choose another chapter"
     },
 
     "StatsScene": {

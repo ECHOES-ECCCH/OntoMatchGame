@@ -5,9 +5,10 @@ import { useUserInformations } from '@/stores/userInformations.store'
 import PagesLoader from '@/components/loader/PagesLoader.vue'
 import ResetModal from '@/components/ResetModal.vue'
 import { computed, onMounted, ref } from 'vue'
-import { resetGame, isResetLoading } from '@/services/reset.service'
+import { resetGame, isResetLoading, resetProgression } from '@/services/reset.service'
 import FooterHome from '@/components/footer/FooterHome.vue'
 import { getChapterProgression } from '@/utils/chapters-progression'
+import { fetchUserStats } from '@/composables/useUserStats'
 
 const user = useUserInformations()
 
@@ -17,9 +18,15 @@ const handleModal = (displayModal: boolean) => {
   modal.value = displayModal
 }
 
-const handleReset = () => {
+const handleReset = async () => {
   if (user.userInfo.userId) {
-    resetGame(user.userInfo.userId)
+    await resetGame(user.userInfo.userId)
+    await fetchUserStats(user.userInfo.userId)
+    await resetProgression({
+      userId: user.userInfo.userId,
+      currentScenario: userHistory?.value?.scenarioName,
+      currentChapter: userHistory?.value?.chapterName,
+    })
   }
   handleModal(false)
   shouldReloadHistory.value = true
@@ -57,8 +64,8 @@ onMounted(() => {
             :to="{
               path: '/challenge',
               query: {
-                scenario: userHistory['scenarioName'],
-                chapterName: userHistory['chapterName'],
+                scenario: userHistory?.['scenarioName'],
+                chapterName: userHistory?.['chapterName'],
               },
             }"
             v-if="userHistory?.historyId"
@@ -73,8 +80,13 @@ onMounted(() => {
                   {{ userHistory?.scenarioName }} / {{ userHistory?.chapterName }} /
                   {{ userHistory?.challengeId }}
                 </p>
-                <progress :value="getChapterProgression(userHistory) || 0" max="100"></progress>
-                <span class="percent">{{ getChapterProgression(userHistory) || 0 }}% </span>
+                <progress
+                  :value="getChapterProgression(userHistory, userHistory?.scenarioName) || 0"
+                  max="100"
+                ></progress>
+                <span class="percent"
+                  >{{ getChapterProgression(userHistory, userHistory?.scenarioName) || 0 }}%
+                </span>
               </div>
               <div>
                 <button>
@@ -94,7 +106,7 @@ onMounted(() => {
             <button>►</button>
           </router-link>
         </li>
-        <li v-if="lastChallenge" class="menu-statistics">
+        <li v-if="userHistory?.historyId" class="menu-statistics">
           <router-link to="/statistics">
             {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-statistics-label') }}
             <button>►</button>
@@ -110,7 +122,7 @@ onMounted(() => {
           </router-link>
         </li>
 
-        <li v-if="lastChallenge" class="menu-ranking">
+        <li v-if="userHistory?.historyId" class="menu-ranking">
           <router-link to="/ranking">
             {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-hallbutton-label') }}
             <button>►</button>
@@ -119,8 +131,8 @@ onMounted(() => {
         <li v-else class="menu-ranking no-session">
           {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-hallbutton-label') }}
         </li>
-        <li v-if="lastChallenge" class="menu-reset-game">
-          <button @click="handleModal(true)">
+        <li @click="handleModal(true)" v-if="userHistory?.historyId" class="menu-reset-game">
+          <button>
             {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-reset-label') }}
           </button>
         </li>

@@ -112,11 +112,11 @@
     "PRightInit": "",
     "ERightInit": "*",
     "Explanation": "Utilise l'onglet blanc pour réinitialiser (l'onglet blanc signifie qu'aucun filtre de couleur n'est activé).",
-    "ELeftAnswer": ":Blue",
+    "ELeftAnswer": "temporal",
     "PLeftAnswer": "",
-    "EMiddleAnswer": ":Brown",
+    "EMiddleAnswer": "physical",
     "PRightAnswer": "",
-    "ERightAnswer": ":Yellow",
+    "ERightAnswer": "conceptual, appellation, type",
     "Score": 20
   },
   {
@@ -253,7 +253,7 @@
     "ERightInit": "",
     "Explanation": "Utilise les onglets de couleur pour filtrer les cartes de propriété selon le domaine et le co-domaine attendus : bleu a gauche; marron a droite.",
     "ELeftAnswer": "",
-    "PLeftAnswer": "[:Blue; :Brown]",
+    "PLeftAnswer": "temporal, physical",
     "EMiddleAnswer": "",
     "PRightAnswer": "",
     "ERightAnswer": "",

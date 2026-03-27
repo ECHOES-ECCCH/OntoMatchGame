@@ -64,7 +64,7 @@ header.main-header {
   box-shadow: 1px 2px 8px -1px rgba(0, 0, 0, 0.25);
   -webkit-box-shadow: 1px 2px 8px -1px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 1px 2px 8px -1px rgba(0, 0, 0, 0.25);
-  padding: clamp(2px, 0.5vw, 6px) clamp(10px, 2vw, 20px);
+  padding: clamp(2px, 0.8vh, 6px) clamp(10px, 2vw, 20px);
   top: 0;
   z-index: 100;
   transition: transform 0.3s ease;
@@ -93,6 +93,7 @@ header.main-header .game-title h1 {
 
 header.main-header .header-right {
   display: flex;
+  align-items: center;
 }
 
 header.main-header .header-right .language {
@@ -117,7 +118,13 @@ button.logout {
   border-radius: 50px;
   padding: 0 clamp(6px, 1vw, 10px);
   margin: 5px 0;
-  text-decoration: underline;
+  height: clamp(26px, 2vw, 45px);
+  background-color: #ff6b6b33;
+  font-size: clamp(0.3rem, 0.8vw, 0.8rem);
+}
+
+button.logout:hover {
+  background-color: #ff6b6b54;
 }
 
 button.logout img {
@@ -410,6 +417,7 @@ progress::-moz-progress-bar {
 
 .challenge {
   padding-bottom: 60px;
+  position: relative;
 }
 
 .challenge .challenge-game {
@@ -476,7 +484,7 @@ progress::-moz-progress-bar {
   flex: 0 0 clamp(180px, 20vw, 350px);
   transition: flex-basis 0.3s ease;
   display: flex;
-  border: 2px solid var(--main-color3);
+  border: 1px solid #6b6b6b;
   border-left: none;
   border-radius: var(--box-radius);
   border-top-left-radius: unset;
@@ -485,7 +493,6 @@ progress::-moz-progress-bar {
   margin-right: 20px;
   height: fit-content;
   max-height: 100%;
-  box-shadow: var(--shadow);
   flex-direction: column;
 }
 
@@ -501,8 +508,12 @@ progress::-moz-progress-bar {
   flex-direction: column;
 }
 
+.hide-instructions-title span {
+  font-size: clamp(0.6rem, 0.8vw, 2rem);
+}
+
 button.detail {
-  background-color: var(--main-color3);
+  background-color: #6b6b6b;
   width: clamp(20px, 3vw, 50px);
   height: clamp(20px, 3vw, 50px);
   border-radius: 50px;
@@ -519,16 +530,50 @@ button.detail {
 .hide-instructions-title .detail:hover,
 .hide-instructions-title .hint:hover,
 .hide-instructions-title .solution:hover {
-  opacity: 0.7;
+  opacity: 0.9;
+  transform: scale(1.1);
 }
 
 .hide-instructions-title button {
   margin: 5px 20px;
 }
 
+button.hint-window span {
+  background-color: #fff5e7;
+  color: var(--main-color2);
+  border: solid 1px var(--main-color2);
+  padding: 5px 10px;
+  border-radius: var(--box-radius);
+}
+
+button.solution-window span {
+  background-color: #ffdede;
+  color: var(--main-color1);
+  padding: 5px 10px;
+  border-radius: var(--box-radius);
+  border: 1px solid var(--main-color1);
+}
+
+button.hint-window .hint-icon {
+  background-color: var(--main-color2);
+  margin-left: 0;
+  padding: 5px;
+  border-radius: 50px;
+  margin-right: 5px;
+}
+
+button.solution-window .solution-icon {
+  background-color: var(--main-color1);
+  margin-left: 0;
+  padding: 5px;
+  border-radius: var(--box-radius);
+  margin-right: 5px;
+  border-radius: 50px;
+}
+
 button.hint,
 button.solution {
-  background-color: var(--main-color1);
+  background-color: var(--main-color2);
   width: clamp(7px, 2vw, 30px);
   height: clamp(7px, 2vw, 30px);
   border-radius: 50px;
@@ -542,7 +587,7 @@ button.solution {
 }
 
 button.solution {
-  background-color: var(--main-color2);
+  background-color: var(--main-color1);
 }
 
 .info-icon {
@@ -564,11 +609,22 @@ button.solution {
   justify-self: center;
   padding: clamp(6px, 1vw, 12px);
   font-size: clamp(0.5rem, 0.7vw, 1rem);
-  border: solid 2px var(--main-color3);
+  border: solid 2px #6b6b6b;
   width: fit-content;
   border-radius: var(--box-radius);
-  background-color: #e9f7f5;
-  color: var(--main-color3);
+  background-color: #e4e4e4;
+  margin-bottom: 20px;
+}
+
+.challenge-explanation {
+  justify-self: center;
+  padding: clamp(6px, 1vw, 12px);
+  font-size: clamp(0.5rem, 0.7vw, 1rem);
+  border: solid 1px var(--main-color2);
+  width: fit-content;
+  border-radius: var(--box-radius);
+  background-color: #fff5e7;
+  color: var(--main-color2);
   margin-bottom: 30px;
 }
 
@@ -582,7 +638,7 @@ button.solution {
   cursor: pointer;
   align-self: center;
   display: flex;
-  background-color: var(--main-color3);
+  background-color: #6b6b6b;
   width: 10px;
   border-top-left-radius: var(--box-radius);
   border-bottom-left-radius: var(--box-radius);
@@ -600,6 +656,7 @@ button.solution {
   overflow-y: auto;
   font-size: clamp(0.7rem, 0.9vw, 1rem);
   padding: clamp(0.7rem, 0.9vw, 1rem);
+  width: 100%;
 }
 
 .challenge-instructions .instructions h3 {
@@ -620,9 +677,8 @@ button.solution {
 }
 
 .challenge-instructions .instructions .chapter-progress span {
-  font-size: clamp(0.6rem, 0.7vw, 1rem);
+  font-size: clamp(0.6rem, 0.7vw, 2rem);
   align-content: center;
-  padding: clamp(6px, 0.7vw, 10px);
   border-radius: clamp(20px, 0.7vw, 50px);
 }
 
@@ -633,27 +689,27 @@ button.solution {
 .challenge-instructions .instruction-help {
   display: flex;
   padding: clamp(8px, 1vw, 14px);
+  gap: 20px;
+  align-self: center;
+}
+
+.challenge-instructions .instruction-help button:hover {
+  transform: scale(1.05);
 }
 
 .challenge-instructions .instruction-help button {
   flex: 1;
-  color: white;
   border-radius: var(--box-radius);
   font-size: clamp(0.6rem, 0.7vw, 1rem);
-  padding: clamp(2px, 1vw, 8px);
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  display: flex;
+  align-items: center;
 }
 
 .challenge-instructions .instruction-help button img {
   align-items: center;
-}
-
-.challenge-instructions .instruction-help button:first-child {
-  background-color: var(--main-color1);
-  border: 1px solid var(--main-color1);
-}
-
-.challenge-instructions .instruction-help button:nth-child(2) {
-  background-color: var(--main-color2);
 }
 
 .content-cards {
@@ -661,6 +717,7 @@ button.solution {
   gap: clamp(5px, 1vw, 20px);
   flex: 1 1 auto;
   justify-content: space-between;
+  margin: 5px;
 }
 
 .content-cards > div {
@@ -703,6 +760,281 @@ button.solution {
   min-width: 140px;
   max-width: 211px;
   flex-shrink: 1;
+}
+
+.challenge-error-container {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(0.5px);
+  z-index: 1000;
+}
+
+.challenge-error-container .challenge-error-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.challenge-error-container .challenge-error-content .error-title {
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  font-weight: 700;
+}
+
+.challenge-error-container .challenge-error-content .buttons {
+  display: flex;
+  gap: 24px;
+  margin-top: 10px;
+  flex-direction: column;
+}
+
+.challenge-error-container .challenge-error-content .buttons .retry-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 14px 26px;
+
+  font-size: 1.1rem;
+  font-weight: 700;
+
+  border: none;
+  border-radius: 12px;
+
+  background: var(--main-color3);
+  color: white;
+
+  cursor: pointer;
+
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+
+  transition: all 0.2s ease;
+}
+
+.challenge-error-container .challenge-error-content .buttons .retry-button img {
+  width: 20px;
+}
+
+.challenge-error-container .challenge-error-content .buttons .retry-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* next */
+
+.challenge-error-container .challenge-error-content .buttons .next-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 14px 26px;
+
+  font-size: 1.1rem;
+  font-weight: 700;
+
+  border: none;
+  border-radius: 12px;
+
+  background: linear-gradient(90deg, var(--main-color1), #ffcf87);
+
+  color: white;
+  cursor: pointer;
+
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+
+  transition: all 0.2s ease;
+}
+
+.challenge-error-container .challenge-error-content .buttons .next-button img {
+  width: 20px;
+}
+
+.challenge-error-container .challenge-error-content .buttons .next-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+.challenge-completed-container {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(3px);
+  z-index: 1000;
+}
+
+.challenge-completed-container .challenge-completed-content {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.challenge-completed-content p:first-child {
+  animation: bravoPop 0.6s ease;
+}
+
+@keyframes bravoPop {
+  0% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.challenge-completed-container .challenge-completed-content p:first-child {
+  font-size: clamp(2rem, 3vw, 14rem);
+  font-weight: bolder;
+}
+
+.challenge-completed-container .challenge-completed-content a button {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  background: var(--main-color1);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.challenge-completed-container .challenge-completed-content a button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.challenge-completed-container .challenge-completed-content .score-container {
+  display: flex;
+}
+
+.challenge-completed-container .challenge-completed-content p.title-score {
+  font-size: clamp(1rem, 2vw, 8rem);
+  font-weight: 600;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.challenge-completed-container .challenge-completed-content span.score {
+  background: linear-gradient(90deg, var(--main-color1), #ffcf87);
+  padding: clamp(10px, 1vw, 24px);
+  font-size: clamp(1.5rem, 3vw, 6rem);
+  border-radius: 14px;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transform: scale(1);
+  animation: scorePop 0.5s ease;
+}
+
+@keyframes scorePop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.countdown::before {
+  box-shadow:
+    0 0 10px rgba(255, 150, 80, 0.6),
+    0 0 20px rgba(255, 150, 80, 0.3);
+}
+
+.challenge-completed-container .challenge-completed-content .countdown {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* important */
+  margin-top: 10px;
+}
+
+.challenge-completed-container .challenge-completed-content .countdown::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(var(--main-color1), #ffcf87, var(--main-color1));
+  animation: spin 1.2s linear infinite;
+}
+
+.challenge-completed-container .challenge-completed-content .countdown::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  background: white;
+  border-radius: 50%;
+}
+
+.challenge-completed-container .challenge-completed-content .countdown-center {
+  position: relative;
+  font-size: 20px;
+  font-weight: 700;
+  z-index: 2;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.challenge-completed-container .challenge-completed-content .next-challenge-title {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: clamp(0.4rem, 1vw, 1.5rem);
+  padding: 0;
+}
+
+.challenge-completed-container .challenge-completed-content .loader-center img {
+  width: 45px;
+}
+
+.countdown-text {
+  margin-top: 20px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.next-button {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  background: var(--main-color1);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.next-button img {
+  width: 16px;
+}
+
+.next-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* ===================== CARDS ===================== */
@@ -770,6 +1102,9 @@ button.solution {
   width: 100%;
   min-width: 0;
   max-width: 100%;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.1);
 }
 /* 
 .cards-container .content-cards .carousel-container .entity-card,
@@ -893,7 +1228,8 @@ button.solution {
   border: 1px solid var(--main-color1);
   background: color-mix(in srgb, var(--main-color1, currentColor) 10%, transparent);
   transition: transform 0.3s ease;
-  height: 5px;
+  height: 8px;
+  border: none;
 
   /* Thumb - Chrome/Safari */
   &::-webkit-slider-thumb {
@@ -997,25 +1333,128 @@ button.solution {
   align-items: center;
   justify-content: center;
   margin-top: 15px;
+  gap: 5px;
+}
+
+.range .slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 60%;
+  height: 6px; /* un peu plus épais pour aligner le thumb */
+  border-radius: 50px;
+  background: #e4e4e4;
+  outline: none;
+  border: 1px solid var(--main-color1);
+  position: relative;
+  vertical-align: middle;
+}
+
+/* Thumb Chrome/Safari */
+.range .slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--main-color1);
+  cursor: pointer;
+  margin-top: -5px; /* pour centrer le thumb sur la ligne */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--main-color1);
+}
+
+/* Thumb Firefox */
+.range .slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--main-color1);
+  cursor: pointer;
+  border: none;
+}
+
+/* Track Firefox */
+.range .slider::-moz-range-track {
+  background: #e4e4e4;
+  height: 6px;
+  border-radius: 50px;
 }
 
 .range button {
-  width: clamp(16px, 2vw, 25px);
-  height: clamp(16px, 2vw, 25px);
+  width: clamp(28px, 2vw, 60px);
+  height: clamp(28px, 2vw, 60px);
   border-radius: 50%;
-  background: var(--main-color1);
-  color: var(--main-color1);
-  font-weight: bold;
   border: none;
+  background: var(--main-color1);
+  color: white;
+  font-weight: bold;
+  font-size: clamp(1rem, 2vw, 1.2rem);
   cursor: pointer;
   display: grid;
   place-items: center;
-  flex-shrink: 0;
-  padding: 0;
-  line-height: 1;
-  margin: 0 5px;
-  background: color-mix(in srgb, var(--main-color1, currentColor) 10%, transparent);
-  border: 1px solid var(--main-color1);
+  transition: all 0.2s ease;
+}
+
+.range button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
+}
+
+.range input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 60%;
+  height: 8px;
+  border-radius: 50px;
+  background: #e4e4e4;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+/* Chrome / Safari Track */
+.range input[type='range']::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 50px;
+  background: #e4e4e4;
+}
+
+.range input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: clamp(20px, 2vw, 28px);
+  height: clamp(20px, 2vw, 28px);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--main-color1), #ffcf87);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease;
+}
+
+.range input[type='range']::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+/* Firefox */
+.range input[type='range']::-moz-range-thumb {
+  width: clamp(20px, 2vw, 28px);
+  height: clamp(20px, 2vw, 28px);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--main-color1), #ffcf87);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.range input[type='range']::-moz-range-track {
+  height: 8px;
+  border-radius: 50px;
+  background: #e4e4e4;
+}
+
+/* ===== Track Fill (Firefox) ===== */
+.range input[type='range']::-moz-range-progress {
+  background: linear-gradient(135deg, var(--main-color1), #ffcf87);
+  border-radius: 50px;
 }
 
 .cards-container .content-cards .types-filter.horizontal-filter {
@@ -1083,7 +1522,9 @@ button.solution {
   overflow: hidden;
   background-color: white;
   border-radius: var(--box-radius);
-  box-shadow: var(--shadow);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.1);
   font-size: clamp(0.7rem, 0.6vw, 1.1rem);
   transition: all 0.3s;
   position: relative;
@@ -1427,7 +1868,9 @@ button.solution {
   overflow: hidden;
   background-color: white;
   border-radius: var(--box-radius);
-  box-shadow: var(--shadow);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.1);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -1467,12 +1910,32 @@ button.solution {
   object-fit: cover;
   margin-top: 10px;
 }
+
+.error {
+  border: solid 2px red;
+}
+
+.error-cards {
+  z-index: 2000;
+  background-color: white;
+  position: relative;
+  border: solid 2px red;
+  justify-self: center;
+  background-color: red;
+  border-radius: 10px;
+  color: white;
+  padding: 5px 10px;
+  width: fit-content;
+  font-size: clamp(0.4rem, 0.7vw, 1rem);
+  margin-bottom: 10px;
+}
+
 /* ===================== FOOTER ===================== */
 
 .footer {
   display: flex;
-  justify-content: center;
-  height: 40px;
+  justify-content: space-between;
+  height: clamp(26px, 3vw, 60px);
   font-size: 14px;
   font-weight: 700;
   border-top: 1px solid #dfdfdf;
@@ -1487,8 +1950,94 @@ button.solution {
   font-weight: 600;
 }
 
-.footer button:hover {
+.footer button.back {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.footer button.back a {
+  display: flex;
+}
+
+.footer button.back:hover {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   color: var(--main-color1);
+}
+
+.footer button.back span {
+  align-self: center;
+  font-size: clamp(0.4rem, 0.7vw, 1rem);
+}
+
+.footer button.back img {
+  max-width: clamp(10px, 1vw, 40px);
+}
+
+.footer .finish-challenge {
+  align-self: center;
+  display: flex;
+}
+
+.footer button.validation {
+  background-color: var(--main-color3);
+  color: white;
+  border-radius: var(--box-radius);
+  height: clamp(26px, 2vw, 45px);
+  display: flex;
+  align-items: center;
+  font-size: clamp(0.4rem, 0.7vw, 1rem);
+  padding: 10px;
+  font-weight: 600;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
+}
+
+.footer button.validation:hover {
+  box-shadow:
+    0 0 15px rgba(42, 157, 143, 0.6),
+    0 0 30px rgba(42, 157, 143, 0.4);
+  transform: translateY(-1px);
+}
+
+.footer button.validation:hover:not(:disabled) {
+  box-shadow: 0 0 12px rgba(0, 255, 0, 0.5);
+  transform: scale(1.03);
+}
+
+.footer button.validation:disabled {
+  background-color: #c0c0c0;
+  color: #eee;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.footer button.next {
+  background-color: #f0f0f0;
+  border-radius: var(--box-radius);
+  height: clamp(26px, 2vw, 45px);
+  display: flex;
+  align-items: center;
+  font-size: clamp(0.4rem, 0.7vw, 1rem);
+  padding: 10px;
+  border: 1px solid #dadada;
+}
+
+.footer button.next img {
+  filter: invert(1);
+  opacity: 0.8;
+  margin-right: 5px;
+}
+
+.footer button.next:hover {
+  background-color: #e2e2e2;
 }
 
 /* ===================== SCROLLBAR ===================== */
