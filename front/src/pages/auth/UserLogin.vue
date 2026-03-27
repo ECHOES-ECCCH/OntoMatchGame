@@ -7,7 +7,6 @@ import { handleCheckingForm, login, isLoading } from '@/services/auth.service'
 import type { RegisterFormData } from '@/types/form'
 import { authStore } from '@/stores/auth.store'
 import { langStore } from '@/stores/lang.store'
-import LanguageSelection from '@/components/LanguageSelection.vue'
 
 const formData = ref<RegisterFormData>({
   email: '',
@@ -43,21 +42,32 @@ const handleSubmit = async (data: RegisterFormData) => {
   if (success && authStore.state.value.isAuthenticated) {
     router.push('/home')
   }
+
+  if (!success) {
+    errors.value.password = 'static-text.SigninScene.signin-scene-wrongcombination-text'
+    return
+  }
 }
 </script>
 
 <template>
   <ButtonLoader v-if="isLoading" />
-  <h1>
-    {{ langStore.t('static-text.SigninScene.signin-scene-title-text') }}
-  </h1>
-  <p>{{ langStore.t('static-text.SigninScene.signin-scene-intro-text') }}</p>
-  <LanguageSelection />
-  <Form v-model="formData" v-model:errors="errors" @submit="handleSubmit" :isLoading></Form>
-  <router-link to="/signup">
-    <label>{{ langStore.t('static-text.SigninScene.signin-scene-noaccount-label') }}</label>
-    <button>
-      {{ langStore.t('static-text.SigninScene.signin-scene-createbutton-label') }}
-    </button>
-  </router-link>
+  <section class="login-container">
+    <h1>
+      {{ langStore.t('static-text.SigninScene.signin-scene-title-text') }}
+    </h1>
+    <p>{{ langStore.t('static-text.SigninScene.signin-scene-intro-text') }}</p>
+    <h3>{{ langStore.t('static-text.SigninScene.signin-scene-signin-text') }}</h3>
+    <div class="account">
+      <Form v-model="formData" v-model:errors="errors" @submit="handleSubmit" :isLoading></Form>
+      <div class="signup-redirection">
+        <router-link to="/signup">
+          <p>{{ langStore.t('static-text.SigninScene.signin-scene-noaccount-label') }}</p>
+          <button>
+            {{ langStore.t('static-text.SigninScene.signin-scene-createbutton-label') }}
+          </button>
+        </router-link>
+      </div>
+    </div>
+  </section>
 </template>

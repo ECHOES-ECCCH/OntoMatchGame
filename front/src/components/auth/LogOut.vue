@@ -10,5 +10,7 @@ const handleLogout = () => {
 </script>
 
 <template>
-  <button class="logout" @click="handleLogout"><img :src="close" /> Quitter le jeu</button>
+  <button v-show="authStore.state.value.isAuthenticated" class="logout" @click="handleLogout">
+    <img :src="close" /> Quitter le jeu
+  </button>
 </template>
