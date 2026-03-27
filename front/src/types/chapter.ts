@@ -1,4 +1,5 @@
 export interface ChapterStats {
+  userId: string
   scenarioName: string
   chapterName: string
   lastChallengeId: string
@@ -11,6 +12,7 @@ export interface ChapterData {
   Statement?: string
   Title?: string
   Explanation?: string
+  Score?: number
   ELeftInit?: string
   EMiddleInit?: string
   ERightInit?: string

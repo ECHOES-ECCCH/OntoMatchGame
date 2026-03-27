@@ -15,6 +15,7 @@ import EntitySuperclassesSubclasses from './EntitySuperclassesSubclasses.vue'
 import { getColor } from '@/utils/get-color-types'
 import { colors } from '@/assets/cards/colors'
 import { useSuperSubClasses } from '@/composables/useSuperSubClasses'
+import ChallengeError from './ChallengeError.vue'
 
 const props = defineProps<{
   totalCards: {
@@ -27,6 +28,7 @@ const props = defineProps<{
   cardInfo: Record<Position, CardInfo>
   currentIndexes: CurrentIndexes
   entityDataCards: CardInfo[]
+  errorCards
   handlePrevious: (position: Position, cards: CardInfo[]) => void
   handleNext: (position: Position, cards: CardInfo[]) => void
   handleSliderChange: (position: Position, value: number, cards: CardInfo[]) => void
@@ -83,13 +85,20 @@ const isNoCard = computed(() => {
   </div>
 
   <div v-else class="carousel-container">
+    <ChallengeError v-if="errorCards[totalCards.position]?.status === 'incorrect'" />
+    <div v-show="errorCards[totalCards.position]?.status === 'incorrect'" class="error-cards">
+      {{ errorCards[totalCards.position]?.message }}
+    </div>
     <div
       class="entity-card"
-      :class="{
-        wrong: Array.isArray(totalCards.cards)
-          ? !totalCards.cards.some((c) => c?.id === cardInfo[totalCards.position as Position].id)
-          : false,
-      }"
+      :class="[
+        {
+          wrong: Array.isArray(totalCards.cards)
+            ? !totalCards.cards.some((c) => c?.id === cardInfo[totalCards.position as Position].id)
+            : false,
+        },
+        errorCards[totalCards.position]?.status === 'incorrect' ? 'error' : '',
+      ]"
       :style="getColor(cardInfo[totalCards.position as Position].branch)"
     >
       <div class="scope-note-text" v-show="showScopeNote">

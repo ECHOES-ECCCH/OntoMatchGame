@@ -98,7 +98,7 @@
       "mainmenu-scene-reset-label": "Effacer les données de jeu et recommencer",
       "mainmenu-scene-resetbutton-text": "Réinitialiser",
       "mainmenu-scene-quit-label": "Quitter le jeu",
-      "mainmenu-scene-quitbutton-text": "Quitter",
+      "mainmenu-scene-quitbutton-text": "Déconnexion",
       "mainmenu-scene-more-label": "Plus d'info",
       "mainmenu-scene-credits-label": "Crédits",
       "mainmenu-scene-freemode-label": "Mode libre"
@@ -116,7 +116,14 @@
       "boardscene-scene-gethint-text": "Indice",
       "boardscene-scene-getanswer-text": "Solution",
       "boardscene-scene-insctruction-text": "Consigne",
-      "boardscene-scene-filter-entity-text": "Aucune carte ne correspond à la sélection de couleur. Essayez-en une autre"
+      "boardscene-scene-filter-entity-text": "Aucune carte ne correspond à la sélection de couleur. Essayez-en une autre",
+      "boardscene-scene-error-branch": "Mauvaise branche",
+      "boardscene-scene-error-domain-branch": "Mauvais domaine",
+      "boardscene-scene-error-range-branch": "Mauvais co-domaine",
+      "boardscene-scene-error-generic": "Trop générique",
+      "boardscene-scene-error-specific": "Trop specifique",
+      "boardscene-scene-chapter-completed": "Chapitre terminé",
+      "boardscene-scene-change-chapter": "Choisir un autre chapitre"
     },
 
     "StatsScene": {

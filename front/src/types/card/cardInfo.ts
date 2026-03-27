@@ -1,7 +1,7 @@
 import type { BranchName } from './branch'
 
 export type EntityPosition = 'eleft' | 'emiddle' | 'eright' | 'pleft' | 'pright'
-export type PropertyPosition = 'pleft' | 'pright'
+export type PropertyPosition = 'pleft_domain' | 'pleft_range' | 'pright_domain' | 'pright_range'
 export type Position = EntityPosition | PropertyPosition
 
 export interface CardInfo {
@@ -11,6 +11,7 @@ export interface CardInfo {
     en: string
     fr: string
   }
+  cards: string[] | string
   comment: string
   subClasses: string[]
   branch?: BranchName[] | null
@@ -42,4 +43,11 @@ export interface SelectedCardData {
   position: Position
   totalCards: number
   cards: CardInfo[] | 'no card'
+}
+
+export interface CardInstances {
+  Id: string
+  Title: string
+  Label: string
+  ImageName: string
 }

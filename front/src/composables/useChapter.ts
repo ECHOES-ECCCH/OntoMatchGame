@@ -1,9 +1,12 @@
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onScopeDispose } from 'vue'
 import { useRoute } from 'vue-router'
 import { findChapterStats } from '@/utils/chapters-progression'
 import scenarioCatalogRaw from '@/assets/json/scenariiCatalog.json'
 import type { ScenarioCatalog } from '@/types/game-selection'
 import type { ChapterData } from '@/types/chapter'
+import { useSolution } from '@/composables/useSolution'
+
+const { showSolution } = useSolution()
 
 const scenarioCatalog = scenarioCatalogRaw as ScenarioCatalog
 
@@ -11,19 +14,16 @@ const chapters = import.meta.glob('@/assets/json/**/chapter/*/*.json')
 const instances = import.meta.glob('@/assets/json/**/chapter/*/Instances/Instances.json')
 
 const isLoadingChapter = ref(false)
+const chapterData = ref<ChapterData | null>(null)
+const chapterInstances = ref(null)
+const imgInstanceURL = ref(null)
+const error = ref<string | null>(null)
+
+let watchInitialized = false
 
 export function useChapterData() {
   const route = useRoute()
 
-  const chapterData = ref<ChapterData | null>(null)
-  const chapterInstances = ref(null)
-  const imgInstanceURL = ref(null)
-
-  const error = ref<string | null>(null)
-
-  /**
-   * Stats utilisateur du chapitre
-   */
   const chapterStats = computed(() => {
     const chapterName = route.query.chapterName
     const scenarioName = route.query.scenario
@@ -38,9 +38,6 @@ export function useChapterData() {
     return stats
   })
 
-  /**
-   * Infos issues du scenariicatalog (lang + filename)
-   */
   const chapterInfo = computed<{ filename: string; lang: string } | null>(() => {
     if (!chapterStats.value) return null
 
@@ -60,19 +57,24 @@ export function useChapterData() {
     }
   })
 
-  const lastChallengeId = computed(() => {
-    return chapterStats.value?.lastChallengeId ?? '0'
-  })
-
-  /**
-   * Chargement du JSON du chapitre
-   */
   async function loadChapter(
     chapterName: string,
     scenario: string,
     challengeId: string,
     info: { filename: string; lang: string } | null,
   ) {
+    isLoadingChapter.value = true
+
+    if (showSolution.value) {
+      isLoadingChapter.value = false
+      return
+    }
+    if (!chapterName || !scenario || !info) {
+      isLoadingChapter.value = false
+      return
+    }
+
+    if (showSolution.value) return
     if (!chapterName || !scenario || !info) return
 
     const scenarioKey = scenario.split(' ')[0] || ''
@@ -94,9 +96,9 @@ export function useChapterData() {
     }
 
     isLoadingChapter.value = true
-
     try {
       const module = await chapters[key]()
+
       chapterData.value = module.default[challengeId] ?? null
 
       const moduleInstances = await instances[keyInstances]()
@@ -115,21 +117,36 @@ export function useChapterData() {
     }
   }
 
-  watch(
-    [() => route.query.chapterName, () => route.query.scenario, lastChallengeId, chapterInfo],
-    ([chapterName, scenarioValue, challengeId, info]) => {
-      if (
-        typeof chapterName !== 'string' ||
-        typeof scenarioValue !== 'string' ||
-        typeof challengeId !== 'string' ||
-        !info
-      )
-        return
+  if (!watchInitialized) {
+    watchInitialized = true
 
-      loadChapter(chapterName, scenarioValue, challengeId, info)
-    },
-    { immediate: true },
-  )
+    watch(
+      [
+        () => route.query.chapterName,
+        () => route.query.scenario,
+        () => route.query.challengeId,
+        chapterInfo,
+      ],
+      ([chapterName, scenarioValue, challengeId, info]) => {
+        if (typeof chapterName !== 'string' || typeof scenarioValue !== 'string' || !info) return
+
+        // challengeId depuis la route, sinon fallback sur les stats
+        const id =
+          typeof challengeId === 'string'
+            ? challengeId
+            : (chapterStats.value?.lastChallengeId ?? '0')
+
+        loadChapter(chapterName, scenarioValue, id, info)
+      },
+      { immediate: true },
+    )
+
+    // Remet watchInitialized à false quand le composant est détruit pour permettre la réinitialisation du watcher
+    onScopeDispose(() => {
+      watchInitialized = false
+      stop()
+    })
+  }
 
   return {
     chapterData,
@@ -138,5 +155,7 @@ export function useChapterData() {
     error,
     chapterStats,
     isLoadingChapter,
+    chapterInfo,
+    loadChapter,
   }
 }

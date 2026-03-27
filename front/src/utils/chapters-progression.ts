@@ -37,9 +37,18 @@ export const getChapterProgression = (chapter: Chapter | null, scenarioName?: st
   const last = parseInt(stats.lastChallengeId)
   const max = parseInt(stats.maxChallengeCount)
 
-  return last === 1 ? 0 : Math.round((last / max) * 100)
-}
+  // Cas : un seul challenge
+  if (max === 1) {
+    return last >= 1 ? 100 : 0
+  }
 
+  // Cas : plusieurs challenges mais on est au premier
+  if (last === 1) {
+    return 0
+  }
+
+  return Math.round((last / max) * 100)
+}
 export const getChapterLastChallengeId = (chapter: Chapter | null, scenarioName?: string) => {
   const stats = findChapterStats({
     ...chapter,
