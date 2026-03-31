@@ -60,7 +60,7 @@
     },
 
     "GameSelectionScene": {
-      "gameselection-scene-title-text": "SÉLECTION DES JEUX",
+      "gameselection-scene-title-text": "Sélection des jeux",
       "gameselection-scene-backbutton-text": "Retour",
       "gameselection-scene-listofscenarii-label": "Liste des scénarios",
       "gameselection-scene-domain-label": "Thèmes",

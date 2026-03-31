@@ -9,6 +9,7 @@ import { getChapterProgression, isChapterStarted } from '@/utils/chapters-progre
 import type { Chapter, Scenario } from '@/types/game-selection'
 import PagesLoader from '../loader/PagesLoader.vue'
 import ButtonLoader from '../loader/ButtonLoader.vue'
+import reset from '@/assets/img/reset.svg'
 
 const userStore = useUserInformations()
 defineProps<{
@@ -48,39 +49,47 @@ const handleCreateSessionData = (scenario: string, chapter: string) => {
 </script>
 
 <template>
-  <div>
-    <div v-if="!isFullyLoaded" style="padding: 20px; text-align: center">
-      <PagesLoader />
-    </div>
+  <div v-if="!isFullyLoaded" style="padding: 20px; text-align: center">
+    <PagesLoader />
+  </div>
 
-    <Accordion v-else :itemsCount="scenario.length">
-      <template #header="{ index }">
-        <div>
-          <h3>{{ scenario[index]?.['scenario-title'] }}</h3>
-          <p>{{ scenario[index]?.['scenario-description'] }}</p>
-          <div>
-            <ul>
-              <li v-for="(domainTag, i) in scenario[index]?.domainTags" :key="i">
-                {{ domainTag }}
-              </li>
-              <li v-for="(authorTag, i) in scenario[index]?.authorTags" :key="i">
-                {{ authorTag }}
-              </li>
-              <li v-for="(ontologyTag, i) in scenario[index]?.ontologyTags" :key="i">
-                {{ ontologyTag }}
-              </li>
-            </ul>
-          </div>
+  <Accordion v-else :itemsCount="scenario.length">
+    <template #header="{ index, active }">
+      <div class="scenario">
+        <div class="scenario-title">
+          <span
+            ><h4>{{ scenario[index]?.['scenario-title'] }}</h4>
+            <p>{{ scenario[index]?.['scenario-description'] }}</p></span
+          >
+          <button>{{ active ? '-' : '+' }}</button>
         </div>
-      </template>
-      <template #content="{ index }">
-        <ul>
-          <li v-for="(chapter, i) in scenario[index]?.chapters" :key="i">
+
+        <div class="tag">
+          <ul>
+            <li v-for="(domainTag, i) in scenario[index]?.domainTags" :key="i">
+              {{ domainTag }}
+            </li>
+            <li v-for="(authorTag, i) in scenario[index]?.authorTags" :key="i">
+              {{ authorTag }}
+            </li>
+            <li v-for="(ontologyTag, i) in scenario[index]?.ontologyTags" :key="i">
+              {{ ontologyTag }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </template>
+    <template #content="{ index }">
+      <ul>
+        <li v-for="(chapter, i) in scenario[index]?.chapters" :key="i">
+          <div class="chapter-name">
             {{ chapter['chapter-title'] }}
-            {{ chapter['chapter-description'] }}
-            <div>
-              {{ getChapterProgression(chapter, scenario[index]?.['scenario-title']) || 0 }}%
-            </div>
+            <p>{{ chapter['chapter-description'] }}</p>
+          </div>
+          <div class="chapter-action">
+            <span
+              >{{ getChapterProgression(chapter, scenario[index]?.['scenario-title']) || 0 }}%</span
+            >
             <router-link
               :to="{
                 path: '/challenge',
@@ -90,13 +99,25 @@ const handleCreateSessionData = (scenario: string, chapter: string) => {
                 },
               }"
             >
-              <button v-if="isChapterStarted(chapter, scenario[index]?.['scenario-title'])">
-                Go
+              <button
+                class="play-challenge"
+                title="Play"
+                v-if="isChapterStarted(chapter, scenario[index]?.['scenario-title'])"
+              >
+                ►
               </button>
-              <button v-else @click="goToChallenge(scenario[index]!, chapter)">Go</button>
+              <button
+                class="play-challenge"
+                title="Play"
+                v-else
+                @click="goToChallenge(scenario[index]!, chapter)"
+              >
+                ►
+              </button>
             </router-link>
             <ButtonLoader v-if="isResetProgressionLoading" />
             <button
+              class="reset-challenge"
               v-else
               :disabled="isResetProgressionLoading"
               @click="
@@ -109,11 +130,11 @@ const handleCreateSessionData = (scenario: string, chapter: string) => {
                 })
               "
             >
-              Reset
+              <img :src="reset" alt="reset" title="reset" />
             </button>
-          </li>
-        </ul>
-      </template>
-    </Accordion>
-  </div>
+          </div>
+        </li>
+      </ul>
+    </template>
+  </Accordion>
 </template>

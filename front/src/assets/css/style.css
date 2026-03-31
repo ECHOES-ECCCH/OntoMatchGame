@@ -56,6 +56,13 @@ a {
   color: inherit;
 }
 
+hr {
+  border: none;
+  height: 1px;
+  background-color: rgb(228, 228, 228);
+  margin-right: 60px;
+}
+
 /* ===================== LOADER ===================== */
 
 /* Button Loader */
@@ -361,11 +368,11 @@ button.submit:hover {
 .homepage .homepage-content ul.menu li a button {
   color: white;
   background-color: var(--main-color2);
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   border-radius: var(--box-radius);
   padding-left: 10px;
-  font-size: clamp(14px, 1vw, 16px);
+  font-size: clamp(16px, 1.2vw, 18px);
 }
 
 .homepage .homepage-content ul.menu li:hover {
@@ -964,22 +971,15 @@ button.solution {
   display: flex;
   align-items: center;
   gap: 8px;
-
   padding: 14px 26px;
-
   font-size: 1.1rem;
   font-weight: 700;
-
   border: none;
   border-radius: 12px;
-
   background: var(--main-color3);
   color: white;
-
   cursor: pointer;
-
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-
   transition: all 0.2s ease;
 }
 
@@ -1270,6 +1270,7 @@ button.solution {
 
 .cards-container .content-cards .carousel-container .property-card {
   flex: 1 0 clamp(180px, 14vw, 350px);
+  /* height: clamp(160px, 10vw, 200px); */
   width: 100%;
   min-width: 0;
   max-width: 100%;
@@ -1277,11 +1278,6 @@ button.solution {
     0 2px 4px rgba(0, 0, 0, 0.1),
     0 8px 16px rgba(0, 0, 0, 0.1);
 }
-/* 
-.cards-container .content-cards .carousel-container .entity-card,
-.cards-container .content-cards .carousel-container .entity-card * {
-  box-sizing: border-box;
-} */
 
 .cards-container .content-cards .carousel-container .entity-card::before {
   content: '';
@@ -1860,7 +1856,7 @@ button.solution {
 }
 
 .cards-container .content-cards .carousel-container .property-card .card-content {
-  min-height: 0; /* ← clé du problème dans un flex container */
+  min-height: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -2101,6 +2097,317 @@ button.solution {
   margin-bottom: 10px;
 }
 
+/* ===================== GAME SELECTION ===================== */
+
+.game-selection h2 {
+  margin: 30px 0 20px 20px;
+}
+
+.game-selection-container {
+  display: flex;
+  margin: 20px;
+}
+
+.game-selection-container aside {
+  flex: 1;
+}
+
+.game-selection-container aside h3 {
+  font-weight: 500;
+  font-size: clamp(0.8rem, 1.2vw, 1.1rem);
+  margin: 10px 0 20px;
+}
+
+.game-selection-container .scenario-accordion {
+  flex: 4;
+  margin-bottom: 60px;
+  border-left: 1px solid #eee;
+  padding-left: 20px;
+}
+
+.game-selection-container .scenario-accordion h3 {
+  font-weight: 500;
+  font-size: clamp(0.8rem, 1.2vw, 1.1rem);
+  margin: 20px 0 30px;
+}
+
+.game-selection-container .scenario-accordion .scenario .scenario-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.game-selection-container .scenario-accordion .scenario .scenario-title button {
+  background-color: var(--main-color2);
+  color: white;
+  width: clamp(30px, 3vw, 45px);
+  height: clamp(30px, 3vw, 45px);
+  align-self: center;
+  border-radius: var(--box-radius);
+  font-size: clamp(1rem, 1.3vw, 2rem);
+  transition: all 0.3s ease;
+}
+
+.game-selection-container .scenario-accordion .scenario .scenario-title button:hover {
+  transform: scale(1.1);
+}
+
+.game-selection-container .scenario-accordion .scenario .tag ul {
+  display: flex;
+  gap: 20px;
+  padding-left: 0;
+}
+
+.game-selection-container .scenario-accordion .scenario .tag ul li {
+  background-color: #e9f7f5;
+  color: var(--main-color3);
+  border-radius: 20px;
+  padding: 10px 20px;
+  color: #1f8a7d;
+  font-weight: 500;
+}
+
+.game-selection-container .scenario-accordion .scenario p {
+  font-style: italic;
+}
+
+.game-selection-container .scenario-accordion .accordion-item {
+  border: solid 1px var(--main-color2);
+  border-radius: var(--box-radius);
+  margin-bottom: 20px;
+  background-color: white;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  border-left: 7px solid var(--main-color2);
+}
+
+.game-selection-container .scenario-accordion .accordion-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.game-selection-container .scenario-accordion .accordion-header {
+  width: 100%;
+  padding: 0 12px;
+  background: white;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  /* border: 1px solid var(--main-color2); */
+  border-radius: var(--box-radius);
+}
+
+.game-selection-container .scenario-accordion .accordion-header h4 {
+  font-size: clamp(0.6rem, 1vw, 1.2rem);
+  margin: 15px 0;
+}
+
+.game-selection-container .scenario-accordion .accordion-content ul li {
+  display: flex;
+}
+
+.game-selection-container aside div {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin-right: 24px;
+}
+
+.game-selection-container aside div ul {
+  font-size: clamp(0.6rem, 0.9vw, 1rem);
+  padding-left: 0;
+}
+
+.game-selection-container aside div ul li {
+  display: flex;
+  align-items: center;
+}
+
+.game-selection-container aside div ul li input[type='checkbox'] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  color: white;
+}
+
+.game-selection-container aside .theme-filter ul li input[type='checkbox'] {
+  border: 2px solid var(--main-color1);
+}
+
+.game-selection-container aside .theme-filter ul li input[type='checkbox']:checked {
+  background-color: var(--main-color1);
+}
+
+.game-selection-container aside .language-filter ul li input[type='checkbox'] {
+  border: 2px solid var(--main-color3);
+}
+
+.game-selection-container aside .language-filter ul li input[type='checkbox']:checked {
+  background-color: var(--main-color3);
+}
+
+.game-selection-container aside div ul li input[type='checkbox']:checked::after {
+  content: '✔';
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.game-selection-container .scenario-accordion .accordion .accordion-item .accordion-content ul {
+  padding-left: 0;
+}
+
+.game-selection-container .scenario-accordion .accordion .accordion-item .accordion-content ul li {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+  background-color: #fafafa;
+  padding: 10px;
+  border-radius: var(--box-radius);
+  align-items: center;
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  .chapter-name {
+  font-weight: 500;
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  .chapter-name
+  p {
+  font-size: clamp(0.7rem, 0.7vw, 0.9rem);
+  align-items: center;
+  font-weight: 100;
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  .chapter-action {
+  display: flex;
+  align-items: center;
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  .chapter-action
+  a
+  button.play-challenge {
+  width: clamp(30px, 3vw, 45px);
+  height: clamp(30px, 3vw, 45px);
+  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 50%, var(--main-color1) 100%);
+  border-radius: var(--box-radius);
+  color: white;
+  font-size: clamp(0.8rem, 1.2vw, 1.2rem);
+  background-size: 200% 100%;
+  background-position: left;
+  transition: background-position 0.4s ease;
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  .chapter-action
+  a
+  button.play-challenge:hover {
+  background-position: right;
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  .chapter-action
+  button.reset-challenge {
+  width: clamp(25px, 2.5vw, 45px);
+  height: clamp(25px, 2.5vw, 45px);
+  transition: transform 0.4s ease;
+  opacity: 0.6;
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  .chapter-action
+  button.reset-challenge:hover {
+  transform: rotate(-180deg);
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  .chapter-action
+  button.reset-challenge
+  img {
+  width: clamp(15px, 2vw, 30px);
+  height: clamp(15px, 2vw, 30px);
+  color: #6b6b6b;
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  span {
+  background-color: var(--main-color1);
+  color: white;
+  padding: 7px 12px;
+  border-radius: 50px;
+  margin-right: 30px;
+}
+
+.game-selection-container aside div ul li label {
+  margin-left: 5px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
 /* ===================== FOOTER ===================== */
 
 .footer {
@@ -2129,6 +2436,12 @@ button.solution {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  background-color: #ffdede;
+  color: var(--main-color1);
+  height: clamp(26px, 2vw, 45px);
+  align-self: center;
+  font-size: clamp(0.4rem, 0.7vw, 1rem);
+  padding: 10px;
 }
 
 .footer button.back a {
@@ -2136,9 +2449,7 @@ button.solution {
 }
 
 .footer button.back:hover {
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  color: var(--main-color1);
+  background-color: #ff6b6b54;
 }
 
 .footer button.back span {
@@ -2178,7 +2489,7 @@ button.solution {
 }
 
 .footer button.validation:hover:not(:disabled) {
-  box-shadow: 0 0 12px rgba(0, 255, 0, 0.5);
+  box-shadow: 0 0 12px var(--main-color3);
   transform: scale(1.03);
 }
 

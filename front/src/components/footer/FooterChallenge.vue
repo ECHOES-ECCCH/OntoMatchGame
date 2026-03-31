@@ -8,7 +8,6 @@ import { useSolution } from '@/composables/useSolution'
 import { useChallengeChecker } from '@/composables/useChallengeChecker'
 import checkValidation from '@/assets/img/check.svg'
 import next from '@/assets/img/next.svg'
-import back from '@/assets/img/back.svg'
 import PagesLoader from '../loader/PagesLoader.vue'
 
 const { chapterStats, chapterInfo, loadChapter } = useChapterData()
@@ -47,7 +46,6 @@ const handleNextAfterSolution = async () => {
   <div class="footer">
     <button class="back">
       <router-link to="/home">
-        <img :src="back" alt="back" />
         <span>{{ langStore.t('static-text.Footer.footer-backbutton') }}</span></router-link
       >
     </button>
@@ -55,6 +53,7 @@ const handleNextAfterSolution = async () => {
       <button
         v-if="
           showSolution &&
+          chapterStats &&
           parseInt(chapterStats?.lastChallengeId) <= parseInt(chapterStats?.maxChallengeCount)
         "
         class="next"
@@ -65,6 +64,7 @@ const handleNextAfterSolution = async () => {
       </button>
       <button
         v-else-if="
+          chapterStats &&
           parseInt(chapterStats?.lastChallengeId) < parseInt(chapterStats?.maxChallengeCount)
         "
         class="next"

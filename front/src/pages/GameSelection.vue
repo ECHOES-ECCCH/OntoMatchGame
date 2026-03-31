@@ -27,13 +27,22 @@ watch(
 </script>
 
 <template>
-  <section>
-    <ScenarioFilter />
-    <div>
-      {{ langStore.t('static-text.GameSelectionScene.gameselection-scene-listofscenarii-label') }}
-      <ScenarioAccordion v-if="filteredScenarii.length" :scenario="filteredScenarii" />
-      <div v-else>
-        {{ langStore.t('static-text.GameSelectionScene.gameselection-scene-noscenario-text') }}
+  <section class="game-selection">
+    <h2>
+      {{ langStore.t('static-text.GameSelectionScene.gameselection-scene-title-text') }}
+    </h2>
+    <div class="game-selection-container">
+      <ScenarioFilter />
+      <div class="scenario-accordion">
+        <h3>
+          {{
+            langStore.t('static-text.GameSelectionScene.gameselection-scene-listofscenarii-label')
+          }}
+        </h3>
+        <ScenarioAccordion v-if="filteredScenarii.length" :scenario="filteredScenarii" />
+        <div v-else>
+          {{ langStore.t('static-text.GameSelectionScene.gameselection-scene-noscenario-text') }}
+        </div>
       </div>
     </div>
   </section>

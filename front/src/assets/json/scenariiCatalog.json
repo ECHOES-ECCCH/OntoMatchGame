@@ -170,50 +170,6 @@
           "chapter-filename": "Chapter1.json"
         }
       ]
-    },
-    {
-      "scenario-title": "YOUR GAME HERE!",
-      "ontologyTags": ["CIDOC CRM"],
-      "domainTags": ["AnyDomain"],
-      "domainCodes": [
-        "ARC",
-        "ACT",
-        "ARK",
-        "ART",
-        "CSV",
-        "ETH",
-        "HIS",
-        "LIN",
-        "LIT",
-        "OLB",
-        "MSM",
-        "MUS"
-      ],
-      "authorTags": ["Your Org."],
-      "languageTag": "English",
-      "scenario-description": "You can create your own games very easily!",
-      "chapters": [
-        {
-          "chapter-title": "Introduction",
-          "chapter-description": "This could be your Introduction chapter.",
-          "chapter-filename": ""
-        },
-        {
-          "chapter-title": "Level 1",
-          "chapter-description": "Explain here basic concepts",
-          "chapter-filename": ""
-        },
-        {
-          "chapter-title": "Level 2",
-          "chapter-description": "Bring your audience to a higher level.",
-          "chapter-filename": ""
-        },
-        {
-          "chapter-title": "Level 3",
-          "chapter-description": "Get people involved in your work!",
-          "chapter-filename": ""
-        }
-      ]
     }
   ]
 }

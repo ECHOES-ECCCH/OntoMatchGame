@@ -58,7 +58,7 @@
       "resetpassword-scene-backbutton-text": "Back"
     },
     "GameSelectionScene": {
-      "gameselection-scene-title-text": "SCENARIO SELECTION",
+      "gameselection-scene-title-text": "Scenario selection",
       "gameselection-scene-backbutton-text": "Back",
       "gameselection-scene-listofscenarii-label": "List of scenarii",
       "gameselection-scene-domain-label": "Topics",
