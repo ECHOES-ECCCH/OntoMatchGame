@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import router from '@/router'
 import { authStore } from '@/stores/auth.store'
-import close from '@/assets/img/close.svg'
+import { langStore } from '@/stores/lang.store'
 
 const handleLogout = () => {
   authStore.logout()
@@ -10,5 +10,7 @@ const handleLogout = () => {
 </script>
 
 <template>
-  <button class="logout" @click="handleLogout">Deconnexion</button>
+  <button v-show="authStore.state.value.isAuthenticated" class="logout" @click="handleLogout">
+    {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-quitbutton-text') }}
+  </button>
 </template>

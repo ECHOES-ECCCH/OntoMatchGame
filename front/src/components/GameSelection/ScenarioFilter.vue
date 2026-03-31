@@ -5,29 +5,35 @@ import { handleSelectedFilters, selectedFilters } from '@/utils/game-selection-f
 
 <template>
   <aside>
-    <div>
-      {{ langStore.t('static-text.GameSelectionScene.gameselection-scene-domain-label') }}
+    <div class="theme-filter">
+      <h3>{{ langStore.t('static-text.GameSelectionScene.gameselection-scene-domain-label') }}</h3>
+      <hr />
       <ul v-for="(filter, i) in selectedFilters.theme" :key="i">
         <li>
           <input
             type="checkbox"
+            :id="filter.name"
             :checked="filter.selected"
             @change="handleSelectedFilters('theme', filter.name, !filter.selected)"
           />
-          <label>{{ filter.name }}</label>
+          <label :for="filter.name">{{ filter.name }}</label>
         </li>
       </ul>
     </div>
-    <div>
-      {{ langStore.t('static-text.GameSelectionScene.gameselection-scene-language-label') }}
+    <div class="language-filter">
+      <h3>
+        {{ langStore.t('static-text.GameSelectionScene.gameselection-scene-language-label') }}
+      </h3>
+      <hr />
       <ul v-for="(filter, i) in selectedFilters.language" :key="i">
         <li>
           <input
             type="checkbox"
+            :id="filter.name"
             :checked="filter.selected"
             @change="handleSelectedFilters('language', filter.name, !filter.selected)"
           />
-          <label>{{ filter.name }}</label>
+          <label :for="filter.name">{{ filter.name }}</label>
         </li>
       </ul>
     </div>

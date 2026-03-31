@@ -56,6 +56,56 @@ a {
   color: inherit;
 }
 
+hr {
+  border: none;
+  height: 1px;
+  background-color: rgb(228, 228, 228);
+  margin-right: 60px;
+}
+
+/* ===================== LOADER ===================== */
+
+/* Button Loader */
+
+#loader-2 span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
+  background-color: white;
+  margin: 10px 5px 0;
+}
+
+#loader-2 span:nth-child(1) {
+  animation: bounce 1s ease-in-out infinite;
+}
+
+#loader-2 span:nth-child(2) {
+  animation: bounce 1s ease-in-out 0.33s infinite;
+}
+
+#loader-2 span:nth-child(3) {
+  animation: bounce 1s ease-in-out 0.66s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  75%,
+  100% {
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    -o-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  25% {
+    -webkit-transform: translateY(-10px);
+    -ms-transform: translateY(-10px);
+    -o-transform: translateY(-10px);
+    transform: translateY(-10px);
+  }
+}
+
 /* ===================== HEADER ===================== */
 
 header.main-header {
@@ -119,8 +169,10 @@ button.logout {
   padding: 0 clamp(6px, 1vw, 10px);
   margin: 5px 0;
   height: clamp(26px, 2vw, 45px);
-  background-color: #ff6b6b33;
+  background-color: #ffdede;
   font-size: clamp(0.3rem, 0.8vw, 0.8rem);
+  color: var(--main-color1);
+  border: var(--main-color1) 1px solid;
 }
 
 button.logout:hover {
@@ -129,6 +181,118 @@ button.logout:hover {
 
 button.logout img {
   margin: 0 clamp(4px, 0.7vw, 7px);
+}
+
+/* ===================== LOGIN ===================== */
+
+.login-container {
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px auto;
+}
+
+.login-container h1 {
+  font-size: clamp(1rem, 2vw, 3rem);
+  font-weight: bolder;
+}
+
+.login-container p {
+  line-height: 1.4;
+  text-align: justify;
+  font-size: clamp(0.6rem, 0.9vw, 1rem);
+}
+
+.login-container h3 {
+  color: var(--main-color1);
+  font-size: clamp(0.6rem, 1vw, 1.4rem);
+}
+
+.login-container form.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container form.login-form .form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.login-container form.login-form .form-field .error-form {
+  color: red;
+  font-size: clamp(0.3rem, 0.9vw, 0.9rem);
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+.login-container form.login-form label {
+  font-size: clamp(0.3rem, 0.9vw, 0.9rem);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.login-container form.login-form input {
+  width: clamp(261px, 17vw, 481px);
+  height: clamp(37px, 2vw, 57px);
+  border: var(--main-color1) 1px solid;
+  border-radius: var(--box-radius);
+  padding: 0 5px;
+}
+
+.login-container form.login-form input::placeholder {
+  font-size: clamp(0.3rem, 0.8vw, 0.8rem);
+}
+
+.login-container form.login-form .forgot-password {
+  font-size: clamp(0.3rem, 0.7vw, 0.9rem);
+  text-align: right;
+  text-decoration: underline;
+}
+
+button.submit {
+  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 50%, var(--main-color1) 100%);
+  background-size: 200% 100%;
+  background-position: left;
+  color: white;
+  height: clamp(37px, 2.3vw, 57px);
+  border-radius: var(--box-radius);
+  box-shadow: var(--shadow);
+  margin-top: 15px;
+  font-weight: bold;
+  transition: background-position 0.4s ease;
+  font-size: clamp(0.6rem, 0.9vw, 0.9rem);
+}
+
+button.submit:hover {
+  background-position: right;
+}
+
+.login-container .signup-redirection a {
+  margin-top: 40px;
+  font-size: clamp(0.6rem, 0.9vw, 0.9rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container .signup-redirection a p {
+  font-size: clamp(0.3rem, 0.9vw, 0.9rem);
+  font-weight: 600;
+}
+
+.login-container .signup-redirection a button {
+  height: clamp(37px, 2.3vw, 57px);
+  border: var(--main-color3) 1px solid;
+  background-color: #e9f7f5;
+  border-radius: var(--box-radius);
+  color: var(--main-color3);
+  font-weight: 600;
+  font-size: clamp(0.3rem, 0.9vw, 0.9rem);
+}
+
+.login-container .signup-redirection a button:hover {
+  background-color: #e0faf6;
 }
 
 /* ===================== HOMEPAGE ===================== */
@@ -151,8 +315,8 @@ button.logout img {
 
 .homepage .homepage-content h2 {
   font-weight: 700;
-  font-size: 38px;
-  margin-bottom: 60px;
+  font-size: clamp(1rem, 1.9vw, 2.5rem);
+  padding: clamp(20px, 1vw, 60px);
 }
 
 .homepage .homepage-content ul.menu {
@@ -176,8 +340,8 @@ button.logout img {
 
 .homepage .homepage-content ul.menu li.menu-challenge {
   grid-column: span 6 / span 6;
-  height: 148px;
-  width: 1048px;
+  height: clamp(100px, 15vw, 148px);
+  width: clamp(280px, 70vw, 1048px);
   background-color: rgb(248, 248, 248);
   border: solid 1px var(--main-color1);
   border-left: 7px solid var(--main-color1);
@@ -198,16 +362,17 @@ button.logout img {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: clamp(14px, 1vw, 16px);
 }
 
 .homepage .homepage-content ul.menu li a button {
   color: white;
   background-color: var(--main-color2);
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   border-radius: var(--box-radius);
   padding-left: 10px;
-  font-size: 16px;
+  font-size: clamp(16px, 1.2vw, 18px);
 }
 
 .homepage .homepage-content ul.menu li:hover {
@@ -215,7 +380,8 @@ button.logout img {
 }
 
 .homepage .homepage-content ul.menu li a button:hover {
-  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
+  transform: scale(1.05);
+  box-shadow: var(--shadow);
 }
 
 .homepage .homepage-content ul.menu li.no-session {
@@ -235,15 +401,15 @@ button.logout img {
 }
 
 .homepage .homepage-content ul.menu li.menu-challenge a .last-challenge div p:nth-child(1) {
-  margin-bottom: 27px;
+  margin-bottom: clamp(10px, 2vw, 27px);
   margin-top: 0;
-  font-size: 20px;
+  font-size: clamp(16px, 1.2vw, 20px);
   font-weight: 600;
 }
 
 .homepage .homepage-content ul.menu li.menu-challenge a progress {
-  width: 250px;
-  height: 14px;
+  width: clamp(120px, 25vw, 250px);
+  height: clamp(8px, 1vw, 14px);
   appearance: none;
   border: none;
   border-radius: var(--box-radius);
@@ -271,56 +437,62 @@ progress::-moz-progress-bar {
 }
 
 .homepage .homepage-content ul.menu li.menu-challenge a .last-challenge button {
-  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
+  background: linear-gradient(90deg, var(--main-color1), #ffcf87, var(--main-color1));
+  background-size: 200% 100%;
+  background-position: left;
   color: white;
-  width: 468px;
-  height: 47px;
+  width: clamp(200px, 30vw, 468px);
+  height: clamp(35px, 5vw, 47px);
+  font-size: clamp(14px, 1vw, 16px);
   border-radius: var(--box-radius);
-  font-size: 16px;
   box-shadow: var(--shadow);
   font-weight: 600;
+  transition: background-position 0.4s ease;
 }
 
 .homepage .homepage-content ul.menu li.menu-challenge a .last-challenge button:hover {
-  background: linear-gradient(90deg, #ffcf87 0%, var(--main-color1) 100%);
+  background-position: right;
+}
+
+.homepage .homepage-content ul.menu li.menu-scenario,
+.homepage .homepage-content ul.menu li.menu-statistics,
+.homepage .homepage-content ul.menu li.menu-free-mode,
+.homepage .homepage-content ul.menu li.menu-ranking {
+  height: clamp(50px, 4vw, 64px);
 }
 
 .homepage .homepage-content ul.menu li.menu-scenario {
   grid-column: span 3 / span 3;
   grid-row-start: 2;
   box-shadow: var(--shadow);
-  height: 64px;
 }
 
 .homepage .homepage-content ul.menu li.menu-statistics {
   grid-column: span 3 / span 3;
   grid-column-start: 4;
   grid-row-start: 2;
-  height: 64px;
 }
 
 .homepage .homepage-content ul.menu li.menu-free-mode {
   grid-column: span 3 / span 3;
   grid-row-start: 3;
-  height: 64px;
 }
 
 .homepage .homepage-content ul.menu li.menu-ranking {
   grid-column: span 3 / span 3;
   grid-column-start: 4;
   grid-row-start: 3;
-  height: 64px;
 }
 
 .homepage .homepage-content ul.menu li.menu-reset-game {
   grid-column: span 4 / span 4;
   grid-column-start: 2;
   grid-row-start: 4;
-  height: 64px;
+  height: clamp(50px, 4vw, 64px);
+  margin-top: clamp(30px, 3vw, 60px);
   background-color: #e9f7f5;
   border-radius: var(--box-radius);
   border: 1px solid var(--main-color3);
-  margin-top: 60px;
   text-align: center;
   display: grid;
   justify-content: center;
@@ -336,7 +508,7 @@ progress::-moz-progress-bar {
 .homepage .homepage-content ul.menu li.menu-reset-game button {
   color: var(--main-color3);
   font-weight: 600;
-  font-size: 16px;
+  font-size: clamp(14px, 1vw, 16px);
 }
 
 .homepage-modal {
@@ -353,8 +525,8 @@ progress::-moz-progress-bar {
 }
 
 .modal-container .modal-content {
-  width: 500px;
-  height: 170px;
+  width: clamp(280px, 30vw, 500px);
+  height: clamp(140px, 30vh, 170px);
   background-color: white;
   position: relative;
   top: 50%;
@@ -372,12 +544,12 @@ progress::-moz-progress-bar {
 }
 
 .modal-container .modal-content div p:nth-child(1) {
-  font-size: 20px;
+  font-size: clamp(16px, 1.3vw, 20px);
   font-weight: 600;
 }
 
 .modal-container .modal-content div p:nth-child(2) {
-  font-size: 16px;
+  font-size: clamp(10px, 1vw, 16px);
 }
 
 .modal-container .modal-content .button {
@@ -387,11 +559,11 @@ progress::-moz-progress-bar {
 
 .modal-container .modal-content .button button {
   flex: 1;
-  height: 47px;
+  height: clamp(36px, 3vw, 47px);
   margin: 0 14px;
   border-radius: var(--box-radius);
   font-weight: 600;
-  font-size: 14px;
+  font-size: clamp(10px, 0.9vw, 14px);
 }
 
 .modal-container .modal-content .button button:nth-child(1) {
@@ -404,13 +576,19 @@ progress::-moz-progress-bar {
 }
 
 .modal-container .modal-content .button button:nth-child(2) {
-  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
+  background: linear-gradient(90deg, var(--main-color1), #ffcf87, var(--main-color1));
+  background-size: 200% 100%;
+  background-position: left;
   color: white;
+  font-size: clamp(14px, 1vw, 16px);
+  border-radius: var(--box-radius);
   box-shadow: var(--shadow);
+  font-weight: 600;
+  transition: background-position 0.4s ease;
 }
 
 .modal-container .modal-content .button button:nth-child(2):hover {
-  background: linear-gradient(90deg, #ffcf87 0%, var(--main-color1) 100%);
+  background-position: right;
 }
 
 /* ===================== CHALLENGE ===================== */
@@ -606,7 +784,7 @@ button.solution {
 }
 
 .challenge-order {
-  justify-self: center;
+  margin: 0 auto;
   padding: clamp(6px, 1vw, 12px);
   font-size: clamp(0.5rem, 0.7vw, 1rem);
   border: solid 2px #6b6b6b;
@@ -617,7 +795,7 @@ button.solution {
 }
 
 .challenge-explanation {
-  justify-self: center;
+  margin: 0 auto;
   padding: clamp(6px, 1vw, 12px);
   font-size: clamp(0.5rem, 0.7vw, 1rem);
   border: solid 1px var(--main-color2);
@@ -793,22 +971,15 @@ button.solution {
   display: flex;
   align-items: center;
   gap: 8px;
-
   padding: 14px 26px;
-
   font-size: 1.1rem;
   font-weight: 700;
-
   border: none;
   border-radius: 12px;
-
   background: var(--main-color3);
   color: white;
-
   cursor: pointer;
-
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-
   transition: all 0.2s ease;
 }
 
@@ -1099,6 +1270,7 @@ button.solution {
 
 .cards-container .content-cards .carousel-container .property-card {
   flex: 1 0 clamp(180px, 14vw, 350px);
+  /* height: clamp(160px, 10vw, 200px); */
   width: 100%;
   min-width: 0;
   max-width: 100%;
@@ -1106,11 +1278,6 @@ button.solution {
     0 2px 4px rgba(0, 0, 0, 0.1),
     0 8px 16px rgba(0, 0, 0, 0.1);
 }
-/* 
-.cards-container .content-cards .carousel-container .entity-card,
-.cards-container .content-cards .carousel-container .entity-card * {
-  box-sizing: border-box;
-} */
 
 .cards-container .content-cards .carousel-container .entity-card::before {
   content: '';
@@ -1689,7 +1856,7 @@ button.solution {
 }
 
 .cards-container .content-cards .carousel-container .property-card .card-content {
-  min-height: 0; /* ← clé du problème dans un flex container */
+  min-height: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -1930,6 +2097,317 @@ button.solution {
   margin-bottom: 10px;
 }
 
+/* ===================== GAME SELECTION ===================== */
+
+.game-selection h2 {
+  margin: 30px 0 20px 20px;
+}
+
+.game-selection-container {
+  display: flex;
+  margin: 20px;
+}
+
+.game-selection-container aside {
+  flex: 1;
+}
+
+.game-selection-container aside h3 {
+  font-weight: 500;
+  font-size: clamp(0.8rem, 1.2vw, 1.1rem);
+  margin: 10px 0 20px;
+}
+
+.game-selection-container .scenario-accordion {
+  flex: 4;
+  margin-bottom: 60px;
+  border-left: 1px solid #eee;
+  padding-left: 20px;
+}
+
+.game-selection-container .scenario-accordion h3 {
+  font-weight: 500;
+  font-size: clamp(0.8rem, 1.2vw, 1.1rem);
+  margin: 20px 0 30px;
+}
+
+.game-selection-container .scenario-accordion .scenario .scenario-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.game-selection-container .scenario-accordion .scenario .scenario-title button {
+  background-color: var(--main-color2);
+  color: white;
+  width: clamp(30px, 3vw, 45px);
+  height: clamp(30px, 3vw, 45px);
+  align-self: center;
+  border-radius: var(--box-radius);
+  font-size: clamp(1rem, 1.3vw, 2rem);
+  transition: all 0.3s ease;
+}
+
+.game-selection-container .scenario-accordion .scenario .scenario-title button:hover {
+  transform: scale(1.1);
+}
+
+.game-selection-container .scenario-accordion .scenario .tag ul {
+  display: flex;
+  gap: 20px;
+  padding-left: 0;
+}
+
+.game-selection-container .scenario-accordion .scenario .tag ul li {
+  background-color: #e9f7f5;
+  color: var(--main-color3);
+  border-radius: 20px;
+  padding: 10px 20px;
+  color: #1f8a7d;
+  font-weight: 500;
+}
+
+.game-selection-container .scenario-accordion .scenario p {
+  font-style: italic;
+}
+
+.game-selection-container .scenario-accordion .accordion-item {
+  border: solid 1px var(--main-color2);
+  border-radius: var(--box-radius);
+  margin-bottom: 20px;
+  background-color: white;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  border-left: 7px solid var(--main-color2);
+}
+
+.game-selection-container .scenario-accordion .accordion-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.game-selection-container .scenario-accordion .accordion-header {
+  width: 100%;
+  padding: 0 12px;
+  background: white;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  /* border: 1px solid var(--main-color2); */
+  border-radius: var(--box-radius);
+}
+
+.game-selection-container .scenario-accordion .accordion-header h4 {
+  font-size: clamp(0.6rem, 1vw, 1.2rem);
+  margin: 15px 0;
+}
+
+.game-selection-container .scenario-accordion .accordion-content ul li {
+  display: flex;
+}
+
+.game-selection-container aside div {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin-right: 24px;
+}
+
+.game-selection-container aside div ul {
+  font-size: clamp(0.6rem, 0.9vw, 1rem);
+  padding-left: 0;
+}
+
+.game-selection-container aside div ul li {
+  display: flex;
+  align-items: center;
+}
+
+.game-selection-container aside div ul li input[type='checkbox'] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  color: white;
+}
+
+.game-selection-container aside .theme-filter ul li input[type='checkbox'] {
+  border: 2px solid var(--main-color1);
+}
+
+.game-selection-container aside .theme-filter ul li input[type='checkbox']:checked {
+  background-color: var(--main-color1);
+}
+
+.game-selection-container aside .language-filter ul li input[type='checkbox'] {
+  border: 2px solid var(--main-color3);
+}
+
+.game-selection-container aside .language-filter ul li input[type='checkbox']:checked {
+  background-color: var(--main-color3);
+}
+
+.game-selection-container aside div ul li input[type='checkbox']:checked::after {
+  content: '✔';
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.game-selection-container .scenario-accordion .accordion .accordion-item .accordion-content ul {
+  padding-left: 0;
+}
+
+.game-selection-container .scenario-accordion .accordion .accordion-item .accordion-content ul li {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+  background-color: #fafafa;
+  padding: 10px;
+  border-radius: var(--box-radius);
+  align-items: center;
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  .chapter-name {
+  font-weight: 500;
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  .chapter-name
+  p {
+  font-size: clamp(0.7rem, 0.7vw, 0.9rem);
+  align-items: center;
+  font-weight: 100;
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  .chapter-action {
+  display: flex;
+  align-items: center;
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  .chapter-action
+  a
+  button.play-challenge {
+  width: clamp(30px, 3vw, 45px);
+  height: clamp(30px, 3vw, 45px);
+  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 50%, var(--main-color1) 100%);
+  border-radius: var(--box-radius);
+  color: white;
+  font-size: clamp(0.8rem, 1.2vw, 1.2rem);
+  background-size: 200% 100%;
+  background-position: left;
+  transition: background-position 0.4s ease;
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  .chapter-action
+  a
+  button.play-challenge:hover {
+  background-position: right;
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  .chapter-action
+  button.reset-challenge {
+  width: clamp(25px, 2.5vw, 45px);
+  height: clamp(25px, 2.5vw, 45px);
+  transition: transform 0.4s ease;
+  opacity: 0.6;
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  .chapter-action
+  button.reset-challenge:hover {
+  transform: rotate(-180deg);
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  .chapter-action
+  button.reset-challenge
+  img {
+  width: clamp(15px, 2vw, 30px);
+  height: clamp(15px, 2vw, 30px);
+  color: #6b6b6b;
+}
+
+.game-selection-container
+  .scenario-accordion
+  .accordion
+  .accordion-item
+  .accordion-content
+  ul
+  li
+  span {
+  background-color: var(--main-color1);
+  color: white;
+  padding: 7px 12px;
+  border-radius: 50px;
+  margin-right: 30px;
+}
+
+.game-selection-container aside div ul li label {
+  margin-left: 5px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
 /* ===================== FOOTER ===================== */
 
 .footer {
@@ -1958,6 +2436,12 @@ button.solution {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  background-color: #ffdede;
+  color: var(--main-color1);
+  height: clamp(26px, 2vw, 45px);
+  align-self: center;
+  font-size: clamp(0.4rem, 0.7vw, 1rem);
+  padding: 10px;
 }
 
 .footer button.back a {
@@ -1965,9 +2449,7 @@ button.solution {
 }
 
 .footer button.back:hover {
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  color: var(--main-color1);
+  background-color: #ff6b6b54;
 }
 
 .footer button.back span {
@@ -2007,7 +2489,7 @@ button.solution {
 }
 
 .footer button.validation:hover:not(:disabled) {
-  box-shadow: 0 0 12px rgba(0, 255, 0, 0.5);
+  box-shadow: 0 0 12px var(--main-color3);
   transform: scale(1.03);
 }
 

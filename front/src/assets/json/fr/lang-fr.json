@@ -4,17 +4,18 @@
     "SigninScene": {
       "signin-scene-title-text": "Bienvenue sur OntoMatchGame!",
       "signin-scene-intro-text": "La représentation sémantique des données permet de générer, de partager et d'exploiter des données du patrimoine culturel avec des collègues du monde entier, de poser des questions et d'y répondre à partir de davantage de données et de réseaux de connaissances intégrés.\n\nMais pour y parvenir, vous devez d'abord apprendre à lire et à écrire des données sémantiques, et donc à comprendre ce qu'est une ontologie. C'est là qu'intervient OntoMatchGame. Si vous souhaitez en savoir plus sur l'ontologie, la sémantique et la manière de les appliquer à des données réelles du patrimoine culturel, le jeu OntoMatchGame est fait pour vous.",
+      "signin-scene-signin-text": "Connexion",
       "signin-scene-email-label": "Votre email",
       "signin-scene-wrongemail-text": "Email associé à aucun compte",
       "signin-scene-email-placeholder-text": "Entrez un email valide...",
       "signin-scene-emailnotvalid-text": "Format d'email invalide.\nDevrait ressembler à 'martin@dupont.fr",
-      "signin-scene-wrongcombination-text": "Email ou mot de passe incorrect\nVeuillez réessayer",
+      "signin-scene-wrongcombination-text": "Email ou mot de passe incorrect.\nVeuillez réessayer.",
       "signin-scene-rightcombination-text": "Login OK. Téléchargement de données.\nMerci de patienter...",
       "signin-scene-password-label": "Votre mot de passe",
       "signin-scene-password-placeholder-text": "Mot de passe associé au compte",
       "signin-scene-forgotpassword-text": "Mot de passe oublié ?",
       "signin-scene-passwordnotvalid-text": "Mot de passe : minimum 6 caractères",
-      "signin-scene-okbutton-text": "OK",
+      "signin-scene-okbutton-text": "Connexion",
       "signin-scene-accountnotactivated-text": "Compte non activé\nVérifiez vos email et suivez les instructions",
       "signin-scene-waitingmessage-text": "Vérification des données. Veuillez patienter...",
       "signin-scene-noaccount-label": "Pas encore de compte ?",
@@ -59,7 +60,7 @@
     },
 
     "GameSelectionScene": {
-      "gameselection-scene-title-text": "SÉLECTION DES JEUX",
+      "gameselection-scene-title-text": "Sélection des jeux",
       "gameselection-scene-backbutton-text": "Retour",
       "gameselection-scene-listofscenarii-label": "Liste des scénarios",
       "gameselection-scene-domain-label": "Thèmes",
@@ -97,7 +98,7 @@
       "mainmenu-scene-reset-label": "Effacer les données de jeu et recommencer",
       "mainmenu-scene-resetbutton-text": "Réinitialiser",
       "mainmenu-scene-quit-label": "Quitter le jeu",
-      "mainmenu-scene-quitbutton-text": "Quitter",
+      "mainmenu-scene-quitbutton-text": "Déconnexion",
       "mainmenu-scene-more-label": "Plus d'info",
       "mainmenu-scene-credits-label": "Crédits",
       "mainmenu-scene-freemode-label": "Mode libre"

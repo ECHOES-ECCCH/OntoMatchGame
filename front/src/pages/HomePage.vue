@@ -90,7 +90,6 @@ onMounted(() => {
               </div>
               <div>
                 <button>
-                  ►
                   {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-continuebutton-text') }}
                 </button>
               </div>

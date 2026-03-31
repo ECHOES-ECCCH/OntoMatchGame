@@ -25,23 +25,3 @@ const toggle = (index: number) => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.accordion {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.accordion-item + .accordion-item {
-  border-top: 1px solid #ddd;
-}
-
-.accordion-header {
-  width: 100%;
-  padding: 12px;
-  background: #f5f5f5;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-}
-</style>
