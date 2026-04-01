@@ -20,7 +20,7 @@ const toggle = (index: number) => {
       </button>
 
       <div v-show="activeIndex === index - 1" class="accordion-content">
-        <slot name="content" :index="index - 1"></slot>
+        <slot name="content" :index="index - 1" :active="activeIndex === index - 1"></slot>
       </div>
     </div>
   </div>

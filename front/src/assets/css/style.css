@@ -2131,12 +2131,12 @@ button.solution {
   margin: 20px 0 30px;
 }
 
-.game-selection-container .scenario-accordion .scenario .scenario-title {
+.scenario-title {
   display: flex;
   justify-content: space-between;
 }
 
-.game-selection-container .scenario-accordion .scenario .scenario-title button {
+.scenario-title button {
   background-color: var(--main-color2);
   color: white;
   width: clamp(30px, 3vw, 45px);
@@ -2147,7 +2147,7 @@ button.solution {
   transition: all 0.3s ease;
 }
 
-.game-selection-container .scenario-accordion .scenario .scenario-title button:hover {
+.scenario-title button:hover {
   transform: scale(1.1);
 }
 
@@ -2170,7 +2170,7 @@ button.solution {
   font-style: italic;
 }
 
-.game-selection-container .scenario-accordion .accordion-item {
+.accordion-item {
   border: solid 1px var(--main-color2);
   border-radius: var(--box-radius);
   margin-bottom: 20px;
@@ -2180,12 +2180,12 @@ button.solution {
   border-left: 7px solid var(--main-color2);
 }
 
-.game-selection-container .scenario-accordion .accordion-item:hover {
+.accordion-item:hover {
   transform: translateY(-4px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-.game-selection-container .scenario-accordion .accordion-header {
+.accordion-header {
   width: 100%;
   padding: 0 12px;
   background: white;
@@ -2196,7 +2196,7 @@ button.solution {
   border-radius: var(--box-radius);
 }
 
-.game-selection-container .scenario-accordion .accordion-header h4 {
+.accordion-header h4 {
   font-size: clamp(0.6rem, 1vw, 1.2rem);
   margin: 15px 0;
 }
@@ -2260,11 +2260,11 @@ button.solution {
   transform: translate(-50%, -50%);
 }
 
-.game-selection-container .scenario-accordion .accordion .accordion-item .accordion-content ul {
+.accordion .accordion-item .accordion-content ul {
   padding-left: 0;
 }
 
-.game-selection-container .scenario-accordion .accordion .accordion-item .accordion-content ul li {
+.accordion .accordion-item .accordion-content ul li {
   display: flex;
   justify-content: space-between;
   margin: 10px;
@@ -2406,6 +2406,104 @@ button.solution {
   margin-left: 5px;
   font-weight: 400;
   cursor: pointer;
+}
+
+/* ===================== STATISTICS ===================== */
+
+.statistics {
+  margin: 20px;
+}
+
+.statistics .statistics-container .statistics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.statistics .statistics-container h3 {
+  font-weight: 500;
+  font-size: clamp(0.8rem, 1.2vw, 1.1rem);
+  margin: 20px 0 30px;
+}
+
+.statistics .statistics-container .statistics-total {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
+  color: white;
+  padding: clamp(20px, 2vh, 40px);
+  border-radius: 18px;
+  flex-direction: column;
+}
+
+.statistics .statistics-container .statistics-total .total-progression {
+  display: flex;
+  gap: 20px;
+}
+
+.statistics .statistics-container .statistics-total p {
+  font-size: clamp(0.8rem, 1.2vw, 1.3rem);
+  font-weight: 500;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.statistics .statistics-container .statistics-total .progression p,
+.statistics .statistics-container .statistics-total .score p {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(0.8rem, 0.7vw, 1rem);
+  font-weight: 200;
+  margin-top: 0;
+  text-align: center;
+}
+
+.statistics .statistics-container .statistics-total .progression span,
+.statistics .statistics-container .statistics-total .score span {
+  color: var(--main-color1);
+  background-color: white;
+  border-radius: 50px;
+  font-weight: 600;
+  padding: 12px 20px;
+  font-size: clamp(1rem, 1vw, 1.5rem);
+}
+
+.total-scenario {
+  background-color: #e9f7f5;
+  color: var(--main-color3);
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  border-radius: var(--box-radius);
+  align-items: center;
+}
+
+.scenario-title.statistics-info {
+  padding: 8px 0;
+}
+
+.total-scenario p {
+  font-size: clamp(0.7rem, 1vw, 1rem);
+}
+
+.total-scenario .scenario-progression {
+  background-color: var(--main-color3);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 50px;
+  margin-right: 40px;
+  font-size: clamp(0.7rem, 1vw, 1rem);
+}
+
+.total-scenario .scenario-score {
+  font-size: clamp(0.7rem, 1vw, 1.1rem);
+}
+
+.statistics-chapter {
+  margin: 12px;
 }
 
 /* ===================== FOOTER ===================== */
