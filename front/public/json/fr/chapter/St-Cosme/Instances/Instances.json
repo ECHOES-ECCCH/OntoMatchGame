@@ -1,0 +1,230 @@
+[
+ {
+   "Id": "I1",
+   "Title": "Prieuré Saint-Cosme",
+   "Label": "",
+   "ImageName": "01.jpg"
+ },
+ {
+   "Id": "I2",
+   "Title": "Fouilles archéologiques",
+   "Label": "",
+   "ImageName": "02.jpg"
+ },
+ {
+   "Id": "I3",
+   "Title": "Mathieu Gaultier",
+   "Label": "http://viaf.org/viaf/219333384",
+   "ImageName": "03.jpg"
+ },
+ {
+   "Id": "I4",
+   "Title": "Institution",
+   "Label": "Département Touraine",
+   "ImageName": "04.jpg"
+ },
+ {
+   "Id": "I5",
+   "Title": "La Riche (37)",
+   "Label": "http://www.geonames.org/6455925",
+   "ImageName": "05.jpg"
+ },
+ {
+   "Id": "I6",
+   "Title": "Numéro d'opération",
+   "Label": "OA 37 09/0113",
+   "ImageName": "06.jpg"
+ },
+ {
+   "Id": "I7",
+   "Title": "Date d'opération",
+   "Label": "2009-2010",
+   "ImageName": "07.jpg"
+ },
+ {
+   "Id": "I8",
+   "Title": "\"Mathieu GAULTIER\"",
+   "Label": "",
+   "ImageName": "08.jpg"
+ },
+ {
+   "Id": "I9",
+   "Title": "Inhumation",
+   "Label": "http://vocab.getty.edu/aat/300263485",
+   "ImageName": "09.jpg"
+ },
+ {
+   "Id": "I10",
+   "Title": "Numéro de Fait",
+   "Label": "F.563",
+   "ImageName": "10.jpg"
+ },
+ {
+   "Id": "I11",
+   "Title": "Creusement",
+   "Label": "",
+   "ImageName": "11.jpg"
+ },
+ {
+   "Id": "I12",
+   "Title": "US de creusement",
+   "Label": "1573",
+   "ImageName": "12.jpg"
+ },
+ {
+   "Id": "I13",
+   "Title": "Contenant funéraire",
+   "Label": "coffrage en pierres taillées",
+   "ImageName": "13.jpg"
+ },
+ {
+   "Id": "I14",
+   "Title": "Corps du défunt",
+   "Label": "",
+   "ImageName": "14.jpg"
+ },
+ {
+   "Id": "I15",
+   "Title": "Ossement",
+   "Label": "crâne",
+   "ImageName": "15.jpg"
+ },
+ {
+   "Id": "I16",
+   "Title": "Évaluation sanitaire",
+   "Label": "(recherche d'anomalies)",
+   "ImageName": "16.jpg"
+ },
+ {
+   "Id": "I17",
+   "Title": "Pathologie",
+   "Label": "",
+   "ImageName": "17.jpg"
+ },
+ {
+   "Id": "I18",
+   "Title": "Fracture",
+   "Label": "https://www.wikidata.org/wiki/Q68833",
+   "ImageName": "18.jpg"
+ },
+ {
+   "Id": "I19",
+   "Title": "Région anatomique",
+   "Label": "Les mains",
+   "ImageName": "19.jpg"
+ },
+ {
+   "Id": "I20",
+   "Title": "Méthode de diagnose sexuelle",
+   "Label": "DSP",
+   "ImageName": "20.jpg"
+ },
+ {
+   "Id": "I21",
+   "Title": "Article de référence",
+   "Label": "",
+   "ImageName": "21.jpg"
+ },
+ {
+   "Id": "I22",
+   "Title": "\"Validation and reliability of the sex estimation of the human os coxae...\"",
+   "Label": "",
+   "ImageName": "22.jpg"
+ },
+ {
+   "Id": "I23",
+   "Title": "Publication de l'article",
+   "Label": "Jaroslav Brůžek et al. 2017",
+   "ImageName": "23.jpg"
+ },
+ {
+   "Id": "I24",
+   "Title": "Date de publication",
+   "Label": "2017",
+   "ImageName": "24.jpg"
+ },
+ {
+   "Id": "I25",
+   "Title": "Jaroslav Brůžek",
+   "Label": "http://viaf.org/viaf/85491246",
+   "ImageName": "25.jpg"
+ },
+ {
+   "Id": "I26",
+   "Title": "Prise de mesure",
+   "Label": "",
+   "ImageName": "26.jpg"
+ },
+ {
+   "Id": "I27",
+   "Title": "Unité de mesure",
+   "Label": "cm",
+   "ImageName": "27.jpg"
+ },
+ {
+   "Id": "I28",
+   "Title": "Valeur mesurée",
+   "Label": "",
+   "ImageName": "28.jpg"
+ },
+ {
+   "Id": "I29",
+   "Title": "Diagnose sexuelle",
+   "Label": "femme",
+   "ImageName": "29.jpg"
+ },
+ {
+   "Id": "I30",
+   "Title": "Classe d'âge",
+   "Label": "",
+   "ImageName": "30.jpg"
+ },
+ {
+   "Id": "I31",
+   "Title": "Réduction",
+   "Label": "",
+   "ImageName": "31.jpg"
+ },
+ {
+   "Id": "I32",
+   "Title": "Comblement",
+   "Label": "",
+   "ImageName": "32.jpg"
+ },
+ {
+   "Id": "I33",
+   "Title": "US du comblement",
+   "Label": "2842",
+   "ImageName": "33.jpg"
+ },
+ {
+   "Id": "I34",
+   "Title": "Description du comblement",
+   "Label": "",
+   "ImageName": "34.jpg"
+ },
+ {
+   "Id": "I35",
+   "Title": "Mobilier archéologique",
+   "Label": "",
+   "ImageName": "35.jpg"
+ },
+ {
+   "Id": "I36",
+   "Title": "Pot",
+   "Label": "https://iceramm.huma-num.fr/bdforme.php?details=126",
+   "ImageName": "36.jpg"
+ },
+ {
+   "Id": "I37",
+   "Title": "Pâte céramique",
+   "Label": "",
+   "ImageName": "37.jpg"
+ },
+ {
+   "Id": "I38",
+   "Title": "Dimension mesurée",
+   "Label": "",
+   "ImageName": "38.jpg"
+ }
+]
