@@ -10,9 +10,6 @@ const { showSolution } = useSolution()
 
 const scenarioCatalog = scenarioCatalogRaw as ScenarioCatalog
 
-const chapters = import.meta.glob('@/assets/json/**/chapter/*/*.json')
-const instances = import.meta.glob('@/assets/json/**/chapter/*/Instances/Instances.json')
-
 const isLoadingChapter = ref(false)
 const chapterData = ref<ChapterData | null>(null)
 const chapterInstances = ref(null)
@@ -79,30 +76,28 @@ export function useChapterData() {
 
     const scenarioKey = scenario.split(' ')[0] || ''
 
-    const key = `/src/assets/json/${info.lang}/chapter/${scenarioKey}/${info.filename}.json`
-    const keyInstances = `/src/assets/json/${info.lang}/chapter/${scenarioKey}/Instances/Instances.json`
-    imgInstanceURL.value = `/src/assets/json/${info.lang}/chapter/${scenarioKey}/Instances/Images/`
-
-    if (!chapters[key]) {
-      error.value = `Chapitre introuvable : ${key}`
-      chapterData.value = null
-      return
-    }
-
-    if (!instances[keyInstances]) {
-      error.value = `Instances introuvables : ${key}`
-      chapterInstances.value = null
-      return
-    }
+    // Use import.meta.env.BASE_URL to ensure correct path in production
+    const basePath = import.meta.env.BASE_URL
+    const chapterPath = `${basePath}json/${info.lang}/chapter/${scenarioKey}/${info.filename}.json`
+    const instancesPath = `${basePath}json/${info.lang}/chapter/${scenarioKey}/Instances/Instances.json`
+    imgInstanceURL.value = `${basePath}json/${info.lang}/chapter/${scenarioKey}/Instances/Images/`
 
     isLoadingChapter.value = true
     try {
-      const module = await chapters[key]()
+      // Fetch chapter data
+      const chapterResponse = await fetch(chapterPath)
+      if (!chapterResponse.ok) {
+        throw new Error(`Chapitre introuvable : ${chapterPath} (${chapterResponse.status})`)
+      }
+      const chapterJson = await chapterResponse.json()
+      chapterData.value = chapterJson[challengeId] ?? null
 
-      chapterData.value = module.default[challengeId] ?? null
-
-      const moduleInstances = await instances[keyInstances]()
-      chapterInstances.value = moduleInstances.default ?? null
+      // Fetch instances data
+      const instancesResponse = await fetch(instancesPath)
+      if (!instancesResponse.ok) {
+        throw new Error(`Instances introuvables : ${instancesPath} (${instancesResponse.status})`)
+      }
+      chapterInstances.value = await instancesResponse.json()
 
       error.value = null
     } catch (err) {

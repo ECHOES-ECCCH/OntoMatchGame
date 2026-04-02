@@ -1,0 +1,42 @@
+[
+  {
+    "ChallengeID": 0,
+    "Title": "CIDOC Explorer",
+    "Statement": "",
+    "ILeftInit": "",
+    "IMiddleInit": "",
+    "IRightInit": "",
+    "ELeftInit": "",
+    "PLeftInit": "",
+    "EMiddleInit": "",
+    "PRightInit": "",
+    "ERightInit": "",
+    "Explanation": "CIDOC Entities and properties",
+    "ELeftAnswer": "",
+    "PLeftAnswer": "",
+    "EMiddleAnswer": "",
+    "PRightAnswer": "",
+    "ERightAnswer": "",
+    "Score": 0
+  },
+  {
+    "ChallengeID": 1,
+    "Title": "Modeling",
+    "Statement": "Ontologies offer to describe a part of the world with a set of classes and properties. A class describes a set of real world things. In the CRM game, classes are represented by poker style playing cards.\n\nA property is a well defined real world relationship between two classes. For example:  Bob is married to Sally. Peru is part of South America. Istanbul is called Constantinople.\n\nIn the CIDOC CRM game, properties are represented by small, monopoly chance style playing cards. Each property has an inverse property with the same number, but with the letter \"i\".\n\nCRM original card game was designed by Anaïs Guillem & George Brusker. This digital version is by Anaïs Guillem, George Brusker & Olivier Marlet (MASAplus Huma-Num consortium).",
+    "ILeftInit": "I1",
+    "IMiddleInit": "I2",
+    "IRightInit": "I3",
+    "ELeftInit": "*",
+    "PLeftInit": "*",
+    "EMiddleInit": "*",
+    "PRightInit": "*",
+    "ERightInit": "*",
+    "Explanation": "",
+    "ELeftAnswer": "*",
+    "PLeftAnswer": "*",
+    "EMiddleAnswer": "*",
+    "PRightAnswer": "*",
+    "ERightAnswer": "*",
+    "Score": 20
+  }
+]
