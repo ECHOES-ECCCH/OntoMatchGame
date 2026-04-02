@@ -127,7 +127,7 @@
     },
 
     "StatsScene": {
-      "statsscene-scene-title-text": "STATISTIQUES",
+      "statsscene-scene-title-text": "Statistiques",
       "statsscene-scene-listscenariolabel-text": "Liste des scenarii joués",
       "statsscene-scene-progressionlabel-text": "Progression",
       "statsscene-scene-scorelabel-text": "Score",
