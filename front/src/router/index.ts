@@ -12,7 +12,7 @@ const HomePage = () => import('@/pages/HomePage.vue')
 const ChallengeGame = () => import('@/pages/ChallengeGame.vue')
 const ScenariosList = () => import('@/pages/GameSelection.vue')
 const UserStatistics = () => import('@/pages/UserStatistics.vue')
-const UsersRanking = () => import('@/pages/UsersRanking.vue')
+const LeaderBoard = () => import('@/pages/LeaderBoard.vue')
 const FreeMode = () => import('@/pages/FreeMode.vue')
 
 import { authStore } from '@/stores/auth.store'
@@ -53,7 +53,7 @@ const routes = [
   { path: '/challenge', component: ChallengeGame, beforeEnter: requireAuth },
   { path: '/game-selection', component: ScenariosList, beforeEnter: requireAuth },
   { path: '/statistics', component: UserStatistics, beforeEnter: requireAuth },
-  { path: '/ranking', component: UsersRanking, beforeEnter: requireAuth },
+  { path: '/leader-board', component: LeaderBoard, beforeEnter: requireAuth },
   { path: '/free-mode', component: FreeMode, beforeEnter: requireAuth },
 ]
 

@@ -132,9 +132,11 @@
     },
 
     "LeaderBoardScene": {
-      "leaderboard-scene-title-text": "LEADERBOARD",
+      "leaderboard-scene-title-text": "Leaderboard",
       "leaderboard-scene-bestrankings-label": "Best Rankings",
-      "leaderboard-scene-mainmenubutton-label": "Main Menu"
+      "leaderboard-scene-mainmenubutton-label": "Main Menu",
+      "leaderboard-scene-frenchbutton-label": "French",
+      "leaderboard-scene-englishbutton-label": "English"
     },
 
     "FullCreditsScene": {

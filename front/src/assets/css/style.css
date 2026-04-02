@@ -2269,7 +2269,7 @@ button.solution {
   justify-content: space-between;
   margin: 10px;
   background-color: #fafafa;
-  padding: 10px;
+  padding: 5px 10px;
   border-radius: var(--box-radius);
   align-items: center;
 }
@@ -2514,7 +2514,7 @@ button.solution {
 
 .total-scenario .scenario-score,
 .accordion-content ul li .challenge-score .chapter-score {
-  font-size: clamp(0.7rem, 1vw, 1.1rem);
+  font-size: clamp(0.7rem, 1.1vw, 1.1rem);
 }
 
 .statistics-chapter {
@@ -2533,6 +2533,36 @@ button.solution {
 
 p.chapter-name {
   font-weight: 500;
+  font-size: clamp(0.7rem, 0.9vw, 1rem);
+}
+
+/* ===================== LEADERBOARD ===================== */
+
+.leaderboard {
+  margin: 10px;
+}
+
+.leaderboard .leaderboard-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.leaderboard .leaderboard-toggle button {
+  background-color: var(--main-color3);
+  color: white;
+  font-size: clamp(0.7rem, 0.9vw, 1.2rem);
+  height: clamp(26px, 3vw, 49px);
+  width: clamp(176px, 0.7vw, 176px);
+  border-radius: var(--box-radius);
+}
+
+.leaderboard .leaderboard-toggle button.active,
+.leaderboard .leaderboard-toggle button:hover {
+  background-color: #e9f7f5;
+  color: var(--main-color3);
+  border: solid 1px var(--main-color3);
 }
 
 /* ===================== FOOTER ===================== */
