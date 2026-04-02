@@ -169,7 +169,7 @@ button.logout {
   padding: 0 clamp(6px, 1vw, 10px);
   margin: 5px 0;
   height: clamp(26px, 2vw, 45px);
-  background-color: #ffdede;
+  background-color: #fff4f4;
   font-size: clamp(0.3rem, 0.8vw, 0.8rem);
   color: var(--main-color1);
   border: var(--main-color1) 1px solid;
@@ -2412,6 +2412,16 @@ button.solution {
 
 .statistics {
   margin: 20px;
+  margin-bottom: 80px;
+}
+
+.statistics .accordion-item {
+  border: solid 1px var(--main-color1);
+  border-left: 7px solid var(--main-color1);
+}
+
+.statistics .accordion-item .scenario-title button {
+  background-color: var(--main-color1);
 }
 
 .statistics .statistics-container .statistics-header {
@@ -2432,9 +2442,12 @@ button.solution {
   align-items: center;
   background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
   color: white;
-  padding: clamp(20px, 2vh, 40px);
+  padding: 0 clamp(20px, 0.9vh, 30px);
+  height: clamp(84px, 2vw, 104px);
   border-radius: 18px;
-  flex-direction: column;
+  gap: 30px;
+  box-shadow: var(--shadow);
+  padding-bottom: 10px;
 }
 
 .statistics .statistics-container .statistics-total .total-progression {
@@ -2445,7 +2458,6 @@ button.solution {
 .statistics .statistics-container .statistics-total p {
   font-size: clamp(0.8rem, 1.2vw, 1.3rem);
   font-weight: 500;
-  margin-top: 0;
   margin-bottom: 10px;
 }
 
@@ -2453,10 +2465,11 @@ button.solution {
 .statistics .statistics-container .statistics-total .score p {
   display: flex;
   flex-direction: column;
-  font-size: clamp(0.8rem, 0.7vw, 1rem);
+  font-size: clamp(0.7rem, 0.7vw, 1rem);
   font-weight: 200;
   margin-top: 0;
   text-align: center;
+  margin-bottom: 15px;
 }
 
 .statistics .statistics-container .statistics-total .progression span,
@@ -2465,8 +2478,8 @@ button.solution {
   background-color: white;
   border-radius: 50px;
   font-weight: 600;
-  padding: 12px 20px;
-  font-size: clamp(1rem, 1vw, 1.5rem);
+  padding: 12px 15px;
+  font-size: clamp(1rem, 1vw, 1.2rem);
 }
 
 .total-scenario {
@@ -2489,7 +2502,8 @@ button.solution {
   font-size: clamp(0.7rem, 1vw, 1rem);
 }
 
-.total-scenario .scenario-progression {
+.total-scenario .scenario-progression,
+.accordion-content ul li .challenge-score .chapter-progression {
   background-color: var(--main-color3);
   color: white;
   padding: 10px 15px;
@@ -2498,12 +2512,27 @@ button.solution {
   font-size: clamp(0.7rem, 1vw, 1rem);
 }
 
-.total-scenario .scenario-score {
+.total-scenario .scenario-score,
+.accordion-content ul li .challenge-score .chapter-score {
   font-size: clamp(0.7rem, 1vw, 1.1rem);
 }
 
 .statistics-chapter {
   margin: 12px;
+}
+
+.accordion-content ul li .challenge-score .chapter-progression {
+  background-color: var(--main-color1);
+  font-weight: 600;
+}
+
+.accordion-content ul li .challenge-score .chapter-score {
+  color: var(--main-color1);
+  font-weight: 600;
+}
+
+p.chapter-name {
+  font-weight: 500;
 }
 
 /* ===================== FOOTER ===================== */
@@ -2534,9 +2563,8 @@ button.solution {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  background-color: #ffdede;
+  background-color: #fff4f4;
   color: var(--main-color1);
-  height: clamp(26px, 2vw, 45px);
   align-self: center;
   font-size: clamp(0.4rem, 0.7vw, 1rem);
   padding: 10px;

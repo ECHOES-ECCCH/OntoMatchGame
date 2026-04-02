@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import StatisticsAccordion from '@/components/statistics/StatisticsAccordion.vue'
-import { langStore } from '@/stores/lang.store'
-import { userStats, isUsersStatsLoading } from '@/composables/useUserStats'
-import PagesLoader from '@/components/loader/PagesLoader.vue'
 import { computed } from 'vue'
+import { langStore } from '@/stores/lang.store'
+import StatisticsAccordion from '@/components/statistics/StatisticsAccordion.vue'
+import PagesLoader from '@/components/loader/PagesLoader.vue'
+import { userStats, isUsersStatsLoading } from '@/composables/useUserStats'
+import MainFooter from '@/components/footer/MainFooter.vue'
 
 const globalTotals = computed(() => {
   return userStats.value.reduce(
@@ -38,7 +39,7 @@ const globalPercentage = computed(() => {
 
 <template>
   <section class="statistics">
-    <PagesLoader v-if="isUsersStatsLoading" />
+    <div v-if="isUsersStatsLoading"><PagesLoader /></div>
     <div v-else class="statistics-container">
       <div class="statistics-header">
         <div>
@@ -66,4 +67,5 @@ const globalPercentage = computed(() => {
       <StatisticsAccordion :userStats="userStats" />
     </div>
   </section>
+  <MainFooter />
 </template>

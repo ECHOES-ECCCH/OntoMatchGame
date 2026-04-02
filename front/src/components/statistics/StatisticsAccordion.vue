@@ -93,9 +93,8 @@ const groupedScenarios = computed(() => {
     <template #content="{ index, active }">
       <ul>
         <li v-for="(chapter, i) in groupedScenarios[index]?.chapters" :key="i">
-          <div class="chapter-name">
-            <p>{{ chapter.chapterName }}</p>
-
+          <p class="chapter-name">{{ chapter.chapterName }}</p>
+          <div class="challenge-score">
             <span class="chapter-progression">
               {{
                 getChapterProgression(
