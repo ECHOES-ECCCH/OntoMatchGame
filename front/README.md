@@ -1,32 +1,50 @@
-# front
+# OntomatchGame - Front
 
-This template should help get you started developing with Vue 3 in Vite.
+Main part of the OntomatchGame code.
 
-## Recommended IDE Setup
+[VueJs](https://vuejs.org/) and [Vite](https://vite.dev/) for build
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
 
 ## Project Setup
 
 ```sh
 npm install
+```
+
+### Environment Configuration
+
+This project uses environment-specific configuration files to manage different settings for development and production environments.
+
+#### Environment Files
+
+- **`.env.development`** - Used automatically when running `npm run dev`
+  - Sets base URL to `/` (root path)
+  - Points API to local development server
+
+- **`.env.production`** - Used automatically when running `npm run build`
+  - Sets base URL to `/ontomatchgame/` (subdirectory deployment)
+  - Points API to production server
+
+- **`.env.local`** *(optional, gitignored)* - For local overrides
+  - Create this file to override settings without affecting other developers
+  - This file is automatically ignored by git
+
+#### Available Environment Variables
+
+- `VITE_BASE_URL` - Base path for the application (e.g., `/` or `/ontomatchgame/`)
+- `VITE_API_BASE_URL` - Backend API endpoint URL
+
+#### Creating Local Overrides
+
+If you need custom settings for your local environment:
+
+```sh
+# Create a local environment file
+cp .env.development .env.local
+
+# Edit .env.local with your custom values
+# This file will not be committed to git
 ```
 
 ### Compile and Hot-Reload for Development
@@ -35,11 +53,15 @@ npm install
 npm run dev
 ```
 
+This automatically uses `.env.development` settings.
+
 ### Type-Check, Compile and Minify for Production
 
 ```sh
 npm run build
 ```
+
+This automatically uses `.env.production` settings.
 
 ### Lint with [ESLint](https://eslint.org/)
 

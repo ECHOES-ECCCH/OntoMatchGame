@@ -14,7 +14,8 @@ export const useSelectedXML = () => {
     error.value = null
 
     try {
-      const xml = await fetch('./data/data.xml').then((r) => r.text())
+      const basePath = import.meta.env.BASE_URL
+      const xml = await fetch(`${basePath}/data/data.xml`).then((r) => r.text())
       const doc: Document = new DOMParser().parseFromString(xml, 'text/xml')
 
       entityDataCards.value = parseClasses(doc, 'entity')
