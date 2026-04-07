@@ -77,8 +77,16 @@ const groupedScenarios = computed(() => {
           <p>
             {{ langStore.t('static-text.StatsScene.statsscene-scene-totalscenariolabel-text') }}
           </p>
-          <div>
-            <span class="scenario-progression">{{ groupedScenarios[index]?.percentage }}%</span>
+
+          <div class="stats">
+            <div style="width: 94%; text-align: center">
+              <progress
+                class="total-scenario-progress"
+                :value="groupedScenarios[index]?.percentage"
+                max="100"
+              ></progress>
+              <span class="scenario-progression">{{ groupedScenarios[index]?.percentage }}%</span>
+            </div>
             <span class="scenario-score"
               >{{ groupedScenarios[index]?.totalScore }}
               /
@@ -94,17 +102,31 @@ const groupedScenarios = computed(() => {
       <ul>
         <li v-for="(chapter, i) in groupedScenarios[index]?.chapters" :key="i">
           <p class="chapter-name">{{ chapter.chapterName }}</p>
-          <div class="challenge-score">
-            <span class="chapter-progression">
-              {{
-                getChapterProgression(
-                  getChapterInfo(chapter.chapterName),
-                  groupedScenarios[index]?.scenarioName,
-                ) || 0
-              }}%</span
-            >
-            <span class="chapter-score"> {{ chapter.score }} / {{ chapter.maxPossibleScore }}</span>
+          <div class="stats">
+            <div style="width: 94%; text-align: center">
+              <progress
+                class="scenario-progress"
+                :value="
+                  getChapterProgression(
+                    getChapterInfo(chapter.chapterName),
+                    groupedScenarios[index]?.scenarioName,
+                  ) || 0
+                "
+                max="100"
+              ></progress>
+              <span class="chapter-progression">
+                {{
+                  getChapterProgression(
+                    getChapterInfo(chapter.chapterName),
+                    groupedScenarios[index]?.scenarioName,
+                  ) || 0
+                }}%</span
+              >
+            </div>
+            <span class="chapter-score">{{ chapter.score }} / {{ chapter.maxPossibleScore }}</span>
           </div>
+
+          <span class="chapter-score"> {{ chapter.score }} / {{ chapter.maxPossibleScore }}</span>
         </li>
       </ul>
 
@@ -112,8 +134,15 @@ const groupedScenarios = computed(() => {
         <p>
           {{ langStore.t('static-text.StatsScene.statsscene-scene-totalscenariolabel-text') }}
         </p>
-        <div>
-          <span class="scenario-progression">{{ groupedScenarios[index]?.percentage }}%</span>
+        <div class="stats">
+          <div style="width: 94%; text-align: center">
+            <progress
+              class="total-scenario-progress"
+              :value="groupedScenarios[index]?.percentage"
+              max="100"
+            ></progress>
+            <span class="scenario-progression">{{ groupedScenarios[index]?.percentage }}%</span>
+          </div>
           <span class="scenario-score"
             >{{ groupedScenarios[index]?.totalScore }}
             /

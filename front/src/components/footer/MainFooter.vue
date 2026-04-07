@@ -6,7 +6,7 @@ import { langStore } from '@/stores/lang.store'
   <div class="footer">
     <button class="back">
       <router-link to="/home">
-        {{ langStore.t('static-text.Footer.footer-backbutton') }}</router-link
+        ← {{ langStore.t('static-text.Footer.footer-backbutton') }}</router-link
       >
     </button>
   </div>

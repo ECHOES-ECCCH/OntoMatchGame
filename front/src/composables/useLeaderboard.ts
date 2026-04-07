@@ -3,7 +3,7 @@ import { handleApiError } from '@/services/error.handler'
 import { getLeaderboard } from '@/services/leaderboard.service'
 import type { Leaderboard } from '@/types/leaderboard'
 
-export const leaderboard = ref<Leaderboard[]>([])
+export const leaderboard = ref<Leaderboard | null>(null)
 export const isLeaderboardLoading = ref(false)
 export const leaderBoardError = ref(null)
 

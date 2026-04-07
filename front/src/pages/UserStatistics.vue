@@ -3,8 +3,10 @@ import { computed } from 'vue'
 import { langStore } from '@/stores/lang.store'
 import StatisticsAccordion from '@/components/statistics/StatisticsAccordion.vue'
 import PagesLoader from '@/components/loader/PagesLoader.vue'
-import { userStats, isUsersStatsLoading } from '@/composables/useUserStats'
 import MainFooter from '@/components/footer/MainFooter.vue'
+import { userStats, isUsersStatsLoading } from '@/composables/useUserStats'
+
+import stats from '@/assets/img/stats.svg'
 
 const globalTotals = computed(() => {
   return userStats.value.reduce(
@@ -49,7 +51,10 @@ const globalPercentage = computed(() => {
           </h3>
         </div>
         <div class="statistics-total">
-          <p>{{ langStore.t('static-text.StatsScene.statsscene-scene-grandtotallabel-text') }}</p>
+          <div class="statistics-title">
+            <img :src="stats" />
+            <p>{{ langStore.t('static-text.StatsScene.statsscene-scene-grandtotallabel-text') }}</p>
+          </div>
           <div class="total-progression">
             <div class="progression">
               <p>

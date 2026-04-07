@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import Accordion from '@/components/TemplateAccordion.vue'
-import type { Leaderboard } from '@/types/leaderboard'
+import { useUserInformations } from '@/stores/userInformations.store'
+import type { LeaderboardLanguage } from '@/types/leaderboard'
+import { computed } from 'vue'
 
 const props = defineProps<{
-  leaderboard: Leaderboard[]
+  leaderboard: LeaderboardLanguage
 }>()
 
-console.log('leaderboard', props.leaderboard)
+const user = useUserInformations()
+const scenarios = computed(() => props.leaderboard.scenarii.scenario)
 
-const getRatio = (playerScore, maxScore) => {
+const getRatio = (playerScore: number, maxScore: number) => {
   if (playerScore > maxScore) {
     return 100
   } else {
@@ -18,12 +21,12 @@ const getRatio = (playerScore, maxScore) => {
 </script>
 
 <template>
-  <Accordion :itemsCount="leaderboard.scenarii.scenario.length">
+  <Accordion :itemsCount="scenarios.length">
     <!-- HEADER -->
     <template #header="{ index, active }">
       <div class="scenario">
         <div class="scenario-title statistics-info">
-          <h4>{{ leaderboard.scenarii.scenario[index]?.scenarioName }}</h4>
+          <h4>{{ scenarios[index]?.scenarioName }}</h4>
           <button>{{ active ? '-' : '+' }}</button>
         </div>
       </div>
@@ -33,46 +36,32 @@ const getRatio = (playerScore, maxScore) => {
     <template #content="{ index }">
       <ul>
         <hr />
-
         <li
-          v-for="(player, i) in [...leaderboard.scenarii.scenario[index]?.playerData].sort(
+          :class="user.userInfo.userName === player.username && 'user-ranking'"
+          class="player-rank"
+          v-for="(player, i) in [...(scenarios[index]?.playerData ?? [])].sort(
             (a, b) => b.score - a.score,
           )"
           :key="i"
         >
           <div class="player">
-            {{ i + 1 }}
-            <span class="chapter-name">{{ player.username }}</span>
+            <span :class="i + 1 <= 3 ? 'top-rank' : 'rank'">{{ i + 1 }}</span>
+            <p class="player-name">{{ player.username }}</p>
           </div>
           <div class="challenge-score">
-            <span class="chapter-score">
-              <span v-if="player.score > leaderboard.scenarii.scenario[index]?.maximumScore">{{
-                leaderboard.scenarii.scenario[index]?.maximumScore
-              }}</span>
-              <span v-else>{{ player.score }}</span> /
-              {{ leaderboard.scenarii.scenario[index]?.maximumScore }}</span
-            >
-
             <span class="chapter-progression">
-              {{ getRatio(player.score, leaderboard.scenarii.scenario[index]?.maximumScore) }} %
+              {{ getRatio(player.score, scenarios[index]?.maximumScore ?? 0) }} %
+            </span>
+            <span class="chapter-score">
+              <span v-if="player.score > (scenarios[index]?.maximumScore || 0)">
+                {{ scenarios[index]?.maximumScore }}
+              </span>
+              <span v-else>{{ player.score }}</span>
+              / {{ scenarios[index]?.maximumScore }}
             </span>
           </div>
         </li>
       </ul>
-
-      <!-- <div v-show="active" class="total-scenario statistics-chapter">
-        <p>
-          {{ langStore.t('static-text.StatsScene.statsscene-scene-totalscenariolabel-text') }}
-        </p>
-        <div>
-          <span class="scenario-progression">{{ groupedScenarios[index]?.percentage }}%</span>
-          <span class="scenario-score"
-            >{{ groupedScenarios[index]?.totalScore }}
-            /
-            {{ groupedScenarios[index]?.totalMaxScore }}</span
-          >
-        </div> -->
-      <!-- </div> -->
     </template>
   </Accordion>
 </template>

@@ -1,18 +1,21 @@
 export interface Leaderboard {
-  languages: [{ languageName: string; scenarii: LeaderBoardScenario }]
+  languages: Array<{ languageName: string; scenarii: LeaderBoardScenario }>
+}
+
+export interface LeaderboardLanguage {
+  languageName: string
+  scenarii: LeaderBoardScenario
 }
 
 interface LeaderBoardScenario {
-  scenario: [
-    {
-      scenarioName: string
-      maximumScore: number
-      playerData: PlayerData
-    },
-  ]
+  scenario: Array<{
+    scenarioName: string
+    maximumScore: number
+    playerData: PlayerData[]
+  }>
 }
 
 interface PlayerData {
-  userName: string
+  username: string
   score: number
 }
