@@ -122,7 +122,7 @@ onMounted(() => {
         </li>
 
         <li v-if="userHistory?.historyId" class="menu-ranking">
-          <router-link to="/ranking">
+          <router-link to="/leader-board">
             {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-hallbutton-label') }}
             <button>►</button>
           </router-link>

@@ -172,7 +172,6 @@ button.logout {
   background-color: #fff4f4;
   font-size: clamp(0.3rem, 0.8vw, 0.8rem);
   color: var(--main-color1);
-  border: var(--main-color1) 1px solid;
 }
 
 button.logout:hover {
@@ -334,7 +333,7 @@ button.submit:hover {
   padding: 0 20px;
   align-items: center;
   cursor: pointer;
-  border: solid 1px var(--main-color2);
+  /* border: solid 1px var(--main-color2); */
   border-left: solid 7px var(--main-color2);
 }
 
@@ -343,7 +342,7 @@ button.submit:hover {
   height: clamp(100px, 15vw, 148px);
   width: clamp(280px, 70vw, 1048px);
   background-color: rgb(248, 248, 248);
-  border: solid 1px var(--main-color1);
+  /* border: solid 1px var(--main-color1); */
   border-left: 7px solid var(--main-color1);
 }
 
@@ -533,7 +532,6 @@ progress::-moz-progress-bar {
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: var(--box-radius);
-  border: 1px solid var(--main-color1);
   border-left: 7px solid var(--main-color1);
   text-align: center;
   display: flex;
@@ -645,12 +643,12 @@ progress::-moz-progress-bar {
   padding: clamp(8px, 1vw, 16px);
 }
 
-.challenge .chapter-info .challenge-score span:first-child {
+.challenge .chapter-info span:first-child {
   color: white;
   margin-right: 10px;
 }
 
-.challenge .chapter-info .challenge-score span:nth-child(2) {
+.challenge .chapter-info span:nth-child(2) {
   background-color: white;
   width: 81px;
   height: 52px;
@@ -843,7 +841,7 @@ button.solution {
 }
 
 .challenge-instructions .instructions p {
-  font-size: 0.8rem;
+  font-size: clamp(0.7rem, 0.8vw, 1rem);
   text-align: justify;
   line-height: 1.5;
   margin: 20px 0;
@@ -938,6 +936,14 @@ button.solution {
   min-width: 140px;
   max-width: 211px;
   flex-shrink: 1;
+  transition: all 0.25s ease;
+}
+
+.entity-card:hover,
+.property-card:hover,
+.instance-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 .challenge-error-container {
@@ -2171,13 +2177,14 @@ button.solution {
 }
 
 .accordion-item {
-  border: solid 1px var(--main-color2);
+  /* border: solid 1px var(--main-color2); */
   border-radius: var(--box-radius);
   margin-bottom: 20px;
   background-color: white;
   transition: all 0.25s ease;
   cursor: pointer;
   border-left: 7px solid var(--main-color2);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 .accordion-item:hover {
@@ -2262,6 +2269,7 @@ button.solution {
 
 .accordion .accordion-item .accordion-content ul {
   padding-left: 0;
+  padding-bottom: 10px;
 }
 
 .accordion .accordion-item .accordion-content ul li {
@@ -2269,7 +2277,7 @@ button.solution {
   justify-content: space-between;
   margin: 10px;
   background-color: #fafafa;
-  padding: 10px;
+  padding: 5px 10px;
   border-radius: var(--box-radius);
   align-items: center;
 }
@@ -2416,8 +2424,9 @@ button.solution {
 }
 
 .statistics .accordion-item {
-  border: solid 1px var(--main-color1);
+  /* border: solid 1px var(--main-color1); */
   border-left: 7px solid var(--main-color1);
+  padding-bottom: 10px;
 }
 
 .statistics .accordion-item .scenario-title button {
@@ -2450,6 +2459,22 @@ button.solution {
   padding-bottom: 10px;
 }
 
+.statistics .statistics-container .statistics-total .statistics-title {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding-top: 20px;
+}
+
+.statistics .statistics-container .statistics-total img {
+  background-color: white;
+  padding: 10px;
+  border-radius: 50px;
+  width: 30px;
+  align-self: center;
+  margin-bottom: 3px;
+}
+
 .statistics .statistics-container .statistics-total .total-progression {
   display: flex;
   gap: 20px;
@@ -2459,6 +2484,7 @@ button.solution {
   font-size: clamp(0.8rem, 1.2vw, 1.3rem);
   font-weight: 500;
   margin-bottom: 10px;
+  margin-top: 0;
 }
 
 .statistics .statistics-container .statistics-total .progression p,
@@ -2486,7 +2512,6 @@ button.solution {
   background-color: #e9f7f5;
   color: var(--main-color3);
   display: flex;
-  justify-content: space-between;
   font-weight: 600;
   padding: 5px 10px;
   margin-bottom: 10px;
@@ -2500,10 +2525,17 @@ button.solution {
 
 .total-scenario p {
   font-size: clamp(0.7rem, 1vw, 1rem);
+  flex: 1;
+}
+
+.stats {
+  flex: 8;
+  display: flex;
+  align-items: center;
 }
 
 .total-scenario .scenario-progression,
-.accordion-content ul li .challenge-score .chapter-progression {
+.accordion-content ul li .chapter-progression {
   background-color: var(--main-color3);
   color: white;
   padding: 10px 15px;
@@ -2513,28 +2545,213 @@ button.solution {
 }
 
 .total-scenario .scenario-score,
-.accordion-content ul li .challenge-score .chapter-score {
-  font-size: clamp(0.7rem, 1vw, 1.1rem);
+.accordion-content ul li .chapter-score {
+  font-size: clamp(0.7rem, 1.1vw, 1.1rem);
+}
+
+.total-scenario progress.total-scenario-progress {
+  width: 80%;
+  height: clamp(8px, 1vw, 14px);
+  border: none;
+  border-radius: var(--box-radius);
+  appearance: none;
+  -webkit-appearance: none;
+  margin-right: 40px;
+  background-color: #dddddd; /* fallback Firefox */
+}
+
+/* Chrome / Safari */
+.total-scenario progress.total-scenario-progress::-webkit-progress-bar {
+  background-color: #dddddd;
+  border-radius: var(--box-radius);
+}
+
+.total-scenario progress.total-scenario-progress::-webkit-progress-value {
+  background: var(--main-color3);
+  border-radius: var(--box-radius);
+}
+
+/* Firefox */
+.total-scenario progress.total-scenario-progress::-moz-progress-bar {
+  background: var(--main-color3);
+  border-radius: var(--box-radius);
+}
+
+progress.scenario-progress {
+  width: 80%;
+  height: clamp(6px, 1vw, 10px);
+  border: none;
+  border-radius: var(--box-radius);
+  appearance: none;
+  -webkit-appearance: none;
+  margin-right: 40px;
+
+  /* fallback Firefox (fond) */
+  background-color: #dddddd;
+}
+
+/* Chrome / Safari */
+progress.scenario-progress::-webkit-progress-bar {
+  background-color: #dddddd;
+  border-radius: var(--box-radius);
+}
+
+progress.scenario-progress::-webkit-progress-value {
+  background: var(--main-color1);
+  border-radius: var(--box-radius);
+}
+
+/* Firefox */
+progress.scenario-progress::-moz-progress-bar {
+  background: var(--main-color1);
+  border-radius: var(--box-radius);
 }
 
 .statistics-chapter {
   margin: 12px;
 }
 
-.accordion-content ul li .challenge-score .chapter-progression {
+.accordion-content ul li .chapter-progression {
   background-color: var(--main-color1);
   font-weight: 600;
 }
 
-.accordion-content ul li .challenge-score .chapter-score {
-  color: var(--main-color1);
+.accordion-content ul li .chapter-score {
+  color: var(--black);
   font-weight: 600;
 }
 
 p.chapter-name {
   font-weight: 500;
+  font-size: clamp(0.7rem, 0.9vw, 1rem);
+  flex: 1;
 }
 
+.statistics .progress {
+  width: 100%;
+}
+/* ===================== LEADERBOARD ===================== */
+
+.leaderboard {
+  margin: 20px;
+}
+
+.leaderboard-toggle {
+  position: relative;
+  display: flex;
+  width: fit-content;
+  padding: 5px;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin: 0 auto;
+  margin-bottom: 40px;
+}
+
+.leaderboard-toggle .slider {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: calc(50% - 5px);
+  height: calc(100% - 10px);
+  background: var(--main-color3);
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+  z-index: 1;
+}
+
+/* hover vers anglais */
+.leaderboard-toggle:not(.en) button:nth-child(3):hover ~ .slider {
+  transform: translateX(100%);
+}
+
+/* hover vers français */
+.leaderboard-toggle.en button:nth-child(2):hover ~ .slider {
+  transform: translateX(0%);
+}
+
+.leaderboard-toggle button {
+  position: relative;
+  z-index: 2;
+  width: 176px;
+  height: clamp(26px, 3vw, 45px);
+  border: none;
+  background: transparent;
+  border-radius: 15px;
+  cursor: pointer;
+  color: #555;
+  font-size: clamp(0.7rem, 0.9vw, 1.2rem);
+  transition: color 0.3s ease;
+}
+
+.leaderboard-toggle button.active {
+  color: white;
+}
+
+.leaderboard-toggle.en .slider {
+  transform: translateX(100%);
+}
+
+.leaderboard .accordion-item .accordion-content ul li .player {
+  display: flex;
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+}
+
+.leaderboard .accordion-item .accordion-content ul hr {
+  margin: 0 auto;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 30px;
+}
+
+.leaderboard .accordion-item .accordion-content ul li .player .top-rank {
+  color: var(--main-color1);
+  border: solid 1px var(--main-color1);
+  border-radius: var(--box-radius);
+  font-weight: 600;
+  font-size: clamp(1rem, 1.3vw, 1.1rem);
+  margin-right: 8px;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+}
+
+.leaderboard .accordion-item .accordion-content ul li .player .rank {
+  color: var(--main-color3);
+  border: solid 1px var(--main-color3);
+  border-radius: var(--box-radius);
+  font-weight: 600;
+  font-size: clamp(1rem, 1vw, 1.1rem);
+  margin-right: 8px;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+}
+
+.leaderboard .accordion-item .accordion-content ul li .player p.player-name {
+  font-size: clamp(0.7rem, 0.9vw, 1rem);
+  font-weight: bold;
+}
+
+li.player-rank .chapter-score {
+  color: var(--black) !important;
+  margin-left: 30px;
+}
+
+li.player-rank .chapter-progression {
+  margin-right: 0 !important;
+}
+
+li.user-ranking {
+  background-color: #ffd4d4 !important;
+}
 /* ===================== FOOTER ===================== */
 
 .footer {
