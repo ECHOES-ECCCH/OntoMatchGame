@@ -24,7 +24,7 @@ const submitForm = () => {
 </script>
 
 <template>
-  <form class="login-form" @submit.prevent="submitForm">
+  <form class="auth-form" @submit.prevent="submitForm">
     <div class="form-field">
       <label for="email">
         {{ langStore.t('static-text.SigninScene.signin-scene-email-label') }}
@@ -33,6 +33,7 @@ const submitForm = () => {
         type="email"
         id="email"
         name="email"
+        autocomplete="current-email"
         :value="modelValue?.email"
         @input="updateField('email', ($event.target as HTMLInputElement).value)"
         :placeholder="langStore.t('static-text.SigninScene.signin-scene-email-placeholder-text')"
@@ -50,6 +51,7 @@ const submitForm = () => {
         type="password"
         id="password"
         name="password"
+        autocomplete="current-password"
         :value="modelValue?.password"
         @input="updateField('password', ($event.target as HTMLInputElement).value)"
         :placeholder="langStore.t('static-text.SigninScene.signin-scene-password-placeholder-text')"
