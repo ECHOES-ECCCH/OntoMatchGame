@@ -63,6 +63,13 @@ hr {
   margin-right: 60px;
 }
 
+input:focus,
+select:focus {
+  outline: none;
+  border: 2px solid var(--main-color1); /* ou ta couleur */
+  box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
+}
+
 /* ===================== LOADER ===================== */
 
 /* Button Loader */
@@ -182,70 +189,81 @@ button.logout img {
   margin: 0 clamp(4px, 0.7vw, 7px);
 }
 
-/* ===================== LOGIN ===================== */
+/* ===================== LOGIN / SIGNUP ===================== */
 
-.login-container {
+.auth-page {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-container {
   max-width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 30px auto;
+  margin-bottom: 20px;
 }
 
-.login-container h1 {
+.auth-container h1 {
   font-size: clamp(1rem, 2vw, 3rem);
   font-weight: bolder;
 }
 
-.login-container p {
+.auth-container p {
   line-height: 1.4;
   text-align: justify;
   font-size: clamp(0.6rem, 0.9vw, 1rem);
 }
 
-.login-container h3 {
+.auth-container h3 {
   color: var(--main-color1);
   font-size: clamp(0.6rem, 1vw, 1.4rem);
 }
 
-.login-container form.login-form {
+.auth-container form.auth-form {
   display: flex;
   flex-direction: column;
+  margin-top: 10px;
 }
 
-.login-container form.login-form .form-field {
+.auth-container form.auth-form .form-field {
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
 }
 
-.login-container form.login-form .form-field .error-form {
+.auth-container form.auth-form .form-field .error-form {
   color: red;
   font-size: clamp(0.3rem, 0.9vw, 0.9rem);
   margin-top: 5px;
   margin-bottom: 0;
 }
 
-.login-container form.login-form label {
+.auth-container form.auth-form label {
   font-size: clamp(0.3rem, 0.9vw, 0.9rem);
   margin-bottom: 4px;
   font-weight: 500;
 }
 
-.login-container form.login-form input {
-  width: clamp(261px, 17vw, 481px);
-  height: clamp(37px, 2vw, 57px);
+.auth-container form.auth-form input,
+.auth-container form.auth-form select {
+  width: clamp(301px, 20vw, 481px);
+  height: clamp(27px, 2vw, 57px);
   border: var(--main-color1) 1px solid;
   border-radius: var(--box-radius);
-  padding: 0 5px;
+  padding: 5px;
+  box-sizing: content-box;
+  border-left: solid 7px var(--main-color1);
 }
 
-.login-container form.login-form input::placeholder {
+.auth-container form.auth-form input::placeholder {
   font-size: clamp(0.3rem, 0.8vw, 0.8rem);
 }
 
-.login-container form.login-form .forgot-password {
-  font-size: clamp(0.3rem, 0.7vw, 0.9rem);
+.auth-container form.auth-form .forgot-password {
+  font-size: clamp(0.6rem, 0.8vw, 0.9rem);
   text-align: right;
   text-decoration: underline;
 }
@@ -255,7 +273,7 @@ button.submit {
   background-size: 200% 100%;
   background-position: left;
   color: white;
-  height: clamp(37px, 2.3vw, 57px);
+  height: clamp(42px, 2.5vw, 57px);
   border-radius: var(--box-radius);
   box-shadow: var(--shadow);
   margin-top: 15px;
@@ -268,19 +286,19 @@ button.submit:hover {
   background-position: right;
 }
 
-.login-container .signup-redirection a {
+.auth-container .signup-redirection a {
   margin-top: 40px;
   font-size: clamp(0.6rem, 0.9vw, 0.9rem);
   display: flex;
   flex-direction: column;
 }
 
-.login-container .signup-redirection a p {
+.auth-container .signup-redirection a p {
   font-size: clamp(0.3rem, 0.9vw, 0.9rem);
   font-weight: 600;
 }
 
-.login-container .signup-redirection a button {
+.auth-container .signup-redirection a button {
   height: clamp(37px, 2.3vw, 57px);
   border: var(--main-color3) 1px solid;
   background-color: #e9f7f5;
@@ -290,8 +308,17 @@ button.submit:hover {
   font-size: clamp(0.3rem, 0.9vw, 0.9rem);
 }
 
-.login-container .signup-redirection a button:hover {
+.auth-container .signup-redirection a button:hover {
   background-color: #e0faf6;
+}
+
+.auth-container p.accountActivated {
+  background-color: var(--main-color3);
+  color: white;
+  padding: 15px;
+  border-radius: var(--box-radius);
+  margin-bottom: 30px;
+  font-size: clamp(0.6rem, 0.9vw, 1.2rem);
 }
 
 /* ===================== HOMEPAGE ===================== */
@@ -2437,7 +2464,7 @@ button.solution {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .statistics .statistics-container h3 {
@@ -2456,14 +2483,15 @@ button.solution {
   border-radius: 18px;
   gap: 30px;
   box-shadow: var(--shadow);
-  padding-bottom: 10px;
+  padding-bottom: 20px;
+  padding-top: 10px;
 }
 
 .statistics .statistics-container .statistics-total .statistics-title {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding-top: 20px;
+  padding-top: 15px;
 }
 
 .statistics .statistics-container .statistics-total img {
@@ -2472,7 +2500,7 @@ button.solution {
   border-radius: 50px;
   width: 30px;
   align-self: center;
-  margin-bottom: 3px;
+  margin-bottom: 5px;
 }
 
 .statistics .statistics-container .statistics-total .total-progression {

@@ -22,7 +22,7 @@
       "signin-scene-createbutton-label": "Create an account"
     },
     "SignupScene": {
-      "signup-scene-title-text": "CREATE ACCOUNT",
+      "signup-scene-title-text": "Create account",
       "signup-scene-username-label": "Username",
       "signup-scene-username-placeholder-text": "Choose a username",
       "signup-scene-usernamenotvalid-text": "Username not valid\nShould only contains printable characters",
@@ -32,7 +32,7 @@
       "signup-scene-emailnotvalid-text": "Invalid email format\nShould be something like 'john@doe.com'",
       "signup-scene-emailalreadyexists-text": "This email already exists\nChoose another one or reset your password",
       "signup-scene-password-label": "Choose a password",
-      "signup-scene-password-placeholder-text": "minimum 6 characters",
+      "signup-scene-password-placeholder-text": "Minimum 6 characters",
       "signup-scene-passwordnotvalid-text": "Password must be min 6 characters length",
       "signup-scene-country-label": "Country",
       "signup-scene-optin-text": "Yes, I want to receive information about OntoMatchGame",
@@ -41,7 +41,9 @@
       "signup-scene-accountcreated-text": "Your account has been created!\nCheck your email and activate it before login",
       "signup-scene-waitingmessage-text": "Creating account. Please wait...",
       "signup-scene-accountcreatedfailed-text": "Ooops! Something went wrong\nPlease try again",
-      "signup-scene-backbutton-text": "Back"
+      "signup-scene-backbutton-text": "Back",
+      "signup-scene-existingaccount-label": "Already have an account ?",
+      "signup-scene-signin-label": "Sign in"
     },
     "ResetPasswordScene": {
       "resetpassword-scene-title-text": "RESET PASSWORD",

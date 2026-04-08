@@ -5,7 +5,6 @@ import StatisticsAccordion from '@/components/statistics/StatisticsAccordion.vue
 import PagesLoader from '@/components/loader/PagesLoader.vue'
 import MainFooter from '@/components/footer/MainFooter.vue'
 import { userStats, isUsersStatsLoading } from '@/composables/useUserStats'
-
 import stats from '@/assets/img/stats.svg'
 
 const globalTotals = computed(() => {

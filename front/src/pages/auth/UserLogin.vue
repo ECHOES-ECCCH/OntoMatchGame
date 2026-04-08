@@ -52,21 +52,23 @@ const handleSubmit = async (data: RegisterFormData) => {
 
 <template>
   <ButtonLoader v-if="isLoading" />
-  <section class="login-container">
-    <h1>
-      {{ langStore.t('static-text.SigninScene.signin-scene-title-text') }}
-    </h1>
-    <p>{{ langStore.t('static-text.SigninScene.signin-scene-intro-text') }}</p>
-    <h3>{{ langStore.t('static-text.SigninScene.signin-scene-signin-text') }}</h3>
-    <div class="account">
-      <Form v-model="formData" v-model:errors="errors" @submit="handleSubmit" :isLoading></Form>
-      <div class="signup-redirection">
-        <router-link to="/signup">
-          <p>{{ langStore.t('static-text.SigninScene.signin-scene-noaccount-label') }}</p>
-          <button>
-            {{ langStore.t('static-text.SigninScene.signin-scene-createbutton-label') }}
-          </button>
-        </router-link>
+  <section class="auth-page">
+    <div class="auth-container">
+      <h1>
+        {{ langStore.t('static-text.SigninScene.signin-scene-title-text') }}
+      </h1>
+      <p>{{ langStore.t('static-text.SigninScene.signin-scene-intro-text') }}</p>
+      <h3>{{ langStore.t('static-text.SigninScene.signin-scene-signin-text') }}</h3>
+      <div class="account">
+        <Form v-model="formData" v-model:errors="errors" @submit="handleSubmit" :isLoading></Form>
+        <div class="signup-redirection">
+          <router-link to="/signup">
+            <p>{{ langStore.t('static-text.SigninScene.signin-scene-noaccount-label') }}</p>
+            <button>
+              {{ langStore.t('static-text.SigninScene.signin-scene-createbutton-label') }}
+            </button>
+          </router-link>
+        </div>
       </div>
     </div>
   </section>
