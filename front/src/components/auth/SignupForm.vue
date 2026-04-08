@@ -111,9 +111,6 @@ const submitForm = () => {
           </option>
         </optgroup>
       </select>
-      <p v-if="errors?.password" id="password-error" class="error-form">
-        {{ langStore.t(errors.password) }}
-      </p>
     </div>
     <button class="submit" type="submit">
       <ButtonLoader

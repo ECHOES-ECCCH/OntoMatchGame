@@ -13,12 +13,9 @@ const formData = ref<SignupFormData>({
   countryCode: 'FR',
 })
 
-const errors = ref<SignupFormData>({
+const errors = ref({
   username: '',
   email: '',
-  password: '',
-  country: '',
-  countryCode: '',
 })
 
 const accountCreated = ref(false)
