@@ -45,8 +45,8 @@
       "signup-scene-signin-label": "Sign in"
     },
     "ResetPasswordScene": {
-      "resetpassword-scene-title-text": "RESET PASSWORD",
-      "resetpassword-scene-intro-text": "Type in your email and click 'Reset'\nWe will send you a message  with a link to reset your password",
+      "resetpassword-scene-title-text": "Reset password",
+      "resetpassword-scene-intro-text": "Type in your email and click 'Reset'.\nWe will send you a message  with a link to reset your password",
       "resetpassword-scene-email-label": "Type in your email",
       "resetpassword-scene-placeholder-text": "Email associated with your account",
       "resetpassword-scene-noaccount-text": "Email not linked to any account.",

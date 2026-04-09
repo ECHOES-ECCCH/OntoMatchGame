@@ -10,3 +10,7 @@ export interface SignupFormData {
   country: string
   countryCode: string
 }
+
+export interface ResetPasswordFormData {
+  email: string
+}

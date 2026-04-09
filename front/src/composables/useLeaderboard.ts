@@ -14,8 +14,6 @@ export const fetchRanking = async () => {
   try {
     const data = await getLeaderboard()
     leaderboard.value = data
-
-    console.log(leaderboard.value)
   } catch (error) {
     handleApiError(error)
   } finally {

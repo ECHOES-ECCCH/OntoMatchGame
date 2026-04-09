@@ -46,13 +46,18 @@ const handleSubmit = async (data: SignupFormData) => {
 <template>
   <section class="auth-page">
     <div class="auth-container">
+      <h1>
+        {{ langStore.t('static-text.SigninScene.signin-scene-title-text') }}
+      </h1>
       <h3>{{ langStore.t('static-text.SignupScene.signup-scene-title-text') }}</h3>
       <p v-if="accountCreated" class="accountActivated">
         {{ langStore.t('static-text.SignupScene.signup-scene-accountcreated-text') }}
       </p>
       <div class="account">
         <SignupForm v-model="formData" v-model:errors="errors" @submit="handleSubmit" :isLoading />
-
+        <span class="conditions">{{
+          langStore.t('static-text.SignupScene.signup-scene-termsandconditions-text')
+        }}</span>
         <div class="signup-redirection">
           <router-link to="/">
             <p>

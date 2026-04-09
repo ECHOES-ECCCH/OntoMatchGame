@@ -1,9 +1,11 @@
 import { ref } from 'vue'
 import api from './api'
 import { handleApiError } from './error.handler'
-
 import type { RegisterFormData, SignupFormData } from '@/types/form'
 import { authStore } from '@/stores/auth.store'
+import { langStore } from '@/stores/lang.store'
+
+const selectedLanguage = ref(langStore.state.language)
 
 interface CheckEmailResponse {
   doesExist: boolean
@@ -28,6 +30,14 @@ interface checkUsername {
 
 interface SignupResponse {
   code: boolean
+}
+
+interface ActivationCode {
+  code: boolean
+}
+
+interface ResetLinkResponse {
+  emailSent: boolean
 }
 
 export const isLoading = ref(false)
@@ -104,6 +114,39 @@ export const signup = async (formData: SignupFormData): Promise<boolean> => {
       countryCode: formData.countryCode,
     })
     return data.code
+  } catch (error) {
+    handleApiError(error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+export const getActivationCode = async (email: string): Promise<ActivationCode> => {
+  isLoading.value = true
+
+  try {
+    const { data } = await api.post('/getactivationcode.php', {
+      email: email,
+    })
+    return data
+  } catch (error) {
+    handleApiError(error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+export const sendresetlink = async (email: string, code: string): Promise<ResetLinkResponse> => {
+  isLoading.value = true
+
+  try {
+    const { data } = await api.post('/sendresetlink.php', {
+      email,
+      code,
+      lang: selectedLanguage,
+    })
+
+    return data
   } catch (error) {
     handleApiError(error)
   } finally {

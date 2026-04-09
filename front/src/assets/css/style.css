@@ -244,7 +244,7 @@ button.logout img {
 }
 
 .auth-container form.auth-form label {
-  font-size: clamp(0.3rem, 0.9vw, 0.9rem);
+  font-size: clamp(0.6rem, 0.9vw, 0.9rem);
   margin-bottom: 4px;
   font-weight: 500;
 }
@@ -289,7 +289,7 @@ button.submit:hover {
 }
 
 .auth-container .signup-redirection a {
-  margin-top: 40px;
+  margin-top: 30px;
   font-size: clamp(0.6rem, 0.9vw, 0.9rem);
   display: flex;
   flex-direction: column;
@@ -307,7 +307,7 @@ button.submit:hover {
   border-radius: var(--box-radius);
   color: var(--main-color3);
   font-weight: 600;
-  font-size: clamp(0.3rem, 0.9vw, 0.9rem);
+  font-size: clamp(0.6rem, 0.9vw, 0.9rem);
 }
 
 .auth-container .signup-redirection a button:hover {
@@ -321,6 +321,14 @@ button.submit:hover {
   border-radius: var(--box-radius);
   margin-bottom: 30px;
   font-size: clamp(0.6rem, 0.9vw, 1.2rem);
+}
+
+.auth-container .account span.conditions {
+  font-size: clamp(0.6rem, 0.6vw, 1.2rem);
+  text-align: center;
+  font-style: italic;
+  display: block;
+  margin-top: 8px;
 }
 
 /* ===================== HOMEPAGE ===================== */
