@@ -9,6 +9,7 @@ import { useChallengeChecker } from '@/composables/useChallengeChecker'
 import checkValidation from '@/assets/img/check.svg'
 import next from '@/assets/img/next.svg'
 import PagesLoader from '../loader/PagesLoader.vue'
+import back1 from '@/assets/img/back1.svg'
 
 const { chapterStats, chapterInfo, loadChapter } = useChapterData()
 
@@ -45,6 +46,7 @@ const handleNextAfterSolution = async () => {
 <template>
   <div class="footer">
     <button class="back">
+      <img :src="back1" alt="back" />
       <router-link to="/home">
         <span>{{ langStore.t('static-text.Footer.footer-backbutton') }}</span></router-link
       >

@@ -125,8 +125,6 @@ const groupedScenarios = computed(() => {
             </div>
             <span class="chapter-score">{{ chapter.score }} / {{ chapter.maxPossibleScore }}</span>
           </div>
-
-          <span class="chapter-score"> {{ chapter.score }} / {{ chapter.maxPossibleScore }}</span>
         </li>
       </ul>
 

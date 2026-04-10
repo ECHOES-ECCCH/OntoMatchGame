@@ -416,7 +416,7 @@ button.submit:hover {
 }
 
 .homepage .homepage-content ul.menu li a button:hover {
-  transform: scale(1.05);
+  transform: scale(1.015);
   box-shadow: var(--shadow);
 }
 
@@ -1037,26 +1037,19 @@ button.solution {
 
 /* next */
 
-.challenge-error-container .challenge-error-content .buttons .next-button {
+.next-button {
   display: flex;
   align-items: center;
   gap: 8px;
-
   padding: 14px 26px;
-
   font-size: 1.1rem;
   font-weight: 700;
-
   border: none;
   border-radius: 12px;
-
-  background: linear-gradient(90deg, var(--main-color1), #ffcf87);
-
+  background: var(--main-color1);
   color: white;
   cursor: pointer;
-
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-
   transition: all 0.2s ease;
 }
 
@@ -1066,7 +1059,7 @@ button.solution {
 
 .challenge-error-container .challenge-error-content .buttons .next-button:hover {
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
 }
 
 .challenge-completed-container {
@@ -1227,12 +1220,12 @@ button.solution {
   font-weight: 600;
 }
 
-.next-button {
+/* .next-button {
   margin-top: 10px;
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 10px 18px;
+  padding: clamp(8px, 1vw, 14px) clamp(16px, 1vw, 26px);
   border: none;
   border-radius: 8px;
   background: var(--main-color1);
@@ -1240,10 +1233,11 @@ button.solution {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-}
+  font-size: clamp(0.4rem, 1vw, 1.5rem);
+} */
 
 .next-button img {
-  width: 16px;
+  width: 22px;
 }
 
 .next-button:hover {
@@ -2163,7 +2157,6 @@ button.solution {
 
 .game-selection-container .scenario-accordion {
   flex: 4;
-  margin-bottom: 60px;
   border-left: 1px solid #eee;
   padding-left: 20px;
 }
@@ -2222,6 +2215,10 @@ button.solution {
   cursor: pointer;
   border-left: 7px solid var(--main-color2);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.accordion {
+  margin-bottom: 80px;
 }
 
 .accordion-item:hover {
@@ -2480,7 +2477,7 @@ button.solution {
 .statistics .statistics-container h3 {
   font-weight: 500;
   font-size: clamp(0.8rem, 1.2vw, 1.1rem);
-  margin: 20px 0 30px;
+  margin: 20px 0 20px;
 }
 
 .statistics .statistics-container .statistics-total {
@@ -2508,7 +2505,7 @@ button.solution {
   background-color: white;
   padding: 10px;
   border-radius: 50px;
-  width: 30px;
+  width: 35px;
   align-self: center;
   margin-bottom: 5px;
 }
@@ -2516,6 +2513,13 @@ button.solution {
 .statistics .statistics-container .statistics-total .total-progression {
   display: flex;
   gap: 20px;
+}
+
+.statistics .statistics-container .statistics-total .total-progression .progression,
+.statistics .statistics-container .statistics-total .total-progression .score {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .statistics .statistics-container .statistics-total p {
@@ -2529,11 +2533,11 @@ button.solution {
 .statistics .statistics-container .statistics-total .score p {
   display: flex;
   flex-direction: column;
-  font-size: clamp(0.7rem, 0.7vw, 1rem);
+  font-size: clamp(0.8rem, 0.8vw, 1rem);
   font-weight: 200;
   margin-top: 0;
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 .statistics .statistics-container .statistics-total .progression span,
@@ -2589,7 +2593,7 @@ button.solution {
 
 .total-scenario progress.total-scenario-progress {
   width: 80%;
-  height: clamp(8px, 1vw, 14px);
+  height: clamp(6px, 1vw, 10px);
   border: none;
   border-radius: var(--box-radius);
   appearance: none;
@@ -2674,6 +2678,17 @@ p.chapter-name {
   margin: 20px;
 }
 
+.leaderboard h2 {
+  margin-top: 20px;
+}
+
+.leaderboard .leaderboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
 .leaderboard-toggle {
   position: relative;
   display: flex;
@@ -2683,8 +2698,7 @@ p.chapter-name {
   background: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  margin: 0 auto;
-  margin-bottom: 40px;
+  border: solid 1px var(--main-color2);
 }
 
 .leaderboard-toggle .slider {
@@ -2693,7 +2707,7 @@ p.chapter-name {
   left: 5px;
   width: calc(50% - 5px);
   height: calc(100% - 10px);
-  background: var(--main-color3);
+  background: linear-gradient(90deg, var(--main-color1) 0%, #ffcf87 100%);
   border-radius: 12px;
   transition: transform 0.3s ease;
   z-index: 1;
@@ -2719,8 +2733,9 @@ p.chapter-name {
   border-radius: 15px;
   cursor: pointer;
   color: #555;
-  font-size: clamp(0.7rem, 0.9vw, 1.2rem);
+  font-size: clamp(0.8rem, 0.8vw, 1.2rem);
   transition: color 0.3s ease;
+  font-weight: 600;
 }
 
 .leaderboard-toggle button.active {
@@ -2823,10 +2838,16 @@ li.user-ranking {
   align-self: center;
   font-size: clamp(0.4rem, 0.7vw, 1rem);
   padding: 10px;
+  display: flex;
+}
+
+.footer button.back img {
+  margin-right: 3px;
 }
 
 .footer button.back a {
   display: flex;
+  align-items: center;
 }
 
 .footer button.back:hover {
