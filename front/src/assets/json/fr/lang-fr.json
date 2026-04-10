@@ -47,8 +47,8 @@
       "signup-scene-signin-label": "Connexion"
     },
     "ResetPasswordScene": {
-      "resetpassword-scene-title-text": "RÉINITIALISER LE MOT DE PASSE",
-      "resetpassword-scene-intro-text": "Entrez votre email et cliquez sur 'Reset'\nNous vous enverrons un email avec un lien de réinitilisation.",
+      "resetpassword-scene-title-text": "Réinitialiser le mot de passe",
+      "resetpassword-scene-intro-text": "Entrez votre email et cliquez sur 'Reset'.\nNous vous enverrons un email avec un lien de réinitilisation.",
       "resetpassword-scene-email-label": "Entrez votre email",
       "resetpassword-scene-placeholder-text": "Email associé à votre compte",
       "resetpassword-scene-noaccount-text": "Email lié à aucun compte",

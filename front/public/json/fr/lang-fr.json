@@ -26,7 +26,6 @@
       "signup-scene-email-placeholder-text": "Entrez un email valide",
       "signup-scene-emailnotvalid-text": "Format d'email invalide.\nDevrait ressembler à 'martin@dupont.fr'",
       "signup-scene-emailalreadyexists-text": "Email déjà enregistré\nEssayez un autre ou réinitialisez le mot de passe",
-
       "signup-scene-username-label": "Nom d'utilisateur",
       "signup-scene-username-placeholder-text": "Choisissez un nom d'utilisateur",
       "signup-scene-usernamenotvalid-text": "Nom d'utilisateur non valide\nÉvitez les caractères non-imprimables",
@@ -46,8 +45,8 @@
       "signup-scene-signin-label": "Connexion"
     },
     "ResetPasswordScene": {
-      "resetpassword-scene-title-text": "RÉINITIALISER LE MOT DE PASSE",
-      "resetpassword-scene-intro-text": "Entrez votre email et cliquez sur 'Reset'\nNous vous enverrons un email avec un lien de réinitilisation.",
+      "resetpassword-scene-title-text": "Réinitialiser le mot de passe",
+      "resetpassword-scene-intro-text": "Entrez votre email et cliquez sur 'Reset'. \nNous vous enverrons un email avec un lien de réinitilisation.",
       "resetpassword-scene-email-label": "Entrez votre email",
       "resetpassword-scene-placeholder-text": "Email associé à votre compte",
       "resetpassword-scene-noaccount-text": "Email lié à aucun compte",
