@@ -1,21 +1,41 @@
 <script setup lang="ts">
+import { computed, onMounted, ref } from 'vue'
 import { userHistory, isHistoryLoading, shouldReloadHistory } from '@/composables/useUserHistory'
 import { langStore } from '@/stores/lang.store'
 import { useUserInformations } from '@/stores/userInformations.store'
 import PagesLoader from '@/components/loader/PagesLoader.vue'
-import ResetModal from '@/components/ResetModal.vue'
-import { computed, onMounted, ref } from 'vue'
-import { resetGame, isResetLoading, resetProgression } from '@/services/reset.service'
+import ResetModal from '@/components/modals/ResetModal.vue'
+import InfosModal from '@/components/modals/InfosModal.vue'
 import FooterHome from '@/components/footer/FooterHome.vue'
+import CreditsModal from '@/components/modals/CreditsModal.vue'
 import { getChapterProgression } from '@/utils/chapters-progression'
 import { fetchUserStats } from '@/composables/useUserStats'
+import { resetGame, isResetLoading, resetProgression } from '@/services/reset.service'
 
 const user = useUserInformations()
 
 const modal = ref(false)
+const infosModal = ref(false)
+const creditsModal = ref(false)
+
 const lastChallenge = ref()
-const handleModal = (displayModal: boolean) => {
-  modal.value = displayModal
+
+const handleResetModal = (display: boolean) => {
+  modal.value = display
+  infosModal.value = false
+  creditsModal.value = false
+}
+
+const handleInfosModal = (display: boolean) => {
+  infosModal.value = display
+  creditsModal.value = false
+  modal.value = false
+}
+
+const handleCreditsModal = (display: boolean) => {
+  creditsModal.value = display
+  infosModal.value = false
+  modal.value = false
 }
 
 const handleReset = async () => {
@@ -28,7 +48,7 @@ const handleReset = async () => {
       currentChapter: userHistory?.value?.chapterName,
     })
   }
-  handleModal(false)
+  handleResetModal(false)
   shouldReloadHistory.value = true
 }
 
@@ -46,10 +66,12 @@ onMounted(() => {
   <div class="homepage-modal" v-else>
     <ResetModal
       v-if="modal === true"
-      :handleModal="handleModal"
+      :handleResetModal="handleResetModal"
       :handleReset="handleReset"
       :isResetLoading="isResetLoading"
     />
+    <InfosModal v-if="infosModal === true" :handleInfosModal="handleInfosModal" />
+    <CreditsModal v-if="creditsModal === true" :handleCreditsModal="handleCreditsModal" />
   </div>
 
   <section class="homepage">
@@ -130,7 +152,7 @@ onMounted(() => {
         <li v-else class="menu-ranking no-session">
           {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-hallbutton-label') }}
         </li>
-        <li @click="handleModal(true)" v-if="userHistory?.historyId" class="menu-reset-game">
+        <li @click="handleResetModal(true)" v-if="userHistory?.historyId" class="menu-reset-game">
           <button>
             {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-reset-label') }}
           </button>
@@ -141,7 +163,5 @@ onMounted(() => {
       </ul>
     </div>
   </section>
-  <FooterHome />
+  <FooterHome :handleInfosModal="handleInfosModal" :handleCreditsModal="handleCreditsModal" />
 </template>
-
-<style></style>
