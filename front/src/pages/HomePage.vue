@@ -1,16 +1,16 @@
 <script setup lang="ts">
+import { computed, onMounted, ref } from 'vue'
 import { userHistory, isHistoryLoading, shouldReloadHistory } from '@/composables/useUserHistory'
 import { langStore } from '@/stores/lang.store'
 import { useUserInformations } from '@/stores/userInformations.store'
 import PagesLoader from '@/components/loader/PagesLoader.vue'
-import ResetModal from '@/components/ResetModal.vue'
-import InfosModal from '@/components/InfosModal.vue'
-import { computed, onMounted, ref } from 'vue'
-import { resetGame, isResetLoading, resetProgression } from '@/services/reset.service'
+import ResetModal from '@/components/modals/ResetModal.vue'
+import InfosModal from '@/components/modals/InfosModal.vue'
 import FooterHome from '@/components/footer/FooterHome.vue'
+import CreditsModal from '@/components/modals/CreditsModal.vue'
 import { getChapterProgression } from '@/utils/chapters-progression'
 import { fetchUserStats } from '@/composables/useUserStats'
-import CreditsModal from '@/components/CreditsModal.vue'
+import { resetGame, isResetLoading, resetProgression } from '@/services/reset.service'
 
 const user = useUserInformations()
 

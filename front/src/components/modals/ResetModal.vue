@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { langStore } from '@/stores/lang.store'
-import ButtonLoader from './loader/ButtonLoader.vue'
+import ButtonLoader from '../loader/ButtonLoader.vue'
 
 defineProps({
   handleResetModal: Function,
