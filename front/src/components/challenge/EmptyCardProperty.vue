@@ -7,4 +7,5 @@ import logo from '@/assets/img/logo-g.png'
     <p>OntoMatchGame</p>
     <img :src="logo" />
   </div>
+  <div class="empty-range"></div>
 </template>

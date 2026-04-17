@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { langStore } from '@/stores/lang.store'
-import type { Branch, BranchName } from '@/types/card/branch'
+import type { BranchName } from '@/types/card/branch'
 import type {
   CardInfo,
   Position,
@@ -16,6 +16,7 @@ import { getColor } from '@/utils/get-color-types'
 import { colors } from '@/assets/cards/colors'
 import { useSuperSubClasses } from '@/composables/useSuperSubClasses'
 import ChallengeError from './ChallengeError.vue'
+import { showSolution } from '@/composables/useSolution'
 
 const props = defineProps<{
   totalCards: {
@@ -71,7 +72,7 @@ const isNoCard = computed(() => {
   <div v-if="isEmpty" class="empty carousel-container">
     <EmptyCard />
   </div>
-  <div v-else-if="isNoCard">
+  <div class="empty carousel-container" v-else-if="isNoCard">
     <div class="empty-card-entity">
       <p>{{ langStore.t('static-text.BoardScene.boardscene-scene-filter-entity-text') }}</p>
     </div>
@@ -82,6 +83,7 @@ const isNoCard = computed(() => {
       "
       orientation="horizontal"
     />
+    <div class="empty-range"></div>
   </div>
 
   <div v-else class="carousel-container">
@@ -150,7 +152,9 @@ const isNoCard = computed(() => {
 
     <div class="range">
       <button
+        :disabled="showSolution"
         type="button"
+        :style="showSolution && 'cursor: not-allowed'"
         @click="handlePrevious(totalCards.position as Position, totalCards.cards as CardInfo[])"
       >
         -
@@ -160,6 +164,7 @@ const isNoCard = computed(() => {
         min="0"
         :max="(totalCards.cards as CardInfo[])?.length - 1"
         class="slider"
+        :style="showSolution && 'cursor: not-allowed'"
         :value="currentIndexes[totalCards.position]"
         @input="
           handleSliderChange(
@@ -168,9 +173,12 @@ const isNoCard = computed(() => {
             totalCards.cards as CardInfo[],
           )
         "
+        :disabled="showSolution"
       />
       <div class="slider-buttons">
         <button
+          :style="showSolution && 'cursor: not-allowed'"
+          :disabled="showSolution"
           type="button"
           @click="handleNext(totalCards.position as Position, totalCards.cards as CardInfo[])"
         >

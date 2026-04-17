@@ -23,7 +23,6 @@ export const types: OntoType[] = [
   { id: 'E15', branch: ['temporal'] },
   { id: 'E16', branch: ['temporal'] },
   { id: 'E17', branch: ['temporal'] },
-
   { id: 'E18', branch: ['physical'] },
   { id: 'E19', branch: ['physical'] },
   { id: 'E20', branch: ['physical'] },

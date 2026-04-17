@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useChapterData } from '@/composables/useChapter'
 import { useInstancesCards } from '@/composables/useSelectedCards'
-import EmptyCard from './EmptyCard.vue'
+import logo from '@/assets/img/logo-g.png'
 
 const chapterStore = useChapterData()
 
@@ -39,7 +39,10 @@ const isUrl = (str: string) => {
           :alt="item.card.Title"
         />
       </div>
-      <EmptyCard v-else />
+      <div v-else class="empty-card-entity">
+        <p>OntoMatchGame</p>
+        <img :src="logo" />
+      </div>
     </div>
   </div>
 </template>

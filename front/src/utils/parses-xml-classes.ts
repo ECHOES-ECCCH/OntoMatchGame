@@ -4,6 +4,8 @@ export function parseClasses(doc: Document, card: string) {
   const OWL = doc.documentElement.lookupNamespaceURI('owl')
   const XLINK_NS = doc.documentElement.lookupNamespaceURI('xlink')
 
+  const clean = (value: string | null) => (value ? value.replace(/_/g, ' ') : value)
+
   if (card === 'entity') {
     const classEls = [...doc.getElementsByTagNameNS(RDFS_NS, 'Class')]
 
@@ -42,10 +44,10 @@ export function parseClasses(doc: Document, card: string) {
 
       return {
         id,
-        about: aboutAttr,
+        about: clean(aboutAttr),
         labels,
         comment,
-        subClasses,
+        subClasses: subClasses.map(clean),
         onlineResource,
         branch: null,
       }
@@ -82,7 +84,7 @@ export function parseClasses(doc: Document, card: string) {
       // récupère le range
       const rangeEl = el.getElementsByTagNameNS(RDFS_NS, 'range')[0]
       const range = rangeEl?.getAttributeNS(RDF_NS, 'resource') ?? null
-
+      console.log(range.replaceAll('_', ' '))
       const subPropertyOfEl = el.getElementsByTagNameNS(RDFS_NS, 'subPropertyOf')
       const subPropertyOf = [...subPropertyOfEl]
         .map((s) => s.getAttributeNS(RDF_NS, 'resource'))
@@ -102,13 +104,13 @@ export function parseClasses(doc: Document, card: string) {
 
       return {
         id,
-        about: aboutAttr,
+        about: clean(aboutAttr),
         labels,
         comment,
-        domain,
-        range,
-        subPropertyOf,
-        inverseOf,
+        domain: clean(domain),
+        range: clean(range),
+        subPropertyOf: subPropertyOf.map(clean),
+        inverseOf: inverseOf.map(clean),
         onlineResource,
       }
     })

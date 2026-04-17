@@ -15,6 +15,7 @@ import BranchesFilter from './BranchesFilter.vue'
 import { langStore } from '@/stores/lang.store'
 import type { Branch } from '@/assets/cards/types'
 import ChallengeError from './ChallengeError.vue'
+import { showSolution } from '@/composables/useSolution'
 
 const props = defineProps<{
   totalCards: {
@@ -117,6 +118,7 @@ const isNoCard = computed(() => {
         orientation="vertical-right"
       />
     </div>
+    <div class="empty-range"></div>
   </div>
 
   <!-- NORMAL -->
@@ -231,6 +233,8 @@ const isNoCard = computed(() => {
     <!-- SLIDER -->
     <div class="range">
       <button
+        :disabled="showSolution"
+        :style="showSolution && 'cursor: not-allowed'"
         type="button"
         @click="handlePrevious(totalCards.position as Position, totalCards.cards as CardInfo[])"
       >
@@ -242,6 +246,7 @@ const isNoCard = computed(() => {
         min="0"
         :max="(totalCards.cards as CardInfo[])?.length - 1"
         class="slider"
+        :style="showSolution && 'cursor: not-allowed'"
         :value="currentIndexes[totalCards.position]"
         @input="
           handleSliderChange(
@@ -250,10 +255,13 @@ const isNoCard = computed(() => {
             totalCards.cards as CardInfo[],
           )
         "
+        :disabled="showSolution"
       />
 
       <div class="slider-buttons">
         <button
+          :style="showSolution && 'cursor: not-allowed'"
+          :disabled="showSolution"
           type="button"
           @click="handleNext(totalCards.position as Position, totalCards.cards as CardInfo[])"
         >
