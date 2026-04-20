@@ -1,6 +1,7 @@
 import { computed, type Ref } from 'vue'
 import type { ChapterData } from '@/types/chapter'
 import type { CardInfo, CardInstances, CardPropertyInfo, Position } from '@/types/card/cardInfo'
+import { showSolution } from './useSolution'
 type EntityPositionKeys = 'ELeftInit' | 'EMiddleInit' | 'ERightInit'
 type PropertyPositionKeys = 'PLeftInit' | 'PRightInit'
 
@@ -28,7 +29,7 @@ export function useEntityCards(
       /**
        *  FILTRE : Filtrer avec plusieurs branches
        */
-      const selectedBranches = branches[positionKey]
+      const selectedBranches = showSolution.value ? 'entity' : branches[positionKey]
 
       const filteredCards = selectedBranches?.includes('entity')
         ? allEntityCards
@@ -70,8 +71,8 @@ export function usePropertyCards(
         .filter(Boolean)
 
       // 👇 nouveaux filtres
-      const domainBranches = branches[`${positionKey}_domain`]
-      const rangeBranches = branches[`${positionKey}_range`]
+      const domainBranches = showSolution.value ? 'entity' : branches[`${positionKey}_domain`]
+      const rangeBranches = showSolution.value ? 'entity' : branches[`${positionKey}_range`]
 
       let filteredCards = allPropertyCards
 

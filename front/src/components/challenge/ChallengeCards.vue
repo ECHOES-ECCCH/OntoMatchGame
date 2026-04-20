@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { useSelectedXML } from '@/stores/cards.store'
 import PagesLoader from '../loader/PagesLoader.vue'
 import MainCards from './MainCard.vue'
 import InstancesCards from './InstancesCards.vue'

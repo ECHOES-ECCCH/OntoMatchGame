@@ -1,8 +1,10 @@
-export function parseClasses(doc: Document, card: string) {
+export function parseClasses(doc: Document, card: 'entity' | 'property') {
   const RDFS_NS = doc.documentElement.lookupNamespaceURI('rdfs')
   const RDF_NS = doc.documentElement.lookupNamespaceURI('rdf')
   const OWL = doc.documentElement.lookupNamespaceURI('owl')
   const XLINK_NS = doc.documentElement.lookupNamespaceURI('xlink')
+
+  const clean = (value: string | null) => (value ? value.replace(/_/g, ' ') : value)
 
   if (card === 'entity') {
     const classEls = [...doc.getElementsByTagNameNS(RDFS_NS, 'Class')]
@@ -42,10 +44,10 @@ export function parseClasses(doc: Document, card: string) {
 
       return {
         id,
-        about: aboutAttr,
+        about: clean(aboutAttr),
         labels,
         comment,
-        subClasses,
+        subClasses: subClasses.map(clean),
         onlineResource,
         branch: null,
       }
@@ -102,13 +104,13 @@ export function parseClasses(doc: Document, card: string) {
 
       return {
         id,
-        about: aboutAttr,
+        about: clean(aboutAttr),
         labels,
         comment,
-        domain,
-        range,
-        subPropertyOf,
-        inverseOf,
+        domain: clean(domain),
+        range: clean(range),
+        subPropertyOf: subPropertyOf.map(clean),
+        inverseOf: inverseOf.map(clean),
         onlineResource,
       }
     })

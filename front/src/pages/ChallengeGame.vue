@@ -53,7 +53,9 @@ function closeCompleted() {
   <section v-if="chapterData && !isLoadingChapter" class="challenge">
     <ChallengeInfo :chapterStats="chapterStats" />
     <div class="challenge-order" v-if="!showInstruction && secondText">{{ secondText }}</div>
-    <div class="challenge-explanation" v-if="showExplanation">{{ chapterData?.Explanation }}</div>
+    <div class="challenge-explanation" v-if="showExplanation">
+      {{ chapterData?.Explanation }}
+    </div>
     <div class="challenge-game">
       <ChallengeInstruction
         :chapterData="chapterData"

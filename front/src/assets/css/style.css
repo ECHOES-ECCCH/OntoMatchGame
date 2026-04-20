@@ -336,7 +336,7 @@ button.submit:hover {
 .homepage {
   display: flex;
   justify-content: center;
-  height: calc(100vh - 140px);
+  height: calc(100vh - 100px);
   align-content: space-around;
   flex-flow: wrap;
   overflow-y: auto;
@@ -692,6 +692,12 @@ progress::-moz-progress-bar {
   position: relative;
 }
 
+.challenge hr {
+  margin-top: 0;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
 .challenge .challenge-game {
   display: flex;
   width: 100%;
@@ -700,16 +706,32 @@ progress::-moz-progress-bar {
 
 .challenge .chapter-info {
   border-radius: var(--box-radius);
-  border: 1px solid #d6d6d6;
-  margin: 10px;
-  padding: 20px 10px;
+  margin: 10px 0 0 10px;
+  padding: 0 10px;
   display: flex;
   justify-content: space-between;
-  margin: 30px 20px;
+  align-items: center;
 }
 
-.challenge .chapter-info h2 {
-  margin-top: 0;
+.challenge .chapter-info .chapter-title {
+  display: flex;
+  padding: 5px;
+  border-radius: var(--box-radius);
+  border: var(--main-color2) solid 1px;
+}
+
+.challenge .chapter-info .chapter-title span.scenario-name {
+  background-color: var(--main-color2);
+  color: white;
+  padding: 5px 10px;
+  border-radius: var(--box-radius);
+  font-size: clamp(0.8rem, 1.1vw, 1.4rem);
+}
+
+.challenge .chapter-info .chapter-title span.chapter-name {
+  font-size: clamp(0.7rem, 1vw, 1rem);
+  margin-top: 7px;
+  margin-left: 10px;
 }
 
 .chapter-info > div:first-child span:first-of-type {
@@ -717,14 +739,14 @@ progress::-moz-progress-bar {
   font-size: clamp(0.6rem, 1vw, 1.4rem);
 }
 
-.chapter-info > div:first-child span:nth-of-type(2) {
+/* .chapter-info > div:first-child span:nth-of-type(2) {
   background-color: var(--main-color2);
   padding: clamp(3px, 1vw, 8px) clamp(3px, 1vw, 18px);
   color: white;
   border-radius: var(--box-radius);
   font-size: clamp(0.4rem, 0.9vw, 1rem);
   margin-left: 10px;
-}
+} */
 
 .challenge .chapter-info .challenge-score {
   font-size: clamp(0.7rem, 1vw, 3rem);
@@ -735,37 +757,42 @@ progress::-moz-progress-bar {
   padding: 12px;
   align-content: center;
   border-radius: 16px;
-  height: clamp(30px, 2vw, 120px);
+  /* height: clamp(30px, 2vw, 120px); */
   padding: clamp(8px, 1vw, 16px);
 }
 
-.challenge .chapter-info span:first-child {
+.challenge .chapter-info .challenge-score span:first-child {
   color: white;
   margin-right: 10px;
+  font-size: clamp(0.8rem, 1.1vw, 1.4rem);
 }
 
-.challenge .chapter-info span:nth-child(2) {
+.challenge .chapter-info .challenge-score span:nth-child(2) {
   background-color: white;
   width: 81px;
   height: 52px;
   border-radius: 50px;
-  padding: clamp(8px, 1vw, 10px);
+  padding: clamp(5px, 1vw, 7px);
+  font-size: clamp(0.8rem, 1.1vw, 1.2rem);
 }
 
 .challenge-instructions {
-  flex: 0 0 clamp(180px, 20vw, 350px);
+  flex: 0 0 clamp(180px, 18vw, 350px);
   transition: flex-basis 0.3s ease;
   display: flex;
-  border: 1px solid #6b6b6b;
   border-left: none;
   border-radius: var(--box-radius);
   border-top-left-radius: unset;
   border-bottom-left-radius: unset;
   box-sizing: border-box;
-  margin-right: 20px;
+  margin-right: 10px;
   height: fit-content;
   max-height: 100%;
   flex-direction: column;
+  box-shadow: var(--shadow);
+  margin-left: 20px;
+  margin-top: 10px;
+  border-radius: var(--box-radius);
 }
 
 .hide-challenge-instructions {
@@ -778,6 +805,10 @@ progress::-moz-progress-bar {
   align-items: center;
   display: flex;
   flex-direction: column;
+}
+
+.challenge-instructions .instructions-title:hover {
+  background-color: #7c7c7c;
 }
 
 .hide-instructions-title span {
@@ -881,11 +912,11 @@ button.solution {
   margin: 0 auto;
   padding: clamp(6px, 1vw, 12px);
   font-size: clamp(0.5rem, 0.7vw, 1rem);
-  border: solid 2px #6b6b6b;
+  border: solid 1px #6b6b6b;
   width: fit-content;
   border-radius: var(--box-radius);
   background-color: #e4e4e4;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .challenge-explanation {
@@ -897,7 +928,7 @@ button.solution {
   border-radius: var(--box-radius);
   background-color: #fff5e7;
   color: var(--main-color2);
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .challenge-instructions .instructions-title {
@@ -997,31 +1028,58 @@ button.solution {
 }
 
 .instances.content-cards {
-  margin-top: 50px;
+  margin: 20px 0;
 }
 
+.cards-container.expand .instances.content-cards {
+  /* margin: 30px !important; */
+}
+
+/* .cards-container .content-cards .carousel-container {
+  flex: 1 0 clamp(120px, 12vw, 300px);
+  max-width: clamp(200px, 24cqw, 420px);
+  min-width: clamp(120px, 12cqw, 300px);
+  align-self: self-end;
+} */
+
 .cards-container .content-cards .carousel-container {
-  /* flex: 1 0 clamp(120px, 12vw, 300px); */
-  max-width: clamp(200px, 18vw, 420px);
-  min-width: clamp(120px, 12vw, 300px);
+  flex: 1 0 clamp(120px, 12vw, 300px);
+  max-width: clamp(200px, 21vw, 420px);
+  /* min-width: clamp(120px, 12vw, 300px); */
   align-self: self-end;
 }
 
 .cards-container .content-cards .empty-property.carousel-container {
-  margin-bottom: 50px;
+  /* margin-bottom: clamp(0px, 4vw, 63px);
+  display: flex;
+  justify-content: center;
+  flex: 1 0 clamp(120px, 12vw, 300px);
+  max-width: clamp(240px, 15cqw, 420px);
+  min-width: clamp(120px, 12cqw, 300px); */
+  flex: 1 0 clamp(120px, 12vw, 300px);
+  max-width: clamp(200px, 21vw, 420px);
+  /* min-width: clamp(120px, 12vw, 300px); */
+  align-self: self-end;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .cards-container .content-cards .empty.carousel-container {
-  flex: 1 0 clamp(120px, 12vw, 300px);
+  flex: 1 0 clamp(120px, 8vw, 300px);
   align-self: self-start;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  max-width: clamp(160px, 15vw, 320px);
+  min-width: clamp(100px, 10vw, 240px);
 }
 
 .cards-container .content-cards .carousel-container:has(.entity-card),
 .cards-container .content-cards .carousel-container:has(.instance-card) {
-  flex: 1 0 clamp(100px, 10vw, 240px);
-  max-width: clamp(160px, 14vw, 320px);
+  flex: 1 0 clamp(100px, 8vw, 240px);
+  max-width: clamp(160px, 15vw, 320px);
   min-width: clamp(100px, 10vw, 240px);
 }
 
@@ -1314,7 +1372,7 @@ button.solution {
   width: 100%;
   flex-direction: column;
   overflow-y: hidden;
-  margin-right: 20px;
+  margin-top: 5px;
 }
 
 .cards-container.expand {
@@ -1323,7 +1381,7 @@ button.solution {
 .scope-note {
   text-align: center;
   flex-shrink: 0;
-  padding: clamp(8px, 1vw, 10px);
+  padding: 3px 0px 5px;
 }
 
 .scope-note button {
@@ -1411,9 +1469,11 @@ button.solution {
 
 .cards-container .content-cards .empty-card-entity,
 .content-cards .empty-card-entity {
-  flex: 1 0 clamp(100px, 10vw, 240px);
-  max-width: clamp(160px, 14vw, 320px);
+  /* flex: 1 0 clamp(100px, 10vw, 240px); */
+  max-width: clamp(160px, 15vw, 320px);
   min-width: clamp(100px, 10vw, 240px);
+  /* max-width: clamp(160px, 12vw, 320px);
+  min-width: clamp(100px, 6vw, 240px); */
   aspect-ratio: 265 / 400;
   border: 2px solid #cdcdcd;
   border-radius: var(--box-radius);
@@ -1426,11 +1486,17 @@ button.solution {
   overflow: hidden;
 }
 
+.content-cards .empty-card-entity img {
+  opacity: 0.2;
+}
+
 .cards-container .content-cards .empty-card-property,
 .content-cards .empty-card-property {
-  flex: 1 0 clamp(120px, 12vw, 300px);
-  max-width: clamp(200px, 18vw, 420px);
-  min-width: clamp(120px, 12vw, 300px);
+  flex: 1 0 clamp(120px, 12cqw, 300px);
+  /* max-width: clamp(200px, 18vw, 420px);
+  min-width: clamp(120px, 12vw, 300px); */
+  max-width: clamp(200px, 16cqw, 420px);
+  min-width: clamp(120px, 12cqw, 300px);
   aspect-ratio: 265 / 186;
   border: 2px solid #cdcdcd;
   border-radius: var(--box-radius);
@@ -1439,11 +1505,12 @@ button.solution {
   overflow: hidden;
   color: #c2c2c2;
   text-align: center;
-  align-self: self-end;
+  margin: 0 auto;
 }
 
 .content-cards .empty-card-property img {
-  max-width: clamp(50px, 0.6vw, 160px);
+  max-width: clamp(60px, 0.6vw, 160px);
+  opacity: 0.2;
 }
 
 .cards-container .content-cards .no-card-property {
@@ -1466,7 +1533,6 @@ button.solution {
 .cards-container .content-cards .empty-card-entity p {
   color: #c2c2c2;
   text-align: center;
-  font-weight: 700;
   font-size: 16px;
   justify-self: flex-start;
 }
@@ -1720,8 +1786,15 @@ button.solution {
   border-radius: 50px;
 }
 
+.empty-range {
+  width: clamp(28px, 2vw, 60px);
+  height: clamp(28px, 2vw, 60px);
+  display: block;
+  margin-top: 25px;
+}
+
 .cards-container .content-cards .types-filter.horizontal-filter {
-  height: 40px;
+  /* height: 40px; */
   background-color: #e6e6e6;
   border-bottom-left-radius: var(--box-radius);
   border-bottom-right-radius: var(--box-radius);
@@ -1752,20 +1825,20 @@ button.solution {
   flex-direction: column;
   justify-content: space-evenly;
   height: 100%;
-  margin-top: -15px;
+  margin-top: -12px;
 }
 
 .cards-container .content-cards .types-filter ul {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 15px 0;
+  padding: clamp(10px, 0.8vw, 15px) 0;
   margin: -5px;
 }
 
 .cards-container .content-cards .types-filter ul li.type {
-  width: clamp(3px, 0.6vw, 12px);
-  height: clamp(3px, 0.6vw, 12px);
+  width: clamp(3px, 0.65vw, 12px);
+  height: clamp(3px, 0.65vw, 12px);
   cursor: pointer;
   min-width: 0;
   white-space: normal;
@@ -1829,6 +1902,7 @@ button.solution {
   text-align: center;
   flex-shrink: 0;
   margin: 0;
+  color: #bbbbbb;
 }
 
 .entity-classes-wrapper {
@@ -1939,13 +2013,15 @@ button.solution {
 
 .cards-container .content-cards .carousel-container .property-card h2 {
   font-size: clamp(0.4rem, 0.5vw, 0.8rem);
+  color: #bbbbbb;
+  margin-bottom: 2px;
 }
 
 .cards-container .content-cards .carousel-container .property-card .property-classes {
   height: 120px;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 0.5rem 0 0.5rem 1.3rem;
+  padding: 0.3rem 0 0.5rem 1.3rem;
   margin: 0;
   min-width: 0;
   font-size: clamp(0.5rem, 0.8vw, 0.9rem);
@@ -1983,19 +2059,21 @@ button.solution {
   background-color: color-mix(in srgb, var(--card-color, currentColor) 10%, transparent);
 }
 
+.cards-container .content-cards .carousel-container .property-card .vertical-button.vertical-title {
+}
+
 .cards-container .content-cards .carousel-container .property-card .vertical-button span {
-  color: #ffcf87;
+  color: #bbbbbb;
   text-transform: uppercase;
-  padding-top: 3px;
-  font-size: clamp(0.2rem, 0.6vw, 0.7rem);
+  font-size: clamp(0.2rem, 0.5vw, 0.5rem);
 }
 
 .cards-container .content-cards .carousel-container .property-card .vertical-button p {
   color: var(--black);
-  font-size: clamp(0.35rem, 0.8vw, 0.8rem);
+  font-size: clamp(0.35rem, 0.7vw, 0.8rem);
   height: 100%;
   background: var(color-mix(in srgb, var(--card-color, currentColor) 50%, transparent));
-  padding: 10px 5px;
+  padding: 5px;
   margin-left: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2086,7 +2164,7 @@ button.solution {
   cursor: pointer;
   transition: background 0.2s;
   width: 100%;
-  margin: clamp(3px, 0.5vw, 5px) 0;
+  margin: 3px 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -2137,6 +2215,7 @@ button.solution {
   position: relative;
   display: flex;
   flex-direction: column;
+  padding: 5px;
 }
 
 .cards-container .content-cards .carousel-container .instance.card-name {
@@ -2165,6 +2244,8 @@ button.solution {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  display: block;
+  max-width: 100%;
 }
 
 .instance-card img {
@@ -2966,6 +3047,10 @@ li.user-ranking {
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
+}
+
+.footer button.validation img {
+  width: clamp(12px, 1.3vw, 32px);
 }
 
 .footer button.next {
