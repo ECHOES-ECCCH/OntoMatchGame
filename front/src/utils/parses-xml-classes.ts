@@ -1,4 +1,4 @@
-export function parseClasses(doc: Document, card: string) {
+export function parseClasses(doc: Document, card: 'entity' | 'property') {
   const RDFS_NS = doc.documentElement.lookupNamespaceURI('rdfs')
   const RDF_NS = doc.documentElement.lookupNamespaceURI('rdf')
   const OWL = doc.documentElement.lookupNamespaceURI('owl')
@@ -84,7 +84,7 @@ export function parseClasses(doc: Document, card: string) {
       // récupère le range
       const rangeEl = el.getElementsByTagNameNS(RDFS_NS, 'range')[0]
       const range = rangeEl?.getAttributeNS(RDF_NS, 'resource') ?? null
-      console.log(range.replaceAll('_', ' '))
+
       const subPropertyOfEl = el.getElementsByTagNameNS(RDFS_NS, 'subPropertyOf')
       const subPropertyOf = [...subPropertyOfEl]
         .map((s) => s.getAttributeNS(RDF_NS, 'resource'))

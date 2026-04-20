@@ -1469,7 +1469,7 @@ button.solution {
 
 .cards-container .content-cards .empty-card-entity,
 .content-cards .empty-card-entity {
-  flex: 1 0 clamp(100px, 10vw, 240px);
+  /* flex: 1 0 clamp(100px, 10vw, 240px); */
   max-width: clamp(160px, 15vw, 320px);
   min-width: clamp(100px, 10vw, 240px);
   /* max-width: clamp(160px, 12vw, 320px);
