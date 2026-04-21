@@ -1,95 +1,53 @@
 import { langStore } from '@/stores/lang.store'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import scenarioCatalog from '@/assets/json/scenariiCatalog.json'
+const scenarii = scenarioCatalog.scenarii ?? []
 
-export const selectedFilters = ref({
-  theme: [
-    {
-      name: langStore.t('static-text.GameSelectionScene.gameselection-scene-topicarcheology-text'),
-      domainCodes: 'ARC',
-      selected: true,
-    },
-    {
-      name: langStore.t(
-        'static-text.GameSelectionScene.gameselection-scene-topicarchitecture-text',
-      ),
-      domainCodes: 'ACT',
-      selected: true,
-    },
-    {
-      name: langStore.t('static-text.GameSelectionScene.gameselection-scene-topicarchive-text'),
-      domainCodes: 'ARK',
-      selected: true,
-    },
-    {
-      name: langStore.t('static-text.GameSelectionScene.gameselection-scene-topicart-text'),
-      domainCodes: 'ART',
-      selected: true,
-    },
-    {
-      name: langStore.t(
-        'static-text.GameSelectionScene.gameselection-scene-topicconservation-text',
-      ),
-      domainCodes: 'CSV',
-      selected: true,
-    },
-    {
-      name: langStore.t('static-text.GameSelectionScene.gameselection-scene-topicethnology-text'),
-      domainCodes: 'ETH',
-      selected: true,
-    },
-    {
-      name: langStore.t('static-text.GameSelectionScene.gameselection-scene-topichistory-text'),
-      domainCodes: 'HIS',
-      selected: true,
-    },
-    {
-      name: langStore.t('static-text.GameSelectionScene.gameselection-scene-topiclinguistic-text'),
-      domainCodes: 'LIN',
-      selected: true,
-    },
-    {
-      name: langStore.t('static-text.GameSelectionScene.gameselection-scene-topicliterature-text'),
-      domainCodes: 'LIT',
-      selected: true,
-    },
-    {
-      name: langStore.t('static-text.GameSelectionScene.gameselection-scene-topicoldbook-text'),
-      domainCodes: 'OLB',
-      selected: true,
-    },
-    {
-      name: langStore.t('static-text.GameSelectionScene.gameselection-scene-topicmuseum-text'),
-      domainCodes: 'MSM',
-      selected: true,
-    },
-    {
-      name: langStore.t('static-text.GameSelectionScene.gameselection-scene-topicmusicology-text'),
-      domainCodes: 'MUS',
-      selected: true,
-    },
-  ],
-  language: [
-    {
-      name: langStore.t('static-text.GameSelectionScene.gameselection-scene-language2-text'),
-      language: 'Français',
-      selected: true,
-    },
-    {
-      name: langStore.t('static-text.GameSelectionScene.gameselection-scene-language1-text'),
-      language: 'English',
-      selected: true,
-    },
-  ],
+// Filtre par défaut
+export const selectedOntology = ref('CIDOC CRM')
+
+// Filtres à afficher selon l'ontolgie sélectionnée
+export const allDomainCodes = computed(() => {
+  return [
+    ...new Set(
+      scenarii
+        .filter((s) => !selectedOntology.value || s.ontologyTags.includes(selectedOntology.value))
+        .flatMap((s) => s.domainCodes || []),
+    ),
+  ].sort()
 })
 
-export const handleSelectedFilters = (
-  category: 'theme' | 'language',
-  name: string,
-  selected: boolean,
-) => {
-  const target = selectedFilters.value[category].find((f) => f.name === name)
+export const selectedDomains = ref<string[]>([...allDomainCodes.value])
 
-  if (target) {
-    target.selected = selected
+export const domainLabels = computed(() => {
+  const t = langStore.t
+
+  return {
+    ARC: t('static-text.GameSelectionScene.gameselection-scene-topicarcheology-text'),
+    ACT: t('static-text.GameSelectionScene.gameselection-scene-topicarchitecture-text'),
+    ARK: t('static-text.GameSelectionScene.gameselection-scene-topicarchive-text'),
+    ART: t('static-text.GameSelectionScene.gameselection-scene-topicart-text'),
+    CUL: t('static-text.GameSelectionScene.gameselection-scene-topiccultural-text'),
+    CSV: t('static-text.GameSelectionScene.gameselection-scene-topicconservation-text'),
+    ETH: t('static-text.GameSelectionScene.gameselection-scene-topicethnology-text'),
+    HIS: t('static-text.GameSelectionScene.gameselection-scene-topichistory-text'),
+    LIN: t('static-text.GameSelectionScene.gameselection-scene-topiclinguistic-text'),
+    LIT: t('static-text.GameSelectionScene.gameselection-scene-topicliterature-text'),
+    OLB: t('static-text.GameSelectionScene.gameselection-scene-topicoldbook-text'),
+    MSM: t('static-text.GameSelectionScene.gameselection-scene-topicmuseum-text'),
+    MUS: t('static-text.GameSelectionScene.gameselection-scene-topicmusicology-text'),
   }
-}
+})
+
+// Liste des scénarios selectionnés
+export const filteredScenarii = computed(() => {
+  const result = scenarii.filter((s) => {
+    const matchOntology = !selectedOntology.value || s.ontologyTags.includes(selectedOntology.value)
+    const matchDomains = Array.isArray(s.domainCodes)
+      ? s.domainCodes.some((c) => selectedDomains.value.includes(c))
+      : selectedDomains.value.includes(s.domainCodes)
+    return matchOntology && matchDomains
+  })
+
+  return result
+})

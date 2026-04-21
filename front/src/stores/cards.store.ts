@@ -15,7 +15,7 @@ export const useSelectedXML = () => {
 
     try {
       const basePath = import.meta.env.BASE_URL
-      const xml = await fetch(`${basePath}/data/data.xml`).then((r) => r.text())
+      const xml = await fetch(`${basePath}/data/Cidoc/data.xml`).then((r) => r.text())
       const doc: Document = new DOMParser().parseFromString(xml, 'text/xml')
 
       entityDataCards.value = parseClasses(doc, 'entity')
