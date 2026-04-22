@@ -2287,6 +2287,7 @@ button.solution {
 
 .game-selection-container aside {
   flex: 1;
+  margin-bottom: 20px;
 }
 
 .game-selection-container aside h3 {
@@ -2403,6 +2404,7 @@ button.solution {
 .game-selection-container aside div ul li {
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .game-selection-container aside div ul li input[type='checkbox'] {
@@ -2439,6 +2441,31 @@ button.solution {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.game-selection-container aside div ul li input[type='radio'] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--black);
+  border-radius: 50%;
+  position: relative;
+}
+
+.game-selection-container aside div ul li input[type='radio']:checked::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: var(--black);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+input[type='radio']:checked::before {
+  transform: scale(1);
 }
 
 .accordion .accordion-item .accordion-content ul {
@@ -2588,6 +2615,7 @@ button.solution {
   margin-left: 5px;
   font-weight: 400;
   cursor: pointer;
+  margin-top: 2px;
 }
 
 /* ===================== STATISTICS ===================== */
@@ -3067,7 +3095,6 @@ li.user-ranking {
 .footer button.next img {
   filter: invert(1);
   opacity: 0.8;
-  margin-right: 5px;
 }
 
 .footer button.next:hover {

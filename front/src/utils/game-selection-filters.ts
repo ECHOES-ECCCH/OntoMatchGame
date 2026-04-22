@@ -6,7 +6,7 @@ const scenarii = scenarioCatalog.scenarii ?? []
 // Filtre par défaut
 export const selectedOntology = ref('CIDOC CRM')
 
-// Filtres à afficher selon l'ontolgie sélectionnée
+// Filtres thèmes à afficher selon l'ontolgie sélectionnée
 export const allDomainCodes = computed(() => {
   return [
     ...new Set(
@@ -39,6 +39,20 @@ export const domainLabels = computed(() => {
   }
 })
 
+// Filtres langage à afficher selon l'ontolgie sélectionnée
+
+export const allLanguages = computed(() => {
+  return [
+    ...new Set(
+      scenarii
+        .filter((s) => !selectedOntology.value || s.ontologyTags.includes(selectedOntology.value))
+        .flatMap((s) => s.languageTag || []),
+    ),
+  ].sort()
+})
+
+export const selectedLanguages = ref<string[]>([...allLanguages.value])
+
 // Liste des scénarios selectionnés
 export const filteredScenarii = computed(() => {
   const result = scenarii.filter((s) => {
@@ -46,7 +60,8 @@ export const filteredScenarii = computed(() => {
     const matchDomains = Array.isArray(s.domainCodes)
       ? s.domainCodes.some((c) => selectedDomains.value.includes(c))
       : selectedDomains.value.includes(s.domainCodes)
-    return matchOntology && matchDomains
+    const matchLanguage = selectedLanguages.value.includes(s.languageTag)
+    return matchOntology && matchDomains && matchLanguage
   })
 
   return result

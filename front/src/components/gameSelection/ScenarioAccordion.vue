@@ -12,7 +12,7 @@ import ButtonLoader from '../loader/ButtonLoader.vue'
 import reset from '@/assets/img/reset.svg'
 
 const userStore = useUserInformations()
-const props = defineProps<{
+defineProps<{
   scenario: Scenario[]
 }>()
 import { useRouter } from 'vue-router'

@@ -39,8 +39,8 @@
     {
       "scenario-title": "Marmoutier EN",
       "ontologyTags": ["CIDOC CRM"],
-      "domainTags": ["History", "Archaeology", "Cultural heritage"],
-      "domainCodes": ["HIS", "ARC", "CUL"],
+      "domainTags": ["History", "Cultural heritage"],
+      "domainCodes": ["HIS", "CUL"],
       "authorTags": ["MASA", "Huma-num"],
       "languageTag": "English",
       "scenario-description": "Learn CIDOC CRM basics with the archaeological excavation of Marmoutier (France)",
@@ -226,8 +226,8 @@
     {
       "scenario-title": "Echoes EN",
       "ontologyTags": ["ECHOES"],
-      "domainTags": ["Archaeology", "Cultural heritage"],
-      "domainCodes": ["ARC", "CUL"],
+      "domainTags": ["Archaeology", "History", "Cultural heritage"],
+      "domainCodes": ["ARC", "HIS", "CUL"],
       "authorTags": ["MASA", "Huma-num"],
       "languageTag": "English",
       "scenario-description": "Discover CIDOC CRM entities and properties with card game",

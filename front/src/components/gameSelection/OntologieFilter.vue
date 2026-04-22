@@ -4,7 +4,7 @@ import { selectedOntology } from '@/utils/game-selection-filters'
 import { computed, watchEffect } from 'vue'
 
 const props = defineProps<{
-  scenarii: object
+  scenarii: string[]
 }>()
 
 const uniqueOntologyTags = computed(() => {
