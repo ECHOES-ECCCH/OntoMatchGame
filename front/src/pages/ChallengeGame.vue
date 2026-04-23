@@ -10,6 +10,7 @@ import ChallengeCards from '@/components/challenge/ChallengeCards.vue'
 import ChallengeCompleted from '@/components/challenge/ChallengeCompleted.vue'
 import { splitStatement } from '@/utils/statement'
 import { useSelectedXML } from '@/stores/cards.store'
+import { selectedOntology } from '@/utils/game-selection-filters'
 
 const { entityDataCards, propertyDataCards, loadCard, isDataCardsLoading } = useSelectedXML()
 
@@ -26,7 +27,7 @@ onMounted(() => {
   entityDataCards.value = []
   propertyDataCards.value = []
 
-  loadCard()
+  loadCard(selectedOntology.value)
   reset()
 })
 

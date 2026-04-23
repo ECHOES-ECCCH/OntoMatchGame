@@ -205,36 +205,15 @@
     {
       "scenario-title": "Echoes FR",
       "ontologyTags": ["ECHOES"],
-      "domainTags": ["Archéologie", "Patrimoine culturel"],
-      "domainCodes": ["ARC", "CUL"],
-      "authorTags": ["MASA", "Huma-num"],
-      "languageTag": "Français",
-      "scenario-description": "Modélise les collections du Musée du Louvre avec le CIDOC CRM",
-      "chapters": [
-        {
-          "chapter-title": "Instanciation (1)",
-          "chapter-description": "Associer une instance à une classe du CIDOC",
-          "chapter-filename": "Chapter1.json"
-        },
-        {
-          "chapter-title": "Instanciation (2)",
-          "chapter-description": "Connecter les instances avec des propriétés",
-          "chapter-filename": "Chapter2.json"
-        }
-      ]
-    },
-    {
-      "scenario-title": "Echoes EN",
-      "ontologyTags": ["ECHOES"],
       "domainTags": ["Archaeology", "History", "Cultural heritage"],
       "domainCodes": ["ARC", "HIS", "CUL"],
       "authorTags": ["MASA", "Huma-num"],
-      "languageTag": "English",
-      "scenario-description": "Discover CIDOC CRM entities and properties with card game",
+      "languageTag": "Français",
+      "scenario-description": "Discover Echoes entities and properties with card game",
       "chapters": [
         {
-          "chapter-title": "CIDOC Explorer",
-          "chapter-description": "Discover CIDOC CRM entities and properties",
+          "chapter-title": "Echoes Explorer",
+          "chapter-description": "Discover Echoes entities and properties",
           "chapter-filename": "Chapter1.json"
         }
       ]

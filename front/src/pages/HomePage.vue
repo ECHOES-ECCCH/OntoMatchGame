@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { userHistory, isHistoryLoading, shouldReloadHistory } from '@/composables/useUserHistory'
+import {
+  userHistory,
+  isHistoryLoading,
+  shouldReloadHistory,
+  userOntology,
+} from '@/composables/useUserHistory'
 import { langStore } from '@/stores/lang.store'
 import { useUserInformations } from '@/stores/userInformations.store'
 import PagesLoader from '@/components/loader/PagesLoader.vue'
@@ -86,6 +91,7 @@ onMounted(() => {
             :to="{
               path: '/challenge',
               query: {
+                ontology: userOntology,
                 scenario: userHistory?.['scenarioName'],
                 chapterName: userHistory?.['chapterName'],
               },

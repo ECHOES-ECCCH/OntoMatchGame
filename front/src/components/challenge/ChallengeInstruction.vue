@@ -19,7 +19,6 @@ const props = defineProps<{
   showInstruction: boolean
   showExplanation: boolean
 }>()
-
 const emit = defineEmits<{
   (e: 'update:showInstruction', value: boolean): void
   (e: 'update:showExplanation', value: boolean): void

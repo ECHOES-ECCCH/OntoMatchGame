@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import Accordion from '@/components/TemplateAccordion.vue'
 import { createSession } from '@/services/sessions.service'
 import { isResetProgressionLoading, resetProgression } from '@/services/reset.service'
@@ -10,25 +11,26 @@ import type { Chapter, Scenario } from '@/types/game-selection'
 import PagesLoader from '../loader/PagesLoader.vue'
 import ButtonLoader from '../loader/ButtonLoader.vue'
 import reset from '@/assets/img/reset.svg'
+import { selectedOntology } from '@/utils/game-selection-filters'
 
 const userStore = useUserInformations()
 defineProps<{
   scenario: Scenario[]
 }>()
-import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
 function goToChallenge(scenario: Scenario, chapter: Chapter) {
   handleCreateSessionData(scenario['scenario-title'], chapter['chapter-filename'])
-  router.push({
-    path: '/challenge',
-    query: {
-      scenario: scenario['scenario-title'],
-      chapterName: chapter['chapter-title'],
-      challengeId: 1,
-    },
-  })
+  // router.push({
+  //   path: '/challenge',
+  //   query: {
+  //     ontology: selectedOntology.value,
+  //     scenario: scenario['scenario-title'],
+  //     chapterName: chapter['chapter-title'],
+  //     challengeId: 1,
+  //   },
+  // })
 }
 
 const isFullyLoaded = computed(() => {
@@ -94,6 +96,7 @@ const handleCreateSessionData = (scenario: string, chapter: string) => {
               :to="{
                 path: '/challenge',
                 query: {
+                  ontology: selectedOntology,
                   scenario: scenario[index]?.['scenario-title'],
                   chapterName: chapter['chapter-title'],
                 },

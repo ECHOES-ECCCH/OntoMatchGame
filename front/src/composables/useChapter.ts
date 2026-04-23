@@ -34,7 +34,6 @@ export function useChapterData() {
 
     return stats
   })
-
   const chapterInfo = computed<{ filename: string; lang: string } | null>(() => {
     if (!chapterStats.value) return null
 
@@ -55,6 +54,7 @@ export function useChapterData() {
   })
 
   async function loadChapter(
+    ontology: string,
     chapterName: string,
     scenario: string,
     challengeId: string,
@@ -66,21 +66,21 @@ export function useChapterData() {
       isLoadingChapter.value = false
       return
     }
-    if (!chapterName || !scenario || !info) {
+    if (!ontology || !chapterName || !scenario || !info) {
       isLoadingChapter.value = false
       return
     }
 
     if (showSolution.value) return
-    if (!chapterName || !scenario || !info) return
+    if (!ontology || !chapterName || !scenario || !info) return
 
     const scenarioKey = scenario.split(' ')[0] || ''
 
     // Use import.meta.env.BASE_URL to ensure correct path in production
     const basePath = import.meta.env.BASE_URL
-    const chapterPath = `${basePath}json/${info.lang}/chapter/${scenarioKey}/${info.filename}.json`
-    const instancesPath = `${basePath}json/${info.lang}/chapter/${scenarioKey}/Instances/Instances.json`
-    imgInstanceURL.value = `${basePath}json/${info.lang}/chapter/${scenarioKey}/Instances/Images/`
+    const chapterPath = `${basePath}json/${ontology}/${info.lang}/chapter/${scenarioKey}/${info.filename}.json`
+    const instancesPath = `${basePath}json/${ontology}/${info.lang}/chapter/${scenarioKey}/Instances/Instances.json`
+    imgInstanceURL.value = `${basePath}json/${ontology}/${info.lang}/chapter/${scenarioKey}/Instances/Images/`
 
     isLoadingChapter.value = true
     try {
@@ -117,13 +117,20 @@ export function useChapterData() {
 
     watch(
       [
+        () => route.query.ontology,
         () => route.query.chapterName,
         () => route.query.scenario,
         () => route.query.challengeId,
         chapterInfo,
       ],
-      ([chapterName, scenarioValue, challengeId, info]) => {
-        if (typeof chapterName !== 'string' || typeof scenarioValue !== 'string' || !info) return
+      ([ontology, chapterName, scenarioValue, challengeId, info]) => {
+        if (
+          typeof ontology !== 'string' ||
+          typeof chapterName !== 'string' ||
+          typeof scenarioValue !== 'string' ||
+          !info
+        )
+          return
 
         // challengeId depuis la route, sinon fallback sur les stats
         const id =
@@ -131,7 +138,7 @@ export function useChapterData() {
             ? challengeId
             : (chapterStats.value?.lastChallengeId ?? '0')
 
-        loadChapter(chapterName, scenarioValue, id, info)
+        loadChapter(ontology, chapterName, scenarioValue, id, info)
       },
       { immediate: true },
     )

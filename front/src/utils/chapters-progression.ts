@@ -12,11 +12,13 @@ export const findChapterStats = (
   if (!chapterName || !scenarioName) return null
 
   // filtre userStats sur chapterName + scenarioName
-  return (
+
+  const result =
     userStats.value.find(
       (s) => s.chapterName.includes(chapterName) && s.scenarioName === scenarioName,
     ) ?? null
-  )
+
+  return result
 }
 
 // Avoid recreating a session if it already exists.

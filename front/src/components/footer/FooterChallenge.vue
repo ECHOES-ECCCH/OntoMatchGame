@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { nextTick } from 'vue'
 import { langStore } from '@/stores/lang.store'
 import { isUpdateSessionLoading } from '@/services/sessions.service'
 import type { CardInfo, CardPropertyInfo } from '@/types/card/cardInfo'
 import { useFinishChallenge } from '@/composables/useSessionsChallenge'
 import { useChapterData } from '@/composables/useChapter'
 import { useSolution } from '@/composables/useSolution'
+import { userOntology } from '@/composables/useUserHistory'
 import { useChallengeChecker } from '@/composables/useChallengeChecker'
 import checkValidation from '@/assets/img/check.svg'
 import next from '@/assets/img/next.svg'
@@ -26,14 +28,13 @@ const handleValidation = () => {
   check(props.entityDataCards, props.propertyDataCards)
 }
 
-import { nextTick } from 'vue'
-
 const handleNextAfterSolution = async () => {
   resetSolution()
 
   await nextTick() // attend que showSolution soit bien false
 
   await loadChapter(
+    userOntology.value,
     chapterStats.value?.chapterName,
     chapterStats.value?.scenarioName,
     chapterStats.value?.lastChallengeId,
