@@ -139,7 +139,8 @@
       "leaderboard-scene-bestrankings-label": "Best Rankings",
       "leaderboard-scene-mainmenubutton-label": "Main Menu",
       "leaderboard-scene-frenchbutton-label": "French",
-      "leaderboard-scene-englishbutton-label": "English"
+      "leaderboard-scene-englishbutton-label": "English",
+      "leaderboard-scene-noscenarioavailable-text": "No scenario available"
     },
 
     "FullCreditsScene": {

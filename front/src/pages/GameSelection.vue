@@ -7,10 +7,7 @@ import {
   selectedFilters,
   filteredScenarii as _filteredScenarii,
 } from '@/utils/game-selection-filters'
-import scenarioCatalog from '@/assets/json/scenariiCatalog.json'
 import { computed, ref, watch } from 'vue'
-
-const scenarii = scenarioCatalog.scenarii ?? []
 
 // const filteredScenarii = ref(scenarii)
 
@@ -37,7 +34,7 @@ const filteredScenarii = computed(() => _filteredScenarii.value)
       {{ langStore.t('static-text.GameSelectionScene.gameselection-scene-title-text') }}
     </h2>
     <div class="game-selection-container">
-      <ScenarioFilter :scenarii="scenarii" />
+      <ScenarioFilter />
       <div class="scenario-accordion">
         <h3>
           {{

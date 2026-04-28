@@ -168,6 +168,10 @@ header.main-header .header-right .language button {
 
 header.main-header .header-right button.selectedlanguage {
   color: var(--main-color3);
+  background-color: #e9f7f5;
+  border-radius: 10px;
+  padding: 7px;
+  margin: 0 5px;
 }
 
 button.logout {
@@ -2320,7 +2324,7 @@ button.solution {
   height: clamp(30px, 3vw, 45px);
   align-self: center;
   border-radius: var(--box-radius);
-  font-size: clamp(1rem, 1.3vw, 2rem);
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
   transition: all 0.3s ease;
 }
 
@@ -2387,7 +2391,9 @@ button.solution {
   display: flex;
 }
 
-.game-selection-container aside div {
+.game-selection-container aside div,
+.statistics-container .statistics-content aside div,
+.leaderboard .leaderboard-content aside div {
   background: #fff;
   padding: 15px;
   border-radius: 10px;
@@ -2396,12 +2402,16 @@ button.solution {
   margin-right: 24px;
 }
 
-.game-selection-container aside div ul {
+.game-selection-container aside div ul,
+.statistics-container .statistics-content aside div ul,
+.leaderboard .leaderboard-content aside div ul {
   font-size: clamp(0.6rem, 0.9vw, 1rem);
   padding-left: 0;
 }
 
-.game-selection-container aside div ul li {
+.game-selection-container aside div ul li,
+.statistics-container .statistics-content aside div ul li,
+.leaderboard .leaderboard-content aside div ul li {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
@@ -2443,7 +2453,7 @@ button.solution {
   transform: translate(-50%, -50%);
 }
 
-.game-selection-container aside div ul li input[type='radio'] {
+.ontology-filter ul li input[type='radio'] {
   appearance: none;
   width: 20px;
   height: 20px;
@@ -2452,7 +2462,7 @@ button.solution {
   position: relative;
 }
 
-.game-selection-container aside div ul li input[type='radio']:checked::before {
+.ontology-filter ul li input[type='radio']:checked::before {
   content: '';
   position: absolute;
   top: 50%;
@@ -2611,7 +2621,8 @@ input[type='radio']:checked::before {
   margin-right: 30px;
 }
 
-.game-selection-container aside div ul li label {
+.game-selection-container aside div ul li label,
+.statistics-container .statistics-content aside div ul li label {
   margin-left: 5px;
   font-weight: 400;
   cursor: pointer;
@@ -2739,9 +2750,10 @@ input[type='radio']:checked::before {
 }
 
 .stats {
-  flex: 8;
+  flex: 7;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .total-scenario .scenario-progression,
@@ -2750,7 +2762,6 @@ input[type='radio']:checked::before {
   color: white;
   padding: 10px 15px;
   border-radius: 50px;
-  margin-right: 40px;
   font-size: clamp(0.7rem, 1vw, 1rem);
 }
 
@@ -2840,6 +2851,19 @@ p.chapter-name {
 .statistics .progress {
   width: 100%;
 }
+
+.statistics .statistics-container .statistics-content {
+  display: flex;
+}
+
+.statistics .statistics-container .statistics-content aside {
+  flex: 1;
+}
+
+.statistics .statistics-container .statistics-content .accordion {
+  flex: 4;
+}
+
 /* ===================== LEADERBOARD ===================== */
 
 .leaderboard {
@@ -2973,6 +2997,30 @@ li.player-rank .chapter-progression {
 li.user-ranking {
   background-color: #ffd4d4 !important;
 }
+
+.leaderboard .leaderboard-content {
+  display: flex;
+}
+
+.leaderboard .leaderboard-content aside {
+  flex: 1;
+}
+
+.leaderboard .leaderboard-content .accordion {
+  flex: 4;
+}
+
+.leaderboard aside h3 {
+  font-weight: 500;
+  font-size: clamp(0.8rem, 1.2vw, 1.1rem);
+  margin: 10px 0 20px;
+}
+
+.leaderboard .no-player {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
 /* ===================== FOOTER ===================== */
 
 .footer,

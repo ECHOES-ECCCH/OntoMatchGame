@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Accordion from '@/components/TemplateAccordion.vue'
+import { langStore } from '@/stores/lang.store'
 import { useUserInformations } from '@/stores/userInformations.store'
 import type { LeaderboardLanguage } from '@/types/leaderboard'
 import { computed } from 'vue'
@@ -21,7 +22,10 @@ const getRatio = (playerScore: number, maxScore: number) => {
 </script>
 
 <template>
-  <Accordion :itemsCount="scenarios.length">
+  <div class="accordion" v-if="!scenarios.length">
+    {{ langStore.t('static-text.LeaderBoardScene.leaderboard-scene-noscenarioavailable-text') }}
+  </div>
+  <Accordion v-else :itemsCount="scenarios.length">
     <!-- HEADER -->
     <template #header="{ index, active }">
       <div class="scenario">
@@ -33,9 +37,13 @@ const getRatio = (playerScore: number, maxScore: number) => {
     </template>
 
     <!-- CONTENT -->
+
     <template #content="{ index }">
       <ul>
         <hr />
+        <div class="no-player" v-if="!scenarios[index]?.playerData.length">
+          {{ langStore.t('static-text.LeaderBoardScene.leaderboard-scene-noplayer-text') }}
+        </div>
         <li
           :class="user.userInfo.userName === player.username && 'user-ranking'"
           class="player-rank"

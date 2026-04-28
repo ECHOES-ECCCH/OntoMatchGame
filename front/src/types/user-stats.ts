@@ -3,12 +3,14 @@ export interface UserStats {
   lastChallengeId: string
   maxChallengeCount: string
   scenarioName: string
+  ontologyName: string
   maxPossibleScore: string
   score: string
 }
 
 export interface UserGlobalStats {
   scenarioName: string
+  ontologyName: string
   chapters: Array<UserStats>
   totalMaxScore: number
   totalScore: number

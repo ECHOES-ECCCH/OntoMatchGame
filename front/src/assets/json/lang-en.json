@@ -132,6 +132,7 @@
       "statsscene-scene-scorelabel-text": "Score",
       "statsscene-scene-totalscenariolabel-text": "Total scenario",
       "statsscene-scene-grandtotallabel-text": "Grand total",
+      "statsscene-scene-noscenarioavailable-text": "No scenario available",
       "statsscene-scene-mainmenubutton-label": "Back"
     },
 
@@ -140,7 +141,9 @@
       "leaderboard-scene-bestrankings-label": "Best Rankings",
       "leaderboard-scene-mainmenubutton-label": "Main Menu",
       "leaderboard-scene-frenchbutton-label": "French",
-      "leaderboard-scene-englishbutton-label": "English"
+      "leaderboard-scene-englishbutton-label": "English",
+      "leaderboard-scene-noscenarioavailable-text": "No scenario available",
+      "leaderboard-scene-noplayer-text": "No player at the moment"
     },
 
     "FullCreditsScene": {

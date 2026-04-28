@@ -9,10 +9,7 @@ import {
   selectedLanguages,
 } from '@/utils/game-selection-filters'
 import OntologieFilter from './OntologieFilter.vue'
-
-defineProps<{
-  scenarii: object
-}>()
+import { selectedOntology } from '@/utils/game-selection-filters'
 
 watch(allDomainCodes, (codes) => {
   selectedDomains.value = [...codes]
@@ -21,7 +18,7 @@ watch(allDomainCodes, (codes) => {
 
 <template>
   <aside>
-    <OntologieFilter :scenarii="scenarii" />
+    <OntologieFilter v-model="selectedOntology" />
     <div class="theme-filter">
       <h3>{{ langStore.t('static-text.GameSelectionScene.gameselection-scene-domain-label') }}</h3>
       <hr />
