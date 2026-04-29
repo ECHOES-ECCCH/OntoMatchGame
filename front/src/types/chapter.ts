@@ -1,6 +1,7 @@
 export interface ChapterStats {
   userId: string
   scenarioName: string
+  ontologyName: string
   chapterName: string
   lastChallengeId: string
   maxChallengeCount: string

@@ -932,7 +932,6 @@ button.solution {
   border-radius: var(--box-radius);
   background-color: #fff5e7;
   color: var(--main-color2);
-  margin-bottom: 10px;
 }
 
 .challenge-instructions .instructions-title {
@@ -3019,6 +3018,36 @@ li.user-ranking {
 .leaderboard .no-player {
   margin-left: 10px;
   margin-bottom: 10px;
+}
+
+/* ===================== NOT FOUND ===================== */
+
+.not-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.not-found div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.not-found h1 {
+  text-align: center;
+}
+
+.not-found img {
+  width: 150px;
+}
+
+.not-found .next-button {
+  width: fit-content;
+  text-align: center;
+  margin-top: 30px;
+  box-shadow: none;
 }
 
 /* ===================== FOOTER ===================== */

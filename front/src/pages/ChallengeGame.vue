@@ -15,7 +15,7 @@ import { selectedOntology } from '@/utils/game-selection-filters'
 const { entityDataCards, propertyDataCards, loadCard, isDataCardsLoading } = useSelectedXML()
 
 const { isComplete, reset } = useChallengeChecker()
-const { chapterData, chapterStats, chapterInfo, isLoadingChapter } = useChapterData()
+const { chapterData, chapterStats, isLoadingChapter } = useChapterData()
 
 const statement = computed(() => splitStatement(chapterData.value?.Statement))
 const secondText = computed(() => statement.value.after)
@@ -48,7 +48,6 @@ function closeCompleted() {
     v-if="showCompleted"
     :chapterStats="chapterStats"
     :chapterData="chapterData"
-    :chapterInfo="chapterInfo"
     @close="closeCompleted"
   />
   <section v-if="chapterData && !isLoadingChapter" class="challenge">

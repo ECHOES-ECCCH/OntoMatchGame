@@ -33,6 +33,7 @@ const groupedScenarios = computed(() => {
         acc[item.scenarioName] ||
         (acc[item.scenarioName] = {
           scenarioName: item.scenarioName,
+          ontologyName: item.ontologyName,
           chapters: [],
           totalMaxScore: 0,
           totalScore: 0,
@@ -111,8 +112,9 @@ const groupedScenarios = computed(() => {
                 class="scenario-progress"
                 :value="
                   getChapterProgression(
-                    getChapterInfo(chapter.chapterName),
-                    groupedScenarios[index]?.scenarioName,
+                    getChapterInfo(chapter.chapterName) ?? null,
+                    groupedScenarios[index]?.scenarioName ?? '',
+                    groupedScenarios[index]?.ontologyName ?? '',
                   ) || 0
                 "
                 max="100"
@@ -120,8 +122,9 @@ const groupedScenarios = computed(() => {
               <span class="chapter-progression">
                 {{
                   getChapterProgression(
-                    getChapterInfo(chapter.chapterName),
-                    groupedScenarios[index]?.scenarioName,
+                    getChapterInfo(chapter.chapterName) ?? null,
+                    groupedScenarios[index]?.scenarioName ?? '',
+                    groupedScenarios[index]?.ontologyName ?? '',
                   ) || 0
                 }}%</span
               >

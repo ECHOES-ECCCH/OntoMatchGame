@@ -6,12 +6,11 @@ import type { CardInfo, CardPropertyInfo } from '@/types/card/cardInfo'
 import { useFinishChallenge } from '@/composables/useSessionsChallenge'
 import { useChapterData } from '@/composables/useChapter'
 import { useSolution } from '@/composables/useSolution'
-import { userOntology } from '@/composables/useUserHistory'
 import { useChallengeChecker } from '@/composables/useChallengeChecker'
 import checkValidation from '@/assets/img/check.svg'
 import next from '@/assets/img/next.svg'
-import PagesLoader from '../loader/PagesLoader.vue'
 import back1 from '@/assets/img/back1.svg'
+import PagesLoader from '../loader/PagesLoader.vue'
 
 const { chapterStats, chapterInfo, loadChapter } = useChapterData()
 
@@ -30,11 +29,12 @@ const handleValidation = () => {
 
 const handleNextAfterSolution = async () => {
   resetSolution()
+  if (!chapterStats.value) return
 
   await nextTick() // attend que showSolution soit bien false
 
   await loadChapter(
-    userOntology.value,
+    chapterStats.value.ontologyName,
     chapterStats.value?.chapterName,
     chapterStats.value?.scenarioName,
     chapterStats.value?.lastChallengeId,

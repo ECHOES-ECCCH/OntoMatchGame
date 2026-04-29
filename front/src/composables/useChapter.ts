@@ -22,24 +22,31 @@ export function useChapterData() {
   const route = useRoute()
 
   const chapterStats = computed(() => {
-    const chapterName = route.query.chapterName
-    const scenarioName = route.query.scenario
+    const toString = (v: unknown) => (typeof v === 'string' ? v : '')
+
+    const chapterName = toString(route.query.chapterName)
+    const scenarioName = toString(route.query.scenario)
+    const ontologyName = toString(route.query.ontology)
 
     if (!chapterName || typeof chapterName !== 'string') return null
 
     const stats = findChapterStats({
+      ontologyName: ontologyName,
       chapterName: chapterName,
       scenarioName: scenarioName,
     })
 
     return stats
   })
+
   const chapterInfo = computed<{ filename: string; lang: string } | null>(() => {
     if (!chapterStats.value) return null
 
-    const scenario = scenarioCatalog.scenarii.find(
-      (s) => s['scenario-title'] === chapterStats.value!.scenarioName,
+    const ontology = scenarioCatalog.scenarii.filter((s) =>
+      s['ontologyTags'].includes(chapterStats.value!.ontologyName),
     )
+
+    const scenario = ontology.find((s) => s['scenario-title'] === chapterStats.value!.scenarioName)
     if (!scenario) return null
 
     const chapter = scenario.chapters.find(

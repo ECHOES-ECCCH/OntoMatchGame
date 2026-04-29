@@ -3,13 +3,12 @@ import { useChallengeChecker } from '@/composables/useChallengeChecker'
 import { useChapterData } from '@/composables/useChapter'
 import router from '@/router'
 import { showSolution } from './useSolution'
-import { userOntology } from './useUserHistory'
 
 export function useFinishChallenge() {
   const { reset } = useChallengeChecker()
   const { chapterStats, chapterInfo } = useChapterData()
   async function finishChallenge(extraScore = 0) {
-    const userId = chapterStats.value.userId
+    const userId = chapterStats.value?.userId
     const scenarioName = chapterStats.value?.scenarioName
     const filename = chapterInfo.value?.filename
     const lastChallengeId = chapterStats.value?.lastChallengeId
@@ -37,7 +36,7 @@ export function useFinishChallenge() {
       router.replace({
         path: '/challenge',
         query: {
-          ontology: userOntology.value,
+          ontology: chapterStats.value?.ontologyName,
           scenario: chapterStats.value?.scenarioName,
           chapterName: chapterStats.value?.chapterName,
           challengeId: nextId,
