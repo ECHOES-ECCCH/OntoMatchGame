@@ -710,7 +710,7 @@ progress::-moz-progress-bar {
 
 .challenge .chapter-info {
   border-radius: var(--box-radius);
-  margin: 10px 0 0 10px;
+  margin: 10px 0 5px 10px;
   padding: 0 10px;
   display: flex;
   justify-content: space-between;
@@ -722,6 +722,12 @@ progress::-moz-progress-bar {
   padding: 5px;
   border-radius: var(--box-radius);
   border: var(--main-color2) solid 1px;
+}
+
+.challenge .chapter-info span.ontology-name {
+  font-size: clamp(0.7rem, 0.7vw, 1rem);
+
+  font-weight: 500;
 }
 
 .challenge .chapter-info .chapter-title span.scenario-name {
@@ -2057,7 +2063,7 @@ button.solution {
   max-width: 20px;
   overflow: hidden;
   white-space: nowrap;
-  padding: clamp(2px, 0.8vw, 6px);
+  padding: clamp(2px, 0.8vw, 4px);
   font-size: clamp(0.35rem, 0.6vw, 0.7rem);
   background-color: color-mix(in srgb, var(--card-color, currentColor) 10%, transparent);
 }
@@ -2073,11 +2079,11 @@ button.solution {
 
 .cards-container .content-cards .carousel-container .property-card .vertical-button p {
   color: var(--black);
-  font-size: clamp(0.35rem, 0.7vw, 0.8rem);
+  font-size: clamp(0.35rem, 0.6vw, 0.8rem);
   height: 100%;
   background: var(color-mix(in srgb, var(--card-color, currentColor) 50%, transparent));
   padding: 5px;
-  margin-left: 20px;
+  margin-left: 17px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -2121,8 +2127,8 @@ button.solution {
   .property-card
   .vertical-button.vertical-right
   span {
-  color: #ffcf87;
   text-transform: uppercase;
+  padding-top: 3px;
 }
 
 .cards-container
