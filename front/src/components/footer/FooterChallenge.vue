@@ -31,7 +31,9 @@ const handleNextAfterSolution = async () => {
   resetSolution()
   if (!chapterStats.value) return
 
-  await nextTick() // attend que showSolution soit bien false
+  // Important : attendre que Vue applique la mise à jour (showSolution = false)
+  // sinon loadChapter s'exécute alors que le DOM n'est pas encore synchronisé
+  await nextTick()
 
   await loadChapter(
     chapterStats.value.ontologyName,

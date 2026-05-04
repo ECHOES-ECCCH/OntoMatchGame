@@ -30,6 +30,7 @@ export function useFinishChallenge() {
     }
 
     reset()
+    if (showSolution.value) return
 
     if (!showSolution.value) {
       const nextId = String(parseInt(chapterStats.value?.lastChallengeId ?? '1') + 1)

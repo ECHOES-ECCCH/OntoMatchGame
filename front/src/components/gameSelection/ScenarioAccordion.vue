@@ -13,6 +13,7 @@ import { selectedOntology } from '@/utils/game-selection-filters'
 import { getChapterProgression, isChapterStarted } from '@/utils/chapters-progression'
 
 const userStore = useUserInformations()
+
 defineProps<{
   scenario: Scenario[]
 }>()

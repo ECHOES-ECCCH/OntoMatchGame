@@ -203,18 +203,23 @@
       ]
     },
     {
-      "scenario-title": "Echoes FR",
-      "ontologyTags": ["ECHOES"],
-      "domainTags": ["Archaeology", "History", "Cultural heritage"],
-      "domainCodes": ["ARC", "HIS", "CUL"],
-      "authorTags": ["MASA", "Huma-num"],
+      "scenario-title": "CND3D FR",
+      "ontologyTags": ["CIDOC CRMdig"],
+      "domainTags": ["3D", "Archéologie", "Patrimoine culturel"],
+      "domainCodes": ["3D", "ARC", "CUL"],
+      "authorTags": ["3D-HN", "Huma-num"],
       "languageTag": "Français",
-      "scenario-description": "Discover Echoes entities and properties with card game",
+      "scenario-description": "Modélise les collections du Conservatoire National des Données 3D avec le CIDOC CRM et ses extensions",
       "chapters": [
         {
-          "chapter-title": "Echoes Explorer",
-          "chapter-description": "Discover Echoes entities and properties",
+          "chapter-title": "Instanciation (1)",
+          "chapter-description": "Associer une instance à une classe du CIDOC",
           "chapter-filename": "Chapter1.json"
+        },
+        {
+          "chapter-title": "Instanciation (2)",
+          "chapter-description": "Connecter les instances avec des propriétés (1)",
+          "chapter-filename": "Chapter2.json"
         }
       ]
     }

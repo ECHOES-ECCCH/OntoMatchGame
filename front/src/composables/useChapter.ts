@@ -93,9 +93,11 @@ export function useChapterData() {
     try {
       // Fetch chapter data
       const chapterResponse = await fetch(chapterPath)
+
       if (!chapterResponse.ok) {
         throw new Error(`Chapitre introuvable : ${chapterPath} (${chapterResponse.status})`)
       }
+
       const chapterJson = await chapterResponse.json()
       chapterData.value = chapterJson[challengeId] ?? null
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useChapterData } from '@/composables/useChapter'
 import { useChallengeChecker } from '@/composables/useChallengeChecker'
 import FooterChallenge from '@/components/footer/FooterChallenge.vue'
@@ -10,7 +10,7 @@ import ChallengeCards from '@/components/challenge/ChallengeCards.vue'
 import ChallengeCompleted from '@/components/challenge/ChallengeCompleted.vue'
 import { splitStatement } from '@/utils/statement'
 import { useSelectedXML } from '@/stores/cards.store'
-import { selectedOntology } from '@/utils/game-selection-filters'
+import { showSolution } from '@/composables/useSolution'
 
 const { entityDataCards, propertyDataCards, loadCard, isDataCardsLoading } = useSelectedXML()
 
@@ -23,13 +23,23 @@ const secondText = computed(() => statement.value.after)
 const showInstruction = ref(true)
 const showExplanation = ref(false)
 
-onMounted(() => {
-  entityDataCards.value = []
-  propertyDataCards.value = []
+watch(
+  () => chapterStats.value,
+  (stats) => {
+    if (!stats) return
 
-  loadCard(selectedOntology.value)
-  reset()
-})
+    // NE RIEN FAIRE si on est en mode solution
+    if (showSolution.value) return
+
+    entityDataCards.value = []
+    propertyDataCards.value = []
+
+    // Charge les carte de l'ontologie concernée
+    loadCard(stats.ontologyName)
+    reset()
+  },
+  { immediate: true },
+)
 
 const showCompleted = ref(false)
 

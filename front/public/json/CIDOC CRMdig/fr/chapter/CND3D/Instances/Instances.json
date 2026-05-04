@@ -1,0 +1,482 @@
+[
+    {
+      "Id" : "I01",
+      "Title" : "Buste d'Akhenaton",
+      "Label" : "",
+      "ImageName" : "01.jpg"
+    },
+    {
+      "Id" : "I02",
+      "Title" : "État en -1360",
+      "Label" : "",
+      "ImageName" : "02.jpg"
+    },
+    {
+      "Id" : "I03",
+      "Title" : "-1360",
+      "Label" : "http://n2t.net/ark:/99152/p0cp447qz64",
+      "ImageName" : "03.jpg"
+    },
+    {
+      "Id" : "I04",
+      "Title" : "Musée du Louvre",
+      "Label" : "https://www.geonames.org/2997319",
+      "ImageName" : "04.jpg"
+    },
+    {
+      "Id" : "I05",
+      "Title" : "Découverte",
+      "Label" : "",
+      "ImageName" : "05.jpg"
+    },
+    {
+      "Id" : "I06",
+      "Title" : "Ludwig Borchardt",
+      "Label" : "http://www.idref.fr/029668387/id",
+      "ImageName" : "06.jpg"
+    },
+    {
+      "Id" : "I07",
+      "Title" : "Tell el-Amarna",
+      "Label" : "https://www.geonames.org/347585",
+      "ImageName" : "07.jpg"
+    },
+    {
+      "Id" : "I08",
+      "Title" : "1912",
+      "Label" : "",
+      "ImageName" : "08.jpg"
+    },
+    {
+      "Id" : "I09",
+      "Title" : "Production",
+      "Label" : "",
+      "ImageName" : "09.jpg"
+    },
+    {
+      "Id" : "I10",
+      "Title" : "Thoutmose",
+      "Label" : "(sculpteur)",
+      "ImageName" : "10.jpg"
+    },
+    {
+      "Id" : "I11",
+      "Title" : "Tell el-Amarna",
+      "Label" : "https://www.geonames.org/347585",
+      "ImageName" : "11.jpg"
+    },
+    {
+      "Id" : "I12",
+      "Title" : "-1360",
+      "Label" : "",
+      "ImageName" : "12.jpg"
+    },
+    {
+      "Id" : "I13",
+      "Title" : "E 11076",
+      "Label" : "(n° inventaire Louvre)",
+      "ImageName" : "13.jpg"
+    },
+    {
+      "Id" : "I14",
+      "Title" : "\"Statue d'Amenhotep IV\"",
+      "Label" : "(original au Louvre)",
+      "ImageName" : "14.jpg"
+    },
+    {
+      "Id" : "I15",
+      "Title" : "Buste",
+      "Label" : "http://vocab.getty.edu/page/aat/300417950",
+      "ImageName" : "15.jpg"
+    },
+    {
+      "Id" : "I16",
+      "Title" : "Calcaire",
+      "Label" : "https://ark.frantiq.fr/ark:/26678/pcrtc1Ueky7Zpg",
+      "ImageName" : "16.jpg"
+    },
+    {
+      "Id" : "I17",
+      "Title" : "Fiche Louvre",
+      "Label" : "https://collections.louvre.fr/ark:/53355/cl010006986",
+      "ImageName" : "17.jpg"
+    },
+    {
+      "Id" : "I18",
+      "Title" : "Pharaon",
+      "Label" : "https://ark.frantiq.fr/ark:/26678/pcrtBAsx4mTLtx",
+      "ImageName" : "18.jpg"
+    },
+    {
+      "Id" : "I19",
+      "Title" : "\"roi…\"",
+      "Label" : "(description)",
+      "ImageName" : "19.jpg"
+    },
+    {
+      "Id" : "I20",
+      "Title" : "Gestion de projet",
+      "Label" : "",
+      "ImageName" : "20.jpg"
+    },
+    {
+      "Id" : "I21",
+      "Title" : "\"Retrocolor 3D\"",
+      "Label" : "(ANR-08-BLAN-0202-01)",
+      "ImageName" : "21.jpg"
+    },
+    {
+      "Id" : "I22",
+      "Title" : "Objet virtuel 3D",
+      "Label" : "",
+      "ImageName" : "22.jpg"
+    },
+    {
+      "Id" : "I23",
+      "Title" : "Robert Vergnieux",
+      "Label" : "https://www.idref.fr/032533411",
+      "ImageName" : "23.jpg"
+    },
+    {
+      "Id" : "I24",
+      "Title" : "2008-2017",
+      "Label" : "",
+      "ImageName" : "24.jpg"
+    },
+    {
+      "Id" : "I25",
+      "Title" : "2008",
+      "Label" : "",
+      "ImageName" : "25.jpg"
+    },
+    {
+      "Id" : "I26",
+      "Title" : "2017",
+      "Label" : "",
+      "ImageName" : "26.jpg"
+    },
+    {
+      "Id" : "I27",
+      "Title" : "Recherche",
+      "Label" : "(objectifs scientifiques)",
+      "ImageName" : "27.jpg"
+    },
+    {
+      "Id" : "I28",
+      "Title" : "\"Restitution 3D couleur",
+      "Label" : "du buste d'Akhenaton\"",
+      "ImageName" : "28.jpg"
+    },
+    {
+      "Id" : "I29",
+      "Title" : "Archeovision",
+      "Label" : "https://www.idref.fr/189301562",
+      "ImageName" : "29.jpg"
+    },
+    {
+      "Id" : "I30",
+      "Title" : "Acquisition 3D",
+      "Label" : "",
+      "ImageName" : "30.jpg"
+    },
+    {
+      "Id" : "I31",
+      "Title" : "Pascal Mora",
+      "Label" : "https://www.idref.fr/228238196",
+      "ImageName" : "31.jpg"
+    },
+    {
+      "Id" : "I32",
+      "Title" : "Robert Vergnieux",
+      "Label" : "https://www.idref.fr/032533411",
+      "ImageName" : "32.jpg"
+    },
+    {
+      "Id" : "I33",
+      "Title" : "11/2011-01/2012",
+      "Label" : "(acquisition)",
+      "ImageName" : "33.jpg"
+    },
+    {
+      "Id" : "I34",
+      "Title" : "Photogrammétrie",
+      "Label" : "http://vocab.getty.edu/page/aat/300053580",
+      "ImageName" : "34.jpg"
+    },
+    {
+      "Id" : "I35",
+      "Title" : "Nikon D700",
+      "Label" : "",
+      "ImageName" : "35.jpg"
+    },
+    {
+      "Id" : "I36",
+      "Title" : "Paramètres",
+      "Label" : "(appareil photo numérique)",
+      "ImageName" : "36.jpg"
+    },
+    {
+      "Id" : "I37",
+      "Title" : "Modèle 3D brut",
+      "Label" : "",
+      "ImageName" : "37.jpg"
+    },
+    {
+      "Id" : "I38",
+      "Title" : "Nuage de points",
+      "Label" : "",
+      "ImageName" : "38.jpg"
+    },
+    {
+      "Id" : "I39",
+      "Title" : "Traitement 3D",
+      "Label" : "",
+      "ImageName" : "39.jpg"
+    },
+    {
+      "Id" : "I40",
+      "Title" : "Pascal Mora",
+      "Label" : "https://www.idref.fr/228238196",
+      "ImageName" : "40.jpg"
+    },
+    {
+      "Id" : "I41",
+      "Title" : "Loïc Espinasse",
+      "Label" : "https://www.idref.fr/228238803",
+      "ImageName" : "41.jpg"
+    },
+    {
+      "Id" : "I42",
+      "Title" : "février 2012",
+      "Label" : "(traitement)",
+      "ImageName" : "42.jpg"
+    },
+    {
+      "Id" : "I43",
+      "Title" : "Dell Precision T7610",
+      "Label" : "(Ordinateur de traitement)",
+      "ImageName" : "43.jpg"
+    },
+    {
+      "Id" : "I44",
+      "Title" : "Reality Capture",
+      "Label" : "(logiciel photogrammétrie)",
+      "ImageName" : "44.jpg"
+    },
+    {
+      "Id" : "I45",
+      "Title" : "Paramètres",
+      "Label" : "(logiciel de traitement)",
+      "ImageName" : "45.jpg"
+    },
+    {
+      "Id" : "I46",
+      "Title" : "Buste d'Akhénaton 3D",
+      "Label" : "(objet 3D)",
+      "ImageName" : "46.jpg"
+    },
+    {
+      "Id" : "I47",
+      "Title" : "\"Buste d'Akhenaton\"",
+      "Label" : "(restitution 3D)",
+      "ImageName" : "47.jpg"
+    },
+    {
+      "Id" : "I48",
+      "Title" : "Restitution",
+      "Label" : "http://vocab.getty.edu/page/aat/300444114",
+      "ImageName" : "48.jpg"
+    },
+    {
+      "Id" : "I49",
+      "Title" : "Égypte antique",
+      "Label" : "(collection)",
+      "ImageName" : "49.jpg"
+    },
+    {
+      "Id" : "I50",
+      "Title" : "\"Les photos ont été prises par…\"",
+      "Label" : "(description)",
+      "ImageName" : "50.jpg"
+    },
+    {
+      "Id" : "I51",
+      "Title" : "CC BY-NC-ND",
+      "Label" : "(Licence Creative Commons)",
+      "ImageName" : "51.jpg"
+    },
+    {
+      "Id" : "I52",
+      "Title" : "Archeovision",
+      "Label" : "https://www.idref.fr/189301562",
+      "ImageName" : "52.jpg"
+    },
+    {
+      "Id" : "I53",
+      "Title" : "Illustration du modèle",
+      "Label" : "(image JPG)",
+      "ImageName" : "53.jpg"
+    },
+    {
+      "Id" : "I54",
+      "Title" : "Ouvrage documentaire",
+      "Label" : "https://hdl.handle.net/2268/149890",
+      "ImageName" : "54.jpg"
+    },
+    {
+      "Id" : "I55",
+      "Title" : "© 2005",
+      "Label" : "Droit d'auteur",
+      "ImageName" : "55.jpg"
+    },
+    {
+      "Id" : "I56",
+      "Title" : "D/2005/2684/1",
+      "Label" : "(identifiant publication)",
+      "ImageName" : "56.jpg"
+    },
+    {
+      "Id" : "I57",
+      "Title" : "\"Dans l'atelier du",
+      "Label" : "sculpteur Thoutmose\"",
+      "ImageName" : "57.jpg"
+    },
+    {
+      "Id" : "I58",
+      "Title" : "Bibliographie",
+      "Label" : "https://ark.frantiq.fr/ark:/26678/pcrtIwJcFbBtQQ",
+      "ImageName" : "58.jpg"
+    },
+    {
+      "Id" : "I59",
+      "Title" : "Atelier de sculpture égyptien",
+      "Label" : "(sujet du document)",
+      "ImageName" : "59.jpg"
+    },
+    {
+      "Id" : "I60",
+      "Title" : "Publication",
+      "Label" : "",
+      "ImageName" : "60.jpg"
+    },
+    {
+      "Id" : "I61",
+      "Title" : "2005",
+      "Label" : "",
+      "ImageName" : "61.jpg"
+    },
+    {
+      "Id" : "I62",
+      "Title" : "Dimitri Laboury",
+      "Label" : "https://www.idref.fr/066977460",
+      "ImageName" : "62.jpg"
+    },
+    {
+      "Id" : "I63",
+      "Title" : "Christian Cannuyer",
+      "Label" : "https://www.idref.fr/029115477",
+      "ImageName" : "63.jpg"
+    },
+    {
+      "Id" : "I64",
+      "Title" : "Archive numérique",
+      "Label" : "",
+      "ImageName" : "64.jpg"
+    },
+    {
+      "Id" : "I65",
+      "Title" : "Français",
+      "Label" : "(langue dépôt)",
+      "ImageName" : "65.jpg"
+    },
+    {
+      "Id" : "I66",
+      "Title" : "\"Buste d'AKHENATON conservé au Louvre\"",
+      "Label" : "(titre dépôt)",
+      "ImageName" : "66.jpg"
+    },
+    {
+      "Id" : "I67",
+      "Title" : "1 fichier 3D (PLY)",
+      "Label" : "(description)",
+      "ImageName" : "67.jpg"
+    },
+    {
+      "Id" : "I68",
+      "Title" : "474506.d.2011",
+      "Label" : "(code dépôt)",
+      "ImageName" : "68.jpg"
+    },
+    {
+      "Id" : "I69",
+      "Title" : "Dépôt en archive",
+      "Label" : "https://www.wikidata.org/wiki/Q3133368",
+      "ImageName" : "69.jpg"
+    },
+    {
+      "Id" : "I70",
+      "Title" : "AR038",
+      "Label" : "(code SEDA)",
+      "ImageName" : "70.jpg"
+    },
+    {
+      "Id" : "I71",
+      "Title" : "v1",
+      "Label" : "(version)",
+      "ImageName" : "71.jpg"
+    },
+    {
+      "Id" : "I72",
+      "Title" : "Versioning",
+      "Label" : "https://www.wikidata.org/wiki/Q7251945",
+      "ImageName" : "72.jpg"
+    },
+    {
+      "Id" : "I73",
+      "Title" : "1",
+      "Label" : "(numéro de version)",
+      "ImageName" : "73.jpg"
+    },
+    {
+      "Id" : "I74",
+      "Title" : "Compatibilité ?",
+      "Label" : "(évaluation)",
+      "ImageName" : "74.jpg"
+    },
+    {
+      "Id" : "I75",
+      "Title" : "10",
+      "Label" : "(code compatibilité)",
+      "ImageName" : "75.jpg"
+    },
+    {
+      "Id" : "I76",
+      "Title" : "Compatibilité",
+      "Label" : "https://www.wikidata.org/wiki/Q2175596",
+      "ImageName" : "76.jpg"
+    },
+    {
+      "Id" : "I77",
+      "Title" : "Dépôt numérique",
+      "Label" : "",
+      "ImageName" : "77.jpg"
+    },
+    {
+      "Id" : "I78",
+      "Title" : "Janvier 2011",
+      "Label" : "(date du dépôt numérique)",
+      "ImageName" : "78.jpg"
+    },
+    {
+      "Id" : "I79",
+      "Title" : "Sarah Tournon-Valiente",
+      "Label" : "https://www.idref.fr/255852126",
+      "ImageName" : "79.jpg"
+    },
+    {
+      "Id" : "I80",
+      "Title" : "Archeovision",
+      "Label" : "https://www.idref.fr/189301562",
+      "ImageName" : "80.jpg"
+    }
+]

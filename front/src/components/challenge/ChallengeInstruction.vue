@@ -27,8 +27,9 @@ const emit = defineEmits<{
 const firstText = computed(() => splitStatement(props.chapterData?.Statement).before)
 const secondText = computed(() => splitStatement(props.chapterData?.Statement).after)
 
-const handleDisplaySolution = () => {
+const handleDisplaySolution = async () => {
   displaySolution(props.chapterStats)
+
   finishChallenge(0)
 }
 </script>
@@ -45,7 +46,6 @@ const handleDisplaySolution = () => {
           </span>
         </div>
 
-        <p>{{ chapterData?.Explanation }}</p>
         <p>{{ firstText }}</p>
         <p>{{ secondText }}</p>
       </div>
