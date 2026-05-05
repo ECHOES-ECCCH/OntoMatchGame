@@ -1,0 +1,183 @@
+{
+  "locale": "en",
+  "static-text": {
+    "SigninScene": {
+      "signin-scene-title-text": "Welcome to OntoMatchGame!",
+      "signin-scene-intro-text": "Semantic Data Representation should let you generate, share and consume Cultural Heritage data with colleagues around the world, to ask and answer questions against more data and more integrated knowledge nets.\n\nBut to get there, you need to learn how to read and write semantic data in the first place. That’s where OntoMatchGame comes in. If you are interested in learning about ontology, semantics and how to apply them to real cultural heritage data, then the OntoMatchGame has been designed for you.",
+      "signin-scene-email-label": "Your Email",
+      "signin-scene-signin-text": "Sign in",
+      "signin-scene-wrongemail-text": "This email is not link to any account",
+      "signin-scene-email-placeholder-text": "Enter a valid email address",
+      "signin-scene-emailnotvalid-text": "Invalid email format\nShould be something like 'john@doe.com'",
+      "signin-scene-wrongcombination-text": "Wrong email or password combination.\nTry again",
+      "signin-scene-rightcombination-text": "Login OK. Fetching player data.\nPlease wait...",
+      "signin-scene-password-label": "Your password",
+      "signin-scene-password-placeholder-text": "Password linked to email address",
+      "signin-scene-forgotpassword-text": "Forgot your password?",
+      "signin-scene-passwordnotvalid-text": "Password must be min 6 characters length",
+      "signin-scene-okbutton-text": "Sign in",
+      "signin-scene-accountnotactivated-text": "Account not activated.\nCheck your email and follow instructions",
+      "signin-scene-waitingmessage-text": "Checking credentials. Please wait...",
+      "signin-scene-noaccount-label": "Don't have an account?",
+      "signin-scene-createbutton-label": "Create an account"
+    },
+    "SignupScene": {
+      "signup-scene-title-text": "Create account",
+      "signup-scene-username-label": "Username",
+      "signup-scene-username-placeholder-text": "Choose a username",
+      "signup-scene-usernamenotvalid-text": "Username not valid\nShould only contains printable characters",
+      "signup-scene-usernamealreadyexists-text": "This username already exists\nPlease choose another one",
+      "signup-scene-email-label": "Email address",
+      "signup-scene-email-placeholder-text": "Enter a valid email address",
+      "signup-scene-emailnotvalid-text": "Invalid email format\nShould be something like 'john@doe.com'",
+      "signup-scene-emailalreadyexists-text": "This email already exists\nChoose another one or reset your password",
+      "signup-scene-password-label": "Choose a password",
+      "signup-scene-password-placeholder-text": "Minimum 6 characters",
+      "signup-scene-passwordnotvalid-text": "Password must be min 6 characters length",
+      "signup-scene-country-label": "Country",
+      "signup-scene-optin-text": "Yes, I want to receive information about OntoMatchGame",
+      "signup-scene-registerbutton-text": "Register",
+      "signup-scene-termsandconditions-text": "Your personal data will never be shared with third parties",
+      "signup-scene-accountcreated-text": "Your account has been created!\nCheck your email and activate it before login",
+      "signup-scene-waitingmessage-text": "Creating account. Please wait...",
+      "signup-scene-accountcreatedfailed-text": "Ooops! Something went wrong\nPlease try again",
+      "signup-scene-backbutton-text": "Back",
+      "signup-scene-existingaccount-label": "Already have an account ?",
+      "signup-scene-signin-label": "Sign in"
+    },
+    "ResetPasswordScene": {
+      "resetpassword-scene-title-text": "Reset password",
+      "resetpassword-scene-intro-text": "Type in your email and click 'Reset'.\nWe will send you a message  with a link to reset your password",
+      "resetpassword-scene-email-label": "Type in your email",
+      "resetpassword-scene-placeholder-text": "Email associated with your account",
+      "resetpassword-scene-noaccount-text": "Email not linked to any account.",
+      "resetpassword-scene-emailnotvalid-text": "Invalid email format\nShould be something like 'john@doe.com",
+      "resetpassword-scene-waiting-text": "Checking email\nPlease wait...",
+      "resetpassword-scene-Resetbutton-text": "Reset",
+      "resetpassword-scene-confirmationmessage-text": "We have sent you an email!\nOpen it and follow instructions",
+      "resetpassword-scene-errormessage-text": "Ooops! Something went wrong\nPlease contact game administrator",
+      "resetpassword-scene-notactivated-text": "Account not activated\nCheck your email and follow instructions",
+      "resetpassword-scene-backbutton-text": "Back"
+    },
+    "GameSelectionScene": {
+      "gameselection-scene-title-text": "Scenario selection",
+      "gameselection-scene-backbutton-text": "Back",
+      "gameselection-scene-listofscenarii-label": "List of scenarii",
+      "gameselection-scene-domain-label": "Topics",
+      "gameselection-scene-topicarcheology-text": "Archeology",
+      "gameselection-scene-topicarchitecture-text": "Architecture",
+      "gameselection-scene-topicarchive-text": "Archive",
+      "gameselection-scene-topicart-text": "Art",
+      "gameselection-scene-topicconservation-text": "Conservation",
+      "gameselection-scene-topicethnology-text": "Ethnology",
+      "gameselection-scene-topichistory-text": "History",
+      "gameselection-scene-topiclinguistic-text": "Linguistic",
+      "gameselection-scene-topicliterature-text": "Literature",
+      "gameselection-scene-topicoldbook-text": "Old book",
+      "gameselection-scene-topicmuseum-text": "Museum",
+      "gameselection-scene-topicmusicology-text": "Musicology",
+      "gameselection-scene-topiccultural-text": "Cultural heritage",
+      "gameselection-scene-ontology-label": "Ontology",
+      "gameselection-scene-language-label": "Language",
+      "gameselection-scene-language1-text": "English",
+      "gameselection-scene-language2-text": "French",
+      "gameselection-scene-noscenario-text": "No scenarios available"
+    },
+    "MainMenuScene": {
+      "mainmenu-scene-welcometitle-text": "Hello",
+      "mainmenu-scene-continuewaiting-text": "Searching last session. Please wait...",
+      "mainmenu-scene-continue-text": "Last played: ",
+      "mainmenu-scene-nocontinue-text": "Last played session : none.",
+      "mainmenu-scene-continuebutton-text": "Continue",
+      "mainmenu-scene-choosebutton-text": "Choose",
+      "mainmenu-scene-choosebutton-label": "Choose a scenario",
+      "mainmenu-scene-statisticsbutton-text": "See stats",
+      "mainmenu-scene-statistics-label": "See my statistics",
+      "mainmenu-scene-hallbutton-text": "Ranking",
+      "mainmenu-scene-hallbutton-label": "Leaderboard",
+      "mainmenu-scene-reset-label": "Reset game data and start over",
+      "mainmenu-scene-resetbutton-text": "Reset",
+      "mainmenu-scene-quit-label": "Quit game",
+      "mainmenu-scene-quitbutton-text": "Logout",
+      "mainmenu-scene-more-label": "More info",
+      "mainmenu-scene-credits-label": "Full credits",
+      "mainmenu-scene-freemode-label": "Mode libre"
+    },
+
+    "BoardScene": {
+      "boardscene-scene-challenge-text": "Last challenge",
+      "boardscene-scene-winbanner-text": "BRAVO! Good answer.",
+      "boardscene-scene-loosebanner-text": "Ooops! Try again !",
+      "boardscene-scene-validatebutton-text": "Validate",
+      "boardscene-scene-nextbutton-text": "Next",
+      "boardscene-scene-retrybutton-text": "Retry",
+      "boardscene-scene-quitbutton-text": "Quit",
+      "boardscene-scene-gethint-text": "Hint",
+      "boardscene-scene-getanswer-text": "Answer",
+      "boardscene-scene-insctruction-text": "Instructions",
+      "boardscene-scene-filter-entity-text": "No card matches color selection. Try another one.",
+      "boardscene-scene-error-branch": "Wrong branch",
+      "boardscene-scene-error-domain-branch": "Wrong domain",
+      "boardscene-scene-error-range-branch": "Wrong range",
+      "boardscene-scene-error-generic": "Too generic",
+      "boardscene-scene-error-specific": "Too specific",
+      "boardscene-scene-chapter-completed": "Chapter completed",
+      "boardscene-scene-change-chapter": "Choose another chapter"
+    },
+
+    "StatsScene": {
+      "statsscene-scene-title-text": "Statistics",
+      "statsscene-scene-listscenariolabel-text": "List of scenarii",
+      "statsscene-scene-progressionlabel-text": "Progression",
+      "statsscene-scene-scorelabel-text": "Score",
+      "statsscene-scene-totalscenariolabel-text": "Total scenario",
+      "statsscene-scene-grandtotallabel-text": "Grand total",
+      "statsscene-scene-noscenarioavailable-text": "No scenario available",
+      "statsscene-scene-mainmenubutton-label": "Back"
+    },
+
+    "LeaderBoardScene": {
+      "leaderboard-scene-title-text": "Leaderboard",
+      "leaderboard-scene-bestrankings-label": "Best Rankings",
+      "leaderboard-scene-mainmenubutton-label": "Main Menu",
+      "leaderboard-scene-frenchbutton-label": "French",
+      "leaderboard-scene-englishbutton-label": "English",
+      "leaderboard-scene-noscenarioavailable-text": "No scenario available",
+      "leaderboard-scene-noplayer-text": "No player at the moment"
+    },
+
+    "FullCreditsScene": {
+      "fullcredits-scene-title-text": "ONTOMATCHGAME",
+      "fullcredits-scene-backbutton-text": "Main Menu",
+      "fullcredits-scene-masa-text": "A digital game funded by Huma-Num MASA Consortium",
+      "fullcredits-scene-originalgame-text": "Original Card Game and Prototype Digital Game:\nGeorge Bruseker (george@takin.solutions) and Anais Guillem (aguillem@ucmerced.edu)",
+      "fullcredits-scene-digitalgameproducer-text": "Digital game executive producer: Olivier Marlet (olivier.marlet@univ-tours.fr)",
+      "fullcredits-scene-digitalcreationteam-text": "Digital game design: 'Fanch' Fx. Talgorn, G. Bruseker, O. Marlet, A. Guillem",
+      "fullcredits-scene-digitalversionproduction-text": "Digital version: 'Fanch' - INDYTION (<link=\"mailto:fx.talgorn@indytion.com\">fx.talgorn@indytion.com</link>)",
+      "fullcredits-scene-graphicdesign-text": "Graphic design: Alexandre Moulineau (alex_41100@hotmail.fr)",
+      "fullcredits-scene-mainmenu-text": "Main menu"
+    },
+
+    "GoingFurtherScene": {
+      "goingfurther-scene-title-text": "GOING FURTHER WITH CIDOC CRM",
+      "goingfurther-scene-backbutton-text": "Main Menu",
+      "goingfurther-scene-CidocGameWebSite-label": "To find more information about and editions of the CIDOC CRM Game visit:",
+      "goingfurther-scene-youtube-label": "To learn more about semantics and the CIDOC CRM itself you can\ncheck out these YouTube videos:",
+      "goingfurther-scene-officialcidocwebsite-label": "And, of course, you can visit the official CIDOC CRM website:",
+      "goingfurther-scene-creators-label": "To contact the creators of OntoMatchGame to discuss\nits use and extension, contact:",
+      "goingfurther-scene-contacts-label": "Anaïs Guillem (University of Merced - aguillem@ucmerced.edu)\nGeorge Bruseker (Takin.solutions - george@takin.solutions)\nOlivier Marlet (CNRS, University of Tours - olivier.marlet@univ-tours.fr)\nFrançois-Xavier Talgorn (INDYTION - fx.talgorn@indytion.com)"
+    },
+
+    "ResetGameScene": {
+      "resetgame-scene-title-text": "Clear game data and start over",
+      "resetgame-scene-subtitle-text": "All your statistics will be lost.",
+      "resetgame-scene-cancelbutton-text": "Cancel",
+      "resetgame-scene-deletebutton-text": "Delete",
+      "resetgame-scene-waitingmessage-label": "Deletion in progress..."
+    },
+
+    "Footer": {
+      "footer-backbutton": "Back"
+    }
+  }
+}

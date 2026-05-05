@@ -14,6 +14,7 @@ const ScenariosList = () => import('@/pages/GameSelection.vue')
 const UserStatistics = () => import('@/pages/UserStatistics.vue')
 const LeaderBoard = () => import('@/pages/LeaderBoard.vue')
 const FreeMode = () => import('@/pages/FreeMode.vue')
+const NotFound = () => import('@/pages/NotFound.vue')
 
 import { authStore } from '@/stores/auth.store'
 import { useSolution } from '@/composables/useSolution'
@@ -55,6 +56,11 @@ const routes = [
   { path: '/statistics', component: UserStatistics, beforeEnter: requireAuth },
   { path: '/leader-board', component: LeaderBoard, beforeEnter: requireAuth },
   { path: '/free-mode', component: FreeMode, beforeEnter: requireAuth },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFound,
+  },
 ]
 
 const router = createRouter({

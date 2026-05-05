@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { userHistory, isHistoryLoading, shouldReloadHistory } from '@/composables/useUserHistory'
+import {
+  userHistory,
+  isHistoryLoading,
+  shouldReloadHistory,
+  userOntology,
+} from '@/composables/useUserHistory'
+import { fetchUserStats } from '@/composables/useUserStats'
 import { langStore } from '@/stores/lang.store'
 import { useUserInformations } from '@/stores/userInformations.store'
 import PagesLoader from '@/components/loader/PagesLoader.vue'
@@ -9,7 +15,6 @@ import InfosModal from '@/components/modals/InfosModal.vue'
 import FooterHome from '@/components/footer/FooterHome.vue'
 import CreditsModal from '@/components/modals/CreditsModal.vue'
 import { getChapterProgression } from '@/utils/chapters-progression'
-import { fetchUserStats } from '@/composables/useUserStats'
 import { resetGame, isResetLoading, resetProgression } from '@/services/reset.service'
 
 const user = useUserInformations()
@@ -86,6 +91,7 @@ onMounted(() => {
             :to="{
               path: '/challenge',
               query: {
+                ontology: userOntology,
                 scenario: userHistory?.['scenarioName'],
                 chapterName: userHistory?.['chapterName'],
               },
@@ -103,11 +109,16 @@ onMounted(() => {
                   {{ userHistory?.challengeId }}
                 </p>
                 <progress
-                  :value="getChapterProgression(userHistory, userHistory?.scenarioName) || 0"
+                  :value="
+                    getChapterProgression(userHistory, userHistory?.scenarioName, userOntology) || 0
+                  "
                   max="100"
                 ></progress>
                 <span class="percent"
-                  >{{ getChapterProgression(userHistory, userHistory?.scenarioName) || 0 }}%
+                  >{{
+                    getChapterProgression(userHistory, userHistory?.scenarioName, userOntology) ||
+                    0
+                  }}%
                 </span>
               </div>
               <div>

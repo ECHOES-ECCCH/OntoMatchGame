@@ -17,9 +17,12 @@ onMounted(() => {
 <template>
   <div ref="target" class="chapter-info">
     <h2>{{ langStore.t('static-text.BoardScene.boardscene-scene-challenge-text') }}</h2>
-    <div class="chapter-title">
-      <span class="scenario-name">{{ chapterStats?.scenarioName }}</span>
-      <span class="chapter-name">{{ chapterStats?.chapterName }}</span>
+    <div>
+      <span class="ontology-name">{{ chapterStats?.ontologyName }}</span>
+      <div class="chapter-title">
+        <span class="scenario-name">{{ chapterStats?.scenarioName }}</span>
+        <span class="chapter-name">{{ chapterStats?.chapterName }}</span>
+      </div>
     </div>
     <div class="challenge-score">
       <span>Score</span>

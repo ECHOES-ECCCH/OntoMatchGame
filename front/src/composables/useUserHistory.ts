@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useUserInformations } from '@/stores/userInformations.store'
 import { getUserHistory } from '@/services/history.service'
 
@@ -18,6 +18,12 @@ const fetchUserHistory = async (userId: string) => {
     isHistoryLoading.value = false
   }
 }
+
+export const userOntology = computed<string>(() => {
+  if (!userHistory.value) return ''
+
+  return userHistory.value.ontologyName
+})
 
 watch(
   [() => userStore.userInfo.userId, shouldReloadHistory],

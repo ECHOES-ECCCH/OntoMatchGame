@@ -33,6 +33,7 @@ const groupedScenarios = computed(() => {
         acc[item.scenarioName] ||
         (acc[item.scenarioName] = {
           scenarioName: item.scenarioName,
+          ontologyName: item.ontologyName,
           chapters: [],
           totalMaxScore: 0,
           totalScore: 0,
@@ -64,6 +65,9 @@ const groupedScenarios = computed(() => {
 </script>
 
 <template>
+  <div v-if="!groupedScenarios.length">
+    {{ langStore.t('static-text.StatsScene.statsscene-scene-noscenarioavailable-text') }}
+  </div>
   <Accordion :itemsCount="groupedScenarios.length">
     <!-- HEADER -->
     <template #header="{ index, active }">
@@ -79,7 +83,7 @@ const groupedScenarios = computed(() => {
           </p>
 
           <div class="stats">
-            <div style="width: 94%; text-align: center">
+            <div class="progress-container">
               <progress
                 class="total-scenario-progress"
                 :value="groupedScenarios[index]?.percentage"
@@ -103,13 +107,14 @@ const groupedScenarios = computed(() => {
         <li v-for="(chapter, i) in groupedScenarios[index]?.chapters" :key="i">
           <p class="chapter-name">{{ chapter.chapterName }}</p>
           <div class="stats">
-            <div style="width: 94%; text-align: center">
+            <div class="progress-container">
               <progress
                 class="scenario-progress"
                 :value="
                   getChapterProgression(
-                    getChapterInfo(chapter.chapterName),
-                    groupedScenarios[index]?.scenarioName,
+                    getChapterInfo(chapter.chapterName) ?? null,
+                    groupedScenarios[index]?.scenarioName ?? '',
+                    groupedScenarios[index]?.ontologyName ?? '',
                   ) || 0
                 "
                 max="100"
@@ -117,8 +122,9 @@ const groupedScenarios = computed(() => {
               <span class="chapter-progression">
                 {{
                   getChapterProgression(
-                    getChapterInfo(chapter.chapterName),
-                    groupedScenarios[index]?.scenarioName,
+                    getChapterInfo(chapter.chapterName) ?? null,
+                    groupedScenarios[index]?.scenarioName ?? '',
+                    groupedScenarios[index]?.ontologyName ?? '',
                   ) || 0
                 }}%</span
               >
@@ -133,7 +139,7 @@ const groupedScenarios = computed(() => {
           {{ langStore.t('static-text.StatsScene.statsscene-scene-totalscenariolabel-text') }}
         </p>
         <div class="stats">
-          <div style="width: 94%; text-align: center">
+          <div class="progress-container">
             <progress
               class="total-scenario-progress"
               :value="groupedScenarios[index]?.percentage"
