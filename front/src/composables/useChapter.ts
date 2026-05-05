@@ -81,13 +81,11 @@ export function useChapterData() {
     if (showSolution.value) return
     if (!ontology || !chapterName || !scenario || !info) return
 
-    const scenarioKey = scenario.split(' ')[0] || ''
-
     // Use import.meta.env.BASE_URL to ensure correct path in production
     const basePath = import.meta.env.BASE_URL
-    const chapterPath = `${basePath}json/${ontology}/${info.lang}/chapter/${scenarioKey}/${info.filename}.json`
-    const instancesPath = `${basePath}json/${ontology}/${info.lang}/chapter/${scenarioKey}/Instances/Instances.json`
-    imgInstanceURL.value = `${basePath}json/${ontology}/${info.lang}/chapter/${scenarioKey}/Instances/Images/`
+    const chapterPath = `${basePath}json/${ontology}/${info.lang}/chapter/${scenario}/${info.filename}.json`
+    const instancesPath = `${basePath}json/${ontology}/${info.lang}/chapter/${scenario}/Instances/Instances.json`
+    imgInstanceURL.value = `${basePath}json/${ontology}/${info.lang}/chapter/${scenario}/Instances/Images/`
 
     isLoadingChapter.value = true
     try {

@@ -13,16 +13,19 @@ export function useFinishChallenge() {
     const filename = chapterInfo.value?.filename
     const lastChallengeId = chapterStats.value?.lastChallengeId
     const currentScore = parseInt(chapterStats.value?.score ?? '0', 10) + extraScore
+    const lastId = Number(lastChallengeId ?? 0)
+    const max = Number(chapterStats.value?.maxChallengeCount ?? 0)
+
+    const nextIndex = lastId < max ? lastId + 1 : max
+
+    if (!userId || !scenarioName || !filename || !lastChallengeId) return
 
     try {
       await updateSession({
         userId,
         currentScenario: scenarioName,
         currentChapter: filename + '.json',
-        currentChallengeIndex:
-          parseInt(lastChallengeId) < parseInt(chapterStats.value.maxChallengeCount)
-            ? parseInt(lastChallengeId ?? '0', 10) + 1
-            : chapterStats.value.maxChallengeCount,
+        currentChallengeIndex: nextIndex,
         currentScore,
       })
     } catch (e) {
