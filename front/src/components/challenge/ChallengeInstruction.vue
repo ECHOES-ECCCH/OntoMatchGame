@@ -27,7 +27,7 @@ const emit = defineEmits<{
 const firstText = computed(() => splitStatement(props.chapterData?.Statement).before)
 const secondText = computed(() => splitStatement(props.chapterData?.Statement).after)
 
-const handleDisplaySolution = async () => {
+const handleDisplaySolution = () => {
   displaySolution(props.chapterStats)
 
   finishChallenge(0)

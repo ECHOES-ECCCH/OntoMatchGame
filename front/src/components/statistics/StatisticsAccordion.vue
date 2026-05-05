@@ -83,7 +83,7 @@ const groupedScenarios = computed(() => {
           </p>
 
           <div class="stats">
-            <div style="width: 92%; text-align: center">
+            <div class="progress-container">
               <progress
                 class="total-scenario-progress"
                 :value="groupedScenarios[index]?.percentage"
@@ -107,7 +107,7 @@ const groupedScenarios = computed(() => {
         <li v-for="(chapter, i) in groupedScenarios[index]?.chapters" :key="i">
           <p class="chapter-name">{{ chapter.chapterName }}</p>
           <div class="stats">
-            <div style="width: 92%; text-align: center">
+            <div class="progress-container">
               <progress
                 class="scenario-progress"
                 :value="
@@ -139,7 +139,7 @@ const groupedScenarios = computed(() => {
           {{ langStore.t('static-text.StatsScene.statsscene-scene-totalscenariolabel-text') }}
         </p>
         <div class="stats">
-          <div style="width: 92%; text-align: center">
+          <div class="progress-container">
             <progress
               class="total-scenario-progress"
               :value="groupedScenarios[index]?.percentage"

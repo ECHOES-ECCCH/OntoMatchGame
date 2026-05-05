@@ -49,6 +49,7 @@ const filteredStats = computed(() => {
   )
 })
 
+// Filtre ontologie
 watch(
   userStats,
   (newStats) => {

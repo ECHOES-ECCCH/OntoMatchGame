@@ -18,14 +18,6 @@ const uniqueOntologyTags = computed(() => {
 function updateValue(value: string) {
   emit('update:modelValue', value)
 }
-
-// watchEffect(() => {
-//   const tags = uniqueOntologyTags.value
-
-//   if (tags.length && !selectedOntology.value) {
-//     selectedOntology.value = tags.includes('CIDOC CRM') ? 'CIDOC CRM' : tags[0]
-//   }
-// })
 </script>
 
 <template>

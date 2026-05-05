@@ -2761,6 +2761,11 @@ input[type='radio']:checked::before {
   justify-content: center;
 }
 
+.stats .progress-container {
+  width: 100%;
+  max-width: 92%;
+}
+
 .total-scenario .scenario-progression,
 .accordion-content ul li .chapter-progression {
   background-color: var(--main-color3);
