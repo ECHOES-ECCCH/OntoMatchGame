@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { nextTick } from 'vue'
 import { langStore } from '@/stores/lang.store'
 import { isUpdateSessionLoading } from '@/services/sessions.service'
 import type { CardInfo, CardPropertyInfo } from '@/types/card/cardInfo'
@@ -8,8 +9,8 @@ import { useSolution } from '@/composables/useSolution'
 import { useChallengeChecker } from '@/composables/useChallengeChecker'
 import checkValidation from '@/assets/img/check.svg'
 import next from '@/assets/img/next.svg'
-import PagesLoader from '../loader/PagesLoader.vue'
 import back1 from '@/assets/img/back1.svg'
+import PagesLoader from '../loader/PagesLoader.vue'
 
 const { chapterStats, chapterInfo, loadChapter } = useChapterData()
 
@@ -26,14 +27,16 @@ const handleValidation = () => {
   check(props.entityDataCards, props.propertyDataCards)
 }
 
-import { nextTick } from 'vue'
-
 const handleNextAfterSolution = async () => {
   resetSolution()
+  if (!chapterStats.value) return
 
-  await nextTick() // attend que showSolution soit bien false
+  // Important : attendre que Vue applique la mise à jour (showSolution = false)
+  // sinon loadChapter s'exécute alors que le DOM n'est pas encore synchronisé
+  await nextTick()
 
   await loadChapter(
+    chapterStats.value.ontologyName,
     chapterStats.value?.chapterName,
     chapterStats.value?.scenarioName,
     chapterStats.value?.lastChallengeId,

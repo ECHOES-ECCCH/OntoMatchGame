@@ -10,6 +10,7 @@ export interface LeaderboardLanguage {
 interface LeaderBoardScenario {
   scenario: Array<{
     scenarioName: string
+    ontologyName: string
     maximumScore: number
     playerData: PlayerData[]
   }>

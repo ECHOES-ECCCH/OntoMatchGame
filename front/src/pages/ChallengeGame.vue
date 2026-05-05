@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useChapterData } from '@/composables/useChapter'
 import { useChallengeChecker } from '@/composables/useChallengeChecker'
 import FooterChallenge from '@/components/footer/FooterChallenge.vue'
@@ -10,11 +10,12 @@ import ChallengeCards from '@/components/challenge/ChallengeCards.vue'
 import ChallengeCompleted from '@/components/challenge/ChallengeCompleted.vue'
 import { splitStatement } from '@/utils/statement'
 import { useSelectedXML } from '@/stores/cards.store'
+import { showSolution } from '@/composables/useSolution'
 
 const { entityDataCards, propertyDataCards, loadCard, isDataCardsLoading } = useSelectedXML()
 
 const { isComplete, reset } = useChallengeChecker()
-const { chapterData, chapterStats, chapterInfo, isLoadingChapter } = useChapterData()
+const { chapterData, chapterStats, isLoadingChapter } = useChapterData()
 
 const statement = computed(() => splitStatement(chapterData.value?.Statement))
 const secondText = computed(() => statement.value.after)
@@ -22,13 +23,23 @@ const secondText = computed(() => statement.value.after)
 const showInstruction = ref(true)
 const showExplanation = ref(false)
 
-onMounted(() => {
-  entityDataCards.value = []
-  propertyDataCards.value = []
+watch(
+  () => chapterStats.value,
+  (stats) => {
+    if (!stats) return
 
-  loadCard()
-  reset()
-})
+    // NE RIEN FAIRE si on est en mode solution
+    if (showSolution.value) return
+
+    entityDataCards.value = []
+    propertyDataCards.value = []
+
+    // Charge les carte de l'ontologie concernée
+    loadCard(stats.ontologyName)
+    reset()
+  },
+  { immediate: true },
+)
 
 const showCompleted = ref(false)
 
@@ -47,7 +58,6 @@ function closeCompleted() {
     v-if="showCompleted"
     :chapterStats="chapterStats"
     :chapterData="chapterData"
-    :chapterInfo="chapterInfo"
     @close="closeCompleted"
   />
   <section v-if="chapterData && !isLoadingChapter" class="challenge">

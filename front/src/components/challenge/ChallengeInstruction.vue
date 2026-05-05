@@ -19,7 +19,6 @@ const props = defineProps<{
   showInstruction: boolean
   showExplanation: boolean
 }>()
-
 const emit = defineEmits<{
   (e: 'update:showInstruction', value: boolean): void
   (e: 'update:showExplanation', value: boolean): void
@@ -30,6 +29,7 @@ const secondText = computed(() => splitStatement(props.chapterData?.Statement).a
 
 const handleDisplaySolution = () => {
   displaySolution(props.chapterStats)
+
   finishChallenge(0)
 }
 </script>
@@ -46,7 +46,6 @@ const handleDisplaySolution = () => {
           </span>
         </div>
 
-        <p>{{ chapterData?.Explanation }}</p>
         <p>{{ firstText }}</p>
         <p>{{ secondText }}</p>
       </div>

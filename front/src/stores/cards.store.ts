@@ -9,13 +9,13 @@ const isDataCardsLoading = ref(false)
 const error = ref<string | null>(null)
 
 export const useSelectedXML = () => {
-  async function loadCard() {
+  async function loadCard(ontology: string) {
     isDataCardsLoading.value = true
     error.value = null
 
     try {
       const basePath = import.meta.env.BASE_URL
-      const xml = await fetch(`${basePath}/data/data.xml`).then((r) => r.text())
+      const xml = await fetch(`${basePath}/data/${ontology}/data.xml`).then((r) => r.text())
       const doc: Document = new DOMParser().parseFromString(xml, 'text/xml')
 
       entityDataCards.value = parseClasses(doc, 'entity')

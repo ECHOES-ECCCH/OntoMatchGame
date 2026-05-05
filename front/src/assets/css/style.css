@@ -168,6 +168,10 @@ header.main-header .header-right .language button {
 
 header.main-header .header-right button.selectedlanguage {
   color: var(--main-color3);
+  background-color: #e9f7f5;
+  border-radius: 10px;
+  padding: 7px;
+  margin: 0 5px;
 }
 
 button.logout {
@@ -706,7 +710,7 @@ progress::-moz-progress-bar {
 
 .challenge .chapter-info {
   border-radius: var(--box-radius);
-  margin: 10px 0 0 10px;
+  margin: 10px 0 5px 10px;
   padding: 0 10px;
   display: flex;
   justify-content: space-between;
@@ -718,6 +722,12 @@ progress::-moz-progress-bar {
   padding: 5px;
   border-radius: var(--box-radius);
   border: var(--main-color2) solid 1px;
+}
+
+.challenge .chapter-info span.ontology-name {
+  font-size: clamp(0.7rem, 0.7vw, 1rem);
+
+  font-weight: 500;
 }
 
 .challenge .chapter-info .chapter-title span.scenario-name {
@@ -928,7 +938,6 @@ button.solution {
   border-radius: var(--box-radius);
   background-color: #fff5e7;
   color: var(--main-color2);
-  margin-bottom: 10px;
 }
 
 .challenge-instructions .instructions-title {
@@ -2054,7 +2063,7 @@ button.solution {
   max-width: 20px;
   overflow: hidden;
   white-space: nowrap;
-  padding: clamp(2px, 0.8vw, 6px);
+  padding: clamp(2px, 0.8vw, 4px);
   font-size: clamp(0.35rem, 0.6vw, 0.7rem);
   background-color: color-mix(in srgb, var(--card-color, currentColor) 10%, transparent);
 }
@@ -2070,11 +2079,11 @@ button.solution {
 
 .cards-container .content-cards .carousel-container .property-card .vertical-button p {
   color: var(--black);
-  font-size: clamp(0.35rem, 0.7vw, 0.8rem);
+  font-size: clamp(0.35rem, 0.6vw, 0.8rem);
   height: 100%;
   background: var(color-mix(in srgb, var(--card-color, currentColor) 50%, transparent));
   padding: 5px;
-  margin-left: 20px;
+  margin-left: 17px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -2118,8 +2127,8 @@ button.solution {
   .property-card
   .vertical-button.vertical-right
   span {
-  color: #ffcf87;
   text-transform: uppercase;
+  padding-top: 3px;
 }
 
 .cards-container
@@ -2287,6 +2296,7 @@ button.solution {
 
 .game-selection-container aside {
   flex: 1;
+  margin-bottom: 20px;
 }
 
 .game-selection-container aside h3 {
@@ -2319,7 +2329,7 @@ button.solution {
   height: clamp(30px, 3vw, 45px);
   align-self: center;
   border-radius: var(--box-radius);
-  font-size: clamp(1rem, 1.3vw, 2rem);
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
   transition: all 0.3s ease;
 }
 
@@ -2386,7 +2396,9 @@ button.solution {
   display: flex;
 }
 
-.game-selection-container aside div {
+.game-selection-container aside div,
+.statistics-container .statistics-content aside div,
+.leaderboard .leaderboard-content aside div {
   background: #fff;
   padding: 15px;
   border-radius: 10px;
@@ -2395,14 +2407,19 @@ button.solution {
   margin-right: 24px;
 }
 
-.game-selection-container aside div ul {
+.game-selection-container aside div ul,
+.statistics-container .statistics-content aside div ul,
+.leaderboard .leaderboard-content aside div ul {
   font-size: clamp(0.6rem, 0.9vw, 1rem);
   padding-left: 0;
 }
 
-.game-selection-container aside div ul li {
+.game-selection-container aside div ul li,
+.statistics-container .statistics-content aside div ul li,
+.leaderboard .leaderboard-content aside div ul li {
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .game-selection-container aside div ul li input[type='checkbox'] {
@@ -2439,6 +2456,31 @@ button.solution {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.ontology-filter ul li input[type='radio'] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--black);
+  border-radius: 50%;
+  position: relative;
+}
+
+.ontology-filter ul li input[type='radio']:checked::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: var(--black);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+input[type='radio']:checked::before {
+  transform: scale(1);
 }
 
 .accordion .accordion-item .accordion-content ul {
@@ -2584,10 +2626,12 @@ button.solution {
   margin-right: 30px;
 }
 
-.game-selection-container aside div ul li label {
+.game-selection-container aside div ul li label,
+.statistics-container .statistics-content aside div ul li label {
   margin-left: 5px;
   font-weight: 400;
   cursor: pointer;
+  margin-top: 2px;
 }
 
 /* ===================== STATISTICS ===================== */
@@ -2711,9 +2755,15 @@ button.solution {
 }
 
 .stats {
-  flex: 8;
+  flex: 7;
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+
+.stats .progress-container {
+  width: 100%;
+  max-width: 92%;
 }
 
 .total-scenario .scenario-progression,
@@ -2722,7 +2772,6 @@ button.solution {
   color: white;
   padding: 10px 15px;
   border-radius: 50px;
-  margin-right: 40px;
   font-size: clamp(0.7rem, 1vw, 1rem);
 }
 
@@ -2812,6 +2861,19 @@ p.chapter-name {
 .statistics .progress {
   width: 100%;
 }
+
+.statistics .statistics-container .statistics-content {
+  display: flex;
+}
+
+.statistics .statistics-container .statistics-content aside {
+  flex: 1;
+}
+
+.statistics .statistics-container .statistics-content .accordion {
+  flex: 4;
+}
+
 /* ===================== LEADERBOARD ===================== */
 
 .leaderboard {
@@ -2945,6 +3007,60 @@ li.player-rank .chapter-progression {
 li.user-ranking {
   background-color: #ffd4d4 !important;
 }
+
+.leaderboard .leaderboard-content {
+  display: flex;
+}
+
+.leaderboard .leaderboard-content aside {
+  flex: 1;
+}
+
+.leaderboard .leaderboard-content .accordion {
+  flex: 4;
+}
+
+.leaderboard aside h3 {
+  font-weight: 500;
+  font-size: clamp(0.8rem, 1.2vw, 1.1rem);
+  margin: 10px 0 20px;
+}
+
+.leaderboard .no-player {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+/* ===================== NOT FOUND ===================== */
+
+.not-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.not-found div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.not-found h1 {
+  text-align: center;
+}
+
+.not-found img {
+  width: 150px;
+}
+
+.not-found .next-button {
+  width: fit-content;
+  text-align: center;
+  margin-top: 30px;
+  box-shadow: none;
+}
+
 /* ===================== FOOTER ===================== */
 
 .footer,
@@ -3067,7 +3183,6 @@ li.user-ranking {
 .footer button.next img {
   filter: invert(1);
   opacity: 0.8;
-  margin-right: 5px;
 }
 
 .footer button.next:hover {

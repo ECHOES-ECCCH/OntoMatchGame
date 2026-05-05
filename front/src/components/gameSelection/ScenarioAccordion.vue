@@ -5,30 +5,21 @@ import { createSession } from '@/services/sessions.service'
 import { isResetProgressionLoading, resetProgression } from '@/services/reset.service'
 import { userStats, isUsersStatsLoading } from '@/composables/useUserStats'
 import { useUserInformations } from '@/stores/userInformations.store'
-import { getChapterProgression, isChapterStarted } from '@/utils/chapters-progression'
 import type { Chapter, Scenario } from '@/types/game-selection'
 import PagesLoader from '../loader/PagesLoader.vue'
 import ButtonLoader from '../loader/ButtonLoader.vue'
 import reset from '@/assets/img/reset.svg'
+import { selectedOntology } from '@/utils/game-selection-filters'
+import { getChapterProgression, isChapterStarted } from '@/utils/chapters-progression'
 
 const userStore = useUserInformations()
+
 defineProps<{
   scenario: Scenario[]
 }>()
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
 
 function goToChallenge(scenario: Scenario, chapter: Chapter) {
   handleCreateSessionData(scenario['scenario-title'], chapter['chapter-filename'])
-  router.push({
-    path: '/challenge',
-    query: {
-      scenario: scenario['scenario-title'],
-      chapterName: chapter['chapter-title'],
-      challengeId: 1,
-    },
-  })
 }
 
 const isFullyLoaded = computed(() => {
@@ -88,12 +79,19 @@ const handleCreateSessionData = (scenario: string, chapter: string) => {
           </div>
           <div class="chapter-action">
             <span
-              >{{ getChapterProgression(chapter, scenario[index]?.['scenario-title']) || 0 }}%</span
+              >{{
+                getChapterProgression(
+                  chapter,
+                  scenario[index]?.['scenario-title'] ?? '',
+                  scenario[index]?.ontologyTags?.[0] ?? '',
+                ) || 0
+              }}%</span
             >
             <router-link
               :to="{
                 path: '/challenge',
                 query: {
+                  ontology: selectedOntology,
                   scenario: scenario[index]?.['scenario-title'],
                   chapterName: chapter['chapter-title'],
                 },
@@ -102,7 +100,13 @@ const handleCreateSessionData = (scenario: string, chapter: string) => {
               <button
                 class="play-challenge"
                 title="Play"
-                v-if="isChapterStarted(chapter, scenario[index]?.['scenario-title'])"
+                v-if="
+                  isChapterStarted(
+                    chapter,
+                    scenario[index]?.['scenario-title'] ?? '',
+                    scenario[index]?.ontologyTags?.[0] ?? '',
+                  )
+                "
               >
                 ►
               </button>

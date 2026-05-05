@@ -1,6 +1,6 @@
 import { readonly, ref, computed } from 'vue'
-import fr from '@/assets/json/fr/lang-fr.json'
-import en from '@/assets/json/en/lang-en.json'
+import fr from '@/assets/json/lang-fr.json'
+import en from '@/assets/json/lang-en.json'
 
 const messages = { fr, en }
 

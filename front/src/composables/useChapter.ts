@@ -22,12 +22,16 @@ export function useChapterData() {
   const route = useRoute()
 
   const chapterStats = computed(() => {
-    const chapterName = route.query.chapterName
-    const scenarioName = route.query.scenario
+    const toString = (v: unknown) => (typeof v === 'string' ? v : '')
+
+    const chapterName = toString(route.query.chapterName)
+    const scenarioName = toString(route.query.scenario)
+    const ontologyName = toString(route.query.ontology)
 
     if (!chapterName || typeof chapterName !== 'string') return null
 
     const stats = findChapterStats({
+      ontologyName: ontologyName,
       chapterName: chapterName,
       scenarioName: scenarioName,
     })
@@ -38,9 +42,11 @@ export function useChapterData() {
   const chapterInfo = computed<{ filename: string; lang: string } | null>(() => {
     if (!chapterStats.value) return null
 
-    const scenario = scenarioCatalog.scenarii.find(
-      (s) => s['scenario-title'] === chapterStats.value!.scenarioName,
+    const ontology = scenarioCatalog.scenarii.filter((s) =>
+      s['ontologyTags'].includes(chapterStats.value!.ontologyName),
     )
+
+    const scenario = ontology.find((s) => s['scenario-title'] === chapterStats.value!.scenarioName)
     if (!scenario) return null
 
     const chapter = scenario.chapters.find(
@@ -55,6 +61,7 @@ export function useChapterData() {
   })
 
   async function loadChapter(
+    ontology: string,
     chapterName: string,
     scenario: string,
     challengeId: string,
@@ -66,29 +73,29 @@ export function useChapterData() {
       isLoadingChapter.value = false
       return
     }
-    if (!chapterName || !scenario || !info) {
+    if (!ontology || !chapterName || !scenario || !info) {
       isLoadingChapter.value = false
       return
     }
 
     if (showSolution.value) return
-    if (!chapterName || !scenario || !info) return
-
-    const scenarioKey = scenario.split(' ')[0] || ''
+    if (!ontology || !chapterName || !scenario || !info) return
 
     // Use import.meta.env.BASE_URL to ensure correct path in production
     const basePath = import.meta.env.BASE_URL
-    const chapterPath = `${basePath}json/${info.lang}/chapter/${scenarioKey}/${info.filename}.json`
-    const instancesPath = `${basePath}json/${info.lang}/chapter/${scenarioKey}/Instances/Instances.json`
-    imgInstanceURL.value = `${basePath}json/${info.lang}/chapter/${scenarioKey}/Instances/Images/`
+    const chapterPath = `${basePath}json/${ontology}/${info.lang}/chapter/${scenario}/${info.filename}.json`
+    const instancesPath = `${basePath}json/${ontology}/${info.lang}/chapter/${scenario}/Instances/Instances.json`
+    imgInstanceURL.value = `${basePath}json/${ontology}/${info.lang}/chapter/${scenario}/Instances/Images/`
 
     isLoadingChapter.value = true
     try {
       // Fetch chapter data
       const chapterResponse = await fetch(chapterPath)
+
       if (!chapterResponse.ok) {
         throw new Error(`Chapitre introuvable : ${chapterPath} (${chapterResponse.status})`)
       }
+
       const chapterJson = await chapterResponse.json()
       chapterData.value = chapterJson[challengeId] ?? null
 
@@ -117,13 +124,20 @@ export function useChapterData() {
 
     watch(
       [
+        () => route.query.ontology,
         () => route.query.chapterName,
         () => route.query.scenario,
         () => route.query.challengeId,
         chapterInfo,
       ],
-      ([chapterName, scenarioValue, challengeId, info]) => {
-        if (typeof chapterName !== 'string' || typeof scenarioValue !== 'string' || !info) return
+      ([ontology, chapterName, scenarioValue, challengeId, info]) => {
+        if (
+          typeof ontology !== 'string' ||
+          typeof chapterName !== 'string' ||
+          typeof scenarioValue !== 'string' ||
+          !info
+        )
+          return
 
         // challengeId depuis la route, sinon fallback sur les stats
         const id =
@@ -131,7 +145,7 @@ export function useChapterData() {
             ? challengeId
             : (chapterStats.value?.lastChallengeId ?? '0')
 
-        loadChapter(chapterName, scenarioValue, id, info)
+        loadChapter(ontology, chapterName, scenarioValue, id, info)
       },
       { immediate: true },
     )

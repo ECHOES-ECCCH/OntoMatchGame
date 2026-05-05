@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { langStore } from '@/stores/lang.store'
 import StatisticsAccordion from '@/components/statistics/StatisticsAccordion.vue'
 import PagesLoader from '@/components/loader/PagesLoader.vue'
 import MainFooter from '@/components/footer/MainFooter.vue'
 import { userStats, isUsersStatsLoading } from '@/composables/useUserStats'
 import stats from '@/assets/img/stats.svg'
+import OntologieFilter from '@/components/gameSelection/OntologieFilter.vue'
+
+const selectedOntology = ref('')
 
 const globalTotals = computed(() => {
   return userStats.value.reduce(
@@ -36,6 +39,30 @@ const globalPercentage = computed(() => {
 
   return count > 0 ? Math.round((totalProgress / count) * 100) : 0
 })
+
+const filteredStats = computed(() => {
+  if (!selectedOntology.value) return userStats.value
+
+  return userStats.value.filter(
+    (item) =>
+      item.ontologyName?.toLowerCase().trim() === selectedOntology.value.toLowerCase().trim(),
+  )
+})
+
+// Filtre ontologie
+watch(
+  userStats,
+  (newStats) => {
+    if (!newStats.length) return
+
+    const stillExists = newStats.some((item) => item.ontologyName === selectedOntology.value)
+
+    if (!stillExists) {
+      selectedOntology.value = newStats[0].ontologyName
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -68,7 +95,10 @@ const globalPercentage = computed(() => {
           </div>
         </div>
       </div>
-      <StatisticsAccordion :userStats="userStats" />
+      <div class="statistics-content">
+        <aside><OntologieFilter v-model="selectedOntology" /></aside>
+        <StatisticsAccordion :userStats="filteredStats" />
+      </div>
     </div>
   </section>
   <MainFooter />
