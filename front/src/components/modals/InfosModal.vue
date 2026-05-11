@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { langStore } from '@/stores/lang.store'
 import close from '@/assets/img/close.svg'
+import PartnersLogo from './PartnersLogo.vue'
 
 defineProps({
   handleInfosModal: Function,
@@ -11,6 +12,7 @@ defineProps({
   <div class="modal-container infos-modal">
     <div class="modal-content infos-modal-content">
       <div class="infos">
+        <PartnersLogo />
         <button @click="handleInfosModal?.(false)"><img :src="close" alt="close" /></button>
         <h2>{{ langStore.t('static-text.GoingFurtherScene.goingfurther-scene-title-text') }}</h2>
         <div class="more-infos">

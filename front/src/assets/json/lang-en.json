@@ -122,7 +122,8 @@
       "boardscene-scene-error-generic": "Too generic",
       "boardscene-scene-error-specific": "Too specific",
       "boardscene-scene-chapter-completed": "Chapter completed",
-      "boardscene-scene-change-chapter": "Choose another chapter"
+      "boardscene-scene-change-chapter": "Choose another chapter",
+      "boardscene-scene-footer-fullscreen-text": "Fullscreen"
     },
 
     "StatsScene": {
