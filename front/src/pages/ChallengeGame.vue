@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useChapterData } from '@/composables/useChapter'
 import { useChallengeChecker } from '@/composables/useChallengeChecker'
 import FooterChallenge from '@/components/footer/FooterChallenge.vue'
@@ -22,6 +22,8 @@ const secondText = computed(() => statement.value.after)
 
 const showInstruction = ref(true)
 const showExplanation = ref(false)
+const gameRef = ref<HTMLElement | null>(null)
+const isFullscreen = ref(false)
 
 watch(
   () => chapterStats.value,
@@ -50,36 +52,68 @@ watch(isComplete, (val) => {
 function closeCompleted() {
   showCompleted.value = false
 }
+
+const toggleFullscreen = async () => {
+  const el = gameRef.value
+  if (!el) return
+
+  if (!document.fullscreenElement) {
+    await el.requestFullscreen()
+    isFullscreen.value = true
+  } else {
+    await document.exitFullscreen()
+    isFullscreen.value = false
+  }
+}
+
+const handleFullscreenChange = () => {
+  isFullscreen.value = !!document.fullscreenElement
+}
+
+onMounted(() => {
+  document.addEventListener('fullscreenchange', handleFullscreenChange)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('fullscreenchange', handleFullscreenChange)
+})
 </script>
 
 <template>
   <PagesLoader v-if="isLoadingChapter" />
-  <ChallengeCompleted
-    v-if="showCompleted"
-    :chapterStats="chapterStats"
-    :chapterData="chapterData"
-    @close="closeCompleted"
-  />
-  <section v-if="chapterData && !isLoadingChapter" class="challenge">
-    <ChallengeInfo :chapterStats="chapterStats" />
-    <div class="challenge-order" v-if="!showInstruction && secondText">{{ secondText }}</div>
-    <div class="challenge-explanation" v-if="showExplanation">
-      {{ chapterData?.Explanation }}
-    </div>
-    <div class="challenge-game">
-      <ChallengeInstruction
-        :chapterData="chapterData"
-        :chapterStats="chapterStats"
-        v-model:showInstruction="showInstruction"
-        v-model:showExplanation="showExplanation"
-      />
-      <ChallengeCards
-        :showInstruction="showInstruction"
-        :entityDataCards="entityDataCards"
-        :propertyDataCards="propertyDataCards"
-        :isDataCardsLoading="isDataCardsLoading"
-      />
-    </div>
-  </section>
-  <FooterChallenge :entityDataCards="entityDataCards" :propertyDataCards="propertyDataCards" />
+  <div class="challenge-container" ref="gameRef">
+    <ChallengeCompleted
+      v-if="showCompleted"
+      :chapterStats="chapterStats"
+      :chapterData="chapterData"
+      @close="closeCompleted"
+    />
+    <section v-if="chapterData && !isLoadingChapter" class="challenge">
+      <ChallengeInfo :chapterStats="chapterStats" v-if="!isFullscreen" />
+
+      <div class="challenge-order" v-if="!showInstruction && secondText">{{ secondText }}</div>
+      <div class="challenge-explanation" v-if="showExplanation">
+        {{ chapterData?.Explanation }}
+      </div>
+      <div class="challenge-game">
+        <ChallengeInstruction
+          :chapterData="chapterData"
+          :chapterStats="chapterStats"
+          v-model:showInstruction="showInstruction"
+          v-model:showExplanation="showExplanation"
+        />
+        <ChallengeCards
+          :showInstruction="showInstruction"
+          :entityDataCards="entityDataCards"
+          :propertyDataCards="propertyDataCards"
+          :isDataCardsLoading="isDataCardsLoading"
+        />
+      </div>
+    </section>
+    <FooterChallenge
+      :entityDataCards="entityDataCards"
+      :propertyDataCards="propertyDataCards"
+      @toggle-fullscreen="toggleFullscreen"
+    />
+  </div>
 </template>

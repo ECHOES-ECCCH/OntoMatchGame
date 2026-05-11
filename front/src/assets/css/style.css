@@ -202,6 +202,7 @@ button.logout img {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 .auth-container {
@@ -209,7 +210,7 @@ button.logout img {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 70px;
 }
 
 .auth-container h1 {
@@ -256,12 +257,14 @@ button.logout img {
 .auth-container form.auth-form input,
 .auth-container form.auth-form select {
   width: clamp(301px, 20vw, 481px);
-  height: clamp(27px, 2vw, 57px);
-  border: var(--main-color1) 1px solid;
+  height: clamp(33px, 2vw, 57px);
   border-radius: var(--box-radius);
+  border: transparent;
   padding: 5px;
+  padding-left: 9px;
   box-sizing: content-box;
   border-left: solid 7px var(--main-color1);
+  box-shadow: var(--shadow);
 }
 
 .auth-container form.auth-form input::placeholder {
@@ -631,7 +634,7 @@ progress::-moz-progress-bar {
 }
 
 .infos-modal {
-  background-color: rgba(173, 173, 173, 0.7);
+  background-color: rgba(245, 245, 245, 0.7);
 }
 
 .infos-modal-content {
@@ -658,6 +661,11 @@ progress::-moz-progress-bar {
   display: flex;
   justify-self: end;
   cursor: pointer;
+}
+
+.infos-modal-content .infos button img {
+  border-radius: var(--box-radius);
+  padding: 2px;
 }
 
 .infos-modal-content h2 {
@@ -687,6 +695,20 @@ progress::-moz-progress-bar {
 
 .infos-modal-content .info-back button:hover {
   background-color: #ff6b6b54;
+}
+
+ul.logos {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  padding-left: 0;
+  border-bottom: solid 1px rgb(233, 233, 233);
+}
+
+ul.logos img {
+  width: 60%;
+  height: auto;
+  object-fit: contain;
 }
 
 /* ===================== CHALLENGE ===================== */
@@ -1369,6 +1391,32 @@ button.solution {
 .next-button:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.challenge-container {
+  overflow-y: scroll;
+}
+
+.challenge-container:fullscreen {
+  background: linear-gradient(120deg, var(--bc1) 20%, var(--bc2) 70%);
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.fullscreen-btn {
+  color: var(--main-color1);
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.fullscreen-btn img {
+  margin-right: 10px;
 }
 
 /* ===================== CARDS ===================== */
@@ -3222,3 +3270,15 @@ li.user-ranking {
 .my-scroll::-webkit-scrollbar-thumb:hover {
   background-color: var(--black);
 }
+
+.partners-logo {
+  margin-top: 30px;
+}
+
+.partners-logo ul {
+  text-align: center;
+}
+/* .partners-logo {
+  display: flex;
+  justify-content: center;
+} */

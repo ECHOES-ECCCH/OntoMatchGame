@@ -126,7 +126,8 @@
       "boardscene-scene-error-generic": "Trop générique",
       "boardscene-scene-error-specific": "Trop specifique",
       "boardscene-scene-chapter-completed": "Chapitre terminé",
-      "boardscene-scene-change-chapter": "Choisir un autre chapitre"
+      "boardscene-scene-change-chapter": "Choisir un autre chapitre",
+      "boardscene-scene-footer-fullscreen-text": "Plein écran"
     },
 
     "StatsScene": {

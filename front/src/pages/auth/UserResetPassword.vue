@@ -10,6 +10,9 @@ import {
   sendresetlink,
 } from '@/services/auth.service'
 import type { ResetPasswordFormData } from '@/types/form'
+import CreditsModal from '@/components/modals/CreditsModal.vue'
+import InfosModal from '@/components/modals/InfosModal.vue'
+import FooterHome from '@/components/footer/FooterHome.vue'
 
 const formData = ref<ResetPasswordFormData>({
   email: '',
@@ -20,6 +23,8 @@ const errors = ref<ResetPasswordFormData>({
 })
 
 const emailSent = ref(false)
+const infosModal = ref(false)
+const creditsModal = ref(false)
 
 const handleSubmit = async (data: ResetPasswordFormData) => {
   const checking = await handleCheckingForm(data.email)
@@ -46,10 +51,24 @@ const handleSubmit = async (data: ResetPasswordFormData) => {
     }
   }
 }
+
+const handleInfosModal = (display: boolean) => {
+  infosModal.value = display
+  creditsModal.value = false
+}
+
+const handleCreditsModal = (display: boolean) => {
+  creditsModal.value = display
+  infosModal.value = false
+}
 </script>
 
 <template>
   <ButtonLoader v-if="isLoading" />
+  <div class="homepage-modal">
+    <InfosModal v-if="infosModal === true" :handleInfosModal="handleInfosModal" />
+    <CreditsModal v-if="creditsModal === true" :handleCreditsModal="handleCreditsModal" />
+  </div>
   <section class="auth-page">
     <div class="auth-container">
       <h1>
@@ -79,5 +98,6 @@ const handleSubmit = async (data: ResetPasswordFormData) => {
         </div>
       </div>
     </div>
+    <FooterHome :handleInfosModal="handleInfosModal" :handleCreditsModal="handleCreditsModal" />
   </section>
 </template>

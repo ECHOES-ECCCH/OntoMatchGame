@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { langStore } from '@/stores/lang.store'
 import close from '@/assets/img/close.svg'
+import PartnersLogo from './PartnersLogo.vue'
 
 defineProps({
   handleCreditsModal: Function,
@@ -11,6 +12,7 @@ defineProps({
   <div class="modal-container infos-modal">
     <div class="modal-content infos-modal-content">
       <div class="infos">
+        <PartnersLogo />
         <button @click="handleCreditsModal?.(false)"><img :src="close" alt="close" /></button>
         <div class="more-infos">
           <p>
