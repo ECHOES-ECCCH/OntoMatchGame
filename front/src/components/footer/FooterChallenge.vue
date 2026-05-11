@@ -11,6 +11,7 @@ import checkValidation from '@/assets/img/check.svg'
 import next from '@/assets/img/next.svg'
 import back1 from '@/assets/img/back1.svg'
 import PagesLoader from '../loader/PagesLoader.vue'
+import fullscreen from '@/assets/img/fullscreen.svg'
 
 const { chapterStats, chapterInfo, loadChapter } = useChapterData()
 
@@ -22,6 +23,12 @@ const props = defineProps<{
 const { check } = useChallengeChecker()
 const { finishChallenge } = useFinishChallenge()
 const { showSolution, resetSolution } = useSolution()
+
+const emit = defineEmits(['toggle-fullscreen'])
+
+const handleFullscreen = () => {
+  emit('toggle-fullscreen')
+}
 
 const handleValidation = () => {
   check(props.entityDataCards, props.propertyDataCards)
@@ -54,9 +61,14 @@ const handleNextAfterSolution = async () => {
         <span>{{ langStore.t('static-text.Footer.footer-backbutton') }}</span></router-link
       >
     </button>
+    <button class="fullscreen-btn" @click="handleFullscreen">
+      <img :src="fullscreen" alt="fullscreen" />{{
+        langStore.t('static-text.BoardScene.boardscene-scene-footer-fullscreen-text')
+      }}
+    </button>
     <div class="finish-challenge">
       <button
-        v-if="
+        v-show="
           showSolution &&
           chapterStats &&
           parseInt(chapterStats?.lastChallengeId) <= parseInt(chapterStats?.maxChallengeCount)
@@ -68,7 +80,7 @@ const handleNextAfterSolution = async () => {
         {{ langStore.t('static-text.BoardScene.boardscene-scene-nextbutton-text') }}
       </button>
       <button
-        v-else-if="
+        v-show="
           chapterStats &&
           parseInt(chapterStats?.lastChallengeId) < parseInt(chapterStats?.maxChallengeCount)
         "

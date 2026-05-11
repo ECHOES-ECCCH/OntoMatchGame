@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import SignupForm from '@/components/auth/SignupForm.vue'
+import FooterHome from '@/components/footer/FooterHome.vue'
 import { handleCheckingForm, checkUsername, isLoading, signup } from '@/services/auth.service'
 import { langStore } from '@/stores/lang.store'
 import type { SignupFormData } from '@/types/form'
 import { ref } from 'vue'
+import CreditsModal from '@/components/modals/CreditsModal.vue'
+import InfosModal from '@/components/modals/InfosModal.vue'
 
 const formData = ref<SignupFormData>({
   username: '',
@@ -19,6 +22,8 @@ const errors = ref({
 })
 
 const accountCreated = ref(false)
+const infosModal = ref(false)
+const creditsModal = ref(false)
 
 const handleSubmit = async (data: SignupFormData) => {
   const checkUser = await checkUsername(data.username)
@@ -41,9 +46,23 @@ const handleSubmit = async (data: SignupFormData) => {
     accountCreated.value = true
   }
 }
+
+const handleInfosModal = (display: boolean) => {
+  infosModal.value = display
+  creditsModal.value = false
+}
+
+const handleCreditsModal = (display: boolean) => {
+  creditsModal.value = display
+  infosModal.value = false
+}
 </script>
 
 <template>
+  <div class="homepage-modal">
+    <InfosModal v-if="infosModal === true" :handleInfosModal="handleInfosModal" />
+    <CreditsModal v-if="creditsModal === true" :handleCreditsModal="handleCreditsModal" />
+  </div>
   <section class="auth-page">
     <div class="auth-container">
       <h1>
@@ -70,5 +89,6 @@ const handleSubmit = async (data: SignupFormData) => {
         </div>
       </div>
     </div>
+    <FooterHome :handleInfosModal="handleInfosModal" :handleCreditsModal="handleCreditsModal" />
   </section>
 </template>

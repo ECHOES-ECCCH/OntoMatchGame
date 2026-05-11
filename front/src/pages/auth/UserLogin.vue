@@ -7,6 +7,9 @@ import { handleCheckingForm, login, isLoading } from '@/services/auth.service'
 import type { RegisterFormData } from '@/types/form'
 import { authStore } from '@/stores/auth.store'
 import { langStore } from '@/stores/lang.store'
+import CreditsModal from '@/components/modals/CreditsModal.vue'
+import InfosModal from '@/components/modals/InfosModal.vue'
+import FooterHome from '@/components/footer/FooterHome.vue'
 
 const formData = ref<RegisterFormData>({
   email: '',
@@ -17,6 +20,9 @@ const errors = ref<RegisterFormData>({
   email: '',
   password: '',
 })
+
+const infosModal = ref(false)
+const creditsModal = ref(false)
 
 const selectedLanguage = ref(langStore.state.language)
 
@@ -48,10 +54,24 @@ const handleSubmit = async (data: RegisterFormData) => {
     return
   }
 }
+
+const handleInfosModal = (display: boolean) => {
+  infosModal.value = display
+  creditsModal.value = false
+}
+
+const handleCreditsModal = (display: boolean) => {
+  creditsModal.value = display
+  infosModal.value = false
+}
 </script>
 
 <template>
   <ButtonLoader v-if="isLoading" />
+  <div class="homepage-modal">
+    <InfosModal v-if="infosModal === true" :handleInfosModal="handleInfosModal" />
+    <CreditsModal v-if="creditsModal === true" :handleCreditsModal="handleCreditsModal" />
+  </div>
   <section class="auth-page">
     <div class="auth-container">
       <h1>
@@ -71,5 +91,6 @@ const handleSubmit = async (data: RegisterFormData) => {
         </div>
       </div>
     </div>
+    <FooterHome :handleInfosModal="handleInfosModal" :handleCreditsModal="handleCreditsModal" />
   </section>
 </template>
