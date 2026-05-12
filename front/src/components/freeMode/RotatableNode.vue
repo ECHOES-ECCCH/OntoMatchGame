@@ -1,27 +1,13 @@
-<template>
-  <div class="node-root">
-    <div class="node" :style="{ transform: `rotate(${rotation}deg)` }">
-      {{ data.label }}
-
-      <div class="rotate-handle" @pointerdown="startRotate" />
-      <img @pointerdown="startRotate" :src="rotate" />
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useVueFlow } from '@vue-flow/core'
-import rotate from '@/assets/img/rotate.svg'
-
-type NodeData = {
-  label: string
-  rotation?: number
-}
 
 const props = defineProps<{
   id: string
-  data: NodeData
+  data: {
+    label: string
+    rotation?: number
+  }
 }>()
 
 const { updateNodeData } = useVueFlow()
@@ -33,14 +19,8 @@ let center = { x: 0, y: 0 }
 let startAngle = 0
 let startRotation = 0
 
-/* --------------------
-   ANGLE (STABLE LOCAL)
----------------------*/
 const getAngle = (e: PointerEvent) => Math.atan2(e.clientY - center.y, e.clientX - center.x)
 
-/* --------------------
-   START
----------------------*/
 const startRotate = (e: PointerEvent) => {
   rotating = true
 
@@ -59,23 +39,23 @@ const startRotate = (e: PointerEvent) => {
     if (!rotating) return
 
     const currentAngle = getAngle(ev)
-
     const delta = (currentAngle - startAngle) * (180 / Math.PI)
 
-    rotation.value = startRotation + delta
+    const newRotation = startRotation + delta
+
+    rotation.value = newRotation
+
+    updateNodeData(props.id, {
+      ...props.data,
+      rotation: newRotation,
+    })
   }
 
   const stop = () => {
     rotating = false
-
     window.removeEventListener('pointermove', onMove)
     window.removeEventListener('pointerup', stop)
     window.removeEventListener('pointercancel', stop)
-
-    updateNodeData(props.id, {
-      ...props.data,
-      rotation: rotation.value,
-    })
   }
 
   window.addEventListener('pointermove', onMove)
@@ -84,45 +64,18 @@ const startRotate = (e: PointerEvent) => {
 }
 </script>
 
-<style>
-.node-root {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+<template>
+  <div class="node-root">
+    <div class="node-rotable" :style="{ transform: `rotate(${rotation}deg)` }">
+      <div style="background: yellow; width: 20px; height: 20px"></div>
 
-.node {
-  width: 120px;
-  height: 60px;
-  background: lightcoral;
-  border-radius: 8px;
-  position: relative;
-  user-select: none;
-  transform-origin: center;
-  will-change: transform;
-  transition:
-    box-shadow 0.15s ease,
-    outline 0.15s ease;
-}
+      {{ data.label }}
 
-/* ✨ état sélectionné Vue Flow */
-.vue-flow__node.selected .node {
-  outline: 2px solid #3b82f6;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
-}
+      <!-- handle rotation -->
+      <div class="rotate-handle" @pointerdown="startRotate" />
 
-.rotate-handle {
-  position: absolute;
-  top: -25px;
-  left: 50%;
-  width: 12px;
-  height: 12px;
-  background: white;
-  border: 2px solid #333;
-  border-radius: 50%;
-  transform: translateX(-50%);
-  cursor: grab;
-}
-</style>
+      <!-- DEBUG (tu peux enlever après) -->
+      <div style="width: 10px; height: 10px; background: red"></div>
+    </div>
+  </div>
+</template>

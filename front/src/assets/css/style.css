@@ -583,6 +583,7 @@ progress::-moz-progress-bar {
   justify-content: space-around;
   padding: 10px;
   box-shadow: var(--shadow);
+  z-index: 9999;
 }
 
 .modal-container .modal-content div p:nth-child(1) {
@@ -3107,6 +3108,117 @@ li.user-ranking {
   text-align: center;
   margin-top: 30px;
   box-shadow: none;
+}
+
+/* ===================== FREE MODE ===================== */
+.free-mode-container .modal-container {
+}
+
+.free-mode-container .modal-container .modal-content .ontology-filter {
+  text-align: left;
+}
+
+.free-mode-container .carousel-container {
+  height: 100%;
+  width: 100%;
+  z-index: 9999;
+}
+
+.free-mode-container .carousel-container .range {
+  display: flex;
+}
+
+.free-mode-container .carousel-container .card.active {
+  overflow: hidden;
+}
+
+.free-mode-container .node {
+  transform-origin: center;
+  will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.free-mode-container .layout {
+  display: flex;
+  height: 100vh;
+  background: #1e1e1e;
+}
+
+.free-mode-container .sidebar {
+  width: 300px;
+  background: #222;
+  color: white;
+  padding: 10px;
+}
+
+.free-mode-container .layout .sidebar .ontology-selected {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.free-mode-container .layout .sidebar .ontology-selected h2 {
+  margin: 5px;
+}
+
+.free-mode-container .card {
+  background: #444;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: grab;
+  border-radius: 6px;
+}
+
+.free-mode-container .flow-wrapper {
+  flex: 1;
+  height: 100vh;
+  position: relative;
+  background: #f5f5f5;
+}
+
+.free-mode-container .fullscreen-free-mode {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  padding: 6px 10px;
+}
+
+.free-mode-container .vue-flow__panel.right {
+  background-color: darkgray;
+}
+
+.free-mode-container .node-root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.free-mode-container .node-rotable {
+  width: 120px;
+  height: 60px;
+  background: lightcoral;
+  border-radius: 8px;
+  position: relative;
+  user-select: none;
+  transform-origin: center;
+}
+
+.free-mode-container .rotate-handle {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  background: white;
+  border: 2px solid black;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  cursor: grab;
 }
 
 /* ===================== FOOTER ===================== */
