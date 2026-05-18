@@ -1,27 +1,30 @@
 <script setup lang="ts">
-import { ref, markRaw, onMounted, watch } from 'vue'
+import { ref, markRaw, onMounted, watch, computed, watchEffect } from 'vue'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
-import fullscreenLogo from '@/assets/img/fullscreen.svg'
-import edit from '@/assets/img/edit.svg'
-
-import RotatableNode from '@/components/freeMode/RotatableNode.vue'
-
 import '@vue-flow/core/dist/style.css'
 import '@vue-flow/core/dist/theme-default.css'
 import { useSelectedXML } from '@/stores/cards.store'
 import EntityFreeModeCard from '@/components/freeMode/EntityFreeModeCard.vue'
 import OntologyModal from '@/components/freeMode/OntologyModal.vue'
-import EntityCardNode from '@/components/freeMode/EntityCardNode.vue'
 import { toggleFullscreen } from '@/utils/togglefullscreen'
 import { useFreeModeFlow } from '@/composables/useFreeModeFlow'
+import fullscreenLogo from '@/assets/img/fullscreen.svg'
+import edit from '@/assets/img/edit.svg'
+import closeMenu from '@/assets/img/close-arrow.svg'
+import { filteredCardsByBranch } from '@/composables/useSelectedCards'
+import PagesLoader from '@/components/loader/PagesLoader.vue'
+
 const { entityDataCards, propertyDataCards, loadCard, isDataCardsLoading } = useSelectedXML()
 const modal = ref(false)
 const selectedOntology = ref('CIDOC CRM')
 const fullscreen = ref(false)
 const { nodes, edges, nodeTypes, onDragStart, onDrop, onSelectionChange } = useFreeModeFlow()
+const showSidebar = ref(true)
+const layoutRef = ref()
+const branches = ref(['entity'])
 
 document.addEventListener('fullscreenchange', () => {
   fullscreen.value = !!document.fullscreenElement
@@ -38,9 +41,15 @@ watch(
 const handleOntologyModal = (display: boolean) => {
   modal.value = display
 }
+
+const filteredCard = computed(() => {
+  if (!entityDataCards.value?.length) return []
+  return filteredCardsByBranch(entityDataCards.value, branches.value)
+})
 </script>
 
 <template>
+  <PagesLoader v-if="isDataCardsLoading" />
   <div class="free-mode-container">
     <OntologyModal
       v-if="modal === true"
@@ -50,18 +59,29 @@ const handleOntologyModal = (display: boolean) => {
     <div class="layout" ref="layoutRef">
       <!-- SIDEBAR -->
       <aside class="sidebar">
-        <div class="ontology-selected">
-          <h2>CIDOC CRM</h2>
-          <button v-if="!fullscreen" @click="handleOntologyModal(true)">
-            <img :src="edit" alt="edit" title="Changer d'ontologie" />
-          </button>
+        <div class="sidebar-panel" :class="{ 'hide-sidebar': !showSidebar }">
+          <div class="ontology-selected">
+            <h2>CIDOC CRM</h2>
+
+            <button v-if="!fullscreen" @click="handleOntologyModal(true)">
+              <img :src="edit" alt="edit" />
+            </button>
+          </div>
+
+          <EntityFreeModeCard
+            :entityDataCards="entityDataCards"
+            :filteredCard="filteredCard"
+            :branches="branches"
+            @update:branches="branches = $event"
+            :onDragStart="onDragStart"
+            position="aside"
+          />
         </div>
 
-        <EntityFreeModeCard
-          :entityDataCards="entityDataCards"
-          :onDragStart="onDragStart"
-          position="aside"
-        />
+        <!-- TOUJOURS VISIBLE -->
+        <button class="toggle-sidebar" @click="showSidebar = !showSidebar">
+          <img :src="closeMenu" />
+        </button>
       </aside>
 
       <!-- FLOW -->

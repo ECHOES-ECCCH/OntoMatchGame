@@ -5,6 +5,17 @@ import { showSolution } from './useSolution'
 type EntityPositionKeys = 'ELeftInit' | 'EMiddleInit' | 'ERightInit'
 type PropertyPositionKeys = 'PLeftInit' | 'PRightInit'
 
+export function filteredCardsByBranch(allEntityCards: CardInfo[], selectedBranches: string[]) {
+  if (!allEntityCards?.length || !selectedBranches?.length) return []
+
+  console.log(allEntityCards, selectedBranches)
+  return selectedBranches?.includes('entity')
+    ? allEntityCards
+    : allEntityCards.filter(
+        (card) => card.branch != null && card.branch.some((b) => selectedBranches.includes(b)),
+      )
+}
+
 export function useEntityCards(
   chapterData: Ref<ChapterData | null>,
   entityDataCards: CardInfo[],
@@ -31,11 +42,7 @@ export function useEntityCards(
        */
       const selectedBranches = showSolution.value ? 'entity' : branches[positionKey]
 
-      const filteredCards = selectedBranches?.includes('entity')
-        ? allEntityCards
-        : allEntityCards.filter(
-            (card) => card.branch != null && card.branch.some((b) => selectedBranches.includes(b)),
-          )
+      const filteredCards = filteredCardsByBranch(allEntityCards, selectedBranches)
 
       return {
         type: 'entity',

@@ -1851,7 +1851,8 @@ button.solution {
   margin-top: 25px;
 }
 
-.cards-container .content-cards .types-filter.horizontal-filter {
+.cards-container .content-cards .types-filter.horizontal-filter,
+.free-mode-container .carousel-container .horizontal-filter {
   /* height: 40px; */
   background-color: #e6e6e6;
   border-bottom-left-radius: var(--box-radius);
@@ -1886,7 +1887,8 @@ button.solution {
   margin-top: -12px;
 }
 
-.cards-container .content-cards .types-filter ul {
+.cards-container .content-cards .types-filter ul,
+.free-mode-container .carousel-container .types-filter ul {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -1894,7 +1896,8 @@ button.solution {
   margin: -5px;
 }
 
-.cards-container .content-cards .types-filter ul li.type {
+.cards-container .content-cards .types-filter ul li.type,
+.free-mode-container .carousel-container .types-filter ul li.type {
   width: clamp(3px, 0.65vw, 12px);
   height: clamp(3px, 0.65vw, 12px);
   cursor: pointer;
@@ -1902,7 +1905,8 @@ button.solution {
   white-space: normal;
 }
 
-.cards-container .content-cards .types-filter ul li.type.active {
+.cards-container .content-cards .types-filter ul li.type.active,
+.free-mode-container .carousel-container .types-filter ul li.type.active {
   border-radius: 50px;
 }
 
@@ -3146,17 +3150,15 @@ li.user-ranking {
   background: #1e1e1e;
 }
 
-.free-mode-container .sidebar {
-  width: 300px;
-  background: #222;
-  color: white;
-  padding: 10px;
+.free-mode-container .sidebar .sidebar-content {
+  display: flex;
 }
 
 .free-mode-container .layout .sidebar .ontology-selected {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-direction: column;
 }
 
 .free-mode-container .layout .sidebar .ontology-selected h2 {
@@ -3219,6 +3221,26 @@ li.user-ranking {
   border-radius: 50%;
   transform: translateX(-50%);
   cursor: grab;
+}
+
+.sidebar {
+  display: flex;
+  height: 100%;
+  background: #222;
+}
+
+.sidebar-panel {
+  width: 300px;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.sidebar-panel.hide-sidebar {
+  width: 0;
+}
+
+.toggle-sidebar {
+  width: 40px;
 }
 
 /* ===================== FOOTER ===================== */

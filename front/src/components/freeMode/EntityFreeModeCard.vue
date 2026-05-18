@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { BranchName } from '@/types/card/branch'
 import type { CardInfo } from '@/types/card/cardInfo'
 
@@ -8,18 +8,33 @@ import { colors } from '@/assets/cards/colors'
 import EntitySuperclassesSubClassesFreeMode from './EntitySuperclassesSubClassesFreeMode.vue'
 
 import { getSubClasses, getSuperClasses } from '@/composables/useSuperSubClasses'
+import BranchesFilter from '@/components/challenge/BranchesFilter.vue'
 
 const props = defineProps<{
   entityDataCards: CardInfo[]
+  filteredCard?: CardInfo[]
+  branches: string[]
   onDragStart: (card: CardInfo) => void
   initialIndex?: number
   position: string
 }>()
+const activeCards = computed(() => props.filteredCard ?? props.entityDataCards)
+
+watch(
+  () => activeCards,
+  () => {
+    currentIndex.value = 0
+    currentFreeCard.value = null
+  },
+)
 
 const currentIndex = ref(props.initialIndex ?? 0)
+const emit = defineEmits<{
+  (e: 'update:branches', value: string[]): void
+}>()
 
 const currentCard = computed(() => {
-  return props.entityDataCards[currentIndex.value]
+  return activeCards.value?.[currentIndex.value] ?? activeCards.value?.[0] ?? null
 })
 
 /**
@@ -38,7 +53,7 @@ const displayedCard = computed(() => {
 })
 
 const showScopeNote = ref(false)
-console.log(showScopeNote)
+
 const getIcon = (branches: BranchName[] | null | undefined): string[] => {
   if (!branches || branches.length === 0) {
     return [colors.entity.icon]
@@ -57,7 +72,7 @@ const handlePrevious = () => {
 }
 
 const handleNext = () => {
-  currentIndex.value = Math.min(currentIndex.value + 1, props.entityDataCards.length - 1)
+  currentIndex.value = Math.min(currentIndex.value + 1, activeCards.value.length - 1)
 
   /**
    * reset du mode libre
@@ -74,14 +89,18 @@ const handleSliderChange = (value: number) => {
   currentFreeCard.value = null
 }
 
-const subClasses = computed(() => getSubClasses(displayedCard.value.about, props.entityDataCards))
+const subClasses = computed(() => {
+  if (!displayedCard.value) return []
+  return getSubClasses(displayedCard.value.about, activeCards.value ?? [])
+})
 
-const superClasses = computed(() =>
-  getSuperClasses(displayedCard.value.about, props.entityDataCards),
-)
+const superClasses = computed(() => {
+  if (!displayedCard.value) return []
+  return getSuperClasses(displayedCard.value.about, activeCards.value ?? [])
+})
 
 const selectCard = (aboutValue: string) => {
-  const newCard = props.entityDataCards.find((c) => c.about === aboutValue)
+  const newCard = activeCards.value.find((c) => c.about === aboutValue)
 
   if (!newCard) return
 
@@ -131,14 +150,19 @@ const selectCard = (aboutValue: string) => {
         </div>
       </div>
     </div>
-
-    <div class="range" v-if="entityDataCards.length > 1 && position === 'aside'">
+    <BranchesFilter
+      v-if="position === 'aside'"
+      :model-value="branches"
+      @update:modelValue="emit('update:branches', $event)"
+      orientation="horizontal"
+    />
+    <div class="range" v-if="activeCards?.length > 1 && position === 'aside'">
       <button type="button" @click="handlePrevious">-</button>
 
       <input
         type="range"
         min="0"
-        :max="entityDataCards.length - 1"
+        :max="activeCards.length - 1"
         class="slider"
         :value="currentIndex"
         @input="handleSliderChange(Number(($event.target as HTMLInputElement).value))"
@@ -148,7 +172,7 @@ const selectCard = (aboutValue: string) => {
     </div>
 
     <div class="number" v-if="position === 'aside'">
-      {{ currentIndex + 1 }}/{{ entityDataCards.length }}
+      {{ activeCards.length }}/{{ entityDataCards.length }}
     </div>
   </div>
 </template>
