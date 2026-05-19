@@ -2,18 +2,16 @@
 import { computed, ref, watch } from 'vue'
 import type { BranchName } from '@/types/card/branch'
 import type { CardInfo } from '@/types/card/cardInfo'
-
 import { colors } from '@/assets/cards/colors'
-
 import EntitySuperclassesSubClassesFreeMode from './EntitySuperclassesSubClassesFreeMode.vue'
-
 import { getSubClasses, getSuperClasses } from '@/composables/useSuperSubClasses'
 import BranchesFilter from '@/components/challenge/BranchesFilter.vue'
+import { getColor } from '@/utils/get-color-types'
 
 const props = defineProps<{
   entityDataCards: CardInfo[]
   filteredCard?: CardInfo[]
-  branches: string[]
+  branches?: string[]
   onDragStart: (card: CardInfo) => void
   initialIndex?: number
   position: string
@@ -110,13 +108,17 @@ const selectCard = (aboutValue: string) => {
 
 <template>
   <div class="carousel-container">
-    <div class="entity-card" v-if="displayedCard">
+    <div class="entity-card" v-if="displayedCard" :style="getColor(displayedCard.branch)">
       <div class="scope-note-text" v-show="showScopeNote">
         <p>{{ displayedCard.comment }}</p>
         <button @click="showScopeNote = false">Close</button>
       </div>
       <div class="card-inner">
-        <div class="card" draggable="true" @dragstart="onDragStart(displayedCard)">
+        <div
+          class="card"
+          draggable="true"
+          @dragstart.stop="onDragStart({ ...displayedCard, kind: 'entity' })"
+        >
           <div class="card-name">
             <div>
               <span class="prefix">

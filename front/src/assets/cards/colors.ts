@@ -10,7 +10,7 @@ import iconMoebius from '../img/iconMoebius.png'
 import iconRuler from '../img/iconRuler.png'
 import iconPrimitive from '../img/iconPrimitive.png'
 import logo from '../img/logo-g.png'
-import type { Branch } from './types'
+import type { Branch } from '@/types/card/branch'
 
 export interface ColorConfig {
   color: string

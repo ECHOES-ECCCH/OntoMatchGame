@@ -15,6 +15,7 @@ export interface CardInfo {
   comment: string
   subClasses: string[]
   branch?: BranchName[] | null
+  kind?: string
 }
 
 export interface CardPropertyInfo {
@@ -29,6 +30,8 @@ export interface CardPropertyInfo {
   branch?: BranchName[] | null
   domain: string
   range: string
+  subPropertyOf: string
+  card?: CardInfo
 }
 
 export type CardPositionInfo = {

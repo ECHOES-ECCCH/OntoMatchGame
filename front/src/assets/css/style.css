@@ -1480,7 +1480,8 @@ button.solution {
   font-size: clamp(0.5rem, 0.7vw, 1rem);
 }
 
-.cards-container .content-cards .carousel-container .property-card {
+.cards-container .content-cards .carousel-container .property-card,
+.free-mode-container .carousel-container .property-card {
   flex: 1 0 clamp(180px, 14vw, 350px);
   /* height: clamp(160px, 10vw, 200px); */
   width: 100%;
@@ -1491,7 +1492,8 @@ button.solution {
     0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-.cards-container .content-cards .carousel-container .entity-card::before {
+.cards-container .content-cards .carousel-container .entity-card::before,
+.free-mode-container .carousel-container .entity-card::before {
   content: '';
   position: absolute;
   left: 0;
@@ -1505,7 +1507,8 @@ button.solution {
   );
 }
 
-.cards-container .content-cards .carousel-container .entity-card::after {
+.cards-container .content-cards .carousel-container .entity-card::after,
+.free-mode-container .carousel-container .entity-card::after {
   content: '';
   position: absolute;
   right: 0;
@@ -1606,7 +1609,8 @@ button.solution {
   font-size: clamp(0.6rem, 1vw, 1rem);
 }
 
-.cards-container .content-cards .carousel-container .slider {
+.cards-container .content-cards .carousel-container .slider,
+.free-mode-container .carousel-container .slider {
   -webkit-appearance: none;
   appearance: none;
   width: 60%;
@@ -1648,17 +1652,20 @@ button.solution {
   }
 }
 
-.cards-container .content-cards .carousel-container .card-name {
+.cards-container .content-cards .carousel-container .card-name,
+.free-mode-container .carousel-container .card-name {
   display: flex;
   justify-content: space-between;
 }
 
-.cards-container .content-cards .carousel-container .property.card-name {
+.cards-container .content-cards .carousel-container .property.card-name,
+.free-mode-container .carousel-container .property.card-name {
   flex-direction: column;
   align-items: center;
 }
 
-.cards-container .content-cards .carousel-container .card-name div {
+.cards-container .content-cards .carousel-container .card-name div,
+.free-mode-container .carousel-container .card-name div {
   display: flex;
   flex: 2;
   align-items: center;
@@ -1666,7 +1673,8 @@ button.solution {
   padding-left: 10px;
 }
 
-.cards-container .content-cards .carousel-container .card-name .prefix {
+.cards-container .content-cards .carousel-container .card-name .prefix,
+.free-mode-container .carousel-container .card-name .prefix {
   width: clamp(20px, 2vw, 40px);
   height: clamp(20px, 2vw, 40px);
   font-size: clamp(0.5rem, 0.8vw, 0.9rem);
@@ -1685,37 +1693,43 @@ button.solution {
   border: 1px solid var(--card-text-color, transparent);
 }
 
-.cards-container .content-cards .carousel-container .card-name .property.prefix {
+.cards-container .content-cards .carousel-container .card-name .property.prefix,
+.free-mode-container .carousel-container .card-name .property.prefix {
   background-color: var(--main-color1);
   align-content: center;
   justify-content: center;
   align-items: center;
 }
 
-.cards-container .content-cards .carousel-container .card-name .name {
+.cards-container .content-cards .carousel-container .card-name .name,
+.free-mode-container .carousel-container .card-name .name {
   font-size: clamp(0.4rem, 0.9vw, 1rem);
   font-weight: 600;
   margin-left: 5px;
 }
 
-.cards-container .content-cards .carousel-container .card-name .property.name {
+.cards-container .content-cards .carousel-container .card-name .property.name,
+.free-mode-container .carousel-container .card-name .property.name {
   font-size: clamp(0.4rem, 0.7vw, 0.8rem);
 }
 
-.cards-container .content-cards .carousel-container .card-name .image-card {
+.cards-container .content-cards .carousel-container .card-name .image-card,
+.free-mode-container .carousel-container .card-name .image-card {
   display: flex;
   justify-content: right;
   margin: 10px;
   align-items: center;
 }
 
-.cards-container .content-cards .carousel-container .card-name img {
+.cards-container .content-cards .carousel-container .card-name img,
+.free-mode-container .carousel-container .card-name img {
   width: clamp(8px, 1.4vw, 36px);
   height: 27px;
   object-fit: contain;
 }
 
-.cards-container .content-cards .carousel-container .range {
+.cards-container .content-cards .carousel-container .range,
+.free-mode-container .carousel-container .range {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1862,14 +1876,16 @@ button.solution {
   background: color-mix(in srgb, var(--main-color1, currentColor) 10%, transparent);
 }
 
-.cards-container .content-cards .types-filter.vertical-filter {
+.cards-container .content-cards .types-filter.vertical-filter,
+.free-mode-container .carousel-container .types-filter.vertical-filter {
   flex: 0 1 auto;
   min-width: 0;
   background: color-mix(in srgb, var(--main-color1, currentColor) 10%, transparent);
   padding: 0 clamp(0.3rem, 0.7vw, 1.2rem);
 }
 
-.cards-container .content-cards .types-filter.vertical-filter.vertical-filter-left {
+.cards-container .content-cards .types-filter.vertical-filter.vertical-filter-left,
+.free-mode-container .types-filter.vertical-filter.vertical-filter-left {
   border-top-left-radius: var(--box-radius);
   border-bottom-left-radius: var(--box-radius);
 }
@@ -1879,7 +1895,8 @@ button.solution {
   border-bottom-right-radius: var(--box-radius);
 }
 
-.cards-container .content-cards .types-filter.vertical-filter ul {
+.cards-container .content-cards .types-filter.vertical-filter ul,
+.free-mode-container .types-filter.vertical-filter ul {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -1910,7 +1927,8 @@ button.solution {
   border-radius: 50px;
 }
 
-.cards-container .content-cards .carousel-container .entity-card {
+.cards-container .content-cards .carousel-container .entity-card,
+.free-mode-container .carousel-container .entity-card {
   flex: 1 0 clamp(180px, 12vw, 300px);
   width: 100%;
   min-width: 0;
@@ -1931,7 +1949,8 @@ button.solution {
   aspect-ratio: 265 / 400;
 }
 
-.cards-container .content-cards .carousel-container .entity-card .card-content {
+.cards-container .content-cards .carousel-container .entity-card .card-content,
+.free-mode-container .carousel-container .entity-card .card-content {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -1951,7 +1970,8 @@ button.solution {
   font-size: clamp(0.5rem, 0.5vw, 1.5rem);
 }
 
-.cards-container .content-cards .carousel-container .entity-card .entity-classes {
+.cards-container .content-cards .carousel-container .entity-card .entity-classes,
+.free-mode-container .carousel-container .entity-card .entity-classes {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
@@ -1959,7 +1979,8 @@ button.solution {
   padding: 0.5rem 0 0.5rem 1.3rem;
 }
 
-.cards-container .content-cards .carousel-container .entity-card h2 {
+.cards-container .content-cards .carousel-container .entity-card h2,
+.free-mode-container .carousel-container .entity-card h2 {
   font-size: clamp(0.4rem, 0.5vw, 0.8rem);
   text-align: center;
   flex-shrink: 0;
@@ -1975,7 +1996,8 @@ button.solution {
   overflow: hidden;
 }
 
-.cards-container .content-cards .carousel-container .entity-card .entity-classes .hierarchy {
+.cards-container .content-cards .carousel-container .entity-card .entity-classes .hierarchy,
+.free-mode-container .carousel-container .entity-card .entity-classes .hierarchy {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -1990,7 +2012,8 @@ button.solution {
   font-size: clamp(0.6rem, 0.8vw, 0.9rem);
 }
 
-.cards-container .content-cards .carousel-container .entity-card .entity-classes .hierarchy-btn {
+.cards-container .content-cards .carousel-container .entity-card .entity-classes .hierarchy-btn,
+.free-mode-container .carousel-container .entity-card .entity-classes .hierarchy-btn {
   border-radius: 4px;
   background: transparent;
   cursor: pointer;
@@ -2010,11 +2033,13 @@ button.solution {
   .carousel-container
   .entity-card
   .entity-classes
-  .hierarchy-btn:hover {
+  .hierarchy-btn:hover,
+.free-mode-container .carousel-container .entity-card .entity-classes .hierarchy-btn:hover {
   background: rgba(0, 0, 0, 0.05);
 }
 
-.cards-container .content-cards .carousel-container .entity-card .entity-classes .current {
+.cards-container .content-cards .carousel-container .entity-card .entity-classes .current,
+.free-mode-container .carousel-container .entity-card .entity-classes .current {
   padding: clamp(2px, 0.5vw, 8px);
   font-weight: bold;
   text-align: center;
@@ -2028,7 +2053,8 @@ button.solution {
   text-align: left;
 }
 
-.cards-container .content-cards .property {
+.cards-container .content-cards .property,
+.free-mode-container .property {
   display: flex;
 }
 
@@ -2057,7 +2083,8 @@ button.solution {
   white-space: nowrap;
 }
 
-.cards-container .content-cards .property-card {
+.cards-container .content-cards .property-card,
+.free-mode-container .carousel-container .property-card {
   width: 100%;
   aspect-ratio: 265 / 186;
   height: auto;
@@ -2073,13 +2100,15 @@ button.solution {
   overflow: hidden;
 }
 
-.cards-container .content-cards .carousel-container .property-card h2 {
+.cards-container .content-cards .carousel-container .property-card h2,
+.free-mode-container .carousel-container .property-card h2 {
   font-size: clamp(0.4rem, 0.5vw, 0.8rem);
   color: #bbbbbb;
   margin-bottom: 2px;
 }
 
-.cards-container .content-cards .carousel-container .property-card .property-classes {
+.cards-container .content-cards .carousel-container .property-card .property-classes,
+.free-mode-container .carousel-container .property-card .property-classes {
   height: 120px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -2089,7 +2118,8 @@ button.solution {
   font-size: clamp(0.5rem, 0.8vw, 0.9rem);
 }
 
-.cards-container .content-cards .carousel-container .property-card .card-content {
+.cards-container .content-cards .carousel-container .property-card .card-content,
+.free-mode-container .carousel-container .property-card .card-content {
   min-height: 0;
   overflow: hidden;
   display: flex;
@@ -2103,7 +2133,8 @@ button.solution {
   box-sizing: border-box;
 }
 
-.cards-container .content-cards .carousel-container .property-card .vertical-button {
+.cards-container .content-cards .carousel-container .property-card .vertical-button,
+.free-mode-container .carousel-container .property-card .vertical-button {
   writing-mode: vertical-rl;
   text-orientation: mixed;
   cursor: pointer;
@@ -2124,13 +2155,15 @@ button.solution {
 .cards-container .content-cards .carousel-container .property-card .vertical-button.vertical-title {
 }
 
-.cards-container .content-cards .carousel-container .property-card .vertical-button span {
+.cards-container .content-cards .carousel-container .property-card .vertical-button span,
+.free-mode-container .carousel-container .property-card .vertical-button span {
   color: #bbbbbb;
   text-transform: uppercase;
   font-size: clamp(0.2rem, 0.5vw, 0.5rem);
 }
 
-.cards-container .content-cards .carousel-container .property-card .vertical-button p {
+.cards-container .content-cards .carousel-container .property-card .vertical-button p,
+.free-mode-container .carousel-container .property-card .vertical-button p {
   color: var(--black);
   font-size: clamp(0.35rem, 0.6vw, 0.8rem);
   height: 100%;
@@ -2146,7 +2179,8 @@ button.solution {
   .content-cards
   .carousel-container
   .property-card
-  .vertical-button.vertical-left::before {
+  .vertical-button.vertical-left::before,
+.free-mode-container .carousel-container .property-card .vertical-button.vertical-left::before {
   content: '';
   position: absolute;
   left: 0;
@@ -2160,7 +2194,8 @@ button.solution {
   );
 }
 
-.cards-container .content-cards .carousel-container .property-card .vertical-button.vertical-right {
+.cards-container .content-cards .carousel-container .property-card .vertical-button.vertical-right,
+.free-mode-container .carousel-container .property-card .vertical-button.vertical-right {
   writing-mode: sideways-lr;
   padding: 0;
 }
@@ -2170,7 +2205,8 @@ button.solution {
   .carousel-container
   .property-card
   .vertical-button.vertical-right
-  p {
+  p,
+.free-mode-container .carousel-container .property-card .vertical-button.vertical-right p {
   margin-right: 25px;
 }
 
@@ -2179,7 +2215,8 @@ button.solution {
   .carousel-container
   .property-card
   .vertical-button.vertical-right
-  span {
+  span,
+.free-mode-container .carousel-container .property-card .vertical-button.vertical-right span {
   text-transform: uppercase;
   padding-top: 3px;
 }
@@ -2188,7 +2225,8 @@ button.solution {
   .content-cards
   .carousel-container
   .property-card
-  .vertical-button.vertical-right::before {
+  .vertical-button.vertical-right::before,
+.free-mode-container .carousel-container .property-card .vertical-button.vertical-right::before {
   content: '';
   position: absolute;
   right: 0;
@@ -2202,7 +2240,8 @@ button.solution {
   );
 }
 
-.cards-container .content-cards .carousel-container .property-card .property-classes .hierarchy {
+.cards-container .content-cards .carousel-container .property-card .property-classes .hierarchy,
+.free-mode-container .carousel-container .property-card .property-classes .hierarchy {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -2212,12 +2251,8 @@ button.solution {
   white-space: nowrap;
 }
 
-.cards-container
-  .content-cards
-  .carousel-container
-  .property-card
-  .property-classes
-  .hierarchy-btn {
+.cards-container .content-cards .carousel-container .property-card .property-classes .hierarchy-btn,
+.free-mode-container .carousel-container .property-card .property-classes .hierarchy-btn {
   padding: clamp(2px, 0.3vw, 5px);
   font-size: clamp(0.3rem, 0.5vw, 0.7rem);
   border-radius: 4px;
@@ -2237,11 +2272,13 @@ button.solution {
   .carousel-container
   .property-card
   .property-classes
-  .hierarchy-btn:hover {
+  .hierarchy-btn:hover,
+.free-mode-container .carousel-container .property-card .property-classes .hierarchy-btn:hover {
   background: rgba(0, 0, 0, 0.05);
 }
 
-.cards-container .content-cards .carousel-container .property-card .property-classes .current {
+.cards-container .content-cards .carousel-container .property-card .property-classes .current,
+.free-mode-container .carousel-container .property-card .property-classes .current {
   padding: clamp(2px, 0.4vw, 5px);
   font-size: clamp(0.35rem, 0.5vw, 0.6rem);
   font-weight: bold;
@@ -2256,7 +2293,8 @@ button.solution {
   min-width: 0;
 }
 
-.cards-container .content-cards .carousel-container .property .types-filter ul.vertical-filter {
+.cards-container .content-cards .carousel-container .property .types-filter ul.vertical-filter,
+.free-mode-container .carousel-container .property .types-filter ul.vertical-filter {
   display: flex;
   flex-direction: column;
   height: auto;
@@ -3123,7 +3161,6 @@ li.user-ranking {
 }
 
 .free-mode-container .carousel-container {
-  height: 100%;
   width: 100%;
   z-index: 9999;
 }
@@ -3158,19 +3195,20 @@ li.user-ranking {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-direction: column;
 }
 
 .free-mode-container .layout .sidebar .ontology-selected h2 {
   margin: 5px;
+  color: white;
 }
 
 .free-mode-container .card {
-  background: #444;
+  background: #ffffff;
   padding: 10px;
   margin-bottom: 10px;
   cursor: grab;
   border-radius: 6px;
+  height: 100%;
 }
 
 .free-mode-container .flow-wrapper {
@@ -3226,11 +3264,11 @@ li.user-ranking {
 .sidebar {
   display: flex;
   height: 100%;
-  background: #222;
+  background: #444444;
 }
 
 .sidebar-panel {
-  width: 300px;
+  width: 370px;
   overflow: hidden;
   transition: 0.3s;
 }
@@ -3241,6 +3279,20 @@ li.user-ranking {
 
 .toggle-sidebar {
   width: 40px;
+}
+
+.free-mode-container .carousel-container .number {
+  color: white;
+  text-align: center;
+  font-size: clamp(0.6rem, 1vw, 1rem);
+}
+
+.free-mode-container .carousel-container .entity-card {
+  max-width: min-content;
+}
+
+.free-mode-container .carousel-container .property-card {
+  background-color: white;
 }
 
 /* ===================== FOOTER ===================== */

@@ -12,25 +12,30 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div>
-    <button
-      :disabled="position === 'screen'"
-      v-for="sub in subClasses"
-      :key="sub"
-      @click="emit('select', sub)"
-    >
-      {{ sub }}
-    </button>
+  <div class="entity-classes-wrapper">
+    <h2>SubClasses & SuperClasses</h2>
+    <div class="entity-classes my-scroll">
+      <button
+        :disabled="position === 'screen'"
+        v-for="sub in subClasses"
+        :key="sub"
+        @click="emit('select', sub)"
+        class="hierarchy-btn sub"
+      >
+        {{ sub }}
+      </button>
 
-    <div>{{ current }}</div>
+      <div class="current">{{ current }}</div>
 
-    <button
-      :disabled="position === 'screen'"
-      v-for="sup in superClasses"
-      :key="sup"
-      @click="emit('select', sup)"
-    >
-      {{ sup }}
-    </button>
+      <button
+        :disabled="position === 'screen'"
+        v-for="sup in superClasses"
+        :key="sup"
+        @click="emit('select', sup)"
+        class="hierarchy-btn super"
+      >
+        {{ sup }}
+      </button>
+    </div>
   </div>
 </template>

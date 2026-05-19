@@ -2,30 +2,39 @@ import { ref, markRaw, onMounted, onUnmounted } from 'vue'
 import { useVueFlow } from '@vue-flow/core'
 
 import RotatableNode from '@/components/freeMode/RotatableNode.vue'
-import EntityCardNode from '@/components/freeMode/EntityCardNode.vue'
+import FreeCardNode from '@/components/freeMode/FreeCardNode.vue'
 
 export function useFreeModeFlow() {
   const nodes = ref<any[]>([])
   const edges = ref<any[]>([])
   const selectedNodes = ref<string[]>([])
 
+  // Reset board in progress
+  const resetFlow = () => {
+    nodes.value = []
+    edges.value = []
+    selectedNodes.value = []
+    draggedItem = null
+  }
+
   let draggedItem: any = null
 
   const nodeTypes = {
-    'entity-card': markRaw(EntityCardNode),
+    'free-card': markRaw(FreeCardNode),
     rotatable: markRaw(RotatableNode),
   }
 
   const { screenToFlowCoordinate, removeNodes } = useVueFlow()
 
-  const onDragStart = (item: any) => {
-    draggedItem = item
+  const onDragStart = (card, type) => {
+    console.log('dragStart', card.kind) // ← doit afficher 'entity' ou 'property'
+    draggedItem = { ...card, type }
   }
 
   const onDrop = (event: DragEvent) => {
     event.preventDefault()
-
     if (!draggedItem) return
+    console.log('onDrop kind:', draggedItem.kind) // ← ici
 
     const position = screenToFlowCoordinate({
       x: event.clientX,
@@ -33,10 +42,11 @@ export function useFreeModeFlow() {
     })
 
     nodes.value.push({
-      id: crypto.randomUUID(),
-      type: 'entity-card',
-      position,
+      id: `node-${Date.now()}`, // ✅ id unique
+      type: 'free-card',
+      position, // ✅ position dans le flow
       data: {
+        kind: draggedItem.type, // ✅ .type et non .kind
         card: draggedItem,
         rotation: 0,
       },
@@ -88,5 +98,6 @@ export function useFreeModeFlow() {
     onDragStart,
     onDrop,
     onSelectionChange,
+    resetFlow,
   }
 }

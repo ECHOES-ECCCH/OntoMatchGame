@@ -5,11 +5,14 @@ import rotateIcon from '@/assets/img/rotate.svg'
 
 import EntityFreeModeCard from '@/components/freeMode/EntityFreeModeCard.vue'
 import { useSelectedXML } from '@/stores/cards.store'
+import PropertyFreeModeCard from './PropertyFreeModeCard.vue'
+import type { CardInfo } from '@/types/card/cardInfo'
 
 const props = defineProps<{
   id: string
   data: {
-    card: any
+    kind: 'entity' | 'property'
+    card: CardInfo
     rotation?: number
   }
 }>()
@@ -56,14 +59,23 @@ const startRotate = (e: PointerEvent) => {
   window.addEventListener('pointerup', stop)
 }
 
-const { entityDataCards } = useSelectedXML() // ← toutes les cartes
+const { entityDataCards, propertyDataCards } = useSelectedXML() // ← toutes les cartes
 </script>
 
 <template>
   <div class="node" :style="{ transform: `rotate(${rotation}deg)` }">
     <EntityFreeModeCard
+      v-if="data.card.kind === 'entity'"
       :entityDataCards="entityDataCards"
       :initialIndex="entityDataCards.findIndex((c) => c.about === data.card.about)"
+      :onDragStart="() => {}"
+      position="screen"
+    />
+    <PropertyFreeModeCard
+      v-else
+      :entityDataCards="entityDataCards"
+      :propertyDataCards="propertyDataCards"
+      :initialIndex="propertyDataCards.findIndex((c) => c.about === data.card.about)"
       :onDragStart="() => {}"
       position="screen"
     />
@@ -72,7 +84,7 @@ const { entityDataCards } = useSelectedXML() // ← toutes les cartes
   </div>
 </template>
 
-<style>
+<style scoped>
 .node {
   position: relative;
   width: 160px;

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, markRaw, onMounted, watch, computed, watchEffect } from 'vue'
-import { VueFlow, useVueFlow } from '@vue-flow/core'
+import { ref, watch, computed } from 'vue'
+import { VueFlow } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
@@ -14,17 +14,19 @@ import { useFreeModeFlow } from '@/composables/useFreeModeFlow'
 import fullscreenLogo from '@/assets/img/fullscreen.svg'
 import edit from '@/assets/img/edit.svg'
 import closeMenu from '@/assets/img/close-arrow.svg'
-import { filteredCardsByBranch } from '@/composables/useSelectedCards'
+import { filteredEntityCardsByBranch } from '@/composables/useSelectedCards'
 import PagesLoader from '@/components/loader/PagesLoader.vue'
+import PropertyFreeModeCard from '@/components/freeMode/PropertyFreeModeCard.vue'
 
 const { entityDataCards, propertyDataCards, loadCard, isDataCardsLoading } = useSelectedXML()
 const modal = ref(false)
 const selectedOntology = ref('CIDOC CRM')
 const fullscreen = ref(false)
-const { nodes, edges, nodeTypes, onDragStart, onDrop, onSelectionChange } = useFreeModeFlow()
+const { nodes, edges, nodeTypes, onDragStart, onDrop, onSelectionChange, resetFlow } =
+  useFreeModeFlow()
 const showSidebar = ref(true)
 const layoutRef = ref()
-const branches = ref(['entity'])
+const entityBranches = ref(['entity'])
 
 document.addEventListener('fullscreenchange', () => {
   fullscreen.value = !!document.fullscreenElement
@@ -34,6 +36,7 @@ watch(
   selectedOntology,
   (newValue) => {
     loadCard(newValue)
+    resetFlow()
   },
   { immediate: true },
 )
@@ -44,7 +47,7 @@ const handleOntologyModal = (display: boolean) => {
 
 const filteredCard = computed(() => {
   if (!entityDataCards.value?.length) return []
-  return filteredCardsByBranch(entityDataCards.value, branches.value)
+  return filteredEntityCardsByBranch(entityDataCards.value, entityBranches.value)
 })
 </script>
 
@@ -71,8 +74,14 @@ const filteredCard = computed(() => {
           <EntityFreeModeCard
             :entityDataCards="entityDataCards"
             :filteredCard="filteredCard"
-            :branches="branches"
-            @update:branches="branches = $event"
+            :branches="entityBranches"
+            @update:branches="entityBranches = $event"
+            :onDragStart="onDragStart"
+            position="aside"
+          />
+          <PropertyFreeModeCard
+            :entityDataCards="entityDataCards"
+            :propertyDataCards="propertyDataCards"
             :onDragStart="onDragStart"
             position="aside"
           />
