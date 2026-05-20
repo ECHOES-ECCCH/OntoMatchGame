@@ -565,6 +565,7 @@ progress::-moz-progress-bar {
   width: 100%;
   height: 100vh;
   position: absolute;
+  z-index: 9999;
 }
 
 .modal-container .modal-content {
@@ -2300,7 +2301,8 @@ button.solution {
   height: auto;
 }
 
-.cards-container .content-cards .carousel-container .instance-card {
+.cards-container .content-cards .carousel-container .instance-card,
+.free-mode-container .content-cards .carousel-container .instance-card {
   flex: 1 0 clamp(100px, 10vw, 240px);
   max-width: clamp(160px, 14vw, 320px);
   min-width: clamp(100px, 10vw, 240px);
@@ -2318,20 +2320,23 @@ button.solution {
   padding: 5px;
 }
 
-.cards-container .content-cards .carousel-container .instance.card-name {
+.cards-container .content-cards .carousel-container .instance.card-name,
+.free-mode-container .content-cards .carousel-container .instance.card-name {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.cards-container .content-cards .carousel-container .instance.prefix {
+.cards-container .content-cards .carousel-container .instance.prefix,
+.free-mode-container .content-cards .carousel-container .instance.prefix {
   background-color: var(--main-color1);
   align-content: center;
   justify-content: center;
   align-items: center;
 }
 
-.cards-container .content-cards .carousel-container .card-name .instance.name {
+.cards-container .content-cards .carousel-container .card-name .instance.name,
+.free-mode-container .content-cards .carousel-container .instance.name {
   font-size: clamp(0.4rem, 0.7vw, 0.8rem);
   padding: 5px;
 }
@@ -3173,12 +3178,30 @@ li.user-ranking {
   overflow: hidden;
 }
 
-.free-mode-container .node {
+/* .free-mode-container .node {
   transform-origin: center;
   will-change: transform;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  width: 160px;
+  border-radius: 8px;
+  border: 2px solid transparent; 
+  transition: border-color 0.15s ease;
+} */
+
+.node {
+  position: relative;
+  width: 160px;
+  border-radius: 8px;
+  transform-origin: center;
+  border: 3px solid transparent; /* évite le layout shift au clic */
+  transition: border-color 0.15s ease;
+}
+
+.node:has(.instances) {
+  border-color: transparent !important;
 }
 
 .free-mode-container .layout {
@@ -3269,7 +3292,7 @@ li.user-ranking {
 
 .sidebar-panel {
   width: 370px;
-  overflow: hidden;
+  /* overflow: hidden; */
   transition: 0.3s;
 }
 
@@ -3293,6 +3316,45 @@ li.user-ranking {
 
 .free-mode-container .carousel-container .property-card {
   background-color: white;
+}
+
+.node--selected {
+  border-color: var(--main-color1);
+}
+
+.instances {
+  border: 2px solid transparent; /* ← indispensable, évite aussi le layout shift */
+  border-radius: var(--box-radius);
+}
+
+.instances--selected {
+  border-color: var(--main-color1);
+  /* border-radius à faire correspondre avec celui de .instances existant */
+}
+
+.board-zoom {
+  position: absolute;
+  bottom: 180px;
+  right: 20px;
+}
+
+.board-zoom button {
+  background-color: var(--main-color1);
+  color: white;
+  border-radius: 50px;
+  height: 30px;
+  width: 30px;
+  font-size: 20px;
+}
+
+.rotate-icon {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translateX(-50%);
+  cursor: grab;
 }
 
 /* ===================== FOOTER ===================== */

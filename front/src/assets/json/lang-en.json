@@ -147,6 +147,13 @@
       "leaderboard-scene-noplayer-text": "No player at the moment"
     },
 
+    "FreeModeScene": {
+      "freemode-scene-instances-text": "Choose an instance",
+      "freemode-scene-instances-available": "Available instances",
+      "freemode-scene-instances-scenario": "Every scenarios",
+      "freemode-scene-instances-search": "Search a scenario"
+    },
+
     "FullCreditsScene": {
       "fullcredits-scene-title-text": "ONTOMATCHGAME",
       "fullcredits-scene-backbutton-text": "Main Menu",

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
-import { VueFlow } from '@vue-flow/core'
+import { useVueFlow, VueFlow } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
@@ -9,28 +9,34 @@ import '@vue-flow/core/dist/theme-default.css'
 import { useSelectedXML } from '@/stores/cards.store'
 import EntityFreeModeCard from '@/components/freeMode/EntityFreeModeCard.vue'
 import OntologyModal from '@/components/freeMode/OntologyModal.vue'
+import PagesLoader from '@/components/loader/PagesLoader.vue'
+import PropertyFreeModeCard from '@/components/freeMode/PropertyFreeModeCard.vue'
+import InstancesFreeModeCard from '@/components/freeMode/InstancesFreeModeCard.vue'
+import InstancesModal from '@/components/freeMode/InstancesModal.vue'
+import { filteredEntityCardsByBranch } from '@/composables/useSelectedCards'
 import { toggleFullscreen } from '@/utils/togglefullscreen'
 import { useFreeModeFlow } from '@/composables/useFreeModeFlow'
 import fullscreenLogo from '@/assets/img/fullscreen.svg'
 import edit from '@/assets/img/edit.svg'
 import closeMenu from '@/assets/img/close-arrow.svg'
-import { filteredEntityCardsByBranch } from '@/composables/useSelectedCards'
-import PagesLoader from '@/components/loader/PagesLoader.vue'
-import PropertyFreeModeCard from '@/components/freeMode/PropertyFreeModeCard.vue'
+import instances from '@/assets/img/instances.jpg'
 
 const { entityDataCards, propertyDataCards, loadCard, isDataCardsLoading } = useSelectedXML()
 const modal = ref(false)
-const selectedOntology = ref('CIDOC CRM')
+const instanceModal = ref(false)
 const fullscreen = ref(false)
 const { nodes, edges, nodeTypes, onDragStart, onDrop, onSelectionChange, resetFlow } =
   useFreeModeFlow()
 const showSidebar = ref(true)
 const layoutRef = ref()
 const entityBranches = ref(['entity'])
+const { zoomIn, zoomOut } = useVueFlow()
 
 document.addEventListener('fullscreenchange', () => {
   fullscreen.value = !!document.fullscreenElement
 })
+
+const selectedOntology = ref('CIDOC CRM')
 
 watch(
   selectedOntology,
@@ -45,9 +51,25 @@ const handleOntologyModal = (display: boolean) => {
   modal.value = display
 }
 
+const handleInstanceModal = (display: boolean) => {
+  instanceModal.value = display
+}
+
 const filteredCard = computed(() => {
   if (!entityDataCards.value?.length) return []
   return filteredEntityCardsByBranch(entityDataCards.value, entityBranches.value)
+})
+
+const onSelectInstance = (instance) => {
+  currentInstance.value = instance
+  instanceModal.value = false
+}
+
+const currentInstance = ref({
+  Id: 'I1',
+  Title: 'Hôtellerie de Marmoutier',
+  Label: '',
+  ImageName: instances,
 })
 </script>
 
@@ -58,6 +80,12 @@ const filteredCard = computed(() => {
       v-if="modal === true"
       :handleOntologyModal="handleOntologyModal"
       v-model="selectedOntology"
+    />
+    <InstancesModal
+      v-model:selected="currentInstance"
+      v-model:open="instanceModal"
+      @update:selected="onSelectInstance"
+      :selectedOntology="selectedOntology"
     />
     <div class="layout" ref="layoutRef">
       <!-- SIDEBAR -->
@@ -85,6 +113,12 @@ const filteredCard = computed(() => {
             :onDragStart="onDragStart"
             position="aside"
           />
+          <InstancesFreeModeCard
+            @open-instance-modal="handleInstanceModal(true)"
+            :currentInstance="currentInstance"
+            :onDragStart="onDragStart"
+            position="aside"
+          />
         </div>
 
         <!-- TOUJOURS VISIBLE -->
@@ -102,15 +136,21 @@ const filteredCard = computed(() => {
         <VueFlow
           v-model:nodes="nodes"
           v-model:edges="edges"
-          fit-view-on-init
           :selection-on-drag="true"
           :multi-selection-key="'Shift'"
           @selection-change="onSelectionChange"
           :node-types="nodeTypes"
+          :default-viewport="{ zoom: 1 }"
+          :nodes-selectable="true"
         >
           <Background variant="dots" :gap="18" :size="1" color="#ccc" />
           <MiniMap />
-          <Controls />
+          <Controls :show-zoom="true" :show-fit-view="true" :show-interactive="false" />
+          <div class="board-zoom">
+            <button @click="zoomIn({ duration: 200, scale: 1.3 })">+</button>
+
+            <button @click="zoomOut({ duration: 200, scale: 1.3 })">-</button>
+          </div>
         </VueFlow>
       </div>
     </div>

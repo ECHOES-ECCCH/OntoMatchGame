@@ -2,16 +2,17 @@
 import { ref } from 'vue'
 import { useVueFlow } from '@vue-flow/core'
 import rotateIcon from '@/assets/img/rotate.svg'
-
-import EntityFreeModeCard from '@/components/freeMode/EntityFreeModeCard.vue'
 import { useSelectedXML } from '@/stores/cards.store'
-import PropertyFreeModeCard from './PropertyFreeModeCard.vue'
 import type { CardInfo } from '@/types/card/cardInfo'
+import EntityFreeModeCard from '@/components/freeMode/EntityFreeModeCard.vue'
+import PropertyFreeModeCard from './PropertyFreeModeCard.vue'
+import InstancesFreeModeCard from './InstancesFreeModeCard.vue'
 
 const props = defineProps<{
   id: string
+  selected: boolean
   data: {
-    kind: 'entity' | 'property'
+    kind: 'entity' | 'property' | 'instance'
     card: CardInfo
     rotation?: number
   }
@@ -63,7 +64,11 @@ const { entityDataCards, propertyDataCards } = useSelectedXML() // ← toutes le
 </script>
 
 <template>
-  <div class="node" :style="{ transform: `rotate(${rotation}deg)` }">
+  <div
+    class="node"
+    :class="{ 'node--selected': selected }"
+    :style="{ transform: `rotate(${rotation}deg)` }"
+  >
     <EntityFreeModeCard
       v-if="data.card.kind === 'entity'"
       :entityDataCards="entityDataCards"
@@ -72,38 +77,23 @@ const { entityDataCards, propertyDataCards } = useSelectedXML() // ← toutes le
       position="screen"
     />
     <PropertyFreeModeCard
-      v-else
+      v-else-if="data.card.kind === 'property'"
       :entityDataCards="entityDataCards"
       :propertyDataCards="propertyDataCards"
       :initialIndex="propertyDataCards.findIndex((c) => c.about === data.card.about)"
       :onDragStart="() => {}"
       position="screen"
     />
+    <InstancesFreeModeCard
+      v-else
+      :currentInstance="data.card"
+      :onDragStart="() => {}"
+      position="screen"
+      :selected="selected"
+    />
     <!-- ROTATION -->
     <img class="rotate-icon" :src="rotateIcon" @pointerdown="startRotate" />
   </div>
 </template>
 
-<style scoped>
-.node {
-  position: relative;
-  width: 160px;
-  background: white;
-  border-radius: 8px;
-  transform-origin: center;
-}
-
-.card {
-  padding: 10px;
-}
-
-.rotate-icon {
-  position: absolute;
-  top: -25px;
-  left: 50%;
-  width: 18px;
-  height: 18px;
-  transform: translateX(-50%);
-  cursor: grab;
-}
-</style>
+<style scoped></style>

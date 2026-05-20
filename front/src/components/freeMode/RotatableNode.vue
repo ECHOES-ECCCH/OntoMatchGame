@@ -67,8 +67,6 @@ const startRotate = (e: PointerEvent) => {
 <template>
   <div class="node-root">
     <div class="node-rotable" :style="{ transform: `rotate(${rotation}deg)` }">
-      <div style="background: yellow; width: 20px; height: 20px"></div>
-
       {{ data.label }}
 
       <!-- handle rotation -->

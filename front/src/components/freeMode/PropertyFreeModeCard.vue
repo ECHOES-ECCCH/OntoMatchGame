@@ -226,6 +226,6 @@ const selectCard = (aboutValue: string) => {
     </div>
 
     <!-- COUNTER -->
-    <div class="number">{{ (filteredCards as CardInfo[]).length }}/{{ filteredCards.length }}</div>
+    <div v-if="position === 'aside'" class="number">{{ filteredCards.length }}/{{ filteredCards.length }}</div>
   </div>
 </template>

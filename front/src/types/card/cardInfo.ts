@@ -53,4 +53,5 @@ export interface CardInstances {
   Title: string
   Label: string
   ImageName: string
+  kind?: string
 }
