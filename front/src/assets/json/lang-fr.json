@@ -155,7 +155,9 @@
       "freemode-scene-instances-text": "Choisir une instance",
       "freemode-scene-instances-available": "Instances disponibles",
       "freemode-scene-instances-scenario": "Tous les scénarios",
-      "freemode-scene-instances-search": "Chercher un scénario"
+      "freemode-scene-instances-search": "Chercher un scénario",
+      "freemode-scene-instances-search-input": "Rechercher",
+      "freemode-scene-instances-no-result": "Aucun résultat"
     },
 
     "FullCreditsScene": {

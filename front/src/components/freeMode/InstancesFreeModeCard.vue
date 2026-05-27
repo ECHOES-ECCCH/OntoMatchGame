@@ -9,7 +9,7 @@ defineProps<{
   currentInstance: CardInstances
   onDragStart: (instance: CardInstances) => void
   position: string
-  selected?: boolean  // ← ajout
+  selected?: boolean
 
 }>()
 

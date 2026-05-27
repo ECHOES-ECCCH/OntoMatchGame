@@ -13,12 +13,14 @@ import PagesLoader from '@/components/loader/PagesLoader.vue'
 import PropertyFreeModeCard from '@/components/freeMode/PropertyFreeModeCard.vue'
 import InstancesFreeModeCard from '@/components/freeMode/InstancesFreeModeCard.vue'
 import InstancesModal from '@/components/freeMode/InstancesModal.vue'
-import { filteredEntityCardsByBranch } from '@/composables/useSelectedCards'
 import { toggleFullscreen } from '@/utils/togglefullscreen'
 import { useFreeModeFlow } from '@/composables/useFreeModeFlow'
 import fullscreenLogo from '@/assets/img/fullscreen.svg'
 import edit from '@/assets/img/edit.svg'
 import closeMenu from '@/assets/img/close-arrow.svg'
+import { filteredEntityCardsByBranch } from '@/composables/useSelectedCards'
+import type { CardInstances } from '@/types/card/cardInfo'
+
 import instances from '@/assets/img/instances.jpg'
 
 const { entityDataCards, propertyDataCards, loadCard, isDataCardsLoading } = useSelectedXML()
@@ -60,7 +62,7 @@ const filteredCard = computed(() => {
   return filteredEntityCardsByBranch(entityDataCards.value, entityBranches.value)
 })
 
-const onSelectInstance = (instance) => {
+const onSelectInstance = (instance: CardInstances) => {
   currentInstance.value = instance
   instanceModal.value = false
 }

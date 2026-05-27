@@ -54,4 +54,5 @@ export interface CardInstances {
   Label: string
   ImageName: string
   kind?: string
+  Scenario?: string
 }

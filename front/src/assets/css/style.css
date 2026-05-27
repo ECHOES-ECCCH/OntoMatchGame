@@ -2318,6 +2318,7 @@ button.solution {
   display: flex;
   flex-direction: column;
   padding: 5px;
+  cursor: pointer;
 }
 
 .cards-container .content-cards .carousel-container .instance.card-name,
@@ -3165,9 +3166,15 @@ li.user-ranking {
   text-align: left;
 }
 
-.free-mode-container .carousel-container {
-  width: 100%;
+.free-mode-container .modal-container .carousel-container {
   z-index: 9999;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 30px;
+}
+
+.free-mode-container .modal-container .instances-no-result {
+  text-align: center;
 }
 
 .free-mode-container .carousel-container .range {
@@ -3355,6 +3362,17 @@ li.user-ranking {
   height: 18px;
   transform: translateX(-50%);
   cursor: grab;
+}
+
+.free-mode-container .instance-modal {
+  width: 90%;
+  height: 90%;
+  overflow-y: scroll;
+}
+
+.instances .content-cards .carousel-container ul {
+  display: flex;
+  flex-wrap: row wrap;
 }
 
 /* ===================== FOOTER ===================== */

@@ -27,14 +27,12 @@ export function useFreeModeFlow() {
   const { screenToFlowCoordinate, removeNodes } = useVueFlow()
 
   const onDragStart = (card, type) => {
-    console.log('dragStart', card.kind) // ← doit afficher 'entity' ou 'property'
     draggedItem = { ...card, type }
   }
 
   const onDrop = (event: DragEvent) => {
     event.preventDefault()
     if (!draggedItem) return
-    console.log('onDrop kind:', draggedItem.kind) // ← ici
 
     const position = screenToFlowCoordinate({
       x: event.clientX,
