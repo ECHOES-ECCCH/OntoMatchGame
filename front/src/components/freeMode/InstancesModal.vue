@@ -142,8 +142,6 @@ const closeModal = () => {
   searchInstance.value = ''
   emit('update:open', false)
 }
-
-console.log(!instances.value.length)
 </script>
 
 <template>

@@ -15,12 +15,15 @@ import InstancesFreeModeCard from '@/components/freeMode/InstancesFreeModeCard.v
 import InstancesModal from '@/components/freeMode/InstancesModal.vue'
 import { toggleFullscreen } from '@/utils/togglefullscreen'
 import { useFreeModeFlow } from '@/composables/useFreeModeFlow'
+import { filteredEntityCardsByBranch } from '@/composables/useSelectedCards'
+import { useFlowImportExport } from '@/composables/useFlowImportExport'
 import fullscreenLogo from '@/assets/img/fullscreen.svg'
 import edit from '@/assets/img/edit.svg'
 import closeMenu from '@/assets/img/close-arrow.svg'
-import { filteredEntityCardsByBranch } from '@/composables/useSelectedCards'
-import type { CardInstances } from '@/types/card/cardInfo'
+import imp from '@/assets/img/import.svg'
+import exp from '@/assets/img/export.svg'
 
+import type { CardInstances } from '@/types/card/cardInfo'
 import instances from '@/assets/img/instances.jpg'
 
 const { entityDataCards, propertyDataCards, loadCard, isDataCardsLoading } = useSelectedXML()
@@ -33,6 +36,7 @@ const showSidebar = ref(true)
 const layoutRef = ref()
 const entityBranches = ref(['entity'])
 const { zoomIn, zoomOut } = useVueFlow()
+const { exportFlow, importFlow } = useFlowImportExport()
 
 document.addEventListener('fullscreenchange', () => {
   fullscreen.value = !!document.fullscreenElement
@@ -62,17 +66,17 @@ const filteredCard = computed(() => {
   return filteredEntityCardsByBranch(entityDataCards.value, entityBranches.value)
 })
 
-const onSelectInstance = (instance: CardInstances) => {
-  currentInstance.value = instance
-  instanceModal.value = false
-}
-
 const currentInstance = ref({
   Id: 'I1',
   Title: 'Hôtellerie de Marmoutier',
   Label: '',
   ImageName: instances,
 })
+
+const onSelectInstance = (instance: CardInstances) => {
+  currentInstance.value = instance
+  instanceModal.value = false
+}
 </script>
 
 <template>
@@ -138,13 +142,25 @@ const currentInstance = ref({
         <VueFlow
           v-model:nodes="nodes"
           v-model:edges="edges"
+          :node-types="nodeTypes"
           :selection-on-drag="true"
           :multi-selection-key="'Shift'"
           @selection-change="onSelectionChange"
-          :node-types="nodeTypes"
           :default-viewport="{ zoom: 1 }"
           :nodes-selectable="true"
         >
+          <div class="toolbar nodrag nopan">
+            <label class="file-label"
+              ><button @click="exportFlow(selectedOntology)"><img :src="exp" alt="export" /></button
+            ></label>
+
+            <label class="file-label">
+              <input hidden type="file" accept=".json" @change="importFlow" ref="fileInput" /><img
+                :src="imp"
+                alt="import"
+              />
+            </label>
+          </div>
           <Background variant="dots" :gap="18" :size="1" color="#ccc" />
           <MiniMap />
           <Controls :show-zoom="true" :show-fit-view="true" :show-interactive="false" />

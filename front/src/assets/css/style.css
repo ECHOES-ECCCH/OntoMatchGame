@@ -3166,6 +3166,15 @@ li.user-ranking {
   text-align: left;
 }
 
+.free-mode-container .toolbar {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  pointer-events: all;
+  cursor: pointer;
+}
+
 .free-mode-container .modal-container .carousel-container {
   z-index: 9999;
   display: flex;
@@ -3373,6 +3382,15 @@ li.user-ranking {
 .instances .content-cards .carousel-container ul {
   display: flex;
   flex-wrap: row wrap;
+}
+
+.free-mode-container .file-label {
+  display: inline-block;
+  padding: 8px 16px;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
 }
 
 /* ===================== FOOTER ===================== */

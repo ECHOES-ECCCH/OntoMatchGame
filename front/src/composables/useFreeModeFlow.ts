@@ -1,7 +1,6 @@
 import { ref, markRaw, onMounted, onUnmounted } from 'vue'
 import { useVueFlow } from '@vue-flow/core'
 
-import RotatableNode from '@/components/freeMode/RotatableNode.vue'
 import FreeCardNode from '@/components/freeMode/FreeCardNode.vue'
 
 export function useFreeModeFlow() {
@@ -9,7 +8,14 @@ export function useFreeModeFlow() {
   const edges = ref<any[]>([])
   const selectedNodes = ref<string[]>([])
 
-  // Reset board in progress
+  let draggedItem: any = null
+
+  const nodeTypes = {
+    'free-card': markRaw(FreeCardNode),
+  }
+
+  const { screenToFlowCoordinate, removeNodes } = useVueFlow()
+
   const resetFlow = () => {
     nodes.value = []
     edges.value = []
@@ -17,16 +23,7 @@ export function useFreeModeFlow() {
     draggedItem = null
   }
 
-  let draggedItem: any = null
-
-  const nodeTypes = {
-    'free-card': markRaw(FreeCardNode),
-    rotatable: markRaw(RotatableNode),
-  }
-
-  const { screenToFlowCoordinate, removeNodes } = useVueFlow()
-
-  const onDragStart = (card, type) => {
+  const onDragStart = (card: any, type: string) => {
     draggedItem = { ...card, type }
   }
 
@@ -40,11 +37,13 @@ export function useFreeModeFlow() {
     })
 
     nodes.value.push({
-      id: `node-${Date.now()}`, // ✅ id unique
+      id: `node-${Date.now()}`,
       type: 'free-card',
-      position, // ✅ position dans le flow
+
+      position,
+
       data: {
-        kind: draggedItem.type, // ✅ .type et non .kind
+        kind: draggedItem.type, // entity | property | instance
         card: draggedItem,
         rotation: 0,
       },
@@ -81,13 +80,8 @@ export function useFreeModeFlow() {
     }
   }
 
-  onMounted(() => {
-    window.addEventListener('keydown', onKeyDown)
-  })
-
-  onUnmounted(() => {
-    window.removeEventListener('keydown', onKeyDown)
-  })
+  onMounted(() => window.addEventListener('keydown', onKeyDown))
+  onUnmounted(() => window.removeEventListener('keydown', onKeyDown))
 
   return {
     nodes,
