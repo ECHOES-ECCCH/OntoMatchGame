@@ -570,7 +570,7 @@ progress::-moz-progress-bar {
 
 .modal-container .modal-content {
   width: clamp(280px, 30vw, 500px);
-  height: clamp(140px, 30vh, 170px);
+  height: fit-content;
   background-color: white;
   position: relative;
   top: 50%;
@@ -2342,7 +2342,8 @@ button.solution {
   padding: 5px;
 }
 
-.cards-container .content-cards .carousel-container .card-name .instance.link {
+.cards-container .content-cards .carousel-container .card-name .instance.link,
+.free-mode-container .content-cards .carousel-container .instance.link {
   padding: 10px;
   font-size: clamp(0.4rem, 0.7vw, 0.8rem);
   text-decoration: underline;
@@ -3163,7 +3164,28 @@ li.user-ranking {
 }
 
 .free-mode-container .modal-container .modal-content .ontology-filter {
-  text-align: left;
+  display: flex;
+  justify-content: space-between;
+}
+
+.free-mode-container .modal-container .modal-content .choose-scenario select {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: var(--shadow);
+  margin-right: 20px;
+  border: 2px solid var(--main-color1);
+}
+
+.free-mode-container .modal-container .modal-content .choose-scenario input {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: var(--shadow);
+}
+
+.free-mode-container .modal-container .modal-content .close-modal {
+  text-align: right;
 }
 
 .free-mode-container .toolbar {
@@ -3180,6 +3202,13 @@ li.user-ranking {
   display: flex;
   flex-flow: row wrap;
   gap: 30px;
+  padding: 0;
+}
+
+.free-mode-container .entity-card:hover,
+.free-mode-container .property-card:hover,
+.free-mode-container .instance-card:hover {
+  transform: none;
 }
 
 .free-mode-container .modal-container .instances-no-result {
@@ -3192,6 +3221,14 @@ li.user-ranking {
 
 .free-mode-container .carousel-container .card.active {
   overflow: hidden;
+}
+
+.free-mode-container .sidebar .instance-card {
+  text-align: center;
+}
+
+.free-mode-container .carousel-container .range {
+  margin-top: 10px;
 }
 
 /* .free-mode-container .node {
@@ -3241,13 +3278,11 @@ li.user-ranking {
   color: white;
 }
 
+.free-mode-container .sidebar .carousel-container {
+  max-width: min-content;
+}
+
 .free-mode-container .card {
-  background: #ffffff;
-  padding: 10px;
-  margin-bottom: 10px;
-  cursor: grab;
-  border-radius: 6px;
-  height: 100%;
 }
 
 .free-mode-container .flow-wrapper {
@@ -3300,24 +3335,28 @@ li.user-ranking {
   cursor: grab;
 }
 
-.sidebar {
+.free-mode-container .sidebar {
   display: flex;
   height: 100%;
   background: #444444;
+  overflow-y: auto;
 }
 
-.sidebar-panel {
-  width: 370px;
-  /* overflow: hidden; */
+.free-mode-container .sidebar-panel {
   transition: 0.3s;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
-.sidebar-panel.hide-sidebar {
+.free-mode-container .sidebar-panel.hide-sidebar {
   width: 0;
 }
 
-.toggle-sidebar {
-  width: 40px;
+.free-mode-container .toggle-sidebar {
+  width: 30px;
 }
 
 .free-mode-container .carousel-container .number {
@@ -3330,8 +3369,104 @@ li.user-ranking {
   max-width: min-content;
 }
 
+.free-mode-container .carousel-container:has(.entity-card) {
+  flex: 1 0 clamp(100px, 8vw, 240px);
+  max-width: min-content;
+}
+
+.free-mode-container .carousel-container .entity-card {
+  aspect-ratio: unset;
+  height: clamp(220px, 14vw, 340px);
+  width: 100%;
+}
+
+.free-mode-container .carousel-container .entity-card .entity-classes {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.free-mode-container .carousel-container .entity-card .card-inner {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  height: 100%;
+  max-width: min-content;
+}
+
+.free-mode-container .carousel-container .card {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  background: #ffffff;
+  padding: 10px;
+  cursor: grab;
+  border-radius: 6px;
+}
+
+.free-mode-container .carousel-container .entity-card .card-name {
+  max-width: clamp(140px, 3vw, 240px);
+  min-width: 140px;
+}
+
+.free-mode-container .carousel-container .card-name .name {
+  font-size: clamp(0.4rem, 0.7vw, 1rem);
+}
+
+.free-mode-container .carousel-container .card-name div {
+  padding: 0;
+}
+
+.free-mode-container .carousel-container .entity-card .entity-classes {
+  padding: 0.5rem 0 0.5rem 0.5rem;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.free-mode-container .carousel-container .entity-card .entity-classes .entity-classes-wrapper {
+  min-height: 0;
+}
+
+.free-mode-container .carousel-container .entity-card::before,
+.free-mode-container .carousel-container .entity-card::after {
+  width: 5px;
+}
+
+.free-mode-container .carousel-container .card-name .prefix {
+  font-size: clamp(0.5rem, 0.5vw, 0.9rem);
+}
+
+.free-mode-container .carousel-container .card-name .prefix {
+  padding: 0;
+}
+
+.free-mode-container .scope-note {
+  text-align: center;
+  flex-shrink: 0;
+  padding: 3px 0px 5px;
+  margin-top: auto; /* ← pousse vers le bas */
+}
+
 .free-mode-container .carousel-container .property-card {
   background-color: white;
+}
+
+.free-mode-container .choose-instance {
+  background-color: var(--main-color1);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 50px;
+}
+
+.free-mode-container .instances.content-cards {
+  margin: 0;
 }
 
 .node--selected {
@@ -3361,6 +3496,7 @@ li.user-ranking {
   height: 30px;
   width: 30px;
   font-size: 20px;
+  margin-left: 5px;
 }
 
 .rotate-icon {
@@ -3387,10 +3523,24 @@ li.user-ranking {
 .free-mode-container .file-label {
   display: inline-block;
   padding: 8px 16px;
-  background: white;
+  background: var(--main-color1);
   border-radius: 6px;
   cursor: pointer;
+  margin-right: 10px;
   box-shadow: var(--shadow);
+}
+
+.free-mode-container .file-label.instruction-button {
+  background-color: var(--main-color3);
+}
+
+.free-mode-container .file-label:hover {
+  box-shadow: none;
+  background-color: #ff8a8a;
+}
+
+.free-mode-container .file-label.instruction-button:hover {
+  background-color: #51cebf;
 }
 
 /* ===================== FOOTER ===================== */

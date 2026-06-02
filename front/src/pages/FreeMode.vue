@@ -16,33 +16,40 @@ import InstancesModal from '@/components/freeMode/InstancesModal.vue'
 import { toggleFullscreen } from '@/utils/togglefullscreen'
 import { useFreeModeFlow } from '@/composables/useFreeModeFlow'
 import { filteredEntityCardsByBranch } from '@/composables/useSelectedCards'
-import { useFlowImportExport } from '@/composables/useFlowImportExport'
+import { useFreeModeBoard } from '@/composables/useFreeModeBoard'
 import fullscreenLogo from '@/assets/img/fullscreen.svg'
 import edit from '@/assets/img/edit.svg'
 import closeMenu from '@/assets/img/close-arrow.svg'
-import imp from '@/assets/img/import.svg'
-import exp from '@/assets/img/export.svg'
+import imp from '@/assets/img/importB.svg'
+import exp from '@/assets/img/exportB.svg'
+import instructions from '@/assets/img/instructions.svg'
+import saveas from '@/assets/img/saveas.svg'
+import save from '@/assets/img/save.svg'
 
 import type { CardInstances } from '@/types/card/cardInfo'
 import instances from '@/assets/img/instances.jpg'
+import InstructionsFreeModeModal from '@/components/freeMode/InstructionsFreeModeModal.vue'
+import SaveAsModal from '@/components/freeMode/SaveAsModal.vue'
 
 const { entityDataCards, propertyDataCards, loadCard, isDataCardsLoading } = useSelectedXML()
 const modal = ref(false)
 const instanceModal = ref(false)
 const fullscreen = ref(false)
+const instructionsModal = ref(false)
 const { nodes, edges, nodeTypes, onDragStart, onDrop, onSelectionChange, resetFlow } =
   useFreeModeFlow()
 const showSidebar = ref(true)
 const layoutRef = ref()
 const entityBranches = ref(['entity'])
 const { zoomIn, zoomOut } = useVueFlow()
-const { exportFlow, importFlow } = useFlowImportExport()
+const { exportFlow, importFlow, freeModeBoardData } = useFreeModeBoard()
 
 document.addEventListener('fullscreenchange', () => {
   fullscreen.value = !!document.fullscreenElement
 })
 
 const selectedOntology = ref('CIDOC CRM')
+const saveAs = ref(false)
 
 watch(
   selectedOntology,
@@ -59,6 +66,14 @@ const handleOntologyModal = (display: boolean) => {
 
 const handleInstanceModal = (display: boolean) => {
   instanceModal.value = display
+}
+
+const handleInstructionsModal = () => {
+  instructionsModal.value = true
+}
+
+const handleSavaAsModal = () => {
+  saveAs.value = true
 }
 
 const filteredCard = computed(() => {
@@ -93,10 +108,12 @@ const onSelectInstance = (instance: CardInstances) => {
       @update:selected="onSelectInstance"
       :selectedOntology="selectedOntology"
     />
+    <InstructionsFreeModeModal v-model:open="instructionsModal" />
+    <SaveAsModal v-model:open="saveAs" :ontology="selectedOntology" />
     <div class="layout" ref="layoutRef">
       <!-- SIDEBAR -->
       <aside class="sidebar">
-        <div class="sidebar-panel" :class="{ 'hide-sidebar': !showSidebar }">
+        <div v-if="showSidebar" class="sidebar-panel" :class="{ 'hide-sidebar': !showSidebar }">
           <div class="ontology-selected">
             <h2>CIDOC CRM</h2>
 
@@ -104,7 +121,6 @@ const onSelectInstance = (instance: CardInstances) => {
               <img :src="edit" alt="edit" />
             </button>
           </div>
-
           <EntityFreeModeCard
             :entityDataCards="entityDataCards"
             :filteredCard="filteredCard"
@@ -136,7 +152,7 @@ const onSelectInstance = (instance: CardInstances) => {
       <!-- FLOW -->
       <div class="flow-wrapper" @drop="onDrop" @dragover.prevent>
         <button class="fullscreen-free-mode" @click="toggleFullscreen(layoutRef)">
-          <img :src="fullscreenLogo" alt="fullscreen" />
+          Plein ecran <img :src="fullscreenLogo" alt="fullscreen" />
         </button>
 
         <VueFlow
@@ -151,13 +167,29 @@ const onSelectInstance = (instance: CardInstances) => {
         >
           <div class="toolbar nodrag nopan">
             <label class="file-label"
-              ><button @click="exportFlow(selectedOntology)"><img :src="exp" alt="export" /></button
+              ><button @click="handleSavaAsModal">
+                <img :src="saveas" alt="saveas" title="save as" /></button
+            ></label>
+            <label class="file-label"
+              ><button @click="handleInstructionsModal">
+                <img :src="save" alt="save" title="save" /></button
+            ></label>
+
+            <label class="file-label instruction-button"
+              ><button @click="handleInstructionsModal">
+                <img :src="instructions" alt="instructions" title="instructions" /></button
+            ></label>
+
+            <label class="file-label"
+              ><button @click="exportFlow(selectedOntology)">
+                <img :src="exp" alt="export" title="export" /></button
             ></label>
 
             <label class="file-label">
               <input hidden type="file" accept=".json" @change="importFlow" ref="fileInput" /><img
                 :src="imp"
                 alt="import"
+                title="import"
               />
             </label>
           </div>

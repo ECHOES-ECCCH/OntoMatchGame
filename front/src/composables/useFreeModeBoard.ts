@@ -1,12 +1,12 @@
 import { useVueFlow } from '@vue-flow/core'
 import { nextTick } from 'vue'
 
-export function useFlowImportExport() {
+export function useFreeModeBoard() {
   const { nodes, edges, viewport, setNodes, setEdges, setViewport } = useVueFlow()
 
   type NodeKind = 'entity' | 'property' | 'instance'
 
-  const exportFlow = (ontology: string) => {
+  const freeModeBoardData = (ontology: string) => {
     const mapNodesByKind = (kind: NodeKind) => {
       return nodes.value
         .filter((n) => n?.data?.card?.kind === kind)
@@ -25,10 +25,16 @@ export function useFlowImportExport() {
       Entities: mapNodesByKind('entity'),
       Properties: mapNodesByKind('property'),
       Instances: mapNodesByKind('instance'),
-      Edges: edges.value.map((e) => ({ ...e })), // ✅ edges sauvegardés
+      Edges: edges.value.map((e) => ({ ...e })),
     }
 
-    const blob = new Blob([JSON.stringify(flow, null, 2)], { type: 'application/json' })
+    return flow
+  }
+
+  const exportFlow = (ontology: string) => {
+    const flowData = freeModeBoardData(ontology)
+
+    const blob = new Blob([JSON.stringify(flowData, null, 2)], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
@@ -81,5 +87,5 @@ export function useFlowImportExport() {
     setViewport({ x: 0, y: 0, zoom: flow.ZoomLevel ?? 1 })
   }
 
-  return { exportFlow, importFlow }
+  return { exportFlow, importFlow, freeModeBoardData }
 }

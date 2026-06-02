@@ -18,7 +18,8 @@ const emit = defineEmits(['open-instance-modal'])
 </script>
 
 <template>
-  <button v-if="position === 'aside'" @click="emit('open-instance-modal')">
+  <div class="instance-card">
+  <button class="choose-instance" v-if="position === 'aside'" @click="emit('open-instance-modal')">
     {{ langStore.t('static-text.FreeModeScene.freemode-scene-instances-text') }}
   </button>
   <div class="instances content-cards" :class="{ 'instances--selected': selected }" draggable="true" @dragstart.stop="onDragStart({...currentInstance, kind: 'instance'})"">
@@ -31,5 +32,5 @@ const emit = defineEmits(['open-instance-modal'])
         <img :src="currentInstance?.ImageName" :alt="currentInstance?.Title" />
       </div>
     </div>
-  </div>
+  </div></div>
 </template>

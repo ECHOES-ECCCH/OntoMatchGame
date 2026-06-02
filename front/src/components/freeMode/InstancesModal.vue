@@ -152,10 +152,11 @@ const closeModal = () => {
         <h3>
           {{ langStore.t('static-text.FreeModeScene.freemode-scene-instances-text') }}
         </h3>
-
-        <button @click="closeModal">
-          <img :src="close" alt="close" />
-        </button>
+        <div class="close-modal">
+          <button @click="closeModal">
+            <img :src="close" alt="close" />
+          </button>
+        </div>
       </div>
 
       <!-- FILTER -->

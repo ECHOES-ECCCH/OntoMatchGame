@@ -153,7 +153,12 @@
       "freemode-scene-instances-scenario": "Every scenarios",
       "freemode-scene-instances-search": "Search a scenario",
       "freemode-scene-instances-search-input": "Search",
-      "freemode-scene-instances-no-result": "No result"
+      "freemode-scene-instances-no-result": "No result",
+      "freemode-scene-instructions-text": "Instructions",
+      "freemode-scene-save-as-text": "Save as",
+      "freemode-scene-save-text": "Save",
+      "freemode-scene-save-as-modal": "Choose a name for this board",
+      "freemode-scene-save-as-placeholder": "Enter a name"
     },
 
     "FullCreditsScene": {

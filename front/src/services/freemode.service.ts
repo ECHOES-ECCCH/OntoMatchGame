@@ -1,0 +1,53 @@
+import type { CreateSessionData, UpdateSessionData } from '@/types/session'
+import api from './api'
+import { ref } from 'vue'
+import { handleApiError } from './error.handler'
+import { shouldReloadHistory } from '@/composables/useUserHistory'
+import { fetchUserStats } from '@/composables/useUserStats'
+import type { freeModeBoard } from '@/types/freemode'
+
+export const isCreateFreeModeBoardLoading = ref(false)
+export const isUpdateFreeModeBoardLoading = ref(false)
+
+export const createFreeModeBoard = async (createFreeModeBoard: freeModeBoard) => {
+  isCreateFreeModeBoardLoading.value = true
+
+  try {
+    const { data } = await api.post('/freeMode.php', {
+      title: newTitle.value || title.value + ' copy',
+      ontologyId: ontologyId.value,
+      freemodeData: graphData.value,
+    })
+
+    return data
+  } catch (error) {
+    handleApiError(error)
+  } finally {
+    isCreateFreeModeBoardLoading.value = false
+  }
+}
+
+// export const updateSession = async (updateSessionData: UpdateSessionData) => {
+//   isUpdateSessionLoading.value = true
+
+//   try {
+//     const { data } = await api.put('/updatesession.php', {
+//       userId: updateSessionData.userId,
+//       currentScenario: updateSessionData.currentScenario,
+//       currentChapter: updateSessionData.currentChapter,
+//       currentChallengeIndex: updateSessionData.currentChallengeIndex,
+//       currentScore: updateSessionData.currentScore,
+//     })
+
+//     if (data.result && updateSessionData.userId) {
+//       shouldReloadHistory.value = true
+//       fetchUserStats(updateSessionData.userId)
+//     }
+
+//     return data
+//   } catch (error) {
+//     handleApiError(error)
+//   } finally {
+//     isUpdateSessionLoading.value = false
+//   }
+// }
