@@ -1,5 +1,11 @@
 <?php
+
 header('Content-Type: application/json');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 include("connect.php");
 
@@ -13,7 +19,7 @@ if (!$connection->ping()) {
 $method = $_SERVER['REQUEST_METHOD'];
 
 // ==========================================================
-// 🔥 POST → CREATE FREEMODE GRAPH
+// POST → CREATE FREEMODE GRAPH
 // ==========================================================
 if ($method === "POST") {
 
@@ -31,6 +37,8 @@ if ($method === "POST") {
         ReturnError("Champs manquants");
     }
 
+    $title = mysqli_real_escape_string($connection, $title);
+
     $json = mysqli_real_escape_string(
         $connection,
         json_encode($freemodeData, JSON_UNESCAPED_UNICODE)
@@ -47,14 +55,17 @@ if ($method === "POST") {
         ReturnError($connection->error);
     }
 
-    echo json_encode(["success" => true]);
+    echo json_encode([
+        "success" => true,
+        "freemodeId" => mysqli_insert_id($connection)
+    ]);
+
     exit;
 }
 
 // ==========================================================
-// 🔥 PUT → CREATE FREEMODE GRAPH
+// PUT → UPDATE FREEMODE GRAPH
 // ==========================================================
-
 if ($method === "PUT") {
 
     $data = json_decode(file_get_contents("php://input"), true);
@@ -63,7 +74,8 @@ if ($method === "PUT") {
         ReturnError("ID manquant");
     }
 
-    $id = $data['id'];
+    $id = (int)$data['id'];
+
     $title = $data['title'] ?? null;
     $ontologyId = $data['ontologyId'] ?? null;
     $freemodeData = $data['freemodeData'] ?? null;
@@ -72,6 +84,8 @@ if ($method === "PUT") {
         ReturnError("Champs manquants");
     }
 
+    $title = mysqli_real_escape_string($connection, $title);
+
     $json = mysqli_real_escape_string(
         $connection,
         json_encode($freemodeData, JSON_UNESCAPED_UNICODE)
@@ -79,11 +93,11 @@ if ($method === "PUT") {
 
     $query = "
         UPDATE freemode
-        SET 
+        SET
             title = '$title',
             ontologyId = '$ontologyId',
             freemodeData = '$json'
-        WHERE id = $id
+        WHERE freemodeId = $id
     ";
 
     $result = mysqli_query($connection, $query);
@@ -97,25 +111,33 @@ if ($method === "PUT") {
 }
 
 // ==========================================================
-// 🔥 GET → LIST / BY ID / BY ONTOLOGY
+// GET → LIST / BY ID / BY ONTOLOGY
 // ==========================================================
 if ($method === "GET") {
 
     // ===================== GET BY ID =====================
     if (isset($_GET['id'])) {
 
-        $id = $_GET['id'];
+        $id = (int)$_GET['id'];
 
-        $query = "SELECT * FROM freemode WHERE id = $id";
+        $query = "
+            SELECT *
+            FROM freemode
+            WHERE freemodeId = $id
+        ";
+
         $result = mysqli_query($connection, $query);
 
         if (!$result || $result->num_rows === 0) {
             ReturnEmpty();
         }
 
-        $row = mysqli_fetch_array($result);
+        $row = mysqli_fetch_assoc($result);
 
-        $row['freemodeData'] = json_decode($row['freemodeData'], true);
+        $row['freemodeData'] = json_decode(
+            $row['freemodeData'],
+            true
+        );
 
         echo json_encode($row);
         exit;
@@ -124,9 +146,15 @@ if ($method === "GET") {
     // ===================== GET BY ONTOLOGY =====================
     if (isset($_GET['ontologyId'])) {
 
-        $ontologyId = $_GET['ontologyId'];
+        $ontologyId = (int)$_GET['ontologyId'];
 
-        $query = "SELECT * FROM freemode WHERE ontologyId = $ontologyId";
+        $query = "
+            SELECT *
+            FROM freemode
+            WHERE ontologyId = $ontologyId
+            ORDER BY freemodeId DESC
+        ";
+
         $result = mysqli_query($connection, $query);
 
         if (!$result || $result->num_rows === 0) {
@@ -135,9 +163,13 @@ if ($method === "GET") {
 
         $data = [];
 
-        while ($row = mysqli_fetch_array($result)) {
+        while ($row = mysqli_fetch_assoc($result)) {
 
-            $row['freemodeData'] = json_decode($row['freemodeData'], true);
+            $row['freemodeData'] = json_decode(
+                $row['freemodeData'],
+                true
+            );
+
             $data[] = $row;
         }
 
@@ -146,7 +178,13 @@ if ($method === "GET") {
     }
 
     // ===================== GET ALL =====================
-    $query = "SELECT * FROM freemode";
+
+    $query = "
+        SELECT *
+        FROM freemode
+        ORDER BY freemodeId DESC
+    ";
+
     $result = mysqli_query($connection, $query);
 
     if (!$result || $result->num_rows === 0) {
@@ -155,9 +193,13 @@ if ($method === "GET") {
 
     $data = [];
 
-    while ($row = mysqli_fetch_array($result)) {
+    while ($row = mysqli_fetch_assoc($result)) {
 
-        $row['freemodeData'] = json_decode($row['freemodeData'], true);
+        $row['freemodeData'] = json_decode(
+            $row['freemodeData'],
+            true
+        );
+
         $data[] = $row;
     }
 
@@ -166,7 +208,7 @@ if ($method === "GET") {
 }
 
 // ==========================================================
-// 🔥 DELETE
+// DELETE
 // ==========================================================
 if ($method === "DELETE") {
 
@@ -176,9 +218,13 @@ if ($method === "DELETE") {
         ReturnError("ID manquant");
     }
 
-    $id = $data['id'];
+    $id = (int)$data['id'];
 
-    $query = "DELETE FROM freemode WHERE id = $id";
+    $query = "
+        DELETE FROM freemode
+        WHERE freemodeId = $id
+    ";
+
     $result = mysqli_query($connection, $query);
 
     if (!$result) {
@@ -190,12 +236,13 @@ if ($method === "DELETE") {
 }
 
 // ==========================================================
-// ❌ METHOD NOT ALLOWED
+// METHOD NOT ALLOWED
 // ==========================================================
+http_response_code(405);
 ReturnError("Méthode non autorisée");
 
 // ==========================================================
-// 🧠 FUNCTIONS (comme ton style projet)
+// FUNCTIONS
 // ==========================================================
 
 function ReturnEmpty()
@@ -217,5 +264,3 @@ function ReturnError($message)
     ]);
     exit();
 }
-
-?>
