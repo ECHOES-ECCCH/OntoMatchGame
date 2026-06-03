@@ -90,6 +90,10 @@ if ($method === "POST") {
 
     $json = json_encode($freemodeData, JSON_UNESCAPED_UNICODE);
 
+    if ($json === false) {
+        ReturnError("Données invalides");
+    }
+
     $stmt = $connection->prepare("
         INSERT INTO freemode (title, ontologyId, freemodeData)
         VALUES (?, ?, ?)
@@ -149,6 +153,10 @@ if ($method === "PUT") {
 
     if ($stmt->error) {
         ReturnError("Erreur interne", 500);
+    }
+
+    if ($stmt->affected_rows === 0) {
+        ReturnError("Freemode introuvable", 404);
     }
 
     echo json_encode(["success" => true]);
@@ -279,6 +287,10 @@ if ($method === "DELETE") {
 
     if ($stmt->error) {
         ReturnError("Erreur interne", 500);
+    }
+
+    if ($stmt->affected_rows === 0) {
+        ReturnError("Freemode introuvable", 404);
     }
 
     echo json_encode(["success" => true]);
