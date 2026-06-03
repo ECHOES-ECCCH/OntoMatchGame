@@ -11,6 +11,7 @@ include("connect.php");
 
 // ===================== CHECK CONNECTION =====================
 if (!$connection->ping()) {
+    http_response_code(500);
     echo json_encode(["error" => $connection->error]);
     exit;
 }
@@ -18,6 +19,7 @@ if (!$connection->ping()) {
 // ===================== HELPERS =====================
 function ReturnEmpty()
 {
+    http_response_code(404);
     echo json_encode(null);
     exit();
 }
@@ -28,8 +30,9 @@ function ReturnEmptyArray()
     exit();
 }
 
-function ReturnError($message)
+function ReturnError($message, $code = 400)
 {
+    http_response_code($code);
     echo json_encode([
         "error" => $message
     ]);
@@ -82,30 +85,26 @@ if ($method === "POST") {
     $ontologyId = getOntologyIdByName($ontologyName, $connection);
 
     if (!$ontologyId) {
-        ReturnError("Ontology inconnue");
+        ReturnError("Ontology inconnue", 404);
     }
 
-    $title = mysqli_real_escape_string($connection, $title);
+    $json = json_encode($freemodeData, JSON_UNESCAPED_UNICODE);
 
-    $json = mysqli_real_escape_string(
-        $connection,
-        json_encode($freemodeData, JSON_UNESCAPED_UNICODE)
-    );
-
-    $query = "
+    $stmt = $connection->prepare("
         INSERT INTO freemode (title, ontologyId, freemodeData)
-        VALUES ('$title', '$ontologyId', '$json')
-    ";
+        VALUES (?, ?, ?)
+    ");
+    $stmt->bind_param("sis", $title, $ontologyId, $json);
+    $stmt->execute();
 
-    $result = mysqli_query($connection, $query);
-
-    if (!$result) {
-        ReturnError($connection->error);
+    if ($stmt->error) {
+        ReturnError("Erreur interne", 500);
     }
 
+    http_response_code(201);
     echo json_encode([
         "success" => true,
-        "freemodeId" => mysqli_insert_id($connection)
+        "freemodeId" => $stmt->insert_id
     ]);
 
     exit;
@@ -135,29 +134,21 @@ if ($method === "PUT") {
     $ontologyId = getOntologyIdByName($ontologyName, $connection);
 
     if (!$ontologyId) {
-        ReturnError("Ontology inconnue");
+        ReturnError("Ontology inconnue", 404);
     }
 
-    $title = mysqli_real_escape_string($connection, $title);
+    $json = json_encode($freemodeData, JSON_UNESCAPED_UNICODE);
 
-    $json = mysqli_real_escape_string(
-        $connection,
-        json_encode($freemodeData, JSON_UNESCAPED_UNICODE)
-    );
-
-    $query = "
+    $stmt = $connection->prepare("
         UPDATE freemode
-        SET
-            title = '$title',
-            ontologyId = '$ontologyId',
-            freemodeData = '$json'
-        WHERE freemodeId = $id
-    ";
+        SET title = ?, ontologyId = ?, freemodeData = ?
+        WHERE freemodeId = ?
+    ");
+    $stmt->bind_param("sisi", $title, $ontologyId, $json, $id);
+    $stmt->execute();
 
-    $result = mysqli_query($connection, $query);
-
-    if (!$result) {
-        ReturnError($connection->error);
+    if ($stmt->error) {
+        ReturnError("Erreur interne", 500);
     }
 
     echo json_encode(["success" => true]);
@@ -173,13 +164,10 @@ if ($method === "GET") {
 
         $id = (int)$_GET['id'];
 
-        $query = "
-            SELECT *
-            FROM freemode
-            WHERE freemodeId = $id
-        ";
-
-        $result = mysqli_query($connection, $query);
+        $stmt = $connection->prepare("SELECT * FROM freemode WHERE freemodeId = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if (!$result || $result->num_rows === 0) {
             ReturnEmpty();
@@ -197,14 +185,10 @@ if ($method === "GET") {
 
         $ontologyId = (int)$_GET['ontologyId'];
 
-        $query = "
-            SELECT *
-            FROM freemode
-            WHERE ontologyId = $ontologyId
-            ORDER BY freemodeId DESC
-        ";
-
-        $result = mysqli_query($connection, $query);
+        $stmt = $connection->prepare("SELECT * FROM freemode WHERE ontologyId = ? ORDER BY freemodeId DESC");
+        $stmt->bind_param("i", $ontologyId);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if (!$result || $result->num_rows === 0) {
             ReturnEmptyArray();
@@ -223,35 +207,35 @@ if ($method === "GET") {
 
     if (isset($_GET['ontologyName'])) {
 
-    $ontologyName = $_GET['ontologyName'];
+        $ontologyName = $_GET['ontologyName'];
 
-    $stmt = $connection->prepare("
-        SELECT f.*
-        FROM freemode f
-        JOIN ontology o ON f.ontologyId = o.ontologyId
-        WHERE o.ontologyName = ?
-        ORDER BY f.freemodeId DESC
-    ");
+        $stmt = $connection->prepare("
+            SELECT f.*
+            FROM freemode f
+            JOIN ontology o ON f.ontologyId = o.ontologyId
+            WHERE o.ontologyName = ?
+            ORDER BY f.freemodeId DESC
+        ");
 
-    $stmt->bind_param("s", $ontologyName);
-    $stmt->execute();
+        $stmt->bind_param("s", $ontologyName);
+        $stmt->execute();
 
-    $result = $stmt->get_result();
+        $result = $stmt->get_result();
 
-    if (!$result || $result->num_rows === 0) {
-        ReturnEmptyArray();
+        if (!$result || $result->num_rows === 0) {
+            ReturnEmptyArray();
+        }
+
+        $data = [];
+
+        while ($row = $result->fetch_assoc()) {
+            $row['freemodeData'] = json_decode($row['freemodeData'], true);
+            $data[] = $row;
+        }
+
+        echo json_encode($data);
+        exit;
     }
-
-    $data = [];
-
-    while ($row = $result->fetch_assoc()) {
-        $row['freemodeData'] = json_decode($row['freemodeData'], true);
-        $data[] = $row;
-    }
-
-    echo json_encode($data);
-    exit;
-}
 
     $query = "
         SELECT *
@@ -289,15 +273,12 @@ if ($method === "DELETE") {
 
     $id = (int)$data['id'];
 
-    $query = "
-        DELETE FROM freemode
-        WHERE freemodeId = $id
-    ";
+    $stmt = $connection->prepare("DELETE FROM freemode WHERE freemodeId = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
 
-    $result = mysqli_query($connection, $query);
-
-    if (!$result) {
-        ReturnError($connection->error);
+    if ($stmt->error) {
+        ReturnError("Erreur interne", 500);
     }
 
     echo json_encode(["success" => true]);
@@ -307,5 +288,4 @@ if ($method === "DELETE") {
 // ==========================================================
 // METHOD NOT ALLOWED
 // ==========================================================
-http_response_code(405);
-ReturnError("Méthode non autorisée");
+ReturnError("Méthode non autorisée", 405);
