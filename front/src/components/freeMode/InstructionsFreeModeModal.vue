@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import PagesLoader from '../loader/PagesLoader.vue'
-import close from '@/assets/img/close.svg'
 import { langStore } from '@/stores/lang.store'
-import type { CardInstances } from '@/types/card/cardInfo'
+import close from '@/assets/img/close.svg'
 
-const props = defineProps<{
+defineProps<{
   open: boolean
 }>()
 
@@ -21,7 +19,7 @@ const closeModal = () => {
   <div v-if="open" class="modal-container">
     <div class="modal-content instance-modal">
       <!-- HEADER -->
-      <div class="ontology-filter">
+      <div class="instruction-header">
         <h3>
           {{ langStore.t('static-text.FreeModeScene.freemode-scene-instructions-text') }}
         </h3>

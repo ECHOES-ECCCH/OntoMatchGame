@@ -70,6 +70,11 @@ select:focus {
   box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
 }
 
+.error-request {
+  color: red;
+  margin-bottom: 10px;
+}
+
 /* ===================== LOADER ===================== */
 
 /* Button Loader */
@@ -629,6 +634,12 @@ progress::-moz-progress-bar {
   box-shadow: var(--shadow);
   font-weight: 600;
   transition: background-position 0.4s ease;
+}
+
+.modal-container .modal-content .button button:nth-child(2):disabled {
+  background: #d1d1d1 !important;
+  cursor: not-allowed;
+  color: #ebebeb;
 }
 
 .modal-container .modal-content .button button:nth-child(2):hover {
@@ -3165,6 +3176,21 @@ li.user-ranking {
 
 .free-mode-container .modal-container .modal-content .ontology-filter {
   display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.free-mode-container .modal-container .modal-content .ontology-filter ul li {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.free-mode-container .modal-container .modal-content .instances-header,
+.free-mode-container .modal-container .modal-content .instruction-header {
+  display: flex;
   justify-content: space-between;
 }
 
@@ -3186,6 +3212,31 @@ li.user-ranking {
 
 .free-mode-container .modal-container .modal-content .close-modal {
   text-align: right;
+}
+
+.free-mode-container .modal-container .modal-content .save-as input {
+  width: clamp(101px, 18.5vw, 481px);
+  height: clamp(33px, 2vw, 57px);
+  border: 2px solid #ffd8d8;
+  padding-left: 10px;
+  margin: 10px 0 20px 0;
+}
+
+.free-mode-container .modal-container .modal-content.save-as-modal {
+  width: clamp(280px, 30vw, 400px);
+}
+
+.free-mode-container .modal-container .modal-content.recorded-boards {
+  width: clamp(280px, 400vw, 700px);
+  max-height: 70%;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.free-mode-container .modal-container .modal-content.recorded-boards .header-board {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .free-mode-container .toolbar {
@@ -3213,6 +3264,43 @@ li.user-ranking {
 
 .free-mode-container .modal-container .instances-no-result {
   text-align: center;
+}
+
+.free-mode-container .modal-container .modal-content.recorded-boards ul {
+  padding-left: 0;
+}
+
+.free-mode-container .modal-container li.saved-board {
+  background-color: #fafafa !important;
+  text-align: left;
+  border-radius: var(--box-radius);
+  height: 40px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  border: 1px solid #fae3e3;
+  justify-content: space-between;
+}
+
+.free-mode-container .modal-container li.saved-board .board .board-title {
+  font-weight: 100;
+  font-size: clamp(0.8rem, 1.2vw, 1.1rem);
+}
+
+.free-mode-container .modal-container li.saved-board .board-action {
+  display: flex;
+}
+
+.free-mode-container .modal-container li.saved-board .board-action button:nth-child(1) {
+  background-color: var(--main-color2);
+  border-radius: 50px;
+  color: white;
+  padding: 10px;
+}
+
+.free-mode-container .modal-container li.saved-board .board-action button:nth-child(1):hover {
+  background-color: #ffcb7e;
 }
 
 .free-mode-container .carousel-container .range {

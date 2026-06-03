@@ -148,7 +148,7 @@ const closeModal = () => {
   <div v-if="open" class="modal-container">
     <div class="modal-content instance-modal">
       <!-- HEADER -->
-      <div class="ontology-filter">
+      <div class="instances-header">
         <h3>
           {{ langStore.t('static-text.FreeModeScene.freemode-scene-instances-text') }}
         </h3>

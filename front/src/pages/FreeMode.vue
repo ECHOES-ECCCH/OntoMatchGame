@@ -25,11 +25,13 @@ import exp from '@/assets/img/exportB.svg'
 import instructions from '@/assets/img/instructions.svg'
 import saveas from '@/assets/img/saveas.svg'
 import save from '@/assets/img/save.svg'
+import open from '@/assets/img/open.svg'
 
 import type { CardInstances } from '@/types/card/cardInfo'
 import instances from '@/assets/img/instances.jpg'
 import InstructionsFreeModeModal from '@/components/freeMode/InstructionsFreeModeModal.vue'
 import SaveAsModal from '@/components/freeMode/SaveAsModal.vue'
+import BoardsRecordedModal from '@/components/freeMode/BoardsRecordedModal.vue'
 
 const { entityDataCards, propertyDataCards, loadCard, isDataCardsLoading } = useSelectedXML()
 const modal = ref(false)
@@ -42,7 +44,7 @@ const showSidebar = ref(true)
 const layoutRef = ref()
 const entityBranches = ref(['entity'])
 const { zoomIn, zoomOut } = useVueFlow()
-const { exportFlow, importFlow, freeModeBoardData } = useFreeModeBoard()
+const { exportFlow, importFlow } = useFreeModeBoard()
 
 document.addEventListener('fullscreenchange', () => {
   fullscreen.value = !!document.fullscreenElement
@@ -50,6 +52,7 @@ document.addEventListener('fullscreenchange', () => {
 
 const selectedOntology = ref('CIDOC CRM')
 const saveAs = ref(false)
+const openBoards = ref(false)
 
 watch(
   selectedOntology,
@@ -72,8 +75,12 @@ const handleInstructionsModal = () => {
   instructionsModal.value = true
 }
 
-const handleSavaAsModal = () => {
+const handleSaveAsModal = () => {
   saveAs.value = true
+}
+
+const handleOpenBoards = () => {
+  openBoards.value = true
 }
 
 const filteredCard = computed(() => {
@@ -92,6 +99,8 @@ const onSelectInstance = (instance: CardInstances) => {
   currentInstance.value = instance
   instanceModal.value = false
 }
+
+const handleSave = () => {}
 </script>
 
 <template>
@@ -110,12 +119,13 @@ const onSelectInstance = (instance: CardInstances) => {
     />
     <InstructionsFreeModeModal v-model:open="instructionsModal" />
     <SaveAsModal v-model:open="saveAs" :ontology="selectedOntology" />
+    <BoardsRecordedModal v-model:open="openBoards" :ontology="selectedOntology" />
     <div class="layout" ref="layoutRef">
       <!-- SIDEBAR -->
       <aside class="sidebar">
         <div v-if="showSidebar" class="sidebar-panel" :class="{ 'hide-sidebar': !showSidebar }">
           <div class="ontology-selected">
-            <h2>CIDOC CRM</h2>
+            <h2>{{ selectedOntology }}</h2>
 
             <button v-if="!fullscreen" @click="handleOntologyModal(true)">
               <img :src="edit" alt="edit" />
@@ -167,14 +177,17 @@ const onSelectInstance = (instance: CardInstances) => {
         >
           <div class="toolbar nodrag nopan">
             <label class="file-label"
-              ><button @click="handleSavaAsModal">
+              ><button @click="handleSaveAsModal">
                 <img :src="saveas" alt="saveas" title="save as" /></button
             ></label>
             <label class="file-label"
-              ><button @click="handleInstructionsModal">
+              ><button @click="handleSave">
                 <img :src="save" alt="save" title="save" /></button
             ></label>
-
+            <label class="file-label"
+              ><button @click="handleOpenBoards">
+                <img :src="open" alt="open" title="open existing" /></button
+            ></label>
             <label class="file-label instruction-button"
               ><button @click="handleInstructionsModal">
                 <img :src="instructions" alt="instructions" title="instructions" /></button

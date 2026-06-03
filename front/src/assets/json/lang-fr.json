@@ -162,7 +162,11 @@
       "freemode-scene-save-as-text": "Enregistrer sous",
       "freemode-scene-save-text": "Enregistrer",
       "freemode-scene-save-as-modal": "Choisissez un nom pour ce board",
-      "freemode-scene-save-as-placeholder": "Entrez un nom"
+      "freemode-scene-save-as-placeholder": "Entrez un nom",
+      "freemode-scene-save-as-error": "Erreur pendant l'enregistrement",
+      "freemode-scene-recorded-boards-modal-title": "Tableaux enregistrées",
+      "freemode-scene-recorded-boards-modal-noboards": "Aucun tableau enregistré pour l'ontologie",
+      "freemode-scene-recorded-boards-modal-open": "Ouvrir"
     },
 
     "FullCreditsScene": {
