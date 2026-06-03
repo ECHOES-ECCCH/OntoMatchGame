@@ -15,6 +15,48 @@ if (!$connection->ping()) {
     exit;
 }
 
+// ===================== HELPERS =====================
+function ReturnEmpty()
+{
+    echo json_encode(null);
+    exit();
+}
+
+function ReturnEmptyArray()
+{
+    echo json_encode([]);
+    exit();
+}
+
+function ReturnError($message)
+{
+    echo json_encode([
+        "error" => $message
+    ]);
+    exit();
+}
+
+function getOntologyIdByName($name, $connection)
+{
+    $stmt = $connection->prepare("
+        SELECT ontologyId
+        FROM ontology
+        WHERE ontologyName = ?
+        LIMIT 1
+    ");
+
+    $stmt->bind_param("s", $name);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    if ($row = $result->fetch_assoc()) {
+        return (int)$row['ontologyId'];
+    }
+
+    return null;
+}
+
 // ===================== ROUTING =====================
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -30,11 +72,17 @@ if ($method === "POST") {
     }
 
     $title = $data['title'] ?? null;
-    $ontologyId = $data['ontologyId'] ?? null;
+    $ontologyName = $data['ontologyName'] ?? null;
     $freemodeData = $data['freemodeData'] ?? null;
 
-    if (!$title || !$ontologyId || !$freemodeData) {
+    if (!$title || !$ontologyName || !$freemodeData) {
         ReturnError("Champs manquants");
+    }
+
+    $ontologyId = getOntologyIdByName($ontologyName, $connection);
+
+    if (!$ontologyId) {
+        ReturnError("Ontology inconnue");
     }
 
     $title = mysqli_real_escape_string($connection, $title);
@@ -77,11 +125,17 @@ if ($method === "PUT") {
     $id = (int)$data['id'];
 
     $title = $data['title'] ?? null;
-    $ontologyId = $data['ontologyId'] ?? null;
+    $ontologyName = $data['ontologyName'] ?? null;
     $freemodeData = $data['freemodeData'] ?? null;
 
-    if (!$title || !$ontologyId || !$freemodeData) {
+    if (!$title || !$ontologyName || !$freemodeData) {
         ReturnError("Champs manquants");
+    }
+
+    $ontologyId = getOntologyIdByName($ontologyName, $connection);
+
+    if (!$ontologyId) {
+        ReturnError("Ontology inconnue");
     }
 
     $title = mysqli_real_escape_string($connection, $title);
@@ -115,7 +169,6 @@ if ($method === "PUT") {
 // ==========================================================
 if ($method === "GET") {
 
-    // ===================== GET BY ID =====================
     if (isset($_GET['id'])) {
 
         $id = (int)$_GET['id'];
@@ -134,16 +187,12 @@ if ($method === "GET") {
 
         $row = mysqli_fetch_assoc($result);
 
-        $row['freemodeData'] = json_decode(
-            $row['freemodeData'],
-            true
-        );
+        $row['freemodeData'] = json_decode($row['freemodeData'], true);
 
         echo json_encode($row);
         exit;
     }
 
-    // ===================== GET BY ONTOLOGY =====================
     if (isset($_GET['ontologyId'])) {
 
         $ontologyId = (int)$_GET['ontologyId'];
@@ -164,12 +213,7 @@ if ($method === "GET") {
         $data = [];
 
         while ($row = mysqli_fetch_assoc($result)) {
-
-            $row['freemodeData'] = json_decode(
-                $row['freemodeData'],
-                true
-            );
-
+            $row['freemodeData'] = json_decode($row['freemodeData'], true);
             $data[] = $row;
         }
 
@@ -177,7 +221,37 @@ if ($method === "GET") {
         exit;
     }
 
-    // ===================== GET ALL =====================
+    if (isset($_GET['ontologyName'])) {
+
+    $ontologyName = $_GET['ontologyName'];
+
+    $stmt = $connection->prepare("
+        SELECT f.*
+        FROM freemode f
+        JOIN ontology o ON f.ontologyId = o.ontologyId
+        WHERE o.ontologyName = ?
+        ORDER BY f.freemodeId DESC
+    ");
+
+    $stmt->bind_param("s", $ontologyName);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    if (!$result || $result->num_rows === 0) {
+        ReturnEmptyArray();
+    }
+
+    $data = [];
+
+    while ($row = $result->fetch_assoc()) {
+        $row['freemodeData'] = json_decode($row['freemodeData'], true);
+        $data[] = $row;
+    }
+
+    echo json_encode($data);
+    exit;
+}
 
     $query = "
         SELECT *
@@ -194,12 +268,7 @@ if ($method === "GET") {
     $data = [];
 
     while ($row = mysqli_fetch_assoc($result)) {
-
-        $row['freemodeData'] = json_decode(
-            $row['freemodeData'],
-            true
-        );
-
+        $row['freemodeData'] = json_decode($row['freemodeData'], true);
         $data[] = $row;
     }
 
@@ -240,27 +309,3 @@ if ($method === "DELETE") {
 // ==========================================================
 http_response_code(405);
 ReturnError("Méthode non autorisée");
-
-// ==========================================================
-// FUNCTIONS
-// ==========================================================
-
-function ReturnEmpty()
-{
-    echo json_encode(null);
-    exit();
-}
-
-function ReturnEmptyArray()
-{
-    echo json_encode([]);
-    exit();
-}
-
-function ReturnError($message)
-{
-    echo json_encode([
-        "error" => $message
-    ]);
-    exit();
-}
