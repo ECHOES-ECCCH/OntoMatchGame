@@ -3171,8 +3171,6 @@ li.user-ranking {
 }
 
 /* ===================== FREE MODE ===================== */
-.free-mode-container .modal-container {
-}
 
 .free-mode-container .modal-container .modal-content .ontology-filter {
   display: flex;
@@ -3368,9 +3366,6 @@ li.user-ranking {
 
 .free-mode-container .sidebar .carousel-container {
   max-width: min-content;
-}
-
-.free-mode-container .card {
 }
 
 .free-mode-container .flow-wrapper {
