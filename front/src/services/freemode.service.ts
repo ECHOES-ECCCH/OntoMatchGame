@@ -66,17 +66,18 @@ export const updateFreeModeBoard = async (updateBoard: FreeModeBoard) => {
   isUpdateFreeModeBoardLoading.value = true
 
   if (!userId.value) throw new Error('User not loaded')
-
+  console.log(updateBoard)
   try {
     const { data } = await api.put('/freemode.php', {
+      id: updateBoard.freemodeId,
       title: updateBoard.title,
       ontologyName: updateBoard.ontologyName,
       userId: userId.value,
       freemodeData: {
-        ZoomLevel: updateBoard.ZoomLevel,
-        Entities: updateBoard.Entities,
-        Properties: updateBoard.Properties,
-        Instances: updateBoard.Instances,
+        Entities: updateBoard.freemodeData.Entities,
+        Properties: updateBoard.freemodeData.Properties,
+        Instances: updateBoard.freemodeData.Instances,
+        ZoomLevel: updateBoard.freemodeData.ZoomLevel,
       },
     })
 

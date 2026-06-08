@@ -166,7 +166,8 @@
       "freemode-scene-save-as-error": "Erreur pendant l'enregistrement",
       "freemode-scene-recorded-boards-modal-title": "Tableaux enregistrées",
       "freemode-scene-recorded-boards-modal-noboards": "Aucun tableau enregistré pour l'ontologie",
-      "freemode-scene-recorded-boards-modal-open": "Ouvrir"
+      "freemode-scene-recorded-boards-modal-open": "Ouvrir",
+      "freemode-scene-ontology-modal": "Avertissement : le changement de l’ontologie entraînera la suppression des données du tableau en cours, si celui-ci n'est pas enregistré."
     },
 
     "FullCreditsScene": {

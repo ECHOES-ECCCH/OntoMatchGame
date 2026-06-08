@@ -162,7 +162,8 @@
       "freemode-scene-save-as-error": "Error during registration",
       "freemode-scene-recorded-boards-modal-title": "Recorded boards",
       "freemode-scene-recorded-boards-modal-noboards": "No boards recorded for the ontology",
-      "freemode-scene-recorded-boards-modal-open": "Open"
+      "freemode-scene-recorded-boards-modal-open": "Open",
+      "freemode-scene-ontology-modal": "Warning: changing the ontology will result in the deletion of the data of the current board if it is not saved"
     },
 
     "FullCreditsScene": {

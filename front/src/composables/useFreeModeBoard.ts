@@ -1,5 +1,7 @@
+import type { BoardCards } from '@/types/freemode'
 import { useVueFlow } from '@vue-flow/core'
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
+const currentBoard = ref<BoardCards | null>(null)
 
 export function useFreeModeBoard() {
   const { nodes, edges, viewport, setNodes, setEdges, setViewport } = useVueFlow()
@@ -43,13 +45,7 @@ export function useFreeModeBoard() {
     URL.revokeObjectURL(url)
   }
 
-  const importFlow = async (event: Event) => {
-    const file = (event.target as HTMLInputElement).files?.[0]
-    if (!file) return
-
-    const text = await file.text()
-    const flow = JSON.parse(text)
-
+  const nodesInfos = async (flow: BoardCards) => {
     const createNodes = (items: any[]) =>
       items
         .filter((item) => item?.Id)
@@ -87,5 +83,19 @@ export function useFreeModeBoard() {
     setViewport({ x: 0, y: 0, zoom: flow.ZoomLevel ?? 1 })
   }
 
-  return { exportFlow, importFlow, freeModeBoardData }
+  const importFlow = async (event: Event) => {
+    const file = (event.target as HTMLInputElement).files?.[0]
+    if (!file) return
+
+    const text = await file.text()
+    const flow = JSON.parse(text)
+
+    return nodesInfos(flow)
+  }
+
+  const openSaveBoard = async (board: BoardCards) => {
+    currentBoard.value = board
+    return nodesInfos(board.freemodeData)
+  }
+  return { exportFlow, importFlow, freeModeBoardData, openSaveBoard, currentBoard }
 }

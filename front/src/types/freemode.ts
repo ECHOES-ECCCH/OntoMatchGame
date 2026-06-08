@@ -1,8 +1,5 @@
-export interface FreeModeBoard {
-  title: string
-  ontologyName: string
+export interface BoardCards {
   ZoomLevel: number
-  freemodeId?: string | undefined
   Entities: {
     ontology: string
     Id: string
@@ -80,4 +77,12 @@ export interface FreeModeBoard {
       kind: string
     }
   }[]
+}
+
+export interface FreeModeBoard {
+  freemodeId?: string
+  title: string
+  ontologyName: string
+  ZoomLevel: number
+  freemodeData: BoardCards
 }

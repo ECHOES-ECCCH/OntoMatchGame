@@ -32,6 +32,7 @@ import instances from '@/assets/img/instances.jpg'
 import InstructionsFreeModeModal from '@/components/freeMode/InstructionsFreeModeModal.vue'
 import SaveAsModal from '@/components/freeMode/SaveAsModal.vue'
 import BoardsRecordedModal from '@/components/freeMode/BoardsRecordedModal.vue'
+import { updateFreeModeBoard } from '@/services/freemode.service'
 
 const { entityDataCards, propertyDataCards, loadCard, isDataCardsLoading } = useSelectedXML()
 const modal = ref(false)
@@ -45,6 +46,7 @@ const layoutRef = ref()
 const entityBranches = ref(['entity'])
 const { zoomIn, zoomOut } = useVueFlow()
 const { exportFlow, importFlow } = useFreeModeBoard()
+const { freeModeBoardData, currentBoard } = useFreeModeBoard()
 
 document.addEventListener('fullscreenchange', () => {
   fullscreen.value = !!document.fullscreenElement
@@ -100,7 +102,18 @@ const onSelectInstance = (instance: CardInstances) => {
   instanceModal.value = false
 }
 
-const handleSave = () => {}
+const saveCurrentBoard = async () => {
+  console.log('passe ici')
+  if (!currentBoard.value) return
+
+  const flow = freeModeBoardData(selectedOntology.value)
+
+  await updateFreeModeBoard({
+    ...currentBoard.value,
+    ontologyName: selectedOntology.value,
+    freemodeData: flow,
+  })
+}
 </script>
 
 <template>
@@ -181,7 +194,7 @@ const handleSave = () => {}
                 <img :src="saveas" alt="saveas" title="save as" /></button
             ></label>
             <label class="file-label"
-              ><button @click="handleSave">
+              ><button :disabled="!currentBoard" @click="saveCurrentBoard">
                 <img :src="save" alt="save" title="save" /></button
             ></label>
             <label class="file-label"

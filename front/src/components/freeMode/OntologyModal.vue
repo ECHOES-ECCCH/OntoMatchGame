@@ -28,6 +28,9 @@ function updateValue(value: string) {
         <h3>
           {{ langStore.t('static-text.GameSelectionScene.gameselection-scene-ontology-label') }}
         </h3>
+        <p class="warning">
+          {{ langStore.t('static-text.FreeModeScene.freemode-scene-ontology-modal') }}
+        </p>
         <hr />
         <ul>
           <li v-for="(tag, i) in uniqueOntologyTags" :key="i">

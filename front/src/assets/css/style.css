@@ -3179,6 +3179,15 @@ li.user-ranking {
   align-items: center;
 }
 
+.free-mode-container .modal-container .modal-content .ontology-filter p.warning {
+  color: red;
+  margin: 0;
+}
+
+.free-mode-container .modal-container .modal-content .ontology-filter ul {
+  margin-top: 0;
+}
+
 .free-mode-container .modal-container .modal-content .ontology-filter ul li {
   text-align: left;
   display: flex;

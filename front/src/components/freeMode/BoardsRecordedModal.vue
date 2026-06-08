@@ -1,12 +1,13 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue'
 import { langStore } from '@/stores/lang.store'
 import {
   deleteFreeModeBoardById,
   freeModeBoardLoading,
   getFreeModeBoardByName,
 } from '@/services/freemode.service'
-import { ref, watch } from 'vue'
-import type { FreeModeBoard } from '@/types/freemode'
+import { useFreeModeBoard } from '@/composables/useFreeModeBoard.ts'
+import type { BoardCards, FreeModeBoard } from '@/types/freemode'
 import PagesLoader from '../loader/PagesLoader.vue'
 import deleteIcon from '@/assets/img/delete.svg'
 import close from '@/assets/img/close.svg'
@@ -18,6 +19,7 @@ const props = defineProps<{
   ontology: string
 }>()
 
+const { openSaveBoard } = useFreeModeBoard()
 const boardData = ref<FreeModeBoard[]>([])
 const deletingId = ref<string | null>(null)
 const emit = defineEmits<{
@@ -35,6 +37,11 @@ watch(
 
 const closeModal = () => {
   emit('update:open', false)
+}
+
+const handleOpenBoard = async (board: BoardCards) => {
+  await openSaveBoard(board)
+  closeModal()
 }
 
 const handleDelete = async (id: string) => {
@@ -69,17 +76,16 @@ const handleDelete = async (id: string) => {
           }}
         </div>
         <li class="saved-board" v-for="(board, i) in boardData" :key="i">
-          {{ console.log(board) }}
           <div class="board">
             <p class="board-title">{{ board.title }}</p>
           </div>
           <div class="board-action">
-            <button>
+            <button @click="handleOpenBoard(board)">
               {{
                 langStore.t('static-text.FreeModeScene.freemode-scene-recorded-boards-modal-open')
               }}
             </button>
-            <button @click="handleDelete(board.freemodeId)">
+            <button @click="board.freemodeId && handleDelete(board.freemodeId)">
               <ButtonLoader v-if="deletingId === board.freemodeId" />
               <img v-else :src="deleteIcon" title="delete board" alt="delete" />
             </button>
