@@ -574,7 +574,7 @@ progress::-moz-progress-bar {
 }
 
 .modal-container .modal-content {
-  width: clamp(280px, 30vw, 500px);
+  width: clamp(280px, 32vw, 500px);
   height: fit-content;
   background-color: white;
   position: relative;
@@ -3246,6 +3246,22 @@ li.user-ranking {
   align-items: center;
 }
 
+.free-mode-container .modal-container .modal-content.instructions-modal {
+  width: clamp(280px, 400vw, 700px);
+  max-height: 70%;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.free-mode-container .modal-container .modal-content.instructions-modal .freemode-instruction {
+  text-align: left;
+}
+
+.free-mode-container .modal-container .modal-content.instructions-modal .freemode-instruction p {
+  font-weight: 200;
+  font-size: clamp(0.8rem, 1.2vw, 1.1rem);
+}
+
 .free-mode-container .toolbar {
   position: absolute;
   top: 10px;
@@ -3297,6 +3313,7 @@ li.user-ranking {
 
 .free-mode-container .modal-container li.saved-board .board-action {
   display: flex;
+  gap: 10px;
 }
 
 .free-mode-container .modal-container li.saved-board .board-action button:nth-child(1) {
@@ -3304,6 +3321,16 @@ li.user-ranking {
   border-radius: 50px;
   color: white;
   padding: 10px;
+}
+
+.free-mode-container .modal-container li.saved-board .board-action button:nth-child(2) {
+  margin-right: 2px;
+  padding: 2px 8px;
+  border-radius: 50%;
+}
+
+.free-mode-container .modal-container li.saved-board .board-action button:nth-child(2):hover {
+  background-color: #fde5e5;
 }
 
 .free-mode-container .modal-container li.saved-board .board-action button:nth-child(1):hover {
@@ -3343,7 +3370,7 @@ li.user-ranking {
   position: relative;
   width: 160px;
   border-radius: 8px;
-  transform-origin: center;
+  transform-origin: center center;
   border: 3px solid transparent; /* évite le layout shift au clic */
   transition: border-color 0.15s ease;
 }
@@ -3366,15 +3393,19 @@ li.user-ranking {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  margin-bottom: -10px;
 }
 
 .free-mode-container .layout .sidebar .ontology-selected h2 {
   margin: 5px;
   color: white;
+  font-size: clamp(1rem, 1.3vw, 2rem);
 }
 
 .free-mode-container .sidebar .carousel-container {
   max-width: min-content;
+  padding-left: 20px;
 }
 
 .free-mode-container .flow-wrapper {
@@ -3390,6 +3421,13 @@ li.user-ranking {
   right: 10px;
   z-index: 10;
   padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  color: var(--main-color1);
+}
+
+.free-mode-container .fullscreen-free-mode span {
+  margin-right: 8px;
 }
 
 .free-mode-container .vue-flow__panel.right {
@@ -3436,7 +3474,6 @@ li.user-ranking {
 
 .free-mode-container .sidebar-panel {
   transition: 0.3s;
-  padding-left: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -3579,6 +3616,7 @@ li.user-ranking {
   position: absolute;
   bottom: 180px;
   right: 20px;
+  z-index: 4000;
 }
 
 .board-zoom button {
@@ -3589,6 +3627,30 @@ li.user-ranking {
   width: 30px;
   font-size: 20px;
   margin-left: 5px;
+  cursor: pointer;
+}
+
+.back-door {
+  background-color: #fff4f4;
+  padding: 8px 16px;
+  position: absolute;
+  bottom: 0;
+  height: 40px;
+  width: 40px;
+  z-index: 4000;
+  border-radius: var(--box-radius);
+  box-shadow: var(--shadow);
+  margin: 10px;
+}
+
+.back-door.aside {
+  position: relative;
+  left: 0;
+}
+
+.back-door:hover {
+  background-color: #fce9e9;
+  box-shadow: none;
 }
 
 .rotate-icon {
@@ -3618,8 +3680,18 @@ li.user-ranking {
   background: var(--main-color1);
   border-radius: 6px;
   cursor: pointer;
-  margin-right: 10px;
   box-shadow: var(--shadow);
+  margin-right: 10px;
+}
+
+.free-mode-container button {
+  padding: 0;
+}
+
+.free-mode-container button:disabled .file-label {
+  background-color: #d1d1d1;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .free-mode-container .file-label.instruction-button {

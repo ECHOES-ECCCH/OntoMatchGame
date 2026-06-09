@@ -160,10 +160,15 @@
       "freemode-scene-save-as-modal": "Choose a name for this board",
       "freemode-scene-save-as-placeholder": "Enter a name",
       "freemode-scene-save-as-error": "Error during registration",
-      "freemode-scene-recorded-boards-modal-title": "Recorded boards",
+      "freemode-scene-recorded-boards-modal-title": "Recorded boards for this ontology",
       "freemode-scene-recorded-boards-modal-noboards": "No boards recorded for the ontology",
       "freemode-scene-recorded-boards-modal-open": "Open",
-      "freemode-scene-ontology-modal": "Warning: changing the ontology will result in the deletion of the data of the current board if it is not saved"
+      "freemode-scene-ontology-modal-close": "Close",
+      "freemode-scene-ontology-modal": "Warning: changing the ontology will result in the deletion of the data of the current board if it is not saved",
+      "freemode-scene-instructions-modal-selection": "Select multiple cards: CTRL + left click",
+      "freemode-scene-instructions-modal-rotation": "Rotation: Left-click on the rotation icon + mouse or touchpad movement",
+      "freemode-scene-instructions-modal-removal": "Removal one or multiple cards: 'suppr' key or 'backspace' key",
+      "freemode-scene-instructions-modal-zoom": "Zoom: mouse wheel or + or - button"
     },
 
     "FullCreditsScene": {

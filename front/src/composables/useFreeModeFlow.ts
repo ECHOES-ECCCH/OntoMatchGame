@@ -14,7 +14,7 @@ export function useFreeModeFlow() {
     'free-card': markRaw(FreeCardNode),
   }
 
-  const { screenToFlowCoordinate, removeNodes } = useVueFlow()
+  const { screenToFlowCoordinate, removeNodes } = useVueFlow('free-mode-flow')
 
   const resetFlow = () => {
     nodes.value = []

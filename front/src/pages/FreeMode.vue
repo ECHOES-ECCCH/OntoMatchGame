@@ -26,13 +26,15 @@ import instructions from '@/assets/img/instructions.svg'
 import saveas from '@/assets/img/saveas.svg'
 import save from '@/assets/img/save.svg'
 import open from '@/assets/img/open.svg'
+import backDoor from '@/assets/img/back-door.svg'
 
 import type { CardInstances } from '@/types/card/cardInfo'
 import instances from '@/assets/img/instances.jpg'
-import InstructionsFreeModeModal from '@/components/freeMode/InstructionsFreeModeModal.vue'
+import InstructionsModal from '@/components/freeMode/InstructionsModal.vue'
 import SaveAsModal from '@/components/freeMode/SaveAsModal.vue'
 import BoardsRecordedModal from '@/components/freeMode/BoardsRecordedModal.vue'
-import { updateFreeModeBoard } from '@/services/freemode.service'
+import { updateFreeModeBoard, isUpdateFreeModeBoardLoading } from '@/services/freemode.service'
+import { langStore } from '@/stores/lang.store'
 
 const { entityDataCards, propertyDataCards, loadCard, isDataCardsLoading } = useSelectedXML()
 const modal = ref(false)
@@ -44,7 +46,7 @@ const { nodes, edges, nodeTypes, onDragStart, onDrop, onSelectionChange, resetFl
 const showSidebar = ref(true)
 const layoutRef = ref()
 const entityBranches = ref(['entity'])
-const { zoomIn, zoomOut } = useVueFlow()
+const { zoomIn, zoomOut } = useVueFlow('free-mode-flow')
 const { exportFlow, importFlow } = useFreeModeBoard()
 const { freeModeBoardData, currentBoard } = useFreeModeBoard()
 
@@ -118,7 +120,7 @@ const saveCurrentBoard = async () => {
 
 <template>
   <PagesLoader v-if="isDataCardsLoading" />
-  <div class="free-mode-container">
+  <div id="free-mode-flow" class="free-mode-container" ref="layoutRef">
     <OntologyModal
       v-if="modal === true"
       :handleOntologyModal="handleOntologyModal"
@@ -130,17 +132,22 @@ const saveCurrentBoard = async () => {
       @update:selected="onSelectInstance"
       :selectedOntology="selectedOntology"
     />
-    <InstructionsFreeModeModal v-model:open="instructionsModal" />
+    <InstructionsModal v-model:open="instructionsModal" />
     <SaveAsModal v-model:open="saveAs" :ontology="selectedOntology" />
     <BoardsRecordedModal v-model:open="openBoards" :ontology="selectedOntology" />
-    <div class="layout" ref="layoutRef">
+    <div class="layout">
       <!-- SIDEBAR -->
       <aside class="sidebar">
         <div v-if="showSidebar" class="sidebar-panel" :class="{ 'hide-sidebar': !showSidebar }">
           <div class="ontology-selected">
+            <button class="back-door aside">
+              <router-link to="/home">
+                <img :src="backDoor" alt="back" title="back" />
+              </router-link>
+            </button>
             <h2>{{ selectedOntology }}</h2>
 
-            <button v-if="!fullscreen" @click="handleOntologyModal(true)">
+            <button @click="handleOntologyModal(true)">
               <img :src="edit" alt="edit" />
             </button>
           </div>
@@ -175,9 +182,18 @@ const saveCurrentBoard = async () => {
       <!-- FLOW -->
       <div class="flow-wrapper" @drop="onDrop" @dragover.prevent>
         <button class="fullscreen-free-mode" @click="toggleFullscreen(layoutRef)">
-          Plein ecran <img :src="fullscreenLogo" alt="fullscreen" />
+          <span>{{
+            langStore.t('static-text.BoardScene.boardscene-scene-footer-fullscreen-text')
+          }}</span>
+          <img :src="fullscreenLogo" alt="fullscreen" />
         </button>
-
+        <div class="board-zoom nodrag nopan">
+          <button @click.stop="() => zoomIn({ duration: 300 })">+</button>
+          <button @click.stop="() => zoomOut({ duration: 300 })">-</button>
+        </div>
+        <button class="back-door">
+          <router-link to="/home"> <img :src="backDoor" alt="back" title="back" /> </router-link>
+        </button>
         <VueFlow
           v-model:nodes="nodes"
           v-model:edges="edges"
@@ -187,30 +203,32 @@ const saveCurrentBoard = async () => {
           @selection-change="onSelectionChange"
           :default-viewport="{ zoom: 1 }"
           :nodes-selectable="true"
+          :delete-key-code="['Delete', 'Backspace']"
         >
           <div class="toolbar nodrag nopan">
-            <label class="file-label"
-              ><button @click="handleSaveAsModal">
-                <img :src="saveas" alt="saveas" title="save as" /></button
-            ></label>
-            <label class="file-label"
-              ><button :disabled="!currentBoard" @click="saveCurrentBoard">
-                <img :src="save" alt="save" title="save" /></button
-            ></label>
-            <label class="file-label"
-              ><button @click="handleOpenBoards">
-                <img :src="open" alt="open" title="open existing" /></button
-            ></label>
-            <label class="file-label instruction-button"
-              ><button @click="handleInstructionsModal">
-                <img :src="instructions" alt="instructions" title="instructions" /></button
-            ></label>
+            <button @click="handleSaveAsModal">
+              <label class="file-label"> <img :src="saveas" alt="saveas" title="save as" /></label>
+            </button>
+            <button
+              :disabled="!currentBoard || isUpdateFreeModeBoardLoading"
+              @click="saveCurrentBoard"
+            >
+              <label class="file-label"> <img :src="save" alt="save" title="save" /></label>
+            </button>
 
-            <label class="file-label"
-              ><button @click="exportFlow(selectedOntology)">
-                <img :src="exp" alt="export" title="export" /></button
-            ></label>
-
+            <button @click="handleOpenBoards">
+              <label class="file-label">
+                <img :src="open" alt="open" title="open existing" />
+              </label>
+            </button>
+            <button @click="handleInstructionsModal">
+              <label class="file-label instruction-button">
+                <img :src="instructions" alt="instructions" title="instructions"
+              /></label>
+            </button>
+            <button @click="exportFlow(selectedOntology)">
+              <label class="file-label"> <img :src="exp" alt="export" title="export" /></label>
+            </button>
             <label class="file-label">
               <input hidden type="file" accept=".json" @change="importFlow" ref="fileInput" /><img
                 :src="imp"
@@ -222,11 +240,6 @@ const saveCurrentBoard = async () => {
           <Background variant="dots" :gap="18" :size="1" color="#ccc" />
           <MiniMap />
           <Controls :show-zoom="true" :show-fit-view="true" :show-interactive="false" />
-          <div class="board-zoom">
-            <button @click="zoomIn({ duration: 200, scale: 1.3 })">+</button>
-
-            <button @click="zoomOut({ duration: 200, scale: 1.3 })">-</button>
-          </div>
         </VueFlow>
       </div>
     </div>

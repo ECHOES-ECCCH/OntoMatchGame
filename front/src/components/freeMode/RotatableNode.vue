@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { useVueFlow } from '@vue-flow/core'
 
 const props = defineProps<{
@@ -10,14 +10,13 @@ const props = defineProps<{
   }
 }>()
 
-const { updateNodeData } = useVueFlow()
+const { updateNodeData, getNodes } = useVueFlow('free-mode-flow')
 
-const rotation = ref(props.data.rotation || 0)
+const rotation = computed(() => props.data.rotation || 0)
 
 let rotating = false
 let center = { x: 0, y: 0 }
 let startAngle = 0
-let startRotation = 0
 
 const getAngle = (e: PointerEvent) => Math.atan2(e.clientY - center.y, e.clientX - center.x)
 
@@ -27,13 +26,17 @@ const startRotate = (e: PointerEvent) => {
   const el = (e.currentTarget as HTMLElement).parentElement as HTMLElement
   const rect = el.getBoundingClientRect()
 
+  // 👇 Centre en coordonnées écran, corrigé avec le zoom
   center = {
     x: rect.left + rect.width / 2,
     y: rect.top + rect.height / 2,
   }
 
   startAngle = getAngle(e)
-  startRotation = rotation.value
+
+  // 👇 Recalculer au moment du clic, pas au montage
+  const selectedNodes = getNodes.value.filter((n) => n.selected)
+  const initialRotations = new Map(selectedNodes.map((n) => [n.id, n.data.rotation || 0]))
 
   const onMove = (ev: PointerEvent) => {
     if (!rotating) return
@@ -41,13 +44,11 @@ const startRotate = (e: PointerEvent) => {
     const currentAngle = getAngle(ev)
     const delta = (currentAngle - startAngle) * (180 / Math.PI)
 
-    const newRotation = startRotation + delta
-
-    rotation.value = newRotation
-
-    updateNodeData(props.id, {
-      ...props.data,
-      rotation: newRotation,
+    selectedNodes.forEach((node) => {
+      updateNodeData(node.id, {
+        ...node.data,
+        rotation: (initialRotations.get(node.id) || 0) + delta,
+      })
     })
   }
 

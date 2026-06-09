@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { langStore } from '@/stores/lang.store'
 import { useFreeModeBoard } from '@/composables/useFreeModeBoard'
 import {
@@ -6,7 +7,8 @@ import {
   isCreateFreeModeBoardLoading,
   isError,
 } from '@/services/freemode.service'
-import { ref } from 'vue'
+import ButtonLoader from '../loader/ButtonLoader.vue'
+
 const { freeModeBoardData } = useFreeModeBoard()
 
 const props = defineProps<{

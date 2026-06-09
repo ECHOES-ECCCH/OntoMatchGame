@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useVueFlow } from '@vue-flow/core'
 import rotateIcon from '@/assets/img/rotate.svg'
 import { useSelectedXML } from '@/stores/cards.store'
@@ -18,9 +17,8 @@ const props = defineProps<{
   }
 }>()
 
-const { updateNodeData } = useVueFlow()
-
-const rotation = ref(props.data.rotation || 0)
+const { updateNodeData, getNodes } = useVueFlow('free-mode-flow')
+const { entityDataCards, propertyDataCards } = useSelectedXML()
 
 const startRotate = (e: PointerEvent) => {
   let rotating = true
@@ -34,19 +32,20 @@ const startRotate = (e: PointerEvent) => {
   }
 
   const getAngle = (ev: PointerEvent) => Math.atan2(ev.clientY - center.y, ev.clientX - center.x)
-
   const startAngle = getAngle(e)
-  const startRotation = rotation.value
+
+  // Snapshot des rotations au moment du clic
+  const selectedNodes = getNodes.value.filter((n) => n.selected)
+  const initialRotations = new Map(selectedNodes.map((n) => [n.id, n.data.rotation || 0]))
 
   const onMove = (ev: PointerEvent) => {
     if (!rotating) return
-
     const delta = (getAngle(ev) - startAngle) * (180 / Math.PI)
-    rotation.value = startRotation + delta
-
-    updateNodeData(props.id, {
-      ...props.data,
-      rotation: rotation.value,
+    selectedNodes.forEach((node) => {
+      updateNodeData(node.id, {
+        ...node.data,
+        rotation: (initialRotations.get(node.id) || 0) + delta,
+      })
     })
   }
 
@@ -59,15 +58,13 @@ const startRotate = (e: PointerEvent) => {
   window.addEventListener('pointermove', onMove)
   window.addEventListener('pointerup', stop)
 }
-
-const { entityDataCards, propertyDataCards } = useSelectedXML() // ← toutes les cartes
 </script>
 
 <template>
   <div
     class="node"
     :class="{ 'node--selected': selected }"
-    :style="{ transform: `rotate(${rotation}deg)` }"
+    :style="{ transform: `rotate(${data.rotation || 0}deg)`, transformOrigin: 'center center' }"
   >
     <EntityFreeModeCard
       v-if="data.card.kind === 'entity'"
@@ -91,9 +88,6 @@ const { entityDataCards, propertyDataCards } = useSelectedXML() // ← toutes le
       position="screen"
       :selected="selected"
     />
-    <!-- ROTATION -->
     <img class="rotate-icon" :src="rotateIcon" @pointerdown="startRotate" />
   </div>
 </template>
-
-<style scoped></style>
