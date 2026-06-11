@@ -14,7 +14,7 @@ export function useFreeModeBoard() {
         .filter((n) => n?.data?.card?.kind === kind)
         .map((n) => ({
           ontology,
-          Id: n.data?.card?.id ?? n.id,
+          Id: n.data?.card?.id ?? n.data?.card?.Id ?? n.id,
           Position: { x: n.position.x, y: n.position.y },
           Rotation: n.data?.rotation ?? 0,
           Kind: n.data?.card?.kind,

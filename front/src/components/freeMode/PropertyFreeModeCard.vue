@@ -183,7 +183,7 @@ const selectCard = (aboutValue: string) => {
               @select="selectCard"
               :propertyDataCards="propertyDataCards"
             />
-            <div class="scope-note">
+            <div class="scope-note"  v-if="position === 'aside'">
               <button v-if="displayedCard?.comment" @click="showScopeNote = true">
                 Scope Note
               </button>

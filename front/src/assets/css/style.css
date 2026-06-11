@@ -131,6 +131,7 @@ header.main-header {
   z-index: 100;
   transition: transform 0.3s ease;
   background-color: white;
+  position: relative;
 }
 
 header.main-header.header-hidden {
@@ -1135,6 +1136,7 @@ button.solution {
   max-width: 211px;
   flex-shrink: 1;
   transition: all 0.25s ease;
+  text-align: center;
 }
 
 .entity-card:hover,
@@ -1902,7 +1904,8 @@ button.solution {
   border-bottom-left-radius: var(--box-radius);
 }
 
-.cards-container .content-cards .types-filter.vertical-filter.vertical-filter-right {
+.cards-container .content-cards .types-filter.vertical-filter.vertical-filter-right,
+.free-mode-container .types-filter.vertical-filter.vertical-filter-right {
   border-top-right-radius: var(--box-radius);
   border-bottom-right-radius: var(--box-radius);
 }
@@ -1913,7 +1916,7 @@ button.solution {
   flex-direction: column;
   justify-content: space-evenly;
   height: 100%;
-  margin-top: -12px;
+  margin-top: -12px !important;
 }
 
 .cards-container .content-cards .types-filter ul,
@@ -1969,6 +1972,7 @@ button.solution {
   min-height: 0;
   overflow: hidden; /* ← empêche le débordement */
   margin-top: clamp(0.7rem, 0.6vw, 1.1rem);
+  max-width: clamp(177px, 3vw, 240px);
 }
 
 .entity-card .entity-classes .hierarchy-btn,
@@ -2072,7 +2076,10 @@ button.solution {
 
 .cards-container .content-cards .carousel-container .property-card .property-classes,
 .cards-container .content-cards .carousel-container .property-card .property-classes .hierarchy-btn,
-.cards-container .content-cards .carousel-container .property-card .property-classes .current {
+.cards-container .content-cards .carousel-container .property-card .property-classes .current,
+.free-mode-container .carousel-container .property-card .property-classes,
+.free-mode-container .carousel-container .property-card .property-classes .current,
+.free-mode-container .carousel-container .property-card .property-classes .hierarchy-btn {
   min-width: 0;
   width: 100%;
   box-sizing: border-box;
@@ -2351,6 +2358,7 @@ button.solution {
 .free-mode-container .content-cards .carousel-container .instance.name {
   font-size: clamp(0.4rem, 0.7vw, 0.8rem);
   padding: 5px;
+  text-align: center;
 }
 
 .cards-container .content-cards .carousel-container .card-name .instance.link,
@@ -3279,6 +3287,10 @@ li.user-ranking {
   padding: 0;
 }
 
+.free-mode-container .content-cards .carousel-container .instance.name {
+  font-size: clamp(0.4rem, 0.5vw, 1rem);
+}
+
 .free-mode-container .entity-card:hover,
 .free-mode-container .property-card:hover,
 .free-mode-container .instance-card:hover {
@@ -3345,8 +3357,22 @@ li.user-ranking {
   overflow: hidden;
 }
 
-.free-mode-container .sidebar .instance-card {
+.instances--selected .free-mode-container .sidebar .instance-card {
   text-align: center;
+}
+
+.node .carousel-container .instance-card {
+  max-width: clamp(120px, 7vw, 200px) !important;
+  min-width: clamp(120px, 7vw, 200px) !important;
+}
+
+.node .instances--selected {
+  max-width: clamp(120px, 7vw, 200px) !important;
+  min-width: clamp(120px, 7vw, 200px) !important;
+}
+
+.node .instances--selected:hover {
+  box-shadow: none;
 }
 
 .free-mode-container .carousel-container .range {
@@ -3368,7 +3394,6 @@ li.user-ranking {
 
 .node {
   position: relative;
-  width: 160px;
   border-radius: 8px;
   transform-origin: center center;
   border: 3px solid transparent; /* évite le layout shift au clic */
@@ -3395,6 +3420,7 @@ li.user-ranking {
   align-items: center;
   width: 100%;
   margin-bottom: -10px;
+  padding-right: 10px;
 }
 
 .free-mode-container .layout .sidebar .ontology-selected h2 {
@@ -3427,7 +3453,7 @@ li.user-ranking {
 }
 
 .free-mode-container .fullscreen-free-mode span {
-  margin-right: 8px;
+  margin-right: 5px;
 }
 
 .free-mode-container .vue-flow__panel.right {
@@ -3491,7 +3517,11 @@ li.user-ranking {
 .free-mode-container .carousel-container .number {
   color: white;
   text-align: center;
-  font-size: clamp(0.6rem, 1vw, 1rem);
+  font-size: clamp(0.6rem, 0.7vw, 1rem);
+}
+
+.free-mode-container .carousel-container .card-name img {
+  width: clamp(8px, 1vw, 36px);
 }
 
 .free-mode-container .carousel-container .entity-card {
@@ -3504,7 +3534,7 @@ li.user-ranking {
 }
 
 .free-mode-container .carousel-container .entity-card {
-  aspect-ratio: unset;
+  /* aspect-ratio: unset; */
   height: clamp(220px, 14vw, 340px);
   width: 100%;
 }
@@ -3523,7 +3553,7 @@ li.user-ranking {
   min-height: 0;
   overflow: hidden;
   height: 100%;
-  max-width: min-content;
+  /* max-width: min-content; */
 }
 
 .free-mode-container .carousel-container .card {
@@ -3539,12 +3569,11 @@ li.user-ranking {
 }
 
 .free-mode-container .carousel-container .entity-card .card-name {
-  max-width: clamp(140px, 3vw, 240px);
-  min-width: 140px;
+  max-width: clamp(177px, 3vw, 240px);
 }
 
 .free-mode-container .carousel-container .card-name .name {
-  font-size: clamp(0.4rem, 0.7vw, 1rem);
+  font-size: clamp(0.4rem, 0.6vw, 1rem);
 }
 
 .free-mode-container .carousel-container .card-name div {
@@ -3585,6 +3614,27 @@ li.user-ranking {
 
 .free-mode-container .carousel-container .property-card {
   background-color: white;
+}
+
+.free-mode-container .carousel-container .card-name .property.name {
+  font-size: clamp(0.4rem, 0.5vw, 0.8rem);
+}
+
+.node .carousel-container .property-card {
+  font-size: clamp(0.4rem, 0.4vw, 0.7rem);
+  flex: auto;
+}
+
+.free-mode-container .carousel-container .property-card .vertical-button.vertical-right::before {
+  width: 5px;
+}
+
+.free-mode-container .carousel-container .property-card .vertical-button p {
+  margin-left: 12px;
+}
+
+.free-mode-container .carousel-container .property-card .vertical-button.vertical-right p {
+  margin-right: 20px;
 }
 
 .free-mode-container .choose-instance {
@@ -3645,7 +3695,7 @@ li.user-ranking {
 
 .back-door.aside {
   position: relative;
-  left: 0;
+  left: 10px;
 }
 
 .back-door:hover {
@@ -3656,16 +3706,17 @@ li.user-ranking {
 .rotate-icon {
   position: absolute;
   top: -25px;
-  left: 50%;
   width: 18px;
   height: 18px;
   transform: translateX(-50%);
   cursor: grab;
+  display: flex;
+  justify-self: center;
 }
 
 .free-mode-container .instance-modal {
   width: 90%;
-  height: 90%;
+  max-height: 90%;
   overflow-y: scroll;
 }
 
