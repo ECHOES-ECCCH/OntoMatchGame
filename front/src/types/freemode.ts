@@ -77,12 +77,13 @@ export interface BoardCards {
       kind: string
     }
   }[]
+  Edges?: Record<string, any>[]
 }
 
 export interface FreeModeBoard {
   freemodeId?: string
   title: string
   ontologyName: string
-  ZoomLevel: number
+  ZoomLevel?: number
   freemodeData: BoardCards
 }

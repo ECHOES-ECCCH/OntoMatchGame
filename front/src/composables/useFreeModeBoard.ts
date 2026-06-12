@@ -1,7 +1,14 @@
-import type { BoardCards } from '@/types/freemode'
+import type { BoardCards, FreeModeBoard } from '@/types/freemode'
 import { useVueFlow } from '@vue-flow/core'
 import { nextTick, ref } from 'vue'
-const currentBoard = ref<BoardCards | null>(null)
+type BoardEntity = BoardCards['Entities'][number]
+type BoardProperty = BoardCards['Properties'][number]
+type BoardInstance = BoardCards['Instances'][number]
+
+type BoardCardItem = BoardEntity | BoardProperty | BoardInstance
+
+const currentBoard = ref<FreeModeBoard | null>(null)
+const errorImportFlow = ref<string | null>(null)
 
 export function useFreeModeBoard() {
   const { nodes, edges, viewport, setNodes, setEdges, setViewport } = useVueFlow()
@@ -46,7 +53,7 @@ export function useFreeModeBoard() {
   }
 
   const nodesInfos = async (flow: BoardCards) => {
-    const createNodes = (items: any[]) =>
+    const createNodes = (items: BoardCardItem[]) =>
       items
         .filter((item) => item?.Id)
         .map((item) => ({
@@ -84,18 +91,36 @@ export function useFreeModeBoard() {
   }
 
   const importFlow = async (event: Event) => {
-    const file = (event.target as HTMLInputElement).files?.[0]
-    if (!file) return
+    errorImportFlow.value = null
 
-    const text = await file.text()
-    const flow = JSON.parse(text)
+    try {
+      const file = (event.target as HTMLInputElement).files?.[0]
+      if (!file) return
 
-    return nodesInfos(flow)
+      const text = await file.text()
+      const flow = JSON.parse(text)
+
+      // Validation minimale
+      if (
+        !flow ||
+        !Array.isArray(flow.Entities) ||
+        !Array.isArray(flow.Properties) ||
+        !Array.isArray(flow.Instances) ||
+        !Array.isArray(flow.Edges)
+      ) {
+        throw new Error('Le fichier importé ne correspond pas au format attendu.')
+      }
+
+      await nodesInfos(flow)
+    } catch (error) {
+      errorImportFlow.value =
+        error instanceof Error ? error.message : "Une erreur est survenue lors de l'import."
+    }
   }
 
-  const openSaveBoard = async (board: BoardCards) => {
+  const openSaveBoard = async (board: FreeModeBoard) => {
     currentBoard.value = board
     return nodesInfos(board.freemodeData)
   }
-  return { exportFlow, importFlow, freeModeBoardData, openSaveBoard, currentBoard }
+  return { exportFlow, importFlow, freeModeBoardData, openSaveBoard, currentBoard, errorImportFlow }
 }

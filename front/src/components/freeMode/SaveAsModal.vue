@@ -36,7 +36,7 @@ const handleSaveAs = async () => {
   const result = await createFreeModeBoard({
     title: boardName.value.trim(),
     ontologyName: props.ontology,
-    ...freeModeData,
+    freemodeData: freeModeData,
   })
 
   if (result) {

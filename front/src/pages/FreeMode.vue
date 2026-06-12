@@ -48,7 +48,7 @@ const layoutRef = ref()
 const entityBranches = ref(['entity'])
 const { zoomIn, zoomOut } = useVueFlow('free-mode-flow')
 const { exportFlow, importFlow } = useFreeModeBoard()
-const { freeModeBoardData, currentBoard } = useFreeModeBoard()
+const { freeModeBoardData, currentBoard, errorImportFlow } = useFreeModeBoard()
 
 document.addEventListener('fullscreenchange', () => {
   fullscreen.value = !!document.fullscreenElement
@@ -240,7 +240,10 @@ const saveCurrentBoard = async () => {
           <Background variant="dots" :gap="18" :size="1" color="#ccc" />
           <MiniMap />
           <Controls :show-zoom="true" :show-fit-view="true" :show-interactive="false" />
-        </VueFlow>
+          <p class="error-import" v-if="errorImportFlow">
+            {{ errorImportFlow }}
+          </p></VueFlow
+        >
       </div>
     </div>
   </div>

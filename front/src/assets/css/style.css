@@ -1972,7 +1972,6 @@ button.solution {
   min-height: 0;
   overflow: hidden; /* ← empêche le débordement */
   margin-top: clamp(0.7rem, 0.6vw, 1.1rem);
-  max-width: clamp(177px, 3vw, 240px);
 }
 
 .entity-card .entity-classes .hierarchy-btn,
@@ -3605,6 +3604,10 @@ li.user-ranking {
   padding: 0;
 }
 
+.free-mode-container .carousel-container .entity-card .card-content {
+  max-width: clamp(177px, 3vw, 240px);
+}
+
 .free-mode-container .scope-note {
   text-align: center;
   flex-shrink: 0;
@@ -3625,7 +3628,8 @@ li.user-ranking {
   flex: auto;
 }
 
-.free-mode-container .carousel-container .property-card .vertical-button.vertical-right::before {
+.free-mode-container .carousel-container .property-card .vertical-button.vertical-right::before,
+.free-mode-container .carousel-container .property-card .vertical-button.vertical-left::before {
   width: 5px;
 }
 
@@ -3646,6 +3650,13 @@ li.user-ranking {
 
 .free-mode-container .instances.content-cards {
   margin: 0;
+}
+
+.error-import {
+  color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .node--selected {

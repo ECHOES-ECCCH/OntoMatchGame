@@ -6,14 +6,15 @@ import type {
   CardPositionInfo,
   CardPropertyInfo,
   CurrentIndexes,
+  ErrorCards,
   Position,
+  PropertyPosition,
 } from '@/types/card/cardInfo'
 import PropertySuperpropertiesSubproperties from './PropertySuperpropertiesSubproperties.vue'
 import { useSuperSubProperties } from '@/composables/useSuperSubProperties'
 import { getColor } from '@/utils/get-color-types'
 import BranchesFilter from './BranchesFilter.vue'
 import { langStore } from '@/stores/lang.store'
-import type { Branch } from '@/assets/cards/types'
 import ChallengeError from './ChallengeError.vue'
 import { showSolution } from '@/composables/useSolution'
 
@@ -24,12 +25,12 @@ const props = defineProps<{
     cards: CardPropertyInfo[] | 'no card'
     totalCards: number
   }
-  branches: Branch
+  branches: Record<PropertyPosition, string[]>
   cardInfo: Record<Position, CardPropertyInfo>
   currentIndexes: CurrentIndexes
   entityDataCards: CardInfo[]
   propertyDataCards: CardPropertyInfo[]
-  errorCards
+  errorCards: ErrorCards
   handlePrevious: (position: Position, cards: CardInfo[]) => void
   handleNext: (position: Position, cards: CardInfo[]) => void
   handleSliderChange: (position: Position, value: number, cards: CardInfo[]) => void
@@ -101,7 +102,7 @@ const isNoCard = computed(() => {
   <div v-else-if="isNoCard" class="carousel-container">
     <div class="property">
       <BranchesFilter
-        :model-value="branches[`${totalCards.position}_domain`]"
+        :model-value="branches[`${totalCards.position}_domain` as PropertyPosition]"
         @update:model-value="
           $emit('update:branches', { position: `${totalCards.position}_domain`, value: $event })
         "
@@ -111,7 +112,7 @@ const isNoCard = computed(() => {
         <p>{{ langStore.t('static-text.BoardScene.boardscene-scene-filter-entity-text') }}</p>
       </div>
       <BranchesFilter
-        :model-value="branches[`${totalCards.position}_range`]"
+        :model-value="branches[`${totalCards.position}_range` as PropertyPosition]"
         @update:model-value="
           $emit('update:branches', { position: `${totalCards.position}_range`, value: $event })
         "
@@ -130,7 +131,7 @@ const isNoCard = computed(() => {
     <div class="property">
       <!-- LEFT FILTER -->
       <BranchesFilter
-        :model-value="branches[`${totalCards.position}_domain`]"
+        :model-value="branches[`${totalCards.position}_domain` as PropertyPosition]"
         @update:model-value="
           $emit('update:branches', { position: `${totalCards.position}_domain`, value: $event })
         "
@@ -222,7 +223,7 @@ const isNoCard = computed(() => {
 
       <!-- RIGHT FILTER -->
       <BranchesFilter
-        :model-value="branches[`${totalCards.position}_range`]"
+        :model-value="branches[`${totalCards.position}_range` as PropertyPosition]"
         @update:model-value="
           $emit('update:branches', { position: `${totalCards.position}_range`, value: $event })
         "

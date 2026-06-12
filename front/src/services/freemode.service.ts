@@ -36,7 +36,7 @@ export const getFreeModeBoardByName = async (ontology: string) => {
 export const createFreeModeBoard = async (board: FreeModeBoard) => {
   isCreateFreeModeBoardLoading.value = true
   isError.value = false
-  console.log(userId)
+  console.log(board)
 
   if (!userId.value) throw new Error('User not loaded')
 
@@ -46,10 +46,10 @@ export const createFreeModeBoard = async (board: FreeModeBoard) => {
       ontologyName: board.ontologyName,
       userId: userId.value,
       freemodeData: {
-        ZoomLevel: board.ZoomLevel,
-        Entities: board.Entities,
-        Properties: board.Properties,
-        Instances: board.Instances,
+        ZoomLevel: board.freemodeData.ZoomLevel,
+        Entities: board.freemodeData.Entities,
+        Properties: board.freemodeData.Properties,
+        Instances: board.freemodeData.Instances,
       },
     })
 

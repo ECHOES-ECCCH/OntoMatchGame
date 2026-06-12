@@ -7,7 +7,7 @@ import {
   getFreeModeBoardByName,
 } from '@/services/freemode.service'
 import { useFreeModeBoard } from '@/composables/useFreeModeBoard.ts'
-import type { BoardCards, FreeModeBoard } from '@/types/freemode'
+import type { FreeModeBoard } from '@/types/freemode'
 import PagesLoader from '../loader/PagesLoader.vue'
 import deleteIcon from '@/assets/img/delete.svg'
 import close from '@/assets/img/close.svg'
@@ -39,7 +39,7 @@ const closeModal = () => {
   emit('update:open', false)
 }
 
-const handleOpenBoard = async (board: BoardCards) => {
+const handleOpenBoard = async (board: FreeModeBoard) => {
   await openSaveBoard(board)
   closeModal()
 }

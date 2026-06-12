@@ -13,7 +13,7 @@ const scenarioCatalog = scenarioCatalogRaw as ScenarioCatalog
 const isLoadingChapter = ref(false)
 const chapterData = ref<ChapterData | null>(null)
 const chapterInstances = ref(null)
-const imgInstanceURL = ref(null)
+const imgInstanceURL = ref<string | null>(null)
 const error = ref<string | null>(null)
 
 let watchInitialized = false

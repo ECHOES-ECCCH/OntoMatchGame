@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import type { CardInfo } from '@/types/card/cardInfo'
+import type { CardPropertyInfo, Position } from '@/types/card/cardInfo'
 import { switchCard } from '@/utils/switch-card'
 import { computed } from 'vue'
 
 const props = defineProps<{
-  position: string
+  position: Position
   superSubProperties: {
     subPropertyOf: { value: Record<string, string[]> }
     superPropertyOf: { value: Record<string, string[]> }
   }
-  cardInfo: CardInfo
+  cardInfo: Record<Position, CardPropertyInfo>
   propertyDataCards: Array<{ about: string }>
 }>()
 const emit = defineEmits<{
@@ -20,7 +20,7 @@ const switchPropertyCard = (aboutValue: string) => {
   const updated = switchCard(aboutValue, props.position, props.propertyDataCards, props.cardInfo)
 
   if (updated) {
-    emit('update:cardInfo', updated)
+    emit('update:cardInfo', updated as Record<Position, CardPropertyInfo>)
   }
 }
 
@@ -44,7 +44,7 @@ const superProperties = computed(
       ↑ {{ sub }}
     </button>
 
-    <div class="current">{{ cardInfo[position as Position].about }}</div>
+    <div class="current">{{ cardInfo[position].about }}</div>
 
     <button
       v-for="sup in superProperties"

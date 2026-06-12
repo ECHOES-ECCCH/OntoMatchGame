@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { computed, ref, watch } from 'vue'
 import type { CardInfo, CardPropertyInfo } from '@/types/card/cardInfo'
 import { getColor } from '@/utils/get-color-types'
-import { computed, ref, watch } from 'vue'
 import PropertySuperpropertiesSubpropertiesFreeMode from './PropertySuperpropertiesSubpropertiesFreeMode.vue'
 import { getSubProperties, getSuperProperties } from '@/composables/useSuperSubProperties'
-import BranchesFilter from '@/components/challenge/BranchesFilter.vue'
 import { filteredPropertyCardsByBranch } from '@/composables/useSelectedCards'
+import BranchesFilter from '@/components/challenge/BranchesFilter.vue'
 
 const props = defineProps<{
   entityDataCards: CardInfo[]
@@ -20,6 +20,11 @@ const propertyBranches = ref({
   domain: ['entity'],
   range: ['entity'],
 })
+/**
+ * Carte actuellement affichée en mode libre
+ * (quand on clique sur subclass/superclass)
+ */
+const currentFreeCard = ref<CardPropertyInfo | null>(null)
 
 const filteredCards = computed<CardPropertyInfo[]>(() => {
   let cards: CardPropertyInfo[] = props.propertyDataCards
@@ -70,12 +75,6 @@ defineEmits<{
 }>()
 
 const showScopeNote = ref(false)
-
-/**
- * Carte actuellement affichée en mode libre
- * (quand on clique sur subclass/superclass)
- */
-const currentFreeCard = ref<CardInfo | null>(null)
 
 /**
  * Carte réellement affichée
@@ -151,7 +150,11 @@ const selectCard = (aboutValue: string) => {
         orientation="vertical-left"
       />
 
-      <div class="property-card" draggable="true" @dragstart.stop="onDragStart({...displayedCard, kind: 'property'})"">
+      <div
+        class="property-card"
+        draggable="true"
+        @dragstart.stop="onDragStart({ ...displayedCard, kind: 'property' } as CardInfo)"
+      >
         <!-- DOMAIN BUTTON -->
         <button class="vertical-button vertical-left" :style="handlePropertyColor('domain')">
           <span>Domain</span>
@@ -177,13 +180,14 @@ const selectCard = (aboutValue: string) => {
               </span>
             </div>
             <PropertySuperpropertiesSubpropertiesFreeMode
+              v-if="displayedCard"
               :superProperties="superProperties"
               :subProperties="subProperties"
               :currentCard="displayedCard"
               @select="selectCard"
               :propertyDataCards="propertyDataCards"
             />
-            <div class="scope-note"  v-if="position === 'aside'">
+            <div class="scope-note" v-if="position === 'aside'">
               <button v-if="displayedCard?.comment" @click="showScopeNote = true">
                 Scope Note
               </button>
@@ -226,6 +230,8 @@ const selectCard = (aboutValue: string) => {
     </div>
 
     <!-- COUNTER -->
-    <div v-if="position === 'aside'" class="number">{{ filteredCards.length }}/{{ filteredCards.length }}</div>
+    <div v-if="position === 'aside'" class="number">
+      {{ filteredCards.length }}/{{ filteredCards.length }}
+    </div>
   </div>
 </template>
