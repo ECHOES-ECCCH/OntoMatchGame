@@ -2,6 +2,7 @@
 import type { CardInfo } from '@/types/card/cardInfo'
 
 defineProps<{
+  position: string
   superProperties: string[]
   subProperties: string[]
   currentCard: CardInfo
@@ -17,6 +18,7 @@ const emit = defineEmits<{
   <h2>SuperProperties & SubProperties</h2>
   <div class="property-classes my-scroll">
     <button
+      :disabled="position === 'flow'"
       v-for="sub in subProperties"
       :key="sub"
       class="hierarchy-btn sub"
@@ -28,6 +30,7 @@ const emit = defineEmits<{
     <div class="current">{{ currentCard?.about }}</div>
 
     <button
+      :disabled="position === 'flow'"
       v-for="sup in superProperties"
       :key="sup"
       class="hierarchy-btn super"

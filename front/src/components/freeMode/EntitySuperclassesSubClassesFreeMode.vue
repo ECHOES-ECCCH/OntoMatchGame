@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   position: string
   current: string
   subClasses: string[]
@@ -16,7 +16,7 @@ const emit = defineEmits<{
     <h2>SubClasses & SuperClasses</h2>
     <div class="entity-classes my-scroll">
       <button
-        :disabled="position === 'screen'"
+        :disabled="position === 'flow'"
         v-for="sub in subClasses"
         :key="sub"
         @click="emit('select', sub)"
@@ -28,7 +28,7 @@ const emit = defineEmits<{
       <div class="current">{{ current }}</div>
 
       <button
-        :disabled="position === 'screen'"
+        :disabled="position === 'flow'"
         v-for="sup in superClasses"
         :key="sup"
         @click="emit('select', sup)"

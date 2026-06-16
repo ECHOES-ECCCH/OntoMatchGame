@@ -3378,18 +3378,14 @@ li.user-ranking {
   margin-top: 10px;
 }
 
-/* .free-mode-container .node {
-  transform-origin: center;
-  will-change: transform;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 160px;
-  border-radius: 8px;
-  border: 2px solid transparent; 
-  transition: border-color 0.15s ease;
-} */
+.free-mode-container .modal-container .freemode-instructions {
+  text-align: left;
+}
+
+.free-mode-container .modal-container .freemode-instructions p {
+  font-weight: normal !important;
+  font-size: clamp(0.8rem, 1.2vw, 1.1rem) !important;
+}
 
 .node {
   position: relative;

@@ -71,7 +71,7 @@ const startRotate = (e: PointerEvent) => {
       :entityDataCards="entityDataCards"
       :initialIndex="entityDataCards.findIndex((c) => c.about === data.card.about)"
       :onDragStart="() => {}"
-      position="screen"
+      position="flow"
     />
     <PropertyFreeModeCard
       v-else-if="data.card.kind === 'property'"
@@ -79,13 +79,13 @@ const startRotate = (e: PointerEvent) => {
       :propertyDataCards="propertyDataCards"
       :initialIndex="propertyDataCards.findIndex((c) => c.about === data.card.about)"
       :onDragStart="() => {}"
-      position="screen"
+      position="flow"
     />
     <InstancesFreeModeCard
       v-else
       :currentInstance="data.card"
       :onDragStart="() => {}"
-      position="screen"
+      position="flow"
       :selected="selected"
     />
     <img class="rotate-icon" :src="rotateIcon" @pointerdown="startRotate" />

@@ -105,7 +105,6 @@ const onSelectInstance = (instance: CardInstances) => {
 }
 
 const saveCurrentBoard = async () => {
-  console.log('passe ici')
   if (!currentBoard.value) return
 
   const flow = freeModeBoardData(selectedOntology.value)
