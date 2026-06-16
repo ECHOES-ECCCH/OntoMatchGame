@@ -1,0 +1,21 @@
+# The php/ directory must only ever serve the OUTPUT of PHP scripts.
+# Everything else here (.env, .env.local, composer.json/lock, *.md, sources,
+# vendor/, languages/) is plain-text to Apache and would leak if requested
+# directly. Deny all direct access, then re-allow execution of *.php only.
+
+# Apache 2.4+
+<IfModule mod_authz_core.c>
+    Require all denied
+    <FilesMatch "\.php$">
+        Require all granted
+    </FilesMatch>
+</IfModule>
+
+# Apache 2.2 fallback
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+    <FilesMatch "\.php$">
+        Allow from all
+    </FilesMatch>
+</IfModule>
