@@ -10,13 +10,15 @@ export function useOntologyInstancesLoader() {
 
     const base = import.meta.env.BASE_URL
 
+    // Index file containing all scenarios for this ontology/language
     const indexUrl = `${base}data/json/${ontology}/${lang}/chapter/index.json`
 
     const indexRes = await fetch(indexUrl)
     const index = await indexRes.json()
 
-    const all: any[] = []
+    const all = []
 
+    // Load instances for each scenario listed in the index
     for (const scenario of index.scenarios) {
       const url = `${base}data/json/${ontology}/${lang}/chapter/${scenario}/Instances/Instances.json`
 

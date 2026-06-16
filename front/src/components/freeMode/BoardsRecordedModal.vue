@@ -22,6 +22,7 @@ const props = defineProps<{
 const { openSaveBoard } = useFreeModeBoard()
 const boardData = ref<FreeModeBoard[]>([])
 const deletingId = ref<string | null>(null)
+
 const emit = defineEmits<{
   (e: 'update:open', value: boolean): void
 }>()
@@ -39,11 +40,17 @@ const closeModal = () => {
   emit('update:open', false)
 }
 
+/**
+ * Opens a saved board and closes the modal.
+ */
 const handleOpenBoard = async (board: FreeModeBoard) => {
   await openSaveBoard(board)
   closeModal()
 }
 
+/**
+ * Deletes a saved board and updates the local list.
+ */
 const handleDelete = async (id: string) => {
   deletingId.value = id
 

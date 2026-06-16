@@ -20,7 +20,14 @@ import { authStore } from '@/stores/auth.store'
 import { useSolution } from '@/composables/useSolution'
 const { resetSolution } = useSolution()
 
-// Connexion requise pour accéder aux pages du jeu
+// ----------------------------------------------------
+// Route Guards
+// ----------------------------------------------------
+
+/**
+ * Protect authenticated routes
+ * Redirects unauthenticated users to login page
+ */
 const requireAuth = (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
@@ -33,7 +40,10 @@ const requireAuth = (
   }
 }
 
-// Connexion effectué, retour les les pages d'authentification bloquées
+/**
+ * Prevent authenticated users from accessing auth pages
+ * Redirects logged-in users to home page
+ */
 const requireGuest = (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
@@ -46,6 +56,9 @@ const requireGuest = (
   }
 }
 
+// ----------------------------------------------------
+// Route definitions
+// ----------------------------------------------------
 const routes = [
   { path: '/', component: Login, beforeEnter: requireGuest },
   { path: '/signup', component: Signup, beforeEnter: requireGuest },
@@ -63,12 +76,19 @@ const routes = [
   },
 ]
 
+// ----------------------------------------------------
+// Router instance
+// ----------------------------------------------------
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 })
 
-// Met à jour showSolution au changement de page pour être rediriger vers le bon challenge
+/**
+ * Global navigation guard
+ * Resets "solution mode" state on every route change
+ * Ensures challenge state consistency between pages
+ */
 router.beforeEach(() => {
   resetSolution()
 })

@@ -16,11 +16,15 @@ const chapterInstances = ref(null)
 const imgInstanceURL = ref<string | null>(null)
 const error = ref<string | null>(null)
 
+// Prevent multiple watchers from being registered
 let watchInitialized = false
 
 export function useChapterData() {
   const route = useRoute()
 
+  /**
+   * Computes chapter-related stats based on route query params
+   */
   const chapterStats = computed(() => {
     const toString = (v: unknown) => (typeof v === 'string' ? v : '')
 
@@ -39,6 +43,10 @@ export function useChapterData() {
     return stats
   })
 
+  /**
+   * Resolves chapter metadata (file name + language)
+   * from catalog + current route context
+   */
   const chapterInfo = computed<{ filename: string; lang: string } | null>(() => {
     if (!chapterStats.value) return null
 
@@ -60,6 +68,9 @@ export function useChapterData() {
     }
   })
 
+  /**
+   * Loads chapter + instances data from JSON files
+   */
   async function loadChapter(
     ontology: string,
     chapterName: string,
@@ -69,10 +80,12 @@ export function useChapterData() {
   ) {
     isLoadingChapter.value = true
 
+    // Do not load data if solution mode is active
     if (showSolution.value) {
       isLoadingChapter.value = false
       return
     }
+
     if (!ontology || !chapterName || !scenario || !info) {
       isLoadingChapter.value = false
       return
@@ -81,7 +94,7 @@ export function useChapterData() {
     if (showSolution.value) return
     if (!ontology || !chapterName || !scenario || !info) return
 
-    // Use import.meta.env.BASE_URL to ensure correct path in production
+    // Build dynamic paths for chapter and instances
     const basePath = import.meta.env.BASE_URL
     const chapterPath = `${basePath}json/${ontology}/${info.lang}/chapter/${scenario}/${info.filename}.json`
     const instancesPath = `${basePath}json/${ontology}/${info.lang}/chapter/${scenario}/Instances/Instances.json`
@@ -119,6 +132,9 @@ export function useChapterData() {
     }
   }
 
+  /**
+   * Initialize route watcher only once per composable scope
+   */
   if (!watchInitialized) {
     watchInitialized = true
 
@@ -139,7 +155,7 @@ export function useChapterData() {
         )
           return
 
-        // challengeId depuis la route, sinon fallback sur les stats
+        // !! Use route challengeId !!
         const id =
           typeof challengeId === 'string'
             ? challengeId
@@ -150,7 +166,9 @@ export function useChapterData() {
       { immediate: true },
     )
 
-    // Remet watchInitialized à false quand le composant est détruit pour permettre la réinitialisation du watcher
+    /**
+     * Cleanup watcher when composable scope is destroyed
+     */
     onScopeDispose(() => {
       watchInitialized = false
       stop()

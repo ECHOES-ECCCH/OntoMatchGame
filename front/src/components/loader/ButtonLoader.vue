@@ -5,7 +5,6 @@ defineProps({
 </script>
 
 <template>
-  <!-- <span>{{ text }}</span> -->
   <div id="loader-2">
     <span></span>
     <span></span>

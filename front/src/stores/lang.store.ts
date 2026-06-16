@@ -8,12 +8,15 @@ const AUTH_KEY = 'language'
 
 type Language = keyof typeof messages
 
+// Reactive current language (persisted in localStorage)
 const language = ref<Language>((localStorage.getItem(AUTH_KEY) as Language) || 'fr')
 
+// Computed active translation dictionary based on current language
 const translations = computed(() => {
   return messages[language.value] || messages.fr
 })
 
+// Change language and persist it in localStorage
 const handleLanguage = (lang: Language) => {
   language.value = lang
   localStorage.setItem(AUTH_KEY, lang)

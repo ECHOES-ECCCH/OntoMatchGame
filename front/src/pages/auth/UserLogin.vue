@@ -30,6 +30,13 @@ watch(selectedLanguage, (newLang) => {
   langStore.handleLanguage(newLang)
 })
 
+/**
+ * Handles login form submission:
+ * - validates email existence and account status
+ * - attempts authentication
+ * - redirects on success
+ * - sets error messages on failure
+ */
 const handleSubmit = async (data: RegisterFormData) => {
   const checking = await handleCheckingForm(data.email)
   if (!checking) return

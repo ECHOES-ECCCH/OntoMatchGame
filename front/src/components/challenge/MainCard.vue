@@ -18,6 +18,17 @@ import PropertyCard from './PropertyCard.vue'
 import { useCardInfoStore } from '@/stores/cardInfo.store'
 import { storeToRefs } from 'pinia'
 
+/**
+ * Main board component.
+ *
+ * Responsible for:
+ * - building the challenge cards
+ * - managing card navigation
+ * - applying branch filters
+ * - synchronizing card state
+ * - displaying challenge solutions
+ */
+
 const cardInfoStore = useCardInfoStore()
 const { results } = useChallengeChecker()
 const { chapterData } = useChapterData()
@@ -31,6 +42,9 @@ const props = defineProps<{
 
 const chapterStore = useChapterData()
 
+/**
+ * Stores the selected branch filters for each board position.
+ */
 const branches = reactive<Record<Position, string[]>>({
   eleft: ['entity'],
   emiddle: ['entity'],
@@ -43,6 +57,10 @@ const branches = reactive<Record<Position, string[]>>({
   pright_range: ['entity'],
 })
 
+/**
+ * Maps board positions to their corresponding answer field
+ * in the chapter data.
+ */
 const answerMap: Record<string, string> = {
   eleft: 'ELeftAnswer',
   emiddle: 'EMiddleAnswer',
@@ -60,7 +78,10 @@ watch(chapterData, () => {
   })
 })
 
-// Utilisation de useBoardCards pour combiner entities et properties
+/**
+ * Build the cards displayed (properties, entities) on the board based on
+ * the current chapter and selected filters.
+ */
 const { boardCards } = useBoardCards(
   chapterStore.chapterData,
   props.entityDataCards,
@@ -68,7 +89,9 @@ const { boardCards } = useBoardCards(
   branches,
 )
 
-// Utilisation de useCardNavigation pour gérer la navigation
+/**
+ * Handles card navigation (slider, previous and next actions).
+ */
 const { currentIndexes, updateCardInfo, handlePrevious, handleNext, handleSliderChange } =
   useCardNavigation(boardCards, cardInfo.value)
 
@@ -81,7 +104,9 @@ watch(chapterData, () => {
   })
 })
 
-// Watch pour mettre à jour les cardInfo quand boardCards change
+/**
+ * Synchronizes displayed cards whenever board content changes.
+ */
 watch(
   boardCards,
   (newCards) => {
@@ -103,6 +128,10 @@ watch(
   { immediate: true, deep: true },
 )
 
+/**
+ * Automatically selects the correct cards when
+ * the solution display mode is enabled.
+ */
 watch(showSolution, (val) => {
   if (!val) return
   boardCards.value.forEach((data) => {

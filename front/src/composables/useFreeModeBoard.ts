@@ -15,7 +15,15 @@ export function useFreeModeBoard() {
 
   type NodeKind = 'entity' | 'property' | 'instance'
 
+  /**
+   * Extracts the current Vue Flow state and converts it into a serializable board object.
+   * This is used for saving/exporting the free-mode graph.
+   */
   const freeModeBoardData = (ontology: string) => {
+    /**
+     * Maps nodes of a specific type (entity/property/instance)
+     * into a normalized export format.
+     */
     const mapNodesByKind = (kind: NodeKind) => {
       return nodes.value
         .filter((n) => n?.data?.card?.kind === kind)
@@ -29,6 +37,7 @@ export function useFreeModeBoard() {
         }))
     }
 
+    // Full exported flow structure
     const flow = {
       ZoomLevel: viewport.value?.zoom ?? 1.0,
       Entities: mapNodesByKind('entity'),
@@ -40,6 +49,9 @@ export function useFreeModeBoard() {
     return flow
   }
 
+  /**
+   * Exports the current board as a downloadable JSON file.
+   */
   const exportFlow = (ontology: string) => {
     const flowData = freeModeBoardData(ontology)
 
@@ -52,7 +64,14 @@ export function useFreeModeBoard() {
     URL.revokeObjectURL(url)
   }
 
+  /**
+   * Converts a saved board into Vue Flow nodes.
+   * Used when importing or restoring a saved graph.
+   */
   const nodesInfos = async (flow: BoardCards) => {
+    /**
+     * Converts raw saved items into Vue Flow node format.
+     */
     const createNodes = (items: BoardCardItem[]) =>
       items
         .filter((item) => item?.Id)
@@ -76,20 +95,25 @@ export function useFreeModeBoard() {
       ...createNodes(flow.Instances ?? []),
     ]
 
-    // ✅ Ordre garanti : vider → attendre → remplir → viewport
+    // Reset graph before applying new data to avoid layout glitches
     setNodes([])
     setEdges([])
 
     await nextTick()
 
+    // Apply imported graph data
     setNodes(nodesImported)
     setEdges(flow.Edges ?? [])
 
     await nextTick()
 
+    // Restore zoom and position of the viewport
     setViewport({ x: 0, y: 0, zoom: flow.ZoomLevel ?? 1 })
   }
 
+  /**
+   * Imports a board from a JSON file selected by the user.
+   */
   const importFlow = async (event: Event) => {
     errorImportFlow.value = null
 
@@ -118,6 +142,9 @@ export function useFreeModeBoard() {
     }
   }
 
+  /**
+   * Opens a previously saved board and loads it into the Vue Flow canvas.
+   */
   const openSaveBoard = async (board: FreeModeBoard) => {
     currentBoard.value = board
     return nodesInfos(board.freemodeData)

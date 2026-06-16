@@ -23,22 +23,26 @@ const selectedScenario = ref('')
 const searchInstance = ref('')
 
 /**
- * scénarios liés à l'ontology
+ * Get scenarios linked to the selected ontology
  */
 const sortScenarios = computed(() => {
   return scenarioCatalog.scenarii.filter((s) => s.ontologyTags.includes(props.selectedOntology))
 })
 
 /**
- * filtre local des instances
+ * Normalize text for accent-insensitive search
  */
-
 const normalizeText = (text: string) =>
   text
     .toLowerCase()
     .normalize('NFD') // décompose les accents
     .replace(/[\u0300-\u036f]/g, '') // supprime les accents
 
+/**
+ * Filter instances by:
+ * - selected scenario
+ * - search query (Title / Label)
+ */
 const filteredInstances = computed(() => {
   const search = normalizeText(searchInstance.value.trim())
 
@@ -55,7 +59,8 @@ const filteredInstances = computed(() => {
 })
 
 /**
- * charge toutes les instances de tous les scénarios
+ * Load all instances from all scenarios of the ontology
+ * and normalize image paths
  */
 const loadAllInstances = async () => {
   if (!props.selectedOntology) return
@@ -97,7 +102,7 @@ const loadAllInstances = async () => {
 }
 
 /**
- * ouverture modal
+ * Reload instances when modal opens
  */
 watch(
   () => props.open,
@@ -110,7 +115,7 @@ watch(
 )
 
 /**
- * sélection instance
+ * Select an instance and close modal
  */
 const selectInstance = (instance: CardInstances) => {
   emit('update:selected', {
@@ -123,9 +128,6 @@ const selectInstance = (instance: CardInstances) => {
   emit('update:open', false)
 }
 
-/**
- * check URL
- */
 const isUrl = (str: string) => {
   try {
     new URL(str)
@@ -136,7 +138,7 @@ const isUrl = (str: string) => {
 }
 
 /**
- * fermeture modal
+ * Close modal and reset search
  */
 const closeModal = () => {
   searchInstance.value = ''

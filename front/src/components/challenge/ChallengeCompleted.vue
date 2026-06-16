@@ -14,10 +14,15 @@ const emit = defineEmits(['close'])
 
 const { finishChallenge } = useFinishChallenge()
 
+/**
+ * Check if this is the last challenge of the chapter
+ */
 const isLastChallenge =
   Number(props.chapterStats?.lastChallengeId) === Number(props.chapterStats?.maxChallengeCount)
 
 onMounted(() => {
+  // Auto redirect only if not last challenge
+
   if (!isLastChallenge) {
     interval = setInterval(() => {
       if (countdown.value > 0) countdown.value--
@@ -30,6 +35,12 @@ const countdown = ref(5)
 let interval: ReturnType<typeof setInterval>
 let timeout: ReturnType<typeof setTimeout>
 
+/**
+ * Finish current challenge
+ * - stop timers
+ * - close modal
+ * - update backend with score
+ */
 async function handleFinish() {
   clearInterval(interval)
   clearTimeout(timeout)

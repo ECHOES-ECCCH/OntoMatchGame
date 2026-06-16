@@ -25,30 +25,43 @@ const showExplanation = ref(false)
 const gameRef = ref<HTMLElement | null>(null)
 const isFullscreen = ref(false)
 
+/**
+ * Reload cards whenever chapter stats change.
+ * Avoid reloading when solution mode is active.
+ */
 watch(
   () => chapterStats.value,
   (stats) => {
     if (!stats) return
 
-    // NE RIEN FAIRE si on est en mode solution
+    // Do nothing if solution mode is active
     if (showSolution.value) return
 
     entityDataCards.value = []
     propertyDataCards.value = []
 
-    // Charge les carte de l'ontologie concernée
+    // Do nothing if solution mode is active
     loadCard(stats.ontologyName)
     reset()
   },
   { immediate: true },
 )
 
+/**
+ * Indicates whether the completion modal is visible.
+ */
 const showCompleted = ref(false)
 
+/**
+ * Trigger completion modal when challenge is completed.
+ */
 watch(isComplete, (val) => {
   if (val) showCompleted.value = true
 })
 
+/**
+ * Closes the completion modal.
+ */
 function closeCompleted() {
   showCompleted.value = false
 }
@@ -66,6 +79,9 @@ const toggleFullscreen = async () => {
   }
 }
 
+/**
+ * Syncs local fullscreen state with browser fullscreen changes.
+ */
 const handleFullscreenChange = () => {
   isFullscreen.value = !!document.fullscreenElement
 }

@@ -10,6 +10,11 @@ import OntologieFilter from '@/components/gameSelection/OntologieFilter.vue'
 
 const selectedOntology = ref('')
 
+/**
+ * Global score aggregation across all user statistics
+ * - totalScore: sum of all scores
+ * - totalMaxScore: sum of all maximum possible scores
+ */
 const globalTotals = computed(() => {
   return userStats.value.reduce(
     (acc, item) => {
@@ -21,6 +26,10 @@ const globalTotals = computed(() => {
   )
 })
 
+/**
+ * Global progression percentage across all stats
+ * Each scenario contributes equally (normalized progress per scenario)
+ */
 const globalPercentage = computed(() => {
   const all = userStats.value
 
@@ -37,6 +46,7 @@ const globalPercentage = computed(() => {
     }
   }
 
+  // Convert average progression to percentage
   return count > 0 ? Math.round((totalProgress / count) * 100) : 0
 })
 
@@ -49,7 +59,10 @@ const filteredStats = computed(() => {
   )
 })
 
-// Filtre ontologie
+/**
+ * Filter stats by selected ontology
+ * If none selected → show all stats
+ */
 watch(
   userStats,
   (newStats) => {

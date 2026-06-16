@@ -43,6 +43,12 @@ const handleCreditsModal = (display: boolean) => {
   modal.value = false
 }
 
+/**
+ * Reset user progression:
+ * - Reset backend game state
+ * - Refresh stats
+ * - Reset progression tracking
+ */
 const handleReset = async () => {
   if (user.userInfo.userId) {
     await resetGame(user.userInfo.userId)
@@ -57,6 +63,9 @@ const handleReset = async () => {
   shouldReloadHistory.value = true
 }
 
+/**
+ * Determine if user has an existing session (run once on mount)
+ */
 onMounted(() => {
   lastChallenge.value = computed(() => {
     return userHistory?.value.historyId ? true : false

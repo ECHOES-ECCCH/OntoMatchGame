@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { langStore } from '@/stores/lang.store'
 import ButtonLoader from '../loader/ButtonLoader.vue'
+
+// List of available countries (static JSON file)
 import countriesList from '../../../public/json/countries.json'
 
 const props = defineProps({
@@ -11,7 +13,14 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'update:errors', 'submit'])
 
+/**
+ * Update form fields dynamically
+ *
+ * Special case:
+ * - country is stored as { name, code } instead of raw string
+ */
 const updateField = (field: string, value: string) => {
+  // COUNTRY HANDLING (needs JSON parsing)
   if (field === 'country') {
     const { code, name } = JSON.parse(value)
     emit('update:modelValue', {
@@ -23,7 +32,7 @@ const updateField = (field: string, value: string) => {
   }
   emit('update:modelValue', { ...props.modelValue, [field]: value })
 
-  // Delete error message if field is modified
+  // Clear error when user modifies a field
   if (props.errors && props.errors[field]) {
     emit('update:errors', { ...props.errors, [field]: '' })
   }

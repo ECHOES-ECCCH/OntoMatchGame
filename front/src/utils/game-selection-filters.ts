@@ -3,10 +3,15 @@ import { computed, ref } from 'vue'
 import scenarioCatalog from '@/assets/json/scenariiCatalog.json'
 const scenarii = scenarioCatalog.scenarii ?? []
 
-// Filtre par défaut
+/**
+ * Currently selected ontology used to filter scenarios.
+ */
 export const selectedOntology = ref('CIDOC CRM')
 
-// Filtres thèmes à afficher selon l'ontolgie sélectionnée
+/**
+ * List of all unique domain codes available for the selected ontology.
+ * Derived from the scenario catalog.
+ */
 export const allDomainCodes = computed(() => {
   return [
     ...new Set(
@@ -17,8 +22,14 @@ export const allDomainCodes = computed(() => {
   ].sort()
 })
 
+/**
+ * Selected domain filters (initialized with all available domains).
+ */
 export const selectedDomains = ref<string[]>([...allDomainCodes.value])
 
+/**
+ * Human-readable labels for domain codes, translated dynamically.
+ */
 export const domainLabels = computed(() => {
   const t = langStore.t
 
@@ -39,8 +50,9 @@ export const domainLabels = computed(() => {
   }
 })
 
-// Filtres langage à afficher selon l'ontolgie sélectionnée
-
+/**
+ * List of all available language tags for the selected ontology.
+ */
 export const allLanguages = computed(() => {
   return [
     ...new Set(
@@ -53,7 +65,9 @@ export const allLanguages = computed(() => {
 
 export const selectedLanguages = ref<string[]>([...allLanguages.value])
 
-// Liste des scénarios selectionnés
+/**
+ * Selected language filters (initialized with all available languages).
+ */
 export const filteredScenarii = computed(() => {
   const result = scenarii.filter((s) => {
     const matchOntology = !selectedOntology.value || s.ontologyTags.includes(selectedOntology.value)

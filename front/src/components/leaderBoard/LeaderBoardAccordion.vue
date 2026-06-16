@@ -12,6 +12,10 @@ const props = defineProps<{
 const user = useUserInformations()
 const scenarios = computed(() => props.leaderboard.scenarii.scenario)
 
+/**
+ * Compute percentage score relative to maximum score
+ * If score exceeds max, clamp to 100%
+ */
 const getRatio = (playerScore: number, maxScore: number) => {
   if (playerScore > maxScore) {
     return 100

@@ -18,10 +18,16 @@ defineProps<{
   scenario: Scenario[]
 }>()
 
+/**
+ * Navigate to a challenge and create a session
+ */
 function goToChallenge(scenario: Scenario, chapter: Chapter) {
   handleCreateSessionData(scenario['scenario-title'], chapter['chapter-filename'])
 }
 
+/**
+ * Check if user data + stats are fully loaded before rendering UI
+ */
 const isFullyLoaded = computed(() => {
   return (
     !userStore.isUserInfoLoading &&

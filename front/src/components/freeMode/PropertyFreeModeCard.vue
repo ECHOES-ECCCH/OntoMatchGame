@@ -20,15 +20,19 @@ const propertyBranches = ref({
   domain: ['entity'],
   range: ['entity'],
 })
+
 /**
- * Carte actuellement affichée en mode libre
- * (quand on clique sur subclass/superclass)
+ * Card selected via ontology navigation (free mode override)
  */
 const currentFreeCard = ref<CardPropertyInfo | null>(null)
 
+/**
+ * Apply branch filtering on property dataset
+ */
 const filteredCards = computed<CardPropertyInfo[]>(() => {
   let cards: CardPropertyInfo[] = props.propertyDataCards
 
+  // filter by domain branch if not default
   if (propertyBranches.value.domain?.includes('entity') === false) {
     cards = filteredPropertyCardsByBranch(
       props.entityDataCards,
@@ -38,6 +42,7 @@ const filteredCards = computed<CardPropertyInfo[]>(() => {
     )
   }
 
+  // filter by range branch if not default
   if (propertyBranches.value.range?.includes('entity') === false) {
     cards = filteredPropertyCardsByBranch(
       props.entityDataCards,
@@ -50,10 +55,18 @@ const filteredCards = computed<CardPropertyInfo[]>(() => {
   return cards
 })
 
+/**
+ * Current card from slider navigation
+ */
+const currentIndex = ref(props.initialIndex ?? 0)
+
 const currentCard = computed(() => {
   return filteredCards.value[currentIndex.value] ?? filteredCards.value[0] ?? null
 })
 
+/**
+ * Reset navigation when filtered dataset changes
+ */
 watch(
   () => filteredCards.value,
   () => {
@@ -61,8 +74,6 @@ watch(
     currentFreeCard.value = null
   },
 )
-
-const currentIndex = ref(props.initialIndex ?? 0)
 
 defineEmits<{
   (
@@ -77,9 +88,9 @@ defineEmits<{
 const showScopeNote = ref(false)
 
 /**
- * Carte réellement affichée
- * -> soit la carte du slider
- * -> soit la carte sélectionnée
+ * Final displayed card:
+ * - slider selection OR
+ * - ontology selection (free navigation override)
  */
 const displayedCard = computed(() => {
   return currentFreeCard.value ?? currentCard.value
@@ -95,28 +106,16 @@ const handlePropertyColor = (side: 'domain' | 'range') => {
 
 const handlePrevious = () => {
   currentIndex.value = Math.max(currentIndex.value - 1, 0)
-
-  /**
-   * reset du mode libre
-   */
   currentFreeCard.value = null
 }
 
 const handleNext = () => {
   currentIndex.value = Math.min(currentIndex.value + 1, props.propertyDataCards.length - 1)
-
-  /**
-   * reset du mode libre
-   */
   currentFreeCard.value = null
 }
 
 const handleSliderChange = (value: number) => {
   currentIndex.value = value
-
-  /**
-   * reset du mode libre
-   */
   currentFreeCard.value = null
 }
 

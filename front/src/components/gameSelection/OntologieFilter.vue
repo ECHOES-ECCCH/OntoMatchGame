@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { langStore } from '@/stores/lang.store'
-import { computed, onMounted, watchEffect } from 'vue'
+import { computed } from 'vue'
 
 import scenarioCatalog from '@/assets/json/scenariiCatalog.json'
 

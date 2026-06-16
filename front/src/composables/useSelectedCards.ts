@@ -5,6 +5,10 @@ import { showSolution } from './useSolution'
 type EntityPositionKeys = 'ELeftInit' | 'EMiddleInit' | 'ERightInit'
 type PropertyPositionKeys = 'PLeftInit' | 'PRightInit'
 
+/**
+ * Filters entity cards based on selected ontology branches.
+ * If "entity" is selected, no filtering is applied.
+ */
 export function filteredEntityCardsByBranch(
   allEntityCards: CardInfo[],
   selectedBranches: string[],
@@ -18,6 +22,10 @@ export function filteredEntityCardsByBranch(
       )
 }
 
+/**
+ * Filters property cards based on entity branches.
+ * Filtering is applied on either domain or range side.
+ */
 export function filteredPropertyCardsByBranch(
   allEntityCards: CardInfo[],
   selectedBranches: string[],
@@ -33,6 +41,9 @@ export function filteredPropertyCardsByBranch(
   return filteredCards.filter((card) => allowedEntities.includes(card[side]))
 }
 
+/**
+ * Builds entity card groups for the board based on chapter configuration.
+ */
 export function useEntityCards(
   chapterData: Ref<ChapterData | null>,
   entityDataCards: CardInfo[],
@@ -43,20 +54,19 @@ export function useEntityCards(
     if (!chapter) return []
     return (['ELeftInit', 'EMiddleInit', 'ERightInit'] as EntityPositionKeys[]).map((pos) => {
       /**
-       * Cartes selectionnées selon le challenge et la position
+       * Maps selected according to the challenge and position
        */
       const positionKey = pos.replace('Init', '').toLowerCase() as Position
       const ids = chapter[pos]?.split(',').map((id: string) => id.trim()) ?? []
 
+      // Resolve IDs into actual card objects
       const allEntityCards = ids
         .flatMap((id: string) =>
           id === '*' ? entityDataCards : entityDataCards.find((card: CardInfo) => card.id === id),
         )
         .filter(Boolean)
 
-      /**
-       *  FILTRE : Filtrer avec plusieurs branches
-       */
+      // Branch filtering is disabled in solution mode
       const selectedBranches = showSolution.value ? 'entity' : branches[positionKey]
 
       const filteredCards = filteredEntityCardsByBranch(allEntityCards, selectedBranches)
@@ -74,6 +84,9 @@ export function useEntityCards(
   })
 }
 
+/**
+ * Builds property card groups (domain/range filtering included).
+ */
 export function usePropertyCards(
   chapterData: Ref<ChapterData | null>,
   propertyDataCards: CardPropertyInfo[],
@@ -94,14 +107,13 @@ export function usePropertyCards(
         )
         .filter(Boolean)
 
-      // 👇 nouveaux filtres
+      // Branch filters for domain and range sides
       const domainBranches = showSolution.value ? 'entity' : branches[`${positionKey}_domain`]
       const rangeBranches = showSolution.value ? 'entity' : branches[`${positionKey}_range`]
 
       let filteredCards = allPropertyCards
 
-      // Filtrage via les entités Domain
-
+      // Apply domain filtering
       if (domainBranches && !domainBranches.includes('entity')) {
         filteredCards = filteredPropertyCardsByBranch(
           entityDataCards,
@@ -111,7 +123,7 @@ export function usePropertyCards(
         )
       }
 
-      // Filtrage via les entités Range
+      // Apply range filtering
       if (rangeBranches && !rangeBranches.includes('entity')) {
         filteredCards = filteredPropertyCardsByBranch(
           entityDataCards,
@@ -135,6 +147,10 @@ export function usePropertyCards(
   })
 }
 
+/**
+ * Builds instance cards for each board position.
+ * Each instance is matched by ID from chapter configuration.
+ */
 export function useInstancesCards(
   chapterData: Ref<ChapterData | null>,
   chapterInstances: Ref<CardInstances | null>,
@@ -158,6 +174,10 @@ export function useInstancesCards(
   })
 }
 
+/**
+ * Combines entity, property cards into a single board layout.
+ * Defines the final structure used by the UI.
+ */
 export function useBoardCards(
   chapterData: Ref<ChapterData | null>,
   entityDataCards: CardInfo[],

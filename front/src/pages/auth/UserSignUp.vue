@@ -25,6 +25,12 @@ const accountCreated = ref(false)
 const infosModal = ref(false)
 const creditsModal = ref(false)
 
+/**
+ * Handles signup form submission:
+ * - checks username availability
+ * - checks email availability
+ * - creates account if all validations pass
+ */
 const handleSubmit = async (data: SignupFormData) => {
   const checkUser = await checkUsername(data.username)
   if (!checkUser) return
@@ -73,7 +79,12 @@ const handleCreditsModal = (display: boolean) => {
         {{ langStore.t('static-text.SignupScene.signup-scene-accountcreated-text') }}
       </p>
       <div class="account">
-        <SignupForm v-model="formData" v-model:errors="errors" @submit="handleSubmit" :isLoading />
+        <SignupForm
+          v-model="formData"
+          v-model:errors="errors"
+          @submit="handleSubmit"
+          :isLoading="isLoading"
+        />
         <span class="conditions">{{
           langStore.t('static-text.SignupScene.signup-scene-termsandconditions-text')
         }}</span>

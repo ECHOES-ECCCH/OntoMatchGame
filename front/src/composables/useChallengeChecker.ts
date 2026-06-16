@@ -8,6 +8,9 @@ const results = ref<Partial<ErrorCards>>({})
 const isComplete = ref(false)
 const score = ref(0)
 
+/**
+ * Reset challenge state
+ */
 const reset = () => {
   isComplete.value = false
   score.value = 0
@@ -27,7 +30,7 @@ function getStatus(
   const possibleAnswers = answer.split(',').map((a) => a.trim())
   const getBranch = (about: string) => entityDataCards.find((e) => e.about === about)?.branch ?? []
 
-  // Cas branche : les answers sont des noms de branches, pas des IDs
+  // The answers are branch names
   const hasCommonBranch =
     current.branch && current.branch.some((b: string) => possibleAnswers.includes(b))
 
@@ -40,7 +43,7 @@ function getStatus(
 
   const byBranchEntity = !current.domain && !current.range ? hasCommonBranch : false
 
-  // Cas ID : les answers sont des IDs de cartes
+  // The answers are ID cards
 
   const byId = possibleAnswers.includes(current.id)
 
@@ -56,6 +59,9 @@ function getStatus(
   }
 }
 
+/**
+ * Generate a detailed error message explaining why the answer is incorrect
+ */
 const getErrorDetails = (
   current: any,
   answers: string[],
@@ -67,6 +73,9 @@ const getErrorDetails = (
   const isProperty = current.domain || current.range
   const isEntity = !current.domain && !current.range
 
+  /**
+   * Entity + branch-based answer validation
+   */
   if (isBranchAnswer && isEntity) {
     const errors: string[] = []
 
@@ -81,6 +90,9 @@ const getErrorDetails = (
       : langStore.t('static-text.BoardScene.boardscene-scene-error-specific')
   }
 
+  /**
+   * Property + branch-based validation (domain/range logic)
+   */
   if (isBranchAnswer && isProperty) {
     const errors: string[] = []
 
@@ -99,7 +111,9 @@ const getErrorDetails = (
       : langStore.t('static-text.BoardScene.boardscene-scene-error-specific')
   }
 
-  // Cas ID : les answers sont des IDs de cartes
+  /**
+   * ID-based validation (entities or properties)
+   */
   const allCards = [...entityDataCards, ...propertyDataCards]
   const found = allCards.find((c) => answers.includes(c.id))
 
@@ -140,10 +154,16 @@ const getErrorDetails = (
     : langStore.t('static-text.BoardScene.boardscene-scene-error-specific')
 }
 
+/**
+ * Main composable used to validate a full challenge board
+ */
 export function useChallengeChecker() {
   const cardInfoStore = useCardInfoStore()
   const { chapterData } = useChapterData()
 
+  /**
+   * Validate all board positions against chapter answers
+   */
   const check = async (entityDataCards: any[], propertyDataCards: any[]) => {
     const cardInfo = cardInfoStore.cardInfo
     const data = isRef(chapterData) ? chapterData.value : chapterData
@@ -156,10 +176,16 @@ export function useChallengeChecker() {
       pright: getStatus(cardInfo.pright, data.PRightAnswer, entityDataCards, propertyDataCards),
     }
 
+    /**
+     * Challenge is complete if all non-empty answers are correct
+     */
     isComplete.value = Object.values(results.value)
       .filter((v) => v.status !== 'unused')
       .every((v) => v.status === 'correct')
 
+    /**
+     * Score is awarded only if fully completed
+     */
     score.value = isComplete.value ? data.Score : 0
   }
 

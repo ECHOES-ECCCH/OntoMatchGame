@@ -16,6 +16,9 @@ const emit = defineEmits<{
   'update:cardInfo': [value: typeof props.cardInfo]
 }>()
 
+/**
+ * Switch the current card to the selected subProperties or superProperties.
+ */
 const switchPropertyCard = (aboutValue: string) => {
   const updated = switchCard(aboutValue, props.position, props.propertyDataCards, props.cardInfo)
 
@@ -24,6 +27,9 @@ const switchPropertyCard = (aboutValue: string) => {
   }
 }
 
+/**
+ * Available subProperties and superProperties for the current entity.
+ */
 const subProperties = computed(
   () => props.superSubProperties.subPropertyOf.value[props.position] || [],
 )
