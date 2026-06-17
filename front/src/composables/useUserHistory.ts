@@ -26,10 +26,16 @@ export const userOntology = computed<string>(() => {
 })
 
 watch(
-  [() => userStore.userInfo.userId, shouldReloadHistory],
-  ([userId, reload]) => {
+  () => userStore.userInfo.userId,
+  (userId) => {
     if (userId) fetchUserHistory(userId)
-    if (reload) shouldReloadHistory.value = false
   },
   { immediate: true },
 )
+
+watch(shouldReloadHistory, (reload) => {
+  if (!reload) return
+  const userId = userStore.userInfo.userId
+  if (userId) fetchUserHistory(userId)
+  shouldReloadHistory.value = false
+})
