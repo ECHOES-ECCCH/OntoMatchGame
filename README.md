@@ -1,5 +1,4 @@
-﻿
-# OntoMatchGame
+﻿# OntoMatchGame
 
 ## Introduction
 
@@ -173,19 +172,19 @@ These resources contain:
 
 ## Authentication
 
-| Feature | Endpoint |
-|----------|----------|
-| Login | login.php |
-| Registration | userSave.php |
+| Feature        | Endpoint          |
+| -------------- | ----------------- |
+| Login          | login.php         |
+| Registration   | userSave.php      |
 | Password reset | sendresetlink.php |
 
 ## Homepage
 
-| Data | Endpoint |
-|--------|----------|
-| Username | getusername.php |
-| User ID | getuserid.php |
-| History | gethistory.php |
+| Data       | Endpoint         |
+| ---------- | ---------------- |
+| Username   | getusername.php  |
+| User ID    | getuserid.php    |
+| History    | gethistory.php   |
 | Statistics | getuserstats.php |
 
 ## Challenge Lifecycle
@@ -212,9 +211,9 @@ When a player submits a correct answer:
 
 # Rankings and Statistics
 
-| Feature | Endpoint |
-|----------|----------|
-| Rankings | getrankings.php |
+| Feature    | Endpoint         |
+| ---------- | ---------------- |
+| Rankings   | getrankings.php  |
 | Statistics | getuserstats.php |
 
 ---
@@ -318,7 +317,7 @@ User
  │
  ├── History
  │
- └── Statistics
+ └── Progression
 
 Ontology
  │
@@ -339,10 +338,7 @@ When modifying or extending the project:
 - Verify translations are available for all supported languages.
 - Test progression tracking after adding new chapters or scenarios.
 
-
-
 ---
-
 
 # Free Mode
 
@@ -378,8 +374,9 @@ Each ontology element added to the board is represented as a Vue Flow node conta
 - A node type
 - Ontology metadata
 - Position coordinates
+- Zoom level
 
-Relationships between elements are represented as Vue Flow edges.
+Relationships between elements are represented as Vue Flow edges (Not started yet).
 
 The complete diagram state (nodes and edges) is serialized into JSON for persistence and export.
 
@@ -440,5 +437,3 @@ Nodes + Edges
               ▼
          JSON File
 ```
-
-
