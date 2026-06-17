@@ -180,6 +180,7 @@ const selectCard = (aboutValue: string) => {
             </div>
             <PropertySuperpropertiesSubpropertiesFreeMode
               v-if="displayedCard"
+              :position="position"
               :superProperties="superProperties"
               :subProperties="subProperties"
               :currentCard="displayedCard"
