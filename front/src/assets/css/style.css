@@ -70,6 +70,11 @@ select:focus {
   box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
 }
 
+.error-request {
+  color: red;
+  margin-bottom: 10px;
+}
+
 /* ===================== LOADER ===================== */
 
 /* Button Loader */
@@ -126,6 +131,7 @@ header.main-header {
   z-index: 100;
   transition: transform 0.3s ease;
   background-color: white;
+  position: relative;
 }
 
 header.main-header.header-hidden {
@@ -565,11 +571,12 @@ progress::-moz-progress-bar {
   width: 100%;
   height: 100vh;
   position: absolute;
+  z-index: 9999;
 }
 
 .modal-container .modal-content {
-  width: clamp(280px, 30vw, 500px);
-  height: clamp(140px, 30vh, 170px);
+  width: clamp(280px, 32vw, 500px);
+  height: fit-content;
   background-color: white;
   position: relative;
   top: 50%;
@@ -583,6 +590,7 @@ progress::-moz-progress-bar {
   justify-content: space-around;
   padding: 10px;
   box-shadow: var(--shadow);
+  z-index: 9999;
 }
 
 .modal-container .modal-content div p:nth-child(1) {
@@ -627,6 +635,12 @@ progress::-moz-progress-bar {
   box-shadow: var(--shadow);
   font-weight: 600;
   transition: background-position 0.4s ease;
+}
+
+.modal-container .modal-content .button button:nth-child(2):disabled {
+  background: #d1d1d1 !important;
+  cursor: not-allowed;
+  color: #ebebeb;
 }
 
 .modal-container .modal-content .button button:nth-child(2):hover {
@@ -1122,6 +1136,7 @@ button.solution {
   max-width: 211px;
   flex-shrink: 1;
   transition: all 0.25s ease;
+  text-align: center;
 }
 
 .entity-card:hover,
@@ -1479,7 +1494,8 @@ button.solution {
   font-size: clamp(0.5rem, 0.7vw, 1rem);
 }
 
-.cards-container .content-cards .carousel-container .property-card {
+.cards-container .content-cards .carousel-container .property-card,
+.free-mode-container .carousel-container .property-card {
   flex: 1 0 clamp(180px, 14vw, 350px);
   /* height: clamp(160px, 10vw, 200px); */
   width: 100%;
@@ -1490,7 +1506,8 @@ button.solution {
     0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-.cards-container .content-cards .carousel-container .entity-card::before {
+.cards-container .content-cards .carousel-container .entity-card::before,
+.free-mode-container .carousel-container .entity-card::before {
   content: '';
   position: absolute;
   left: 0;
@@ -1504,7 +1521,8 @@ button.solution {
   );
 }
 
-.cards-container .content-cards .carousel-container .entity-card::after {
+.cards-container .content-cards .carousel-container .entity-card::after,
+.free-mode-container .carousel-container .entity-card::after {
   content: '';
   position: absolute;
   right: 0;
@@ -1605,7 +1623,8 @@ button.solution {
   font-size: clamp(0.6rem, 1vw, 1rem);
 }
 
-.cards-container .content-cards .carousel-container .slider {
+.cards-container .content-cards .carousel-container .slider,
+.free-mode-container .carousel-container .slider {
   -webkit-appearance: none;
   appearance: none;
   width: 60%;
@@ -1647,17 +1666,20 @@ button.solution {
   }
 }
 
-.cards-container .content-cards .carousel-container .card-name {
+.cards-container .content-cards .carousel-container .card-name,
+.free-mode-container .carousel-container .card-name {
   display: flex;
   justify-content: space-between;
 }
 
-.cards-container .content-cards .carousel-container .property.card-name {
+.cards-container .content-cards .carousel-container .property.card-name,
+.free-mode-container .carousel-container .property.card-name {
   flex-direction: column;
   align-items: center;
 }
 
-.cards-container .content-cards .carousel-container .card-name div {
+.cards-container .content-cards .carousel-container .card-name div,
+.free-mode-container .carousel-container .card-name div {
   display: flex;
   flex: 2;
   align-items: center;
@@ -1665,7 +1687,8 @@ button.solution {
   padding-left: 10px;
 }
 
-.cards-container .content-cards .carousel-container .card-name .prefix {
+.cards-container .content-cards .carousel-container .card-name .prefix,
+.free-mode-container .carousel-container .card-name .prefix {
   width: clamp(20px, 2vw, 40px);
   height: clamp(20px, 2vw, 40px);
   font-size: clamp(0.5rem, 0.8vw, 0.9rem);
@@ -1684,37 +1707,43 @@ button.solution {
   border: 1px solid var(--card-text-color, transparent);
 }
 
-.cards-container .content-cards .carousel-container .card-name .property.prefix {
+.cards-container .content-cards .carousel-container .card-name .property.prefix,
+.free-mode-container .carousel-container .card-name .property.prefix {
   background-color: var(--main-color1);
   align-content: center;
   justify-content: center;
   align-items: center;
 }
 
-.cards-container .content-cards .carousel-container .card-name .name {
+.cards-container .content-cards .carousel-container .card-name .name,
+.free-mode-container .carousel-container .card-name .name {
   font-size: clamp(0.4rem, 0.9vw, 1rem);
   font-weight: 600;
   margin-left: 5px;
 }
 
-.cards-container .content-cards .carousel-container .card-name .property.name {
+.cards-container .content-cards .carousel-container .card-name .property.name,
+.free-mode-container .carousel-container .card-name .property.name {
   font-size: clamp(0.4rem, 0.7vw, 0.8rem);
 }
 
-.cards-container .content-cards .carousel-container .card-name .image-card {
+.cards-container .content-cards .carousel-container .card-name .image-card,
+.free-mode-container .carousel-container .card-name .image-card {
   display: flex;
   justify-content: right;
   margin: 10px;
   align-items: center;
 }
 
-.cards-container .content-cards .carousel-container .card-name img {
+.cards-container .content-cards .carousel-container .card-name img,
+.free-mode-container .carousel-container .card-name img {
   width: clamp(8px, 1.4vw, 36px);
   height: 27px;
   object-fit: contain;
 }
 
-.cards-container .content-cards .carousel-container .range {
+.cards-container .content-cards .carousel-container .range,
+.free-mode-container .carousel-container .range {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1850,7 +1879,8 @@ button.solution {
   margin-top: 25px;
 }
 
-.cards-container .content-cards .types-filter.horizontal-filter {
+.cards-container .content-cards .types-filter.horizontal-filter,
+.free-mode-container .carousel-container .horizontal-filter {
   /* height: 40px; */
   background-color: #e6e6e6;
   border-bottom-left-radius: var(--box-radius);
@@ -1860,32 +1890,37 @@ button.solution {
   background: color-mix(in srgb, var(--main-color1, currentColor) 10%, transparent);
 }
 
-.cards-container .content-cards .types-filter.vertical-filter {
+.cards-container .content-cards .types-filter.vertical-filter,
+.free-mode-container .carousel-container .types-filter.vertical-filter {
   flex: 0 1 auto;
   min-width: 0;
   background: color-mix(in srgb, var(--main-color1, currentColor) 10%, transparent);
   padding: 0 clamp(0.3rem, 0.7vw, 1.2rem);
 }
 
-.cards-container .content-cards .types-filter.vertical-filter.vertical-filter-left {
+.cards-container .content-cards .types-filter.vertical-filter.vertical-filter-left,
+.free-mode-container .types-filter.vertical-filter.vertical-filter-left {
   border-top-left-radius: var(--box-radius);
   border-bottom-left-radius: var(--box-radius);
 }
 
-.cards-container .content-cards .types-filter.vertical-filter.vertical-filter-right {
+.cards-container .content-cards .types-filter.vertical-filter.vertical-filter-right,
+.free-mode-container .types-filter.vertical-filter.vertical-filter-right {
   border-top-right-radius: var(--box-radius);
   border-bottom-right-radius: var(--box-radius);
 }
 
-.cards-container .content-cards .types-filter.vertical-filter ul {
+.cards-container .content-cards .types-filter.vertical-filter ul,
+.free-mode-container .types-filter.vertical-filter ul {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   height: 100%;
-  margin-top: -12px;
+  margin-top: -12px !important;
 }
 
-.cards-container .content-cards .types-filter ul {
+.cards-container .content-cards .types-filter ul,
+.free-mode-container .carousel-container .types-filter ul {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -1893,7 +1928,8 @@ button.solution {
   margin: -5px;
 }
 
-.cards-container .content-cards .types-filter ul li.type {
+.cards-container .content-cards .types-filter ul li.type,
+.free-mode-container .carousel-container .types-filter ul li.type {
   width: clamp(3px, 0.65vw, 12px);
   height: clamp(3px, 0.65vw, 12px);
   cursor: pointer;
@@ -1901,11 +1937,13 @@ button.solution {
   white-space: normal;
 }
 
-.cards-container .content-cards .types-filter ul li.type.active {
+.cards-container .content-cards .types-filter ul li.type.active,
+.free-mode-container .carousel-container .types-filter ul li.type.active {
   border-radius: 50px;
 }
 
-.cards-container .content-cards .carousel-container .entity-card {
+.cards-container .content-cards .carousel-container .entity-card,
+.free-mode-container .carousel-container .entity-card {
   flex: 1 0 clamp(180px, 12vw, 300px);
   width: 100%;
   min-width: 0;
@@ -1926,7 +1964,8 @@ button.solution {
   aspect-ratio: 265 / 400;
 }
 
-.cards-container .content-cards .carousel-container .entity-card .card-content {
+.cards-container .content-cards .carousel-container .entity-card .card-content,
+.free-mode-container .carousel-container .entity-card .card-content {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -1946,7 +1985,8 @@ button.solution {
   font-size: clamp(0.5rem, 0.5vw, 1.5rem);
 }
 
-.cards-container .content-cards .carousel-container .entity-card .entity-classes {
+.cards-container .content-cards .carousel-container .entity-card .entity-classes,
+.free-mode-container .carousel-container .entity-card .entity-classes {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
@@ -1954,7 +1994,8 @@ button.solution {
   padding: 0.5rem 0 0.5rem 1.3rem;
 }
 
-.cards-container .content-cards .carousel-container .entity-card h2 {
+.cards-container .content-cards .carousel-container .entity-card h2,
+.free-mode-container .carousel-container .entity-card h2 {
   font-size: clamp(0.4rem, 0.5vw, 0.8rem);
   text-align: center;
   flex-shrink: 0;
@@ -1970,7 +2011,8 @@ button.solution {
   overflow: hidden;
 }
 
-.cards-container .content-cards .carousel-container .entity-card .entity-classes .hierarchy {
+.cards-container .content-cards .carousel-container .entity-card .entity-classes .hierarchy,
+.free-mode-container .carousel-container .entity-card .entity-classes .hierarchy {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -1985,7 +2027,8 @@ button.solution {
   font-size: clamp(0.6rem, 0.8vw, 0.9rem);
 }
 
-.cards-container .content-cards .carousel-container .entity-card .entity-classes .hierarchy-btn {
+.cards-container .content-cards .carousel-container .entity-card .entity-classes .hierarchy-btn,
+.free-mode-container .carousel-container .entity-card .entity-classes .hierarchy-btn {
   border-radius: 4px;
   background: transparent;
   cursor: pointer;
@@ -2005,11 +2048,13 @@ button.solution {
   .carousel-container
   .entity-card
   .entity-classes
-  .hierarchy-btn:hover {
+  .hierarchy-btn:hover,
+.free-mode-container .carousel-container .entity-card .entity-classes .hierarchy-btn:hover {
   background: rgba(0, 0, 0, 0.05);
 }
 
-.cards-container .content-cards .carousel-container .entity-card .entity-classes .current {
+.cards-container .content-cards .carousel-container .entity-card .entity-classes .current,
+.free-mode-container .carousel-container .entity-card .entity-classes .current {
   padding: clamp(2px, 0.5vw, 8px);
   font-weight: bold;
   text-align: center;
@@ -2023,13 +2068,17 @@ button.solution {
   text-align: left;
 }
 
-.cards-container .content-cards .property {
+.cards-container .content-cards .property,
+.free-mode-container .property {
   display: flex;
 }
 
 .cards-container .content-cards .carousel-container .property-card .property-classes,
 .cards-container .content-cards .carousel-container .property-card .property-classes .hierarchy-btn,
-.cards-container .content-cards .carousel-container .property-card .property-classes .current {
+.cards-container .content-cards .carousel-container .property-card .property-classes .current,
+.free-mode-container .carousel-container .property-card .property-classes,
+.free-mode-container .carousel-container .property-card .property-classes .current,
+.free-mode-container .carousel-container .property-card .property-classes .hierarchy-btn {
   min-width: 0;
   width: 100%;
   box-sizing: border-box;
@@ -2052,7 +2101,8 @@ button.solution {
   white-space: nowrap;
 }
 
-.cards-container .content-cards .property-card {
+.cards-container .content-cards .property-card,
+.free-mode-container .carousel-container .property-card {
   width: 100%;
   aspect-ratio: 265 / 186;
   height: auto;
@@ -2068,13 +2118,15 @@ button.solution {
   overflow: hidden;
 }
 
-.cards-container .content-cards .carousel-container .property-card h2 {
+.cards-container .content-cards .carousel-container .property-card h2,
+.free-mode-container .carousel-container .property-card h2 {
   font-size: clamp(0.4rem, 0.5vw, 0.8rem);
   color: #bbbbbb;
   margin-bottom: 2px;
 }
 
-.cards-container .content-cards .carousel-container .property-card .property-classes {
+.cards-container .content-cards .carousel-container .property-card .property-classes,
+.free-mode-container .carousel-container .property-card .property-classes {
   height: 120px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -2084,7 +2136,8 @@ button.solution {
   font-size: clamp(0.5rem, 0.8vw, 0.9rem);
 }
 
-.cards-container .content-cards .carousel-container .property-card .card-content {
+.cards-container .content-cards .carousel-container .property-card .card-content,
+.free-mode-container .carousel-container .property-card .card-content {
   min-height: 0;
   overflow: hidden;
   display: flex;
@@ -2098,7 +2151,8 @@ button.solution {
   box-sizing: border-box;
 }
 
-.cards-container .content-cards .carousel-container .property-card .vertical-button {
+.cards-container .content-cards .carousel-container .property-card .vertical-button,
+.free-mode-container .carousel-container .property-card .vertical-button {
   writing-mode: vertical-rl;
   text-orientation: mixed;
   cursor: pointer;
@@ -2119,13 +2173,15 @@ button.solution {
 .cards-container .content-cards .carousel-container .property-card .vertical-button.vertical-title {
 }
 
-.cards-container .content-cards .carousel-container .property-card .vertical-button span {
+.cards-container .content-cards .carousel-container .property-card .vertical-button span,
+.free-mode-container .carousel-container .property-card .vertical-button span {
   color: #bbbbbb;
   text-transform: uppercase;
   font-size: clamp(0.2rem, 0.5vw, 0.5rem);
 }
 
-.cards-container .content-cards .carousel-container .property-card .vertical-button p {
+.cards-container .content-cards .carousel-container .property-card .vertical-button p,
+.free-mode-container .carousel-container .property-card .vertical-button p {
   color: var(--black);
   font-size: clamp(0.35rem, 0.6vw, 0.8rem);
   height: 100%;
@@ -2141,7 +2197,8 @@ button.solution {
   .content-cards
   .carousel-container
   .property-card
-  .vertical-button.vertical-left::before {
+  .vertical-button.vertical-left::before,
+.free-mode-container .carousel-container .property-card .vertical-button.vertical-left::before {
   content: '';
   position: absolute;
   left: 0;
@@ -2155,7 +2212,8 @@ button.solution {
   );
 }
 
-.cards-container .content-cards .carousel-container .property-card .vertical-button.vertical-right {
+.cards-container .content-cards .carousel-container .property-card .vertical-button.vertical-right,
+.free-mode-container .carousel-container .property-card .vertical-button.vertical-right {
   writing-mode: sideways-lr;
   padding: 0;
 }
@@ -2165,7 +2223,8 @@ button.solution {
   .carousel-container
   .property-card
   .vertical-button.vertical-right
-  p {
+  p,
+.free-mode-container .carousel-container .property-card .vertical-button.vertical-right p {
   margin-right: 25px;
 }
 
@@ -2174,7 +2233,8 @@ button.solution {
   .carousel-container
   .property-card
   .vertical-button.vertical-right
-  span {
+  span,
+.free-mode-container .carousel-container .property-card .vertical-button.vertical-right span {
   text-transform: uppercase;
   padding-top: 3px;
 }
@@ -2183,7 +2243,8 @@ button.solution {
   .content-cards
   .carousel-container
   .property-card
-  .vertical-button.vertical-right::before {
+  .vertical-button.vertical-right::before,
+.free-mode-container .carousel-container .property-card .vertical-button.vertical-right::before {
   content: '';
   position: absolute;
   right: 0;
@@ -2197,7 +2258,8 @@ button.solution {
   );
 }
 
-.cards-container .content-cards .carousel-container .property-card .property-classes .hierarchy {
+.cards-container .content-cards .carousel-container .property-card .property-classes .hierarchy,
+.free-mode-container .carousel-container .property-card .property-classes .hierarchy {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -2207,12 +2269,8 @@ button.solution {
   white-space: nowrap;
 }
 
-.cards-container
-  .content-cards
-  .carousel-container
-  .property-card
-  .property-classes
-  .hierarchy-btn {
+.cards-container .content-cards .carousel-container .property-card .property-classes .hierarchy-btn,
+.free-mode-container .carousel-container .property-card .property-classes .hierarchy-btn {
   padding: clamp(2px, 0.3vw, 5px);
   font-size: clamp(0.3rem, 0.5vw, 0.7rem);
   border-radius: 4px;
@@ -2232,11 +2290,13 @@ button.solution {
   .carousel-container
   .property-card
   .property-classes
-  .hierarchy-btn:hover {
+  .hierarchy-btn:hover,
+.free-mode-container .carousel-container .property-card .property-classes .hierarchy-btn:hover {
   background: rgba(0, 0, 0, 0.05);
 }
 
-.cards-container .content-cards .carousel-container .property-card .property-classes .current {
+.cards-container .content-cards .carousel-container .property-card .property-classes .current,
+.free-mode-container .carousel-container .property-card .property-classes .current {
   padding: clamp(2px, 0.4vw, 5px);
   font-size: clamp(0.35rem, 0.5vw, 0.6rem);
   font-weight: bold;
@@ -2251,13 +2311,15 @@ button.solution {
   min-width: 0;
 }
 
-.cards-container .content-cards .carousel-container .property .types-filter ul.vertical-filter {
+.cards-container .content-cards .carousel-container .property .types-filter ul.vertical-filter,
+.free-mode-container .carousel-container .property .types-filter ul.vertical-filter {
   display: flex;
   flex-direction: column;
   height: auto;
 }
 
-.cards-container .content-cards .carousel-container .instance-card {
+.cards-container .content-cards .carousel-container .instance-card,
+.free-mode-container .content-cards .carousel-container .instance-card {
   flex: 1 0 clamp(100px, 10vw, 240px);
   max-width: clamp(160px, 14vw, 320px);
   min-width: clamp(100px, 10vw, 240px);
@@ -2273,27 +2335,33 @@ button.solution {
   display: flex;
   flex-direction: column;
   padding: 5px;
+  cursor: pointer;
 }
 
-.cards-container .content-cards .carousel-container .instance.card-name {
+.cards-container .content-cards .carousel-container .instance.card-name,
+.free-mode-container .content-cards .carousel-container .instance.card-name {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.cards-container .content-cards .carousel-container .instance.prefix {
+.cards-container .content-cards .carousel-container .instance.prefix,
+.free-mode-container .content-cards .carousel-container .instance.prefix {
   background-color: var(--main-color1);
   align-content: center;
   justify-content: center;
   align-items: center;
 }
 
-.cards-container .content-cards .carousel-container .card-name .instance.name {
+.cards-container .content-cards .carousel-container .card-name .instance.name,
+.free-mode-container .content-cards .carousel-container .instance.name {
   font-size: clamp(0.4rem, 0.7vw, 0.8rem);
   padding: 5px;
+  text-align: center;
 }
 
-.cards-container .content-cards .carousel-container .card-name .instance.link {
+.cards-container .content-cards .carousel-container .card-name .instance.link,
+.free-mode-container .content-cards .carousel-container .instance.link {
   padding: 10px;
   font-size: clamp(0.4rem, 0.7vw, 0.8rem);
   text-decoration: underline;
@@ -3107,6 +3175,594 @@ li.user-ranking {
   text-align: center;
   margin-top: 30px;
   box-shadow: none;
+}
+
+/* ===================== FREE MODE ===================== */
+
+.free-mode-container .modal-container .modal-content .ontology-filter {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.free-mode-container .modal-container .modal-content .ontology-filter p.warning {
+  color: red;
+  margin: 0;
+}
+
+.free-mode-container .modal-container .modal-content .ontology-filter ul {
+  margin-top: 0;
+}
+
+.free-mode-container .modal-container .modal-content .ontology-filter ul li {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.free-mode-container .modal-container .modal-content .instances-header,
+.free-mode-container .modal-container .modal-content .instruction-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.free-mode-container .modal-container .modal-content .choose-scenario select {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: var(--shadow);
+  margin-right: 20px;
+  border: 2px solid var(--main-color1);
+}
+
+.free-mode-container .modal-container .modal-content .choose-scenario input {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: var(--shadow);
+}
+
+.free-mode-container .modal-container .modal-content .close-modal {
+  text-align: right;
+}
+
+.free-mode-container .modal-container .modal-content .save-as input {
+  width: clamp(101px, 18.5vw, 481px);
+  height: clamp(33px, 2vw, 57px);
+  border: 2px solid #ffd8d8;
+  padding-left: 10px;
+  margin: 10px 0 20px 0;
+}
+
+.free-mode-container .modal-container .modal-content.save-as-modal {
+  width: clamp(280px, 30vw, 400px);
+}
+
+.free-mode-container .modal-container .modal-content.recorded-boards {
+  width: clamp(280px, 400vw, 700px);
+  max-height: 70%;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.free-mode-container .modal-container .modal-content.recorded-boards .header-board {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.free-mode-container .modal-container .modal-content.instructions-modal {
+  width: clamp(280px, 400vw, 700px);
+  max-height: 70%;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.free-mode-container .modal-container .modal-content.instructions-modal .freemode-instruction {
+  text-align: left;
+}
+
+.free-mode-container .modal-container .modal-content.instructions-modal .freemode-instruction p {
+  font-weight: 200;
+  font-size: clamp(0.8rem, 1.2vw, 1.1rem);
+}
+
+.free-mode-container .toolbar {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.free-mode-container .modal-container .carousel-container {
+  z-index: 9999;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 30px;
+  padding: 0;
+}
+
+.free-mode-container .content-cards .carousel-container .instance.name {
+  font-size: clamp(0.4rem, 0.5vw, 1rem);
+}
+
+.free-mode-container .entity-card:hover,
+.free-mode-container .property-card:hover,
+.free-mode-container .instance-card:hover {
+  transform: none;
+}
+
+.free-mode-container .modal-container .instances-no-result {
+  text-align: center;
+}
+
+.free-mode-container .modal-container .modal-content.recorded-boards ul {
+  padding-left: 0;
+}
+
+.free-mode-container .modal-container li.saved-board {
+  background-color: #fafafa !important;
+  text-align: left;
+  border-radius: var(--box-radius);
+  height: 40px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  border: 1px solid #fae3e3;
+  justify-content: space-between;
+}
+
+.free-mode-container .modal-container li.saved-board .board .board-title {
+  font-weight: 100;
+  font-size: clamp(0.8rem, 1.2vw, 1.1rem);
+}
+
+.free-mode-container .modal-container li.saved-board .board-action {
+  display: flex;
+  gap: 10px;
+}
+
+.free-mode-container .modal-container li.saved-board .board-action button:nth-child(1) {
+  background-color: var(--main-color2);
+  border-radius: 50px;
+  color: white;
+  padding: 10px;
+}
+
+.free-mode-container .modal-container li.saved-board .board-action button:nth-child(2) {
+  margin-right: 2px;
+  padding: 2px 8px;
+  border-radius: 50%;
+}
+
+.free-mode-container .modal-container li.saved-board .board-action button:nth-child(2):hover {
+  background-color: #fde5e5;
+}
+
+.free-mode-container .modal-container li.saved-board .board-action button:nth-child(1):hover {
+  background-color: #ffcb7e;
+}
+
+.free-mode-container .carousel-container .range {
+  display: flex;
+}
+
+.free-mode-container .carousel-container .card.active {
+  overflow: hidden;
+}
+
+.instances--selected .free-mode-container .sidebar .instance-card {
+  text-align: center;
+}
+
+.node .carousel-container .instance-card {
+  max-width: clamp(120px, 7vw, 200px) !important;
+  min-width: clamp(120px, 7vw, 200px) !important;
+}
+
+.node .instances--selected {
+  max-width: clamp(120px, 7vw, 200px) !important;
+  min-width: clamp(120px, 7vw, 200px) !important;
+}
+
+.node .instances--selected:hover {
+  box-shadow: none;
+}
+
+.free-mode-container .carousel-container .range {
+  margin-top: 10px;
+}
+
+.free-mode-container .modal-container .freemode-instructions {
+  text-align: left;
+}
+
+.free-mode-container .modal-container .freemode-instructions p {
+  font-weight: normal !important;
+  font-size: clamp(0.8rem, 1.2vw, 1.1rem) !important;
+}
+
+.node {
+  position: relative;
+  border-radius: 8px;
+  transform-origin: center center;
+  border: 3px solid transparent; /* évite le layout shift au clic */
+  transition: border-color 0.15s ease;
+}
+
+.node:has(.instances) {
+  border-color: transparent !important;
+}
+
+.free-mode-container .layout {
+  display: flex;
+  height: 100vh;
+  background: #1e1e1e;
+}
+
+.free-mode-container .sidebar .sidebar-content {
+  display: flex;
+}
+
+.free-mode-container .layout .sidebar .ontology-selected {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: -10px;
+  padding-right: 10px;
+}
+
+.free-mode-container .layout .sidebar .ontology-selected h2 {
+  margin: 5px;
+  color: white;
+  font-size: clamp(1rem, 1.3vw, 2rem);
+}
+
+.free-mode-container .sidebar .carousel-container {
+  max-width: min-content;
+  padding-left: 20px;
+}
+
+.free-mode-container .flow-wrapper {
+  flex: 1;
+  height: 100vh;
+  position: relative;
+  background: #f5f5f5;
+}
+
+.free-mode-container .fullscreen-free-mode {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  color: var(--main-color1);
+}
+
+.free-mode-container .fullscreen-free-mode span {
+  margin-right: 5px;
+}
+
+.free-mode-container .vue-flow__panel.right {
+  background-color: darkgray;
+}
+
+.free-mode-container .node-root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.free-mode-container .node-rotable {
+  width: 120px;
+  height: 60px;
+  background: lightcoral;
+  border-radius: 8px;
+  position: relative;
+  user-select: none;
+  transform-origin: center;
+}
+
+.free-mode-container .rotate-handle {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  background: white;
+  border: 2px solid black;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  cursor: grab;
+}
+
+.free-mode-container .sidebar {
+  display: flex;
+  height: 100%;
+  background: #444444;
+  overflow-y: auto;
+}
+
+.free-mode-container .sidebar-panel {
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.free-mode-container .sidebar-panel.hide-sidebar {
+  width: 0;
+}
+
+.free-mode-container .toggle-sidebar {
+  width: 30px;
+}
+
+.free-mode-container .carousel-container .number {
+  color: white;
+  text-align: center;
+  font-size: clamp(0.6rem, 0.7vw, 1rem);
+}
+
+.free-mode-container .carousel-container .card-name img {
+  width: clamp(8px, 1vw, 36px);
+}
+
+.free-mode-container .carousel-container .entity-card {
+  max-width: min-content;
+}
+
+.free-mode-container .carousel-container:has(.entity-card) {
+  flex: 1 0 clamp(100px, 8vw, 240px);
+  max-width: min-content;
+}
+
+.free-mode-container .carousel-container .entity-card {
+  /* aspect-ratio: unset; */
+  height: clamp(220px, 14vw, 340px);
+  width: 100%;
+}
+
+.free-mode-container .carousel-container .entity-card .entity-classes {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.free-mode-container .carousel-container .entity-card .card-inner {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  height: 100%;
+  /* max-width: min-content; */
+}
+
+.free-mode-container .carousel-container .card {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  background: #ffffff;
+  padding: 10px;
+  cursor: grab;
+  border-radius: 6px;
+}
+
+.free-mode-container .carousel-container .entity-card .card-name {
+  max-width: clamp(177px, 3vw, 240px);
+}
+
+.free-mode-container .carousel-container .card-name .name {
+  font-size: clamp(0.4rem, 0.6vw, 1rem);
+}
+
+.free-mode-container .carousel-container .card-name div {
+  padding: 0;
+}
+
+.free-mode-container .carousel-container .entity-card .entity-classes {
+  padding: 0.5rem 0 0.5rem 0.5rem;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.free-mode-container .carousel-container .entity-card .entity-classes .entity-classes-wrapper {
+  min-height: 0;
+}
+
+.free-mode-container .carousel-container .entity-card::before,
+.free-mode-container .carousel-container .entity-card::after {
+  width: 5px;
+}
+
+.free-mode-container .carousel-container .card-name .prefix {
+  font-size: clamp(0.5rem, 0.5vw, 0.9rem);
+}
+
+.free-mode-container .carousel-container .card-name .prefix {
+  padding: 0;
+}
+
+.free-mode-container .carousel-container .entity-card .card-content {
+  max-width: clamp(177px, 3vw, 240px);
+}
+
+.free-mode-container .scope-note {
+  text-align: center;
+  flex-shrink: 0;
+  padding: 3px 0px 5px;
+  margin-top: auto; /* ← pousse vers le bas */
+}
+
+.free-mode-container .carousel-container .property-card {
+  background-color: white;
+}
+
+.free-mode-container .carousel-container .card-name .property.name {
+  font-size: clamp(0.4rem, 0.5vw, 0.8rem);
+}
+
+.node .carousel-container .property-card {
+  font-size: clamp(0.4rem, 0.4vw, 0.7rem);
+  flex: auto;
+}
+
+.free-mode-container .carousel-container .property-card .vertical-button.vertical-right::before,
+.free-mode-container .carousel-container .property-card .vertical-button.vertical-left::before {
+  width: 5px;
+}
+
+.free-mode-container .carousel-container .property-card .vertical-button p {
+  margin-left: 12px;
+}
+
+.free-mode-container .carousel-container .property-card .vertical-button.vertical-right p {
+  margin-right: 20px;
+}
+
+.free-mode-container .choose-instance {
+  background-color: var(--main-color1);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 50px;
+}
+
+.free-mode-container .instances.content-cards {
+  margin: 0;
+}
+
+.error-import {
+  color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.node--selected {
+  border-color: var(--main-color1);
+}
+
+.instances {
+  border: 2px solid transparent; /* ← indispensable, évite aussi le layout shift */
+  border-radius: var(--box-radius);
+}
+
+.instances--selected {
+  border-color: var(--main-color1);
+  /* border-radius à faire correspondre avec celui de .instances existant */
+}
+
+.board-zoom {
+  position: absolute;
+  bottom: 180px;
+  right: 20px;
+  z-index: 4000;
+}
+
+.board-zoom button {
+  background-color: var(--main-color1);
+  color: white;
+  border-radius: 50px;
+  height: 30px;
+  width: 30px;
+  font-size: 20px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.back-door {
+  background-color: #fff4f4;
+  padding: 8px 16px;
+  position: absolute;
+  bottom: 0;
+  height: 40px;
+  width: 40px;
+  z-index: 4000;
+  border-radius: var(--box-radius);
+  box-shadow: var(--shadow);
+  margin: 10px;
+}
+
+.back-door.aside {
+  position: relative;
+  left: 10px;
+}
+
+.back-door:hover {
+  background-color: #fce9e9;
+  box-shadow: none;
+}
+
+.rotate-icon {
+  position: absolute;
+  top: -25px;
+  width: 18px;
+  height: 18px;
+  transform: translateX(-50%);
+  cursor: grab;
+  display: flex;
+  justify-self: center;
+}
+
+.free-mode-container .instance-modal {
+  width: 90%;
+  max-height: 90%;
+  overflow-y: scroll;
+}
+
+.instances .content-cards .carousel-container ul {
+  display: flex;
+  flex-wrap: row wrap;
+}
+
+.free-mode-container .file-label {
+  display: inline-block;
+  padding: 8px 16px;
+  background: var(--main-color1);
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  margin-right: 10px;
+}
+
+.free-mode-container button {
+  padding: 0;
+}
+
+.free-mode-container button:disabled .file-label {
+  background-color: #d1d1d1;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.free-mode-container .file-label.instruction-button {
+  background-color: var(--main-color3);
+}
+
+.free-mode-container .file-label:hover {
+  box-shadow: none;
+  background-color: #ff8a8a;
+}
+
+.free-mode-container .file-label.instruction-button:hover {
+  background-color: #51cebf;
 }
 
 /* ===================== FOOTER ===================== */

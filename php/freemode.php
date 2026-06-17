@@ -33,12 +33,11 @@ function ReturnEmptyArray()
 function ReturnError($message, $code = 400)
 {
     http_response_code($code);
-    echo json_encode([
-        "error" => $message
-    ]);
+    echo json_encode(["error" => $message]);
     exit();
 }
 
+// ===================== ONTOLOGY RESOLVE =====================
 function getOntologyIdByName($name, $connection)
 {
     $stmt = $connection->prepare("
@@ -63,8 +62,9 @@ function getOntologyIdByName($name, $connection)
 // ===================== ROUTING =====================
 $method = $_SERVER['REQUEST_METHOD'];
 
+
 // ==========================================================
-// POST → CREATE FREEMODE GRAPH
+// POST → CREATE FREEMODE
 // ==========================================================
 if ($method === "POST") {
 
@@ -76,9 +76,10 @@ if ($method === "POST") {
 
     $title = $data['title'] ?? null;
     $ontologyName = $data['ontologyName'] ?? null;
+    $userId = $data['userId'] ?? null;
     $freemodeData = $data['freemodeData'] ?? null;
 
-    if (!$title || !$ontologyName || !$freemodeData) {
+    if (!$title || !$ontologyName || !$userId || !$freemodeData) {
         ReturnError("Champs manquants");
     }
 
@@ -91,31 +92,31 @@ if ($method === "POST") {
     $json = json_encode($freemodeData, JSON_UNESCAPED_UNICODE);
 
     if ($json === false) {
-        ReturnError("Données invalides");
+        ReturnError("JSON invalide");
     }
 
     $stmt = $connection->prepare("
-        INSERT INTO freemode (title, ontologyId, freemodeData)
-        VALUES (?, ?, ?)
+        INSERT INTO freemode (title, ontologyId, userId, freemodeData)
+        VALUES (?, ?, ?, ?)
     ");
-    $stmt->bind_param("sis", $title, $ontologyId, $json);
+
+    $stmt->bind_param("siis", $title, $ontologyId, $userId, $json);
     $stmt->execute();
 
     if ($stmt->error) {
         ReturnError("Erreur interne", 500);
     }
 
-    http_response_code(201);
     echo json_encode([
         "success" => true,
         "freemodeId" => $stmt->insert_id
     ]);
-
     exit;
 }
 
+
 // ==========================================================
-// PUT → UPDATE FREEMODE GRAPH
+// PUT → UPDATE
 // ==========================================================
 if ($method === "PUT") {
 
@@ -129,9 +130,10 @@ if ($method === "PUT") {
 
     $title = $data['title'] ?? null;
     $ontologyName = $data['ontologyName'] ?? null;
+    $userId = $data['userId'] ?? null;
     $freemodeData = $data['freemodeData'] ?? null;
 
-    if (!$title || !$ontologyName || !$freemodeData) {
+    if (!$title || !$ontologyName || !$userId || !$freemodeData) {
         ReturnError("Champs manquants");
     }
 
@@ -146,9 +148,10 @@ if ($method === "PUT") {
     $stmt = $connection->prepare("
         UPDATE freemode
         SET title = ?, ontologyId = ?, freemodeData = ?
-        WHERE freemodeId = ?
+        WHERE freemodeId = ? AND userId = ?
     ");
-    $stmt->bind_param("sisi", $title, $ontologyId, $json, $id);
+
+    $stmt->bind_param("sisii", $title, $ontologyId, $json, $id, $userId);
     $stmt->execute();
 
     if ($stmt->error) {
@@ -156,83 +159,91 @@ if ($method === "PUT") {
     }
 
     if ($stmt->affected_rows === 0) {
-        ReturnError("Freemode introuvable", 404);
+        ReturnError("Introuvable ou non autorisé", 404);
     }
 
     echo json_encode(["success" => true]);
     exit;
 }
 
+
 // ==========================================================
-// GET → LIST / BY ID / BY ONTOLOGY
+// GET
 // ==========================================================
 if ($method === "GET") {
 
+    // BY ID
     if (isset($_GET['id'])) {
 
         $id = (int)$_GET['id'];
 
-        $stmt = $connection->prepare("SELECT * FROM freemode WHERE freemodeId = ?");
+        $stmt = $connection->prepare("
+            SELECT * FROM freemode
+            WHERE freemodeId = ?
+        ");
+
         $stmt->bind_param("i", $id);
         $stmt->execute();
+
         $result = $stmt->get_result();
 
         if (!$result || $result->num_rows === 0) {
             ReturnEmpty();
         }
 
-        $row = mysqli_fetch_assoc($result);
-
+        $row = $result->fetch_assoc();
         $row['freemodeData'] = json_decode($row['freemodeData'], true);
 
         echo json_encode($row);
         exit;
     }
 
-    if (isset($_GET['ontologyId'])) {
+        if (isset($_GET['ontologyName']) && isset($_GET['userId'])) {
 
-        $ontologyId = (int)$_GET['ontologyId'];
+    $ontologyName = $_GET['ontologyName'];
+    $userId = (int)$_GET['userId'];
 
-        $stmt = $connection->prepare("SELECT * FROM freemode WHERE ontologyId = ? ORDER BY freemodeId DESC");
-        $stmt->bind_param("i", $ontologyId);
-        $stmt->execute();
-        $result = $stmt->get_result();
+    $ontologyId = getOntologyIdByName($ontologyName, $connection);
 
-        if (!$result || $result->num_rows === 0) {
-            ReturnEmptyArray();
-        }
+    $stmt = $connection->prepare("
+        SELECT *
+        FROM freemode
+        WHERE ontologyId = ? AND userId = ?
+        ORDER BY freemodeId DESC
+    ");
 
-        $data = [];
+    $stmt->bind_param("ii", $ontologyId, $userId);
+    $stmt->execute();
 
-        while ($row = mysqli_fetch_assoc($result)) {
-            $row['freemodeData'] = json_decode($row['freemodeData'], true);
-            $data[] = $row;
-        }
+    $result = $stmt->get_result();
 
-        echo json_encode($data);
-        exit;
+    $data = [];
+
+    while ($row = $result->fetch_assoc()) {
+        $row['freemodeData'] = json_decode($row['freemodeData'], true);
+        $data[] = $row;
     }
 
-    if (isset($_GET['ontologyName'])) {
+    echo json_encode($data);
+    exit;
+}
 
-        $ontologyName = $_GET['ontologyName'];
+    // BY USER
+    if (isset($_GET['userId'])) {
+
+        $userId = (int)$_GET['userId'];
 
         $stmt = $connection->prepare("
-            SELECT f.*
-            FROM freemode f
-            JOIN ontology o ON f.ontologyId = o.ontologyId
-            WHERE o.ontologyName = ?
-            ORDER BY f.freemodeId DESC
+            SELECT *
+            FROM freemode
+            WHERE userId = ?
+            ORDER BY freemodeId DESC
         ");
 
-        $stmt->bind_param("s", $ontologyName);
+        $stmt->bind_param("i", $userId);
         $stmt->execute();
 
         $result = $stmt->get_result();
-
-        if (!$result || $result->num_rows === 0) {
-            ReturnEmptyArray();
-        }
 
         $data = [];
 
@@ -245,21 +256,17 @@ if ($method === "GET") {
         exit;
     }
 
-    $query = "
-        SELECT *
-        FROM freemode
+
+
+    // ALL
+    $result = $connection->query("
+        SELECT * FROM freemode
         ORDER BY freemodeId DESC
-    ";
-
-    $result = mysqli_query($connection, $query);
-
-    if (!$result || $result->num_rows === 0) {
-        ReturnEmptyArray();
-    }
+    ");
 
     $data = [];
 
-    while ($row = mysqli_fetch_assoc($result)) {
+    while ($row = $result->fetch_assoc()) {
         $row['freemodeData'] = json_decode($row['freemodeData'], true);
         $data[] = $row;
     }
@@ -268,6 +275,7 @@ if ($method === "GET") {
     exit;
 }
 
+
 // ==========================================================
 // DELETE
 // ==========================================================
@@ -275,14 +283,19 @@ if ($method === "DELETE") {
 
     $data = json_decode(file_get_contents("php://input"), true);
 
-    if (!isset($data['id'])) {
-        ReturnError("ID manquant");
+    if (!isset($data['id']) || !isset($data['userId'])) {
+        ReturnError("ID ou userId manquant");
     }
 
     $id = (int)$data['id'];
+    $userId = (int)$data['userId'];
 
-    $stmt = $connection->prepare("DELETE FROM freemode WHERE freemodeId = ?");
-    $stmt->bind_param("i", $id);
+    $stmt = $connection->prepare("
+        DELETE FROM freemode
+        WHERE freemodeId = ? AND userId = ?
+    ");
+
+    $stmt->bind_param("ii", $id, $userId);
     $stmt->execute();
 
     if ($stmt->error) {
@@ -290,14 +303,17 @@ if ($method === "DELETE") {
     }
 
     if ($stmt->affected_rows === 0) {
-        ReturnError("Freemode introuvable", 404);
+        ReturnError("Introuvable ou non autorisé", 404);
     }
 
     echo json_encode(["success" => true]);
     exit;
 }
 
+
 // ==========================================================
-// METHOD NOT ALLOWED
+// ERROR
 // ==========================================================
 ReturnError("Méthode non autorisée", 405);
+
+?>

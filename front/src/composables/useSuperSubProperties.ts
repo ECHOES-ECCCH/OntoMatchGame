@@ -1,13 +1,21 @@
-import type { CardInfo, CardPositionInfo } from '@/types/card/cardInfo'
+import type { CardInfo, CardPositionInfo, CardPropertyInfo } from '@/types/card/cardInfo'
 import { computed } from 'vue'
+
+export function getSubProperties(about: string, propertyDataCards: CardInfo[]) {
+  return propertyDataCards.find((card) => card.about === about)?.subPropertyOf ?? []
+}
+
+export function getSuperProperties(about: string, propertyDataCards: CardPropertyInfo[]) {
+  return propertyDataCards
+    .filter((card) => card.subPropertyOf?.includes(about))
+    .map((card) => card.about)
+}
 
 export function useSuperSubProperties(cardInfo: CardPositionInfo, propertyDataCards: CardInfo[]) {
   const subPropertyOf = computed(() => {
     const subProperty = {
-      pleft:
-        propertyDataCards.find((card) => card.about === cardInfo.pleft.about)?.subPropertyOf ?? [],
-      pright:
-        propertyDataCards.find((card) => card.about === cardInfo.pright.about)?.subPropertyOf ?? [],
+      pleft: getSubProperties(cardInfo.pleft.about, propertyDataCards),
+      pright: getSubProperties(cardInfo.pright.about, propertyDataCards),
     }
 
     return subProperty
@@ -15,16 +23,8 @@ export function useSuperSubProperties(cardInfo: CardPositionInfo, propertyDataCa
 
   const superPropertyOf = computed(() => {
     const superProperty = {
-      pleft: cardInfo.pleft?.about
-        ? propertyDataCards
-            .filter((data) => data.subPropertyOf?.includes(cardInfo.pleft.about))
-            .map((data) => data.about)
-        : [],
-      pright: cardInfo.pright?.about
-        ? propertyDataCards
-            .filter((data) => data.subPropertyOf?.includes(cardInfo.pright.about))
-            .map((data) => data.about)
-        : [],
+      pleft: getSuperProperties(cardInfo.pleft.about, propertyDataCards),
+      pright: getSuperProperties(cardInfo.pright.about, propertyDataCards),
     }
 
     return superProperty

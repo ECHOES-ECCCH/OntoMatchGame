@@ -5,6 +5,34 @@ import { showSolution } from './useSolution'
 type EntityPositionKeys = 'ELeftInit' | 'EMiddleInit' | 'ERightInit'
 type PropertyPositionKeys = 'PLeftInit' | 'PRightInit'
 
+export function filteredEntityCardsByBranch(
+  allEntityCards: CardInfo[],
+  selectedBranches: string[],
+) {
+  if (!allEntityCards?.length || !selectedBranches?.length) return []
+
+  return selectedBranches?.includes('entity')
+    ? allEntityCards
+    : allEntityCards.filter(
+        (card) => card.branch != null && card.branch.some((b) => selectedBranches.includes(b)),
+      )
+}
+
+export function filteredPropertyCardsByBranch(
+  allEntityCards: CardInfo[],
+  selectedBranches: string[],
+  filteredCards: CardPropertyInfo[],
+  side: 'domain' | 'range',
+) {
+  if (!allEntityCards?.length || !selectedBranches?.length) return []
+
+  const allowedEntities = allEntityCards
+    .filter((entity) => entity.branch?.some((b) => selectedBranches.includes(b)))
+    .map((e) => e.about)
+
+  return filteredCards.filter((card) => allowedEntities.includes(card[side]))
+}
+
 export function useEntityCards(
   chapterData: Ref<ChapterData | null>,
   entityDataCards: CardInfo[],
@@ -31,11 +59,7 @@ export function useEntityCards(
        */
       const selectedBranches = showSolution.value ? 'entity' : branches[positionKey]
 
-      const filteredCards = selectedBranches?.includes('entity')
-        ? allEntityCards
-        : allEntityCards.filter(
-            (card) => card.branch != null && card.branch.some((b) => selectedBranches.includes(b)),
-          )
+      const filteredCards = filteredEntityCardsByBranch(allEntityCards, selectedBranches)
 
       return {
         type: 'entity',
@@ -52,7 +76,7 @@ export function useEntityCards(
 
 export function usePropertyCards(
   chapterData: Ref<ChapterData | null>,
-  propertyDataCards: CardInfo[],
+  propertyDataCards: CardPropertyInfo[],
   entityDataCards: CardInfo[],
   branches: Record<string, string[]>,
 ) {
@@ -77,21 +101,24 @@ export function usePropertyCards(
       let filteredCards = allPropertyCards
 
       // Filtrage via les entités Domain
-      if (domainBranches && !domainBranches.includes('entity')) {
-        const allowedDomainEntities = entityDataCards
-          .filter((entity) => entity.branch?.some((b) => domainBranches.includes(b)))
-          .map((e) => e.about)
 
-        filteredCards = filteredCards.filter((card) => allowedDomainEntities.includes(card.domain))
+      if (domainBranches && !domainBranches.includes('entity')) {
+        filteredCards = filteredPropertyCardsByBranch(
+          entityDataCards,
+          domainBranches,
+          filteredCards,
+          'domain',
+        )
       }
 
       // Filtrage via les entités Range
       if (rangeBranches && !rangeBranches.includes('entity')) {
-        const allowedRangeEntities = entityDataCards
-          .filter((entity) => entity.branch?.some((b) => rangeBranches.includes(b)))
-          .map((e) => e.about)
-
-        filteredCards = filteredCards.filter((card) => allowedRangeEntities.includes(card.range))
+        filteredCards = filteredPropertyCardsByBranch(
+          entityDataCards,
+          rangeBranches,
+          filteredCards,
+          'range',
+        )
       }
 
       return {

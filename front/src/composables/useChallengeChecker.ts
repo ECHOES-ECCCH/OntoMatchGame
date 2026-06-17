@@ -2,16 +2,9 @@ import { ref, isRef } from 'vue'
 import { useCardInfoStore } from '@/stores/cardInfo.store'
 import { useChapterData } from '@/composables/useChapter'
 import { langStore } from '@/stores/lang.store'
+import type { ErrorCards } from '@/types/card/cardInfo'
 
-const results = ref<
-  Record<
-    string,
-    {
-      status: 'correct' | 'incorrect' | 'empty' | 'unused'
-      message?: string
-    }
-  >
->({})
+const results = ref<Partial<ErrorCards>>({})
 const isComplete = ref(false)
 const score = ref(0)
 

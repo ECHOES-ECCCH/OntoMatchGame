@@ -1,8 +1,8 @@
 import { reactive, type Ref, type ComputedRef } from 'vue'
-import type { CardInfo, Position, CurrentIndexes } from '@/types/card/cardInfo'
+import type { CardInfo, Position, CurrentIndexes, SelectedCardData } from '@/types/card/cardInfo'
 
 export function useCardNavigation(
-  boardCards: Ref<CardInfo[]> | ComputedRef<CardInfo[]>,
+  boardCards: Ref<SelectedCardData[]> | ComputedRef<SelectedCardData[]>,
   cardInfo: Record<Position, CardInfo>,
 ) {
   const currentIndexes = reactive<CurrentIndexes>({
@@ -12,7 +12,6 @@ export function useCardNavigation(
     pleft: 0,
     pright: 0,
   })
-
   const updateCardInfo = (position: Position, cards: CardInfo[]) => {
     const index = currentIndexes[position]
     if (cards && cards[index]) {

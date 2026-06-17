@@ -26,7 +26,10 @@ const { finishChallenge } = useFinishChallenge()
         </button>
 
         <button
-          v-if="parseInt(chapterStats.lastChallengeId) < parseInt(chapterStats.maxChallengeCount)"
+          v-if="
+            chapterStats &&
+            parseInt(chapterStats.lastChallengeId) < parseInt(chapterStats.maxChallengeCount)
+          "
           class="next-button"
           @click="finishChallenge(0)"
         >

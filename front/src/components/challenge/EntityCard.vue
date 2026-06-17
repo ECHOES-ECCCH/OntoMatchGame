@@ -8,6 +8,7 @@ import type {
   CardPositionInfo,
   CurrentIndexes,
   EntityPosition,
+  ErrorCards,
 } from '@/types/card/cardInfo'
 import BranchesFilter from './BranchesFilter.vue'
 import EmptyCard from './EmptyCard.vue'
@@ -29,7 +30,7 @@ const props = defineProps<{
   cardInfo: Record<Position, CardInfo>
   currentIndexes: CurrentIndexes
   entityDataCards: CardInfo[]
-  errorCards
+  errorCards: ErrorCards
   handlePrevious: (position: Position, cards: CardInfo[]) => void
   handleNext: (position: Position, cards: CardInfo[]) => void
   handleSliderChange: (position: Position, value: number, cards: CardInfo[]) => void
@@ -77,7 +78,7 @@ const isNoCard = computed(() => {
       <p>{{ langStore.t('static-text.BoardScene.boardscene-scene-filter-entity-text') }}</p>
     </div>
     <BranchesFilter
-      :model-value="branches[totalCards.position as Position]"
+      :model-value="branches[totalCards.position as EntityPosition]"
       @update:model-value="
         $emit('update:branches', { position: totalCards.position as Position, value: $event })
       "
@@ -143,7 +144,7 @@ const isNoCard = computed(() => {
     </div>
 
     <BranchesFilter
-      :model-value="branches[totalCards.position as Position]"
+      :model-value="branches[totalCards.position as EntityPosition]"
       @update:model-value="
         $emit('update:branches', { position: totalCards.position as EntityPosition, value: $event })
       "
