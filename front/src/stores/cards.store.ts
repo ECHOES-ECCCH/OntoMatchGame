@@ -1,10 +1,10 @@
 import { parseClasses } from '@/utils/parses-xml-classes'
 import { ref } from 'vue'
 import { types } from '@/assets/cards/types.ts'
-import type { CardInfo } from '@/types/card/cardInfo'
+import type { CardInfo, CardPropertyInfo } from '@/types/card/cardInfo'
 
 const entityDataCards = ref<CardInfo[]>([])
-const propertyDataCards = ref<CardInfo[]>([])
+const propertyDataCards = ref<CardPropertyInfo[]>([])
 const isDataCardsLoading = ref(false)
 const error = ref<string | null>(null)
 

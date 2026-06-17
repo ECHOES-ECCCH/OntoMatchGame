@@ -68,7 +68,7 @@ const handleNextAfterSolution = async () => {
     </button>
     <div class="finish-challenge">
       <button
-        v-show="
+        v-if="
           showSolution &&
           chapterStats &&
           parseInt(chapterStats?.lastChallengeId) <= parseInt(chapterStats?.maxChallengeCount)
@@ -80,7 +80,7 @@ const handleNextAfterSolution = async () => {
         {{ langStore.t('static-text.BoardScene.boardscene-scene-nextbutton-text') }}
       </button>
       <button
-        v-show="
+        v-else-if="
           chapterStats &&
           parseInt(chapterStats?.lastChallengeId) < parseInt(chapterStats?.maxChallengeCount)
         "

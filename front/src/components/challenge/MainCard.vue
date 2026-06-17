@@ -10,6 +10,7 @@ import type {
   CardPositionInfo,
   CardPropertyInfo,
   EntityPosition,
+  ErrorCards,
   Position,
 } from '@/types/card/cardInfo'
 import EntityCard from './EntityCard.vue'
@@ -30,10 +31,12 @@ const props = defineProps<{
 
 const chapterStore = useChapterData()
 
-const branches = reactive<Record<EntityPosition, string[]>>({
+const branches = reactive<Record<Position, string[]>>({
   eleft: ['entity'],
   emiddle: ['entity'],
   eright: ['entity'],
+  pleft: ['entity'],
+  pright: ['entity'],
   pleft_domain: ['entity'],
   pleft_range: ['entity'],
   pright_domain: ['entity'],
@@ -152,7 +155,7 @@ const handleBranchesUpdate = ({ position, value }: { position: string; value: st
         :cardInfo="cardInfo"
         :currentIndexes="currentIndexes"
         :entityDataCards="entityDataCards"
-        :errorCards="results"
+        :errorCards="results as ErrorCards"
         :handlePrevious="handlePrevious"
         :handleNext="handleNext"
         :handleSliderChange="handleSliderChange"
@@ -168,7 +171,7 @@ const handleBranchesUpdate = ({ position, value }: { position: string; value: st
         :currentIndexes="currentIndexes"
         :entityDataCards="entityDataCards"
         :propertyDataCards="propertyDataCards"
-        :errorCards="results"
+        :errorCards="results as ErrorCards"
         :handlePrevious="handlePrevious"
         :handleNext="handleNext"
         :handleSliderChange="handleSliderChange"

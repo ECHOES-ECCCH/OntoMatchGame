@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Position } from '@/types/card/cardInfo'
+import type { CardInfo, Position } from '@/types/card/cardInfo'
 import { switchCard } from '@/utils/switch-card'
 import { computed } from 'vue'
 
@@ -9,11 +9,7 @@ const props = defineProps<{
     subClassOf: { value: Record<string, string[]> }
     superClassOf: { value: Record<string, string[]> }
   }
-  cardInfo: {
-    eleft: { about: '' }
-    emiddle: { about: '' }
-    eright: { about: '' }
-  }
+  cardInfo: Record<Position, CardInfo>
   entityDataCards: Array<{ about: string }>
 }>()
 
@@ -25,7 +21,7 @@ const switchEntityCard = (aboutValue: string) => {
   const updated = switchCard(aboutValue, props.position, props.entityDataCards, props.cardInfo)
 
   if (updated) {
-    emit('update:cardInfo', updated)
+    emit('update:cardInfo', updated as Record<Position, CardInfo>)
   }
 }
 

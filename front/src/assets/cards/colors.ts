@@ -10,14 +10,14 @@ import iconMoebius from '../img/iconMoebius.png'
 import iconRuler from '../img/iconRuler.png'
 import iconPrimitive from '../img/iconPrimitive.png'
 import logo from '../img/logo-g.png'
-import type { Branch } from './types'
+import type { BranchName } from '@/types/card/branch'
 
 export interface ColorConfig {
   color: string
   icon: string
 }
 
-export const colors: Record<Branch, ColorConfig> = {
+export const colors: Record<BranchName, ColorConfig> = {
   entity: { color: '#FFFFFF', icon: logo },
   conceptual: { color: '#fddc34', icon: iconIdea },
   actor: { color: '#ffbdca', icon: iconUser },

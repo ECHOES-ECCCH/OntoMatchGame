@@ -9,7 +9,6 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string[]): void
 }>()
-
 const toggleBranch = (branches: string[]) => {
   const currentValue = [...props.modelValue]
 
