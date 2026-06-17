@@ -1,246 +1,164 @@
 <?php
+include("connect.php");
+include("auth.php");
+header('Content-Type: application/json');
 
-    include("connect.php");
-    header('Content-Type: application/json');
+if (!$connection->ping()) {
+  echo json_encode(["error" => $connection->error]);
+  exit;
+}
 
-    if (!$connection->ping()) {
-      printf ("Error: %s\n", $connection->error);
-    }
+// ===================== DTO =====================
+class historyModelDown
+{
+  public $historyId;
+  public $scenarioName;
+  public $chapterName;
+  public $challengeId;
+  public $score;
+  public $ontologyName;
 
-    //DTO down, bool result
-    class historyModelDown
-    {
-      public $historyId;
-      public $scenarioName;
-      public $chapterName;
-      public $challengeId;
-      public $score;    
-      public function __construct($id, $scenarioName, $chapterName, $challengeId, $score) 
-      {
-            $this->historyId = $id;
-            $this->scenarioName = $scenarioName;
-            $this->chapterName = $chapterName;         
-            $this->challengeId = $challengeId;
-            $this->score = $score;
-      }
-    }
+  public function __construct($id, $scenarioName, $chapterName, $challengeId, $score, $ontologyName) 
+  {
+    $this->historyId = $id;
+    $this->scenarioName = $scenarioName;
+    $this->chapterName = $chapterName;
+    $this->challengeId = $challengeId;
+    $this->score = $score;
+    $this->ontologyName = $ontologyName;
+  }
+}
 
+// ===================== INPUT =====================
+$userId = requireAuth();
 
-    $userId = $_GET['userId'];
-    //echo "userId=>".$userId."\n";
+// ===================== GET HISTORY =====================
+$stmt = $connection->prepare("SELECT historyId FROM History WHERE userId = ?");
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$result = $stmt->get_result();
 
-    //Get historyId from userId
-    $query = " SELECT History.historyId FROM History WHERE History.userId = '{$userId}' ";
-    $result = mysqli_query($connection,$query);
+if (!$result || $result->num_rows === 0) ReturnEmptyString();
 
-    if ($result)
-    {
-        //echo "RESULT";
+$row = mysqli_fetch_array($result);
+$id = $row["historyId"];
 
-        if ( $result -> num_rows > 0)
-        {
-            //echo "NUM_ROWS";
-            while ($row = mysqli_fetch_array($result))
-            { 
-                $id = $row["historyId"];
-                //echo "historyId->".$id;
-            }
-        }
-        else
-        {
-            ReturnEmptyString();
-        }
-    }
-    else
-    {
-        //echo "PB with query";
-    }
+// ===================== GET LAST SESSION =====================
+$query = "SELECT sessionId 
+          FROM Session 
+          WHERE historyId = '{$id}' 
+          ORDER BY creation_date DESC 
+          LIMIT 1";
 
-    /* Get most recent sessionId from historyId */
-    /*TODO : For all sessions, get list of progression */
-    // ORDER BY creation_date DESC LIMIT 1
-    $query = " SELECT Session.sessionId  FROM ontomatchgame.Session WHERE Session.historyId = '{$id}' ORDER BY creation_date DESC LIMIT 1";
-    $result = mysqli_query($connection, $query);
+$result = mysqli_query($connection, $query);
+if (!$result || $result->num_rows === 0) ReturnEmptyString();
 
-    if ($result)
-    {
-        if ($result->num_rows > 0)
-        {
-            while ($row = mysqli_fetch_array($result))
-            { 
-                $sessionId = $row["sessionId"];
-                //echo "Last sessionId->".$sessionId;
-            }
-        }
-        else
-        {
-            ReturnEmptyString();
-        }
-    }
-    else
-    {
-        //echo "PB with query";
-    }
+$row = mysqli_fetch_array($result);
+$sessionId = $row["sessionId"];
 
-    /* Get session data from lastSessionId */
-    $query = "SELECT Session.scenarioId, Session.lastChapterId FROM Session WHERE Session.sessionId = $sessionId";
-    $result = mysqli_query($connection,$query);
+// ===================== GET SESSION DATA =====================
+$query = "SELECT scenarioId, lastChapterId 
+          FROM Session 
+          WHERE sessionId = $sessionId";
 
-    if ($result)
-    {
-        if($result -> num_rows > 0)
-        {
-            while ($row = mysqli_fetch_array($result))
-            { 
-                $scenarioId = $row["scenarioId"];
-                $lastChapterId = $row["lastChapterId"];
-                //echo "scenarioId".$scenarioId;
-                //echo "lastChapterId".$lastChapterId;
-            }
-        }
-        else
-        {
-            ReturnEmptyString();
-        }
-    }
-    else
-    {
-        //echo "PB with query";
-    }
+$result = mysqli_query($connection,$query);
+if (!$result || $result->num_rows === 0) ReturnEmptyString();
 
-    /* Get scenarioName from scenarioId */
-    $query = "SELECT Scenario.scenarioName FROM Scenario WHERE Scenario.scenarioId = $scenarioId";
-    $result = mysqli_query($connection,$query);
+$row = mysqli_fetch_array($result);
+$scenarioId = $row["scenarioId"];
+$lastChapterId = $row["lastChapterId"];
 
-    if ($result)
-    {
-        if ($result->num_rows > 0)
-        {
-            while ($row = mysqli_fetch_array($result))
-            { 
-                $scenarioName = $row["scenarioName"];
-                //echo json_encode("scenario Name: ".$scenarioName);echo " --- ";
-            }
-        }
-        else
-        {
-            ReturnEmptyString();
-        }
-    }
-    else
-    {
-        //echo "PB with query";
-    }
+// ===================== GET SCENARIO NAME =====================
+$query = "SELECT scenarioName FROM Scenario WHERE scenarioId = $scenarioId";
+$result = mysqli_query($connection,$query);
+if (!$result || $result->num_rows === 0) ReturnEmptyString();
 
-    /* Get chapterName from chapterId */
-    $query = " SELECT Chapter.chapterName FROM Chapter WHERE Chapter.chapterId = $lastChapterId ";
-    $result = mysqli_query($connection,$query);
+$row = mysqli_fetch_array($result);
+$scenarioName = $row["scenarioName"];
 
-    if ($result)
-    {
-        if ($result->num_rows > 0)
-        {
-            while ($row = mysqli_fetch_array($result))
-            { 
-                $chapterName = $row["chapterName"];
-               //echo "chapterName :".$chapterName;
-            }
-        }
-        else
-        {
-            //echo "caca janvier";
-            ReturnEmptyString();
-        }
-    }
-    else
-    {
-        //echo "PB with query";
-    }
+// ===================== GET ONTOLOGY NAME =====================
+$ontologyName = GetOntologyName($connection, $scenarioId);
 
-    /* Get progressionId from lastSessionId */
-    $query = "SELECT Progression.progressionId FROM Progression WHERE Progression.sessionId = $sessionId";
-    $result = mysqli_query($connection,$query);
+// ===================== GET CHAPTER NAME =====================
+$query = "SELECT chapterName FROM Chapter WHERE chapterId = $lastChapterId";
+$result = mysqli_query($connection,$query);
+if (!$result || $result->num_rows === 0) ReturnEmptyString();
 
-    if ($result)
-    {
-        if ($result->num_rows > 0)
-        {
-            while ($row = mysqli_fetch_array($result))
-            { 
-                $progressionId = $row["progressionId"];
-                //echo json_encode("ProgressionId = ".$score);echo " --- ";
-            }
-        }
-        else
-        {
-            ReturnEmptyString();
-        }
-    }
-    else
-    {
-        //echo "PB with query";
-    }
+$row = mysqli_fetch_array($result);
+$chapterName = $row["chapterName"];
 
-    /* Get progression data from lastSessionId */
-    $query = "SELECT Progression.lastChallengeId, Progression.score FROM Progression WHERE Progression.progressionId = $progressionId";
-    $result = mysqli_query($connection,$query);
+// ===================== GET PROGRESSION =====================
+$query = "SELECT progressionId FROM Progression WHERE sessionId = $sessionId";
+$result = mysqli_query($connection,$query);
+if (!$result || $result->num_rows === 0) ReturnEmptyString();
 
-    if ($result)
-    {
-        if ($result->num_rows > 0)
-        {
-            while ($row = mysqli_fetch_array($result))
-            { 
-                $lastChallengeId = $row["lastChallengeId"];
-                $score = $row["score"];
-                //echo "lastChallengeId".$lastChallengeId;
-                //echo "score".$score;
-            }
-        }
-        else
-        {
-            ReturnEmptyString();
-        }
-    }
-    else
-    {
-        //echo "PB with query";
-    }
+$row = mysqli_fetch_array($result);
+$progressionId = $row["progressionId"];
 
-    $realName = GetChapterHumanName($scenarioName, $chapterName);
+// ===================== GET SCORE =====================
+$query = "SELECT lastChallengeId, score 
+          FROM Progression 
+          WHERE progressionId = $progressionId";
 
+$result = mysqli_query($connection,$query);
+if (!$result || $result->num_rows === 0) ReturnEmptyString();
 
-    $instance = new historyModelDown($id, $scenarioName, $realName, $lastChallengeId, $score);
+$row = mysqli_fetch_array($result);
+$lastChallengeId = $row["lastChallengeId"];
+$score = $row["score"];
+
+// ===================== GET HUMAN CHAPTER NAME =====================
+$realName = GetChapterHumanName($scenarioName, $chapterName);
+
+// ===================== OUTPUT =====================
+$instance = new historyModelDown(
+  $id,
+  $scenarioName,
+  $realName,
+  $lastChallengeId,
+  $score,
+  $ontologyName
+);
+
+echo json_encode($instance);
+
+mysqli_close($connection);
+
+// ===================== FUNCTIONS =====================
+
+function ReturnEmptyString() {
+    $instance = new historyModelDown("", "", "", "", "", "");
     echo json_encode($instance);
+    exit();
+}
 
-    mysqli_close($connection);
+function GetOntologyName($connection, $scenarioId)
+{
+    $sql = "
+        SELECT Ontology.ontologyName
+        FROM Scenario
+        JOIN Ontology ON Scenario.ontologyId = Ontology.ontologyId
+        WHERE Scenario.scenarioId = $scenarioId
+    ";
 
-    function ReturnEmptyString() {
-        $instance = new historyModelDown("", "", "", "", "");
-        echo json_encode($instance);
-        exit();
+    $result = mysqli_query($connection, $sql);
+
+    if ($result && $result->num_rows > 0) {
+        $row = mysqli_fetch_array($result);
+        return $row["ontologyName"];
     }
 
-    function GetChapterHumanName($scenarioName, $chapterName)
-    {
-        //echo "GetRealName\n";
-        $filePath = "../StreamingAssets/scenarii/".$scenarioName."/Chapters/".$chapterName;
-        //echo $filePath;
+    return "";
+}
 
-        // Read the JSON file 
-        $json = file_get_contents($filePath);
+function GetChapterHumanName($scenarioName, $chapterName)
+{
+    $filePath = "../StreamingAssets/scenarii/".$scenarioName."/Chapters/".$chapterName;
 
-        // Decode the JSON file
-        $json_data = json_decode($json,true);
+    $json = file_get_contents($filePath);
+    $json_data = json_decode($json,true);
 
-        //Get value of key "Title"
-        $challengeZero = $json_data[0];
-        //print_r($challengeZero); 
-
-        $title = $challengeZero['Title'];
-        //echo "---".$title."\n";
-
-        return $title;
-    }
+    $challengeZero = $json_data[0];
+    return $challengeZero['Title'] ?? "";
+}
 ?>
-

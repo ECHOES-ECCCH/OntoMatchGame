@@ -13,7 +13,6 @@ export const createSession = async (createSessionData: CreateSessionData) => {
 
   try {
     const { data } = await api.post('/createsession.php', {
-      userId: createSessionData.userId,
       scenarioTitle: createSessionData.scenarioTitle,
       chapterTitle: createSessionData.chapterTitle,
     })
@@ -36,7 +35,6 @@ export const updateSession = async (updateSessionData: UpdateSessionData) => {
 
   try {
     const { data } = await api.put('/updatesession.php', {
-      userId: updateSessionData.userId,
       currentScenario: updateSessionData.currentScenario,
       currentChapter: updateSessionData.currentChapter,
       currentChallengeIndex: updateSessionData.currentChallengeIndex,
