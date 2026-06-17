@@ -2,8 +2,10 @@
 import router from '@/router'
 import { authStore } from '@/stores/auth.store'
 import { langStore } from '@/stores/lang.store'
+import { logout } from '@/services/auth.service'
 
-const handleLogout = () => {
+const handleLogout = async () => {
+  await logout()
   authStore.logout()
   router.push('/')
 }

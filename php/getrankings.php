@@ -1,300 +1,263 @@
 <?php
-    include("connect.php");
-    header('Content-Type: application/json');
 
-    if (!$connection->ping()) {
-      printf ("Error: %s\n", $connection->error);
-    }
+ini_set('display_errors', 0);
+error_reporting(0);
 
-    $maxScores = 15;//Max nb of players / scenario displayed
-    $catalogFileName = "scenariiCatalog.json";
+include("connect.php");
 
-    class PlayerData {
-     public $username; //String
-     public $score; //String
-    }
-
-    class Scenario {
-     public $scenarioName; //String
-     public $maximumScore; //String
-     public $playerData; //array( PlayerData )
-    }
-
-    class Scenarii {
-     public $scenario; //array( Scenario )
-    }
-
-    class Languages {
-     public $languageName; //String
-    public $scenarii; //Scenarii
-    }
-
-    class Leaderboard {
-     public $languages; //array( Languages )
-    }
-
-    //************* Get distinct languages in scenariiCatalog.json **************
-    $langs = array();//List of languageTags found in scenarii
-
-    $filePath = "../StreamingAssets/scenarii/".$catalogFileName;
-    $string = file_get_contents($filePath);
-    $json_a = json_decode($string, true);// $json_a as object, not associative array
-
-    foreach ($json_a['scenarii'] as $each) {
-        if (!in_array($each['languageTag'], $langs))
-        {
-            array_push($langs, $each['languageTag']);
-        }
-    }
-
-    //************* Get scenarii titles  in scenariiCatalog.json **************
-    $scenarioTitleList = array();
-
-    foreach ($json_a['scenarii'] as $each) {
-        if(strcasecmp($each['scenario-title'], "YOUR GAME HERE!") != 0)
-        {
-            array_push($scenarioTitleList, $each['scenario-title']);            
-        }
-    }
-
-    //LEADERBOARD OBJECT TO BE RETURNED
-    $leaderBoard = new Leaderboard();
-
-    //LEADERBOARD->$LANGUAGES
-    $languages = array();
-    $leaderBoard->languages = $languages; 
-
-    foreach ($langs as $language) {
-        //LANGUAGES->$LANGUAGENAME
-        $languageItem = new Languages();
-        $languageItem->languageName = $language;
-        array_push($leaderBoard->languages, $languageItem);
-
-        //LANGUAGES->$SCENARII
-        $scenarii = new Scenarii();
-        $scenarioArray = array();
-        $playerData = array();
-
-        //SCENARIO LOOP : Fetch MaxScenarioScore and PlayerData
-        foreach($json_a['scenarii'] as $scenario)
-        {
-            if(strcasecmp($scenario['scenario-title'], "YOUR GAME HERE!") != 0)
-            {
-                if(strcasecmp($language, $scenario['languageTag']) == 0)
-                {
-                    $scenarioItem = new Scenario();
-                    $scenarioItem->scenarioName = $scenario['scenario-title'];
-                    $scenarioItem->maximumScore = GetMaximumScore($connection, $catalogFileName, $scenario['scenario-title']);
-
-                    GetPlayerData($connection, $scenario['scenario-title'], $playerData);
-                    $scenarioItem->playerData = $playerData;
-                    array_push($scenarioArray, $scenarioItem);
-                }
-            }
-        }
-        
-        $scenarii->scenario = $scenarioArray;
-        $languageItem->scenarii = $scenarii;
-    }
-
-    echo json_encode($leaderBoard);
-
-
-    //____________________________________________________________________________
-    // ________________________________ FUNCS ___________________________________
-    //____________________________________________________________________________
-    function GetMaximumScore($connection, $catalogFileName, $scenarioName)
-    {
-        $listOfChapterFileNames = GetChapterFilesNames($catalogFileName, $scenarioName);
-
-        foreach($listOfChapterFileNames as $chapterFileName)
-        {
-            $filePath = "../StreamingAssets/scenarii/".$scenarioName."/Chapters/".$chapterFileName;
-            $string = file_get_contents($filePath);
-            $json_a = json_decode($string, true);
-
-            $sum = 0;
-            foreach ( $json_a as $score )
-            {
-                $sum += $score['Score'];
-            }
-            $totalSum += $sum;
-        }
-        return $totalSum;
-    }
-
-    function GetPlayerData($connection, $scenarioName, &$playerDataArray)
-    {
-        $scenarioId = GetScenarioId($connection, $scenarioName);
-        $historyIdsFromScenarioId = GetHistoryIdsFromScenarioId($connection, $scenarioId);
-        $listOfUniqueHistoryIds = array_unique($historyIdsFromScenarioId);
-
-        //Get sessions of each historyIds
-        foreach($listOfUniqueHistoryIds as $historyId)
-        {
-            $playerData = New PlayerData();
-
-            $username = GetUserName($connection, $historyId);
-
-            $userScore = GetUserScore($connection, $historyId, $scenarioId);
-
-            $playerData->username = $username;
-            $playerData->score = $userScore;
-
-            array_push($playerDataArray, $playerData);
-        }
-    }
-
-    function GetChapterFilesNames($catalogFileName, $scenarioName)
-    {
-        $chapterFileNames = array();//List of chapter names
-
-        $catalogFilePath = "../StreamingAssets/scenarii/".$catalogFileName;
-
-        $string = file_get_contents($catalogFilePath);
-        $json_a = json_decode($string, true);// $json_a as associative array
-
-        $arrayOfScenarii = $json_a['scenarii'];
-        foreach($arrayOfScenarii as $scenario)
-        {
-            if(strcasecmp($scenario['scenario-title'], $scenarioName) == 0)
-            {
-                foreach ($scenario['chapters'] as $chapters)
-                {
-                    array_push($chapterFileNames, $chapters['chapter-filename']);
-                }
-            }
-        }
-       return$chapterFileNames;
+if (!$connection->ping()) {
+    echo json_encode(["error" => $connection->error]);
+    exit;
 }
 
-    function GetScenarioId($connection, $scenarioName)
-    {
-        $sql = " SELECT * FROM ontomatchgame.Scenario  WHERE ontomatchgame.Scenario.scenarioName = '{$scenarioName}'";
-        $result = mysqli_query($connection,$sql);
+$catalogFileName = "scenariiCatalog.json";
 
-        if ($result)
-        {
-            if ($result->num_rows > 0)
-            {
-                while ($row = mysqli_fetch_array($result))
-                { 
-                    $scenarioId = $row["scenarioId"];
-                }
-            }
-            else
-            {
-                $scenarioId = null;
-            }
+// ===================== CLASSES =====================
+
+class PlayerData {
+    public $username;
+    public $score;
+}
+
+class Scenario {
+    public $scenarioName;
+    public $ontologyName; // ✅ AJOUT
+    public $maximumScore;
+    public $playerData;
+}
+
+class Scenarii {
+    public $scenario;
+}
+
+class Languages {
+    public $languageName;
+    public $scenarii;
+}
+
+class Leaderboard {
+    public $languages;
+}
+
+// ===================== LOAD JSON =====================
+
+$filePath = "../StreamingAssets/scenarii/" . $catalogFileName;
+$string = file_get_contents($filePath);
+$json_a = json_decode($string, true);
+
+// ===================== LANGUAGES =====================
+
+$langs = [];
+
+foreach ($json_a['scenarii'] as $each) {
+    if (!in_array($each['languageTag'], $langs)) {
+        $langs[] = $each['languageTag'];
+    }
+}
+
+// ===================== LEADERBOARD =====================
+
+$leaderBoard = new Leaderboard();
+$leaderBoard->languages = [];
+
+foreach ($langs as $language) {
+
+    $languageItem = new Languages();
+    $languageItem->languageName = $language;
+
+    $scenarii = new Scenarii();
+    $scenarioArray = [];
+
+    foreach ($json_a['scenarii'] as $scenario) {
+
+        if (
+            strcasecmp($scenario['scenario-title'], "YOUR GAME HERE!") != 0 &&
+            strcasecmp($language, $scenario['languageTag']) == 0
+        ) {
+
+            $scenarioName = $scenario['scenario-title'];
+
+            $scenarioItem = new Scenario();
+            $scenarioItem->scenarioName = $scenarioName;
+
+            // ✅ AJOUT ontologyName
+            $scenarioItem->ontologyName = GetOntologyName($connection, $scenarioName);
+
+            $scenarioItem->maximumScore = GetMaximumScore(
+                $connection,
+                $catalogFileName,
+                $scenarioName
+            );
+
+            $playerData = [];
+            GetPlayerData($connection, $scenarioName, $playerData);
+
+            $scenarioItem->playerData = $playerData;
+
+            $scenarioArray[] = $scenarioItem;
         }
-        return $scenarioId;
     }
 
-    function GetHistoryIdsFromScenarioId($connection, $scenarioId)
-    {
-        $listOfHistoryIds = array();
+    $scenarii->scenario = $scenarioArray;
+    $languageItem->scenarii = $scenarii;
 
-        $sql = " SELECT ontomatchgame.Session.historyId FROM ontomatchgame.Session  WHERE ontomatchgame.Session.scenarioId = '{$scenarioId}' ";
-        $result = mysqli_query($connection,$sql);
+    $leaderBoard->languages[] = $languageItem;
+}
 
-        if ($result)
-        {
-            if ($result->num_rows > 0)
-            {
-                while ($row = mysqli_fetch_array($result))
-                { 
-                    array_push($listOfHistoryIds, $row['historyId']);
-                }
-            }
-            else
-            {
-                $scenarioId = null;
-            }
-        }
-        return $listOfHistoryIds;
+echo json_encode($leaderBoard);
+
+// ===================== FUNCTIONS =====================
+
+// 🔥 NOUVELLE FONCTION
+function GetOntologyName($connection, $scenarioName)
+{
+    $sql = "
+    SELECT Ontology.ontologyName
+    FROM ontomatchgame.Scenario
+    INNER JOIN ontomatchgame.Ontology 
+        ON Scenario.ontologyId = Ontology.ontologyId
+    WHERE Scenario.scenarioName = '{$scenarioName}'
+    ";
+
+    $result = mysqli_query($connection, $sql);
+
+    if ($result && $result->num_rows > 0) {
+        $row = mysqli_fetch_array($result);
+        return $row['ontologyName'];
     }
 
-    function GetUserName($connection, $historyId)
-    {
-        $sql = " SELECT ontomatchgame.History.userId FROM ontomatchgame.History  WHERE ontomatchgame.History.historyId = '{$historyId}' ";
-        $result = mysqli_query($connection,$sql);
+    return "";
+}
 
-        if ($result)
-        {
-            if ($result->num_rows > 0)
-            {
-                while ($row = mysqli_fetch_array($result))
-                { 
-                    $userId = $row['userId'];
-                }
-            }
-            else
-            {
-                $userId = null;
-            }
-        }
+function GetMaximumScore($connection, $catalogFileName, $scenarioName)
+{
+    $listOfChapterFileNames = GetChapterFilesNames($catalogFileName, $scenarioName);
 
-        if($userId != null)
-        {
-            $username = GetNameFromId($connection, $userId);
-        }
-        else
-        {
-            $username = null;
-        }
+    $totalSum = 0;
 
-        return $username;
+    foreach ($listOfChapterFileNames as $chapterFileName) {
+        $filePath = "../StreamingAssets/scenarii/" . $scenarioName . "/Chapters/" . $chapterFileName;
+
+        if (!file_exists($filePath)) continue;
+
+        $string = file_get_contents($filePath);
+        $json_a = json_decode($string, true);
+
+        foreach ($json_a as $score) {
+            $totalSum += $score['Score'] ?? 0;
+        }
     }
 
-    function GetNameFromId($connection, $userId)
-    {
-        $sql = " SELECT ontomatchgame.UserAccount.username FROM ontomatchgame.UserAccount  WHERE ontomatchgame.UserAccount.userId = '{$userId}' ";
-        $result = mysqli_query($connection,$sql);
+    return $totalSum;
+}
 
-        if ($result)
-        {
-            if ($result->num_rows > 0)
-            {
-                while ($row = mysqli_fetch_array($result))
-                { 
-                    $username = $row['username'];
-                }
-            }
-            else
-            {
-                $username = null;
+function GetPlayerData($connection, $scenarioName, &$playerDataArray)
+{
+    $scenarioId = GetScenarioId($connection, $scenarioName);
+    $historyIds = array_unique(GetHistoryIdsFromScenarioId($connection, $scenarioId));
+
+    foreach ($historyIds as $historyId) {
+
+        $playerData = new PlayerData();
+
+        $playerData->username = GetUserName($connection, $historyId);
+        $playerData->score = GetUserScore($connection, $historyId, $scenarioId);
+
+        $playerDataArray[] = $playerData;
+    }
+}
+
+function GetChapterFilesNames($catalogFileName, $scenarioName)
+{
+    $chapterFileNames = [];
+
+    $catalogFilePath = "../StreamingAssets/scenarii/" . $catalogFileName;
+    $string = file_get_contents($catalogFilePath);
+    $json_a = json_decode($string, true);
+
+    foreach ($json_a['scenarii'] as $scenario) {
+        if (strcasecmp($scenario['scenario-title'], $scenarioName) == 0) {
+            foreach ($scenario['chapters'] as $chapters) {
+                $chapterFileNames[] = $chapters['chapter-filename'];
             }
         }
-        return $username;
     }
 
-    function GetUserScore($connection, $historyId, $scenarioId)
-    {
-        $userScore = 0;
+    return $chapterFileNames;
+}
 
-        $sql = " SELECT Progression.score FROM ontomatchgame.Progression INNER JOIN ontomatchgame.Session WHERE ontomatchgame.Progression.sessionId = ontomatchgame.Session.sessionId AND ontomatchgame.Session.historyId = '$historyId' AND ontomatchgame.Session.scenarioId = '$scenarioId' ";
-        $result = mysqli_query($connection, $sql);
+function GetScenarioId($connection, $scenarioName)
+{
+    $sql = "SELECT scenarioId FROM ontomatchgame.Scenario WHERE scenarioName = '{$scenarioName}'";
+    $result = mysqli_query($connection, $sql);
 
-        if ($result)
-        {
-            if ($result->num_rows > 0)
-            {
-                while ($row = mysqli_fetch_array($result))
-                { 
-                    $score = $row['score'];
-                    $userScore += $score;
-                }
-            }
-            else
-            {
-                $userScore = null;
-            }
-        }
-        return $userScore;
+    if ($result && $result->num_rows > 0) {
+        $row = mysqli_fetch_array($result);
+        return $row["scenarioId"];
     }
 
+    return null;
+}
 
+function GetHistoryIdsFromScenarioId($connection, $scenarioId)
+{
+    $list = [];
 
+    $sql = "SELECT historyId FROM ontomatchgame.Session WHERE scenarioId = '{$scenarioId}'";
+    $result = mysqli_query($connection, $sql);
 
-    mysqli_close($connection); 
+    while ($row = mysqli_fetch_array($result)) {
+        $list[] = $row['historyId'];
+    }
+
+    return $list;
+}
+
+function GetUserName($connection, $historyId)
+{
+    $sql = "SELECT userId FROM ontomatchgame.History WHERE historyId = '{$historyId}'";
+    $result = mysqli_query($connection, $sql);
+
+    if ($result && $result->num_rows > 0) {
+        $row = mysqli_fetch_array($result);
+        return GetNameFromId($connection, $row['userId']);
+    }
+
+    return null;
+}
+
+function GetNameFromId($connection, $userId)
+{
+    $sql = "SELECT username FROM ontomatchgame.UserAccount WHERE userId = '{$userId}'";
+    $result = mysqli_query($connection, $sql);
+
+    if ($result && $result->num_rows > 0) {
+        $row = mysqli_fetch_array($result);
+        return $row['username'];
+    }
+
+    return null;
+}
+
+function GetUserScore($connection, $historyId, $scenarioId)
+{
+    $userScore = 0;
+
+    $sql = "SELECT Progression.score 
+            FROM ontomatchgame.Progression 
+            INNER JOIN ontomatchgame.Session 
+            ON Progression.sessionId = Session.sessionId
+            WHERE Session.historyId = '$historyId'
+            AND Session.scenarioId = '$scenarioId'";
+
+    $result = mysqli_query($connection, $sql);
+
+    while ($row = mysqli_fetch_array($result)) {
+        $userScore += $row['score'];
+    }
+
+    return $userScore;
+}
+
+mysqli_close($connection);
 ?>

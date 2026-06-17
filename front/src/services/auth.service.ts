@@ -4,6 +4,7 @@ import { handleApiError } from './error.handler'
 import type { RegisterFormData, SignupFormData } from '@/types/form'
 import { authStore } from '@/stores/auth.store'
 import { langStore } from '@/stores/lang.store'
+import { useUserInformations } from '@/stores/userInformations.store'
 
 const selectedLanguage = ref(langStore.state.language)
 
@@ -22,6 +23,8 @@ interface CheckingResult {
 
 interface LoginResponse {
   login: boolean
+  userId: number
+  username: string
 }
 
 interface checkUsername {
@@ -94,11 +97,24 @@ export const login = async (formData: RegisterFormData): Promise<boolean> => {
     })
 
     authStore.login(data.login, formData.email)
+    if (data.login) {
+      useUserInformations().setUserInfo(String(data.userId), data.username)
+    }
     return data.login
   } catch (error) {
     handleApiError(error)
   } finally {
     isLoading.value = false
+  }
+}
+
+export const logout = async (): Promise<void> => {
+  try {
+    await api.post('/logout.php')
+  } catch (error) {
+    handleApiError(error)
+  } finally {
+    useUserInformations().clearUserInfo()
   }
 }
 

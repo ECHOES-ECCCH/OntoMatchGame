@@ -10,7 +10,7 @@ export const isResetProgressionLoading = ref(false)
 export const resetGame = async (userId: string) => {
   isResetLoading.value = true
   try {
-    const { data } = await api.get(`/resetgame.php?userId=${userId}`)
+    const { data } = await api.get(`/resetgame.php`)
     return data
   } catch (error) {
     handleApiError(error)

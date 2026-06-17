@@ -1,65 +1,28 @@
 import { defineStore } from 'pinia'
-import { ref, watch } from 'vue'
-import { getUserId, getUserName } from '@/services/userInformations'
-
-export const useUserEmail = defineStore('auth', () => {
-  const email = ref(localStorage.getItem('email') || null)
-
-  function setEmail(value: string) {
-    email.value = value
-    localStorage.setItem('email', value)
-  }
-
-  function clearEmail() {
-    email.value = null
-    localStorage.removeItem('email')
-  }
-
-  return {
-    email,
-    setEmail,
-    clearEmail,
-  }
-})
+import { ref } from 'vue'
 
 export const useUserInformations = defineStore('user', () => {
   const userInfo = ref({
-    userName: null,
-    userId: null,
+    userName: null as string | null,
+    userId: null as string | null,
   })
 
   const isUserInfoLoading = ref(false)
 
-  const authStore = useUserEmail()
-
-  const fetchUserInfo = async () => {
-    if (!authStore.email) return
-
-    isUserInfoLoading.value = true
-    try {
-      const [userName, userId] = await Promise.all([
-        getUserName(authStore.email),
-        getUserId(authStore.email),
-      ])
-
-      userInfo.value.userName = userName
-      userInfo.value.userId = userId
-    } finally {
-      isUserInfoLoading.value = false
-    }
+  function setUserInfo(userId: string, userName: string) {
+    userInfo.value.userId = userId
+    userInfo.value.userName = userName
   }
 
-  watch(
-    () => authStore.email,
-    () => {
-      fetchUserInfo()
-    },
-    { immediate: true },
-  )
+  function clearUserInfo() {
+    userInfo.value.userId = null
+    userInfo.value.userName = null
+  }
 
   return {
     userInfo,
     isUserInfoLoading,
-    fetchUserInfo,
+    setUserInfo,
+    clearUserInfo,
   }
 })
