@@ -1,224 +1,179 @@
 <?php
-    include("connect.php");
-    header('Content-Type: application/json');
+include("connect.php");
+include("auth.php");
+header('Content-Type: application/json');
 
-    if (!$connection->ping()) {
-      printf ("Error: %s\n", $connection->error);
-    }
+if (!$connection->ping()) {
+    printf ("Error: %s\n", $connection->error);
+}
 
-    //Temps class to store fetched ids from tables
-    class UserScenarioStat
+// Classe modèle
+class UserScenarioStat
+{
+    public $userId;
+    public $ontologyName;
+    public $scenarioName;
+    public $scenarioLanguage;
+    public $chapterName;
+    public $lastChallengeId;
+    public $maxChallengeCount;
+    public $score;
+    public $maxPossibleScore;
+
+    public function __construct($userId, $ontologyName, $scenarioName, $scenarioLanguage, $chapterName, $lastChallengeId, $maxChallengeCount, $score, $maxPossibleScore) 
     {
-        public $userId;
-        public $scenarioName;
-        public $scenarioLanguage;
-        public $chapterName;
-        public $lastChallengeId;
-        public $maxChallengeCount;
-        public $score;
-        public $maxPossibleScore;
-
-         public function __construct($userId, $scenarioName, $scenarioLanguage, $chapterName, $lastChallengeId, $maxChallengeCount, $score, $maxPossibleScore) 
-        {
-            $this->userId = $userId;
-            $this->scenarioName = $scenarioName;
-            $this->scenarioLanguage = $scenarioLanguage;
-            $this->chapterName = $chapterName;
-            $this->lastChallengeId = $lastChallengeId;
-            $this->maxChallengeCount = $maxChallengeCount;
-            $this->score = $score;
-            $this->maxPossibleScore = $maxPossibleScore;
-        }
+        $this->userId = $userId;
+        $this->ontologyName = $ontologyName;
+        $this->scenarioName = $scenarioName;
+        $this->scenarioLanguage = $scenarioLanguage;
+        $this->chapterName = $chapterName;
+        $this->lastChallengeId = $lastChallengeId;
+        $this->maxChallengeCount = $maxChallengeCount;
+        $this->score = $score;
+        $this->maxPossibleScore = $maxPossibleScore;
     }
+}
 
-    //Final list to upload : A list of ProgressionModelDown class
-    $UserProgression = array();
+// ================= MAIN =================
 
-    //Get UserId
-    $userId = $_GET['userId'];
+$userId = requireAuth();
 
-    //Get historyID of this user
-    $historyId = GetHistory($connection, $userId);
+$historyId = GetHistory($connection, $userId);
+$progressions = GetProgressionIds($connection, $historyId, $userId);
 
-    //Get all progressions data (ids)
-    $progressionIds = GetProgressionIds($connection, $historyId, $userId);
+echo json_encode($progressions);
 
-    echo json_encode($progressionIds);
+// ================= FUNCTIONS =================
 
-    function GetProgressionIds($connection, $historyId, $userId)
+function GetProgressionIds($connection, $historyId, $userId)
+{
+    $progressions = array();
+
+    $sql = "
+    SELECT 
+        Session.scenarioId, 
+        Session.lastChapterId, 
+        Progression.lastChallengeId, 
+        Progression.score,
+        Scenario.scenarioName,
+        Ontology.ontologyName
+    FROM ontomatchgame.Progression
+    INNER JOIN ontomatchgame.Session 
+        ON Progression.sessionId = Session.sessionId
+    INNER JOIN ontomatchgame.Scenario 
+        ON Session.scenarioId = Scenario.scenarioId
+    INNER JOIN ontomatchgame.Ontology 
+        ON Scenario.ontologyId = Ontology.ontologyId
+    WHERE Session.historyId = '$historyId'
+    ";
+
+    $result = mysqli_query($connection, $sql);
+
+    if ($result && $result->num_rows > 0)
     {
-        $progressions = array();
-
-        $sql = " SELECT Session.scenarioId, Session.lastChapterId, Progression.lastChallengeId, Progression.score FROM ontomatchgame.Progression INNER JOIN ontomatchgame.Session WHERE ontomatchgame.Progression.sessionId = ontomatchgame.Session.sessionId AND ontomatchgame.Session.historyId = '$historyId' ";
-
-        $result = mysqli_query($connection, $sql);
-
-        if($result)
+        while($row = mysqli_fetch_array($result))
         {
-            if($result -> num_rows > 0)
-            {
-                while($row = mysqli_fetch_array($result))
-                {
-                    $scenarId = $row['scenarioId'];
-                    $sname = GetScenarioName($connection, $scenarId);
+            $scenarioId = $row['scenarioId'];
+            $scenarioName = $row['scenarioName'];
+            $ontologyName = $row['ontologyName'];
 
-                    $lastChapterId = $row['lastChapterId'];
+            $lastChapterId = $row['lastChapterId'];
+            $lastChallengeId = $row['lastChallengeId'];
+            $score = $row['score'];
 
-                    $chapterFileName = GetChapterFileName($connection, $scenarId, $lastChapterId);
-                    
-                    $scenarioLanguage = GetScenarioLanguage($connection, $sname);
+            $scenarioLanguage = GetScenarioLanguage($scenarioName);
 
-                    $chapterName="";
-                    $maxChallengeCount = 0;
-                    $maxPossibleScore = 0;
+            $chapterName = "";
+            $maxChallengeCount = 0;
+            $maxPossibleScore = 0;
 
-                    GetChapterData($connection, $lastChapterId, $sname, $chapterName, $maxChallengeCount, $maxPossibleScore);
+            GetChapterData($connection, $lastChapterId, $scenarioName, $chapterName, $maxChallengeCount, $maxPossibleScore);
 
-                    $lastChallengeId = $row['lastChallengeId'];
+            $pIds = new UserScenarioStat(
+                $userId,
+                $ontologyName,
+                $scenarioName,
+                $scenarioLanguage,
+                $chapterName,
+                $lastChallengeId,
+                $maxChallengeCount,
+                $score,
+                $maxPossibleScore
+            );
 
-                    $score = $row['score'];
-
-                    $pIds = new UserScenarioStat($userId, $sname, $scenarioLanguage, $chapterName, $lastChallengeId, $maxChallengeCount, $score, $maxPossibleScore);
-                    array_push($progressions, $pIds);   
-                }
-            }
-            else
-            {
-                $pIds = new UserScenarioStat(-1, "", "", "", -1, -1, -1, -1);
-                array_push($progressions, $pIds); 
-            }
+            array_push($progressions, $pIds);   
         }
-        return $progressions;    
     }
-
-    function GetHistory($connection, $userId)
+    else
     {
-        $sql = "SELECT * FROM ontomatchgame.History WHERE ontomatchgame.History.userId = '{$userId}'";
-        $result = mysqli_query($connection, $sql);
-
-        if($result)
-        {
-            if($result -> num_rows > 0)
-            {
-                while($row = mysqli_fetch_array($result))
-                {
-                    $historyId = $row['historyId'];
-                }
-                return $historyId;
-            }
-        }
-        else
-        {
-            return null;
-        }
+        $pIds = new UserScenarioStat(-1, "", "", "", "", -1, -1, -1, -1);
+        array_push($progressions, $pIds); 
     }
 
-    function GetScenarioName($connection, $scenarioId)
+    return $progressions;    
+}
+
+function GetHistory($connection, $userId)
+{
+    $stmt = $connection->prepare("SELECT historyId FROM ontomatchgame.History WHERE userId = ?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result && $result->num_rows > 0)
     {
-        $query = "SELECT Scenario.scenarioName FROM Scenario WHERE Scenario.scenarioId = $scenarioId ";
-        $result = mysqli_query($connection,$query);
-
-        if ($result)
-        {
-            if ($result->num_rows > 0)
-            {
-                while ($row = mysqli_fetch_array($result))
-                { 
-                    $scenarioName = $row["scenarioName"];
-                }
-                return $scenarioName;
-            }
-            else
-            {
-                error_log("[getprogressions.php] Could not fetch Scenario Name from ScenarioId.", 0);
-            }
-        }
-        else
-        {
-            return null;
-        }
+        $row = $result->fetch_assoc();
+        return $row['historyId'];
     }
 
-    function GetChapterFileName($connection, $scenarioId, $chapterId)
+    return null;
+}
+
+function GetScenarioLanguage($scenarioName)
+{
+    $filePath = "../StreamingAssets/scenarii/".$scenarioName."/".$scenarioName.".json";
+
+    if (!file_exists($filePath)) return "";
+
+    $string = file_get_contents($filePath);
+    $json_a = json_decode($string, true);
+
+    return $json_a['languageTag'] ?? "";
+}
+
+function GetChapterData($connection, $chapterId, $scenarioName, &$chapterName, &$maxChallengeCount, &$maxPossibleScore)
+{
+    $query = "SELECT chapterName FROM Chapter WHERE chapterId = $chapterId";
+    $result = mysqli_query($connection, $query);
+
+    if ($result && $result->num_rows > 0)
     {
-        $query = "SELECT Chapter.chapterName FROM Chapter WHERE Chapter.scenarioId = $scenarioId AND Chapter.chapterId = $chapterId ";
-        $result = mysqli_query($connection,$query);
-
-        if ($result)
-        {
-            if ($result->num_rows > 0)
-            {
-                while ($row = mysqli_fetch_array($result))
-                { 
-                    $chapterFileName = $row["chapterName"];
-                }
-                return $chapterName;
-            }
-            else
-            {
-                error_log("[getprogressions.php] Could not fetch Chapter Name from chapterId.", 0);
-            }
-        }
-        else
-        {
-            return null;
-        }
+        $row = mysqli_fetch_array($result);
+        $chapterFileName = $row["chapterName"];
     }
-
-    function GetScenarioLanguage($connection, $scenarioName)
+    else
     {
-            //Generate file path from scenarioName
-            $filePath = "../StreamingAssets/scenarii/".$scenarioName."/".$scenarioName.".json";
-
-            $string = file_get_contents($filePath);
-            $json_a = json_decode($string, true);
-
-            $language = $json_a['languageTag'];
-            return $language;
+        return;
     }
 
-    function GetChapterData($connection, $chapterId, $scenarioName, &$chapterName, &$maxChallengeCount, &$maxPossibleScore)
+    $filePath = "../StreamingAssets/scenarii/".$scenarioName."/Chapters/".$chapterFileName;
+
+    if (!file_exists($filePath)) return;
+
+    $string = file_get_contents($filePath);
+    $json_a = json_decode($string, true);
+
+    $chapterName = $json_a[0]['Title'] ?? "";
+    $maxChallengeCount = count($json_a) - 1;
+
+    $sum = 0;
+    foreach ($json_a as $item)
     {
-        $query = "SELECT Chapter.chapterName FROM Chapter WHERE Chapter.chapterId = $chapterId ";
-        $result = mysqli_query($connection,$query);
-
-        if ($result)
-        {
-            if ($result->num_rows > 0)
-            {
-                while ($row = mysqli_fetch_array($result))
-                { 
-                    $chapterFileName = $row["chapterName"];
-                }
-            }
-            else
-            {
-                return null;
-            }
-            //Generate file path from chapterName
-            $filePath = "../StreamingAssets/scenarii/".$scenarioName."/Chapters/".$chapterFileName;
-            $string = file_get_contents($filePath);
-            $json_a = json_decode($string, true);
-
-            //Fetch data
-            $chapterName = $json_a[0]['Title'];
-            $maxChallengeCount = count($json_a) - 1;
-
-            $sum = 0;
-            foreach ( $json_a as $score )
-            {
-                $sum += $score['Score'];
-            }
-
-            $maxPossibleScore = $sum;
-        }
+        $sum += $item['Score'] ?? 0;
     }
-    
-    mysqli_close($connection); 
+
+    $maxPossibleScore = $sum;
+}
+
+mysqli_close($connection);
 ?>
-
-
-
-
-
-

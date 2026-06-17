@@ -1,5 +1,6 @@
 <?php
     include("connect.php");
+    include("auth.php");
 
     header('Content-Type: application/json');
 
@@ -21,17 +22,8 @@
     $body = file_get_contents('php://input');//Needed because data are json, not from xxx-form-encoded
     $parsed = json_decode($body);
 
-    //UserId field
-    if(isset($parsed->userId))
-    {
-        $userId = $parsed->userId;
-    }
-    else
-    {
-        error_log("[OntoMatchGame] UserId field empty. Can't update session.", 0);
-        exit("[OntoMatchGame] UserId field empty. Can't update session.");
-    }
-    //echo "User ID->".$userId."\n\n";
+    //Derive UserId from the authenticated session, never from the client
+    $userId = requireAuth();
 
     //ScenarioTitle field
     if(isset($parsed->currentScenario))
@@ -91,17 +83,16 @@
 
 
     //Fetch HistoryId from UserId
-    $query = " SELECT * FROM ontomatchgame.History WHERE ontomatchgame.History.userId = $userId ";    
-    $result = mysqli_query($connection,$query);
+    $stmt = $connection->prepare("SELECT historyId FROM ontomatchgame.History WHERE userId = ?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
     if ($result)
     {
         if ($result->num_rows > 0)//Email found
         {
-            while ($row = mysqli_fetch_array($result))
-            { 
-                $historyId = $row['historyId'];
-                //echo "History id : ".$historyId."\n";
-            }
+            $row = $result->fetch_assoc();
+            $historyId = $row['historyId'];
         }
         else
         {

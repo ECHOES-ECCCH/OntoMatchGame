@@ -1,12 +1,12 @@
 <?php
-	require dirname(__DIR__).'/vendor/autoload.php';
+	require dirname(__DIR__).'/php/vendor/autoload.php';
 
 	use Symfony\Component\Dotenv\Dotenv;
 
 	$dotenv = new Dotenv();
 
-	// Charge .env puis .env.local s’il existe
-	$dotenv->loadEnv(dirname(__DIR__).'/.env');
+	// Charge .env puis .env.local s’il existe (protégés par php/.htaccess)
+	$dotenv->loadEnv(__DIR__.'/.env');
 
 	$dbHost = $_ENV['DB_HOST'];
 	$dbName = $_ENV['DB_NAME'];

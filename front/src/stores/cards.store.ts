@@ -15,7 +15,12 @@ export const useSelectedXML = () => {
 
     try {
       const basePath = import.meta.env.BASE_URL
-      const xml = await fetch(`${basePath}/data/${ontology}/data.xml`).then((r) => r.text())
+      const dataUrl = `${basePath}data/${ontology}/data.xml`
+      const response = await fetch(dataUrl)
+      if (!response.ok) {
+        throw new Error(`Données introuvables : ${dataUrl} (${response.status})`)
+      }
+      const xml = await response.text()
       const doc: Document = new DOMParser().parseFromString(xml, 'text/xml')
 
       entityDataCards.value = parseClasses(doc, 'entity')

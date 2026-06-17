@@ -1,5 +1,6 @@
 <?php
     include("connect.php");
+    include("auth.php");
 
     header('Content-Type: application/json');
 
@@ -11,14 +12,14 @@
     {
       public $result;
 
-      public function __construct($b) 
+      public function __construct($b)
       {
           $this->result = $b;
       }
     }
 
-    //Get UserId
-    $userId = $_GET['userId'];
+    //Derive UserId from the authenticated session, never from the client
+    $userId = requireAuth();
 
     //Get historyId
     $historyId = GetHistory($connection, $userId);
@@ -27,24 +28,18 @@
 
     function GetHistory($connection, $userId)
     {
-        $sql = "SELECT * FROM ontomatchgame.History WHERE ontomatchgame.History.userId = '{$userId}'";
-        $result = mysqli_query($connection, $sql);
+        $stmt = $connection->prepare("SELECT historyId FROM ontomatchgame.History WHERE userId = ?");
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        if($result)
+        if($result && $result->num_rows > 0)
         {
-            if($result -> num_rows > 0)
-            {
-                while($row = mysqli_fetch_array($result))
-                {
-                    $historyId = $row['historyId'];
-                }
-                return $historyId;
-            }
+            $row = $result->fetch_assoc();
+            return $row['historyId'];
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     function DeleteProgressions($connection, $historyId)
