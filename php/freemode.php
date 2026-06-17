@@ -42,7 +42,7 @@ function getOntologyIdByName($name, $connection)
 {
     $stmt = $connection->prepare("
         SELECT ontologyId
-        FROM ontology
+        FROM Ontology
         WHERE ontologyName = ?
         LIMIT 1
     ");
@@ -96,7 +96,7 @@ if ($method === "POST") {
     }
 
     $stmt = $connection->prepare("
-        INSERT INTO freemode (title, ontologyId, userId, freemodeData)
+        INSERT INTO Freemode (title, ontologyId, userId, freemodeData)
         VALUES (?, ?, ?, ?)
     ");
 
@@ -178,7 +178,7 @@ if ($method === "GET") {
         $id = (int)$_GET['id'];
 
         $stmt = $connection->prepare("
-            SELECT * FROM freemode
+            SELECT * FROM Freemode
             WHERE freemodeId = ?
         ");
 
@@ -207,7 +207,7 @@ if ($method === "GET") {
 
     $stmt = $connection->prepare("
         SELECT *
-        FROM freemode
+        FROM Freemode
         WHERE ontologyId = ? AND userId = ?
         ORDER BY freemodeId DESC
     ");
@@ -235,7 +235,7 @@ if ($method === "GET") {
 
         $stmt = $connection->prepare("
             SELECT *
-            FROM freemode
+            FROM Freemode
             WHERE userId = ?
             ORDER BY freemodeId DESC
         ");
@@ -260,7 +260,7 @@ if ($method === "GET") {
 
     // ALL
     $result = $connection->query("
-        SELECT * FROM freemode
+        SELECT * FROM Freemode
         ORDER BY freemodeId DESC
     ");
 
@@ -291,7 +291,7 @@ if ($method === "DELETE") {
     $userId = (int)$data['userId'];
 
     $stmt = $connection->prepare("
-        DELETE FROM freemode
+        DELETE FROM Freemode
         WHERE freemodeId = ? AND userId = ?
     ");
 
