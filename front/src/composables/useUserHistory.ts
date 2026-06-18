@@ -25,6 +25,11 @@ export const userOntology = computed<string>(() => {
   return userHistory.value.ontologyName
 })
 
+/**
+ * Reload history whenever:
+ * - the connected user changes
+ * - a manual refresh is requested
+ */
 watch(
   () => userStore.userInfo.userId,
   (userId) => {

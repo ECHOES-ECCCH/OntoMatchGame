@@ -26,6 +26,9 @@ export const fetchUserStats = async (userId: string) => {
   }
 }
 
+/**
+ * Automatically reload stats when the connected user changes.
+ */
 watch(
   () => userStore.userInfo.userId,
   (userId) => {

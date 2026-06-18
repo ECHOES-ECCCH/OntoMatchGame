@@ -9,6 +9,9 @@ const isDataCardsLoading = ref(false)
 const error = ref<string | null>(null)
 
 export const useSelectedXML = () => {
+  /**
+   * Load ontology XML and convert it into card structures
+   */
   async function loadCard(ontology: string) {
     isDataCardsLoading.value = true
     error.value = null
@@ -23,11 +26,12 @@ export const useSelectedXML = () => {
       const xml = await response.text()
       const doc: Document = new DOMParser().parseFromString(xml, 'text/xml')
 
+      // Extract entity and property cards from XML
       entityDataCards.value = parseClasses(doc, 'entity')
       propertyDataCards.value = parseClasses(doc, 'property')
 
       /**
-       * Intégrer les types sur les différentes cartes
+       * Enrich entity cards with external type metadata (branches)
        */
       if (Array.isArray(types) && types.length > 0) {
         entityDataCards.value = entityDataCards.value.map((item) => {
@@ -39,6 +43,7 @@ export const useSelectedXML = () => {
         })
       }
     } catch (err) {
+      // Store error message for UI handling
       error.value = (err as Error).message
     } finally {
       isDataCardsLoading.value = false

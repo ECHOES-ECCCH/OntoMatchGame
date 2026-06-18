@@ -37,7 +37,7 @@ const availableOntologies = computed(() => {
   return language?.scenarii?.scenario?.map((s) => s.ontologyName) ?? []
 })
 
-// Valeur par défaut filtre ontologie
+// Default filtered value
 watch(
   availableOntologies,
   (ontologies) => {

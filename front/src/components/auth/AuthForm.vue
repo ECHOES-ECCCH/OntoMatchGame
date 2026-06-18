@@ -10,10 +10,15 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'update:errors', 'submit'])
 
+/**
+ * Update a single field in the form
+ * - keeps other fields intact
+ * - clears error for that field if it exists
+ */
 const updateField = (field: string, value: string) => {
   emit('update:modelValue', { ...props.modelValue, [field]: value })
 
-  // Delete error message if field is modified
+  // Remove error message when user edits the field
   if (props.errors && props.errors[field]) {
     emit('update:errors', { ...props.errors, [field]: '' })
   }

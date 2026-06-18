@@ -31,20 +31,20 @@ const emit = defineEmits<{
   (e: 'update:branches', value: string[]): void
 }>()
 
+/**
+ * Card currently shown from slider navigation
+ */
 const currentCard = computed(() => {
   return activeCards.value?.[currentIndex.value] ?? activeCards.value?.[0] ?? null
 })
 
 /**
- * Carte actuellement affichée en mode libre
- * (quand on clique sur subclass/superclass)
+ * Card selected via ontology hierarchy (free navigation mode)
  */
 const currentFreeCard = ref<CardInfo | null>(null)
 
 /**
- * Carte réellement affichée
- * -> soit la carte du slider
- * -> soit la carte sélectionnée
+ * Final displayed card (slider OR free selection)
  */
 const displayedCard = computed(() => {
   return currentFreeCard.value ?? currentCard.value
@@ -62,28 +62,16 @@ const getIcon = (branches: BranchName[] | null | undefined): string[] => {
 
 const handlePrevious = () => {
   currentIndex.value = Math.max(currentIndex.value - 1, 0)
-
-  /**
-   * reset du mode libre
-   */
   currentFreeCard.value = null
 }
 
 const handleNext = () => {
   currentIndex.value = Math.min(currentIndex.value + 1, activeCards.value.length - 1)
-
-  /**
-   * reset du mode libre
-   */
   currentFreeCard.value = null
 }
 
 const handleSliderChange = (value: number) => {
   currentIndex.value = value
-
-  /**
-   * reset du mode libre
-   */
   currentFreeCard.value = null
 }
 

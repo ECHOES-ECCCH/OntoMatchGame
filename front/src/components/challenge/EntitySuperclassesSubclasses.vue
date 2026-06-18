@@ -17,6 +17,9 @@ const emit = defineEmits<{
   'update:cardInfo': [value: typeof props.cardInfo]
 }>()
 
+/**
+ * Switch the current card to the selected superclass or subclass.
+ */
 const switchEntityCard = (aboutValue: string) => {
   const updated = switchCard(aboutValue, props.position, props.entityDataCards, props.cardInfo)
 
@@ -25,6 +28,9 @@ const switchEntityCard = (aboutValue: string) => {
   }
 }
 
+/**
+ * Available subClasses and superClasses for the current entity.
+ */
 const subClasses = computed(() => props.superSubClasses.subClassOf.value[props.position] || [])
 const superClasses = computed(() => props.superSubClasses.superClassOf.value[props.position] || [])
 </script>

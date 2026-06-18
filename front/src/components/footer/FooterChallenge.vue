@@ -30,16 +30,24 @@ const handleFullscreen = () => {
   emit('toggle-fullscreen')
 }
 
+/**
+ * Validates the current challenge by checking
+ * the selected cards against the expected solution.
+ */
 const handleValidation = () => {
   check(props.entityDataCards, props.propertyDataCards)
 }
 
+/**
+ * Loads the next challenge after displaying the solution.
+ * Waits for Vue to update the UI before reloading chapter data.
+ */
 const handleNextAfterSolution = async () => {
   resetSolution()
   if (!chapterStats.value) return
 
-  // Important : attendre que Vue applique la mise à jour (showSolution = false)
-  // sinon loadChapter s'exécute alors que le DOM n'est pas encore synchronisé
+  // Wait for Vue to apply the state update before loading
+  // the next challenge to keep the DOM synchronized.
   await nextTick()
 
   await loadChapter(

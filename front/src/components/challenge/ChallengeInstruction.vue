@@ -27,6 +27,7 @@ const emit = defineEmits<{
 const firstText = computed(() => splitStatement(props.chapterData?.Statement).before)
 const secondText = computed(() => splitStatement(props.chapterData?.Statement).after)
 
+// To display the solution of the challenge
 const handleDisplaySolution = () => {
   displaySolution(props.chapterStats)
 

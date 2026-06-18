@@ -13,6 +13,9 @@ import PagesLoader from '@/components/loader/PagesLoader.vue'
 import PropertyFreeModeCard from '@/components/freeMode/PropertyFreeModeCard.vue'
 import InstancesFreeModeCard from '@/components/freeMode/InstancesFreeModeCard.vue'
 import InstancesModal from '@/components/freeMode/InstancesModal.vue'
+import InstructionsModal from '@/components/freeMode/InstructionsModal.vue'
+import SaveAsModal from '@/components/freeMode/SaveAsModal.vue'
+import BoardsRecordedModal from '@/components/freeMode/BoardsRecordedModal.vue'
 import { toggleFullscreen } from '@/utils/togglefullscreen'
 import { useFreeModeFlow } from '@/composables/useFreeModeFlow'
 import { filteredEntityCardsByBranch } from '@/composables/useSelectedCards'
@@ -27,12 +30,8 @@ import saveas from '@/assets/img/saveas.svg'
 import save from '@/assets/img/save.svg'
 import open from '@/assets/img/open.svg'
 import backDoor from '@/assets/img/back-door.svg'
-
-import type { CardInstances } from '@/types/card/cardInfo'
 import instances from '@/assets/img/instances.jpg'
-import InstructionsModal from '@/components/freeMode/InstructionsModal.vue'
-import SaveAsModal from '@/components/freeMode/SaveAsModal.vue'
-import BoardsRecordedModal from '@/components/freeMode/BoardsRecordedModal.vue'
+import type { CardInstances } from '@/types/card/cardInfo'
 import { updateFreeModeBoard, isUpdateFreeModeBoardLoading } from '@/services/freemode.service'
 import { langStore } from '@/stores/lang.store'
 
@@ -58,6 +57,9 @@ const selectedOntology = ref('CIDOC CRM')
 const saveAs = ref(false)
 const openBoards = ref(false)
 
+/**
+ * Reload cards when ontology changes and reset flow
+ */
 watch(
   selectedOntology,
   (newValue) => {
@@ -87,11 +89,17 @@ const handleOpenBoards = () => {
   openBoards.value = true
 }
 
+/**
+ * Filter entity cards based on selected branches
+ */
 const filteredCard = computed(() => {
   if (!entityDataCards.value?.length) return []
   return filteredEntityCardsByBranch(entityDataCards.value, entityBranches.value)
 })
 
+/**
+ * Currently selected instance (default fallback)
+ */
 const currentInstance = ref({
   Id: 'I1',
   Title: 'Hôtellerie de Marmoutier',
@@ -104,6 +112,9 @@ const onSelectInstance = (instance: CardInstances) => {
   instanceModal.value = false
 }
 
+/**
+ * Save current board state to backend
+ */
 const saveCurrentBoard = async () => {
   if (!currentBoard.value) return
 

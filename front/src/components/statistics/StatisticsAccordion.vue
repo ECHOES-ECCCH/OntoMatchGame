@@ -13,7 +13,8 @@ const props = defineProps<{
 const scenarii = scenarioCatalog.scenarii ?? []
 
 /**
- * Récupère un chapitre depuis le catalogue
+ * Finds a chapter in the catalog by its title.
+ * Used to retrieve metadata required for progression calculation.
  */
 const getChapterInfo = (chapterName: string) => {
   for (const scenario of scenarii) {
@@ -24,7 +25,8 @@ const getChapterInfo = (chapterName: string) => {
 }
 
 /**
- *  Groupement + totaux par scenario
+ * Groups user statistics by scenario
+ * and computes aggregated totals (score, challenges, etc.)
  */
 const groupedScenarios = computed(() => {
   const grouped = props.userStats.reduce(
@@ -53,6 +55,10 @@ const groupedScenarios = computed(() => {
     {} as Record<string, UserGlobalStats>,
   )
 
+  /**
+   * Compute overall scenario completion percentage
+   * based on challenge progression
+   */
   Object.values(grouped).forEach((group: UserGlobalStats) => {
     group.percentage =
       group.totalMaxChallenge > 0

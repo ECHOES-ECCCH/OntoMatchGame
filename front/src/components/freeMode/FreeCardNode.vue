@@ -6,8 +6,13 @@ import type { CardInfo } from '@/types/card/cardInfo'
 import EntityFreeModeCard from '@/components/freeMode/EntityFreeModeCard.vue'
 import PropertyFreeModeCard from './PropertyFreeModeCard.vue'
 import InstancesFreeModeCard from './InstancesFreeModeCard.vue'
-
-const props = defineProps<{
+/**
+ * Vue Flow node props
+ * - kind: type of card displayed in the node
+ * - card: ontology card data
+ * - rotation: current node rotation
+ */
+defineProps<{
   id: string
   selected: boolean
   data: {
@@ -20,12 +25,17 @@ const props = defineProps<{
 const { updateNodeData, getNodes } = useVueFlow('free-mode-flow')
 const { entityDataCards, propertyDataCards } = useSelectedXML()
 
+/**
+ * Handles node rotation using pointer drag
+ * Rotates all selected nodes around their center point
+ */
 const startRotate = (e: PointerEvent) => {
   let rotating = true
 
   const el = (e.currentTarget as HTMLElement).parentElement as HTMLElement
   const rect = el.getBoundingClientRect()
 
+  // Center of rotation (node center)
   const center = {
     x: rect.left + rect.width / 2,
     y: rect.top + rect.height / 2,
@@ -34,13 +44,15 @@ const startRotate = (e: PointerEvent) => {
   const getAngle = (ev: PointerEvent) => Math.atan2(ev.clientY - center.y, ev.clientX - center.x)
   const startAngle = getAngle(e)
 
-  // Snapshot des rotations au moment du clic
+  // Snapshot of initial rotations for all selected nodes
   const selectedNodes = getNodes.value.filter((n) => n.selected)
   const initialRotations = new Map(selectedNodes.map((n) => [n.id, n.data.rotation || 0]))
 
   const onMove = (ev: PointerEvent) => {
     if (!rotating) return
     const delta = (getAngle(ev) - startAngle) * (180 / Math.PI)
+
+    // Apply same rotation delta to all selected nodes
     selectedNodes.forEach((node) => {
       updateNodeData(node.id, {
         ...node.data,

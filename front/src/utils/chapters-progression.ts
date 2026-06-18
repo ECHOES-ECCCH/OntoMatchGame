@@ -1,6 +1,10 @@
 import type { Chapter } from '@/types/game-selection'
 import { userStats } from '@/composables/useUserStats'
 
+/**
+ * Find stats for a given chapter based on ontology, scenario and chapter name.
+ * Returns the matching userStats entry or null if not found.
+ */
 export const findChapterStats = (
   chapter: {
     ontologyName?: string
@@ -17,7 +21,7 @@ export const findChapterStats = (
 
   if (!chapterName || !scenarioName || !ontologyName) return null
 
-  // filtre userStats sur chapterName + scenarioName
+  // Search matching stats in global userStats store
 
   const result =
     userStats.value.find(
@@ -30,7 +34,10 @@ export const findChapterStats = (
   return result
 }
 
-/** !!! IMPORTANT !!! Avoid recreating a session if it already exists. */
+/**
+ * Check if a chapter session has already been started.
+ * Avoids creating duplicate sessions.
+ */
 export const isChapterStarted = (
   chapter: Chapter | null,
   scenarioName: string,
@@ -43,6 +50,10 @@ export const isChapterStarted = (
   })
 }
 
+/**
+ * Compute progression percentage for a chapter.
+ * Based on last completed challenge vs total challenges.
+ */
 export const getChapterProgression = (
   chapter: Chapter | null,
   scenarioName: string,
@@ -58,12 +69,12 @@ export const getChapterProgression = (
   const last = parseInt(stats.lastChallengeId)
   const max = parseInt(stats.maxChallengeCount)
 
-  // Cas : un seul challenge
+  // Single-challenge chapter case
   if (max === 1) {
     return last >= 1 ? 100 : 0
   }
 
-  // Cas : plusieurs challenges mais on est au premier
+  // First challenge not considered progress yet
   if (last === 1) {
     return 0
   }

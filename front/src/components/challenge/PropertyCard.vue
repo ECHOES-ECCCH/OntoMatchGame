@@ -18,6 +18,16 @@ import { langStore } from '@/stores/lang.store'
 import ChallengeError from './ChallengeError.vue'
 import { showSolution } from '@/composables/useSolution'
 
+/**
+ * Property card component.
+ *
+ * Handles:
+ * - property navigation
+ * - domain/range navigation
+ * - superclass/subproperty exploration
+ * - branch filtering
+ */
+
 const props = defineProps<{
   totalCards: {
     type: string
@@ -49,6 +59,10 @@ const handleCardInfoUpdate = (newCardInfo: CardPositionInfo) => {
   emit('update:cardInfo', newCardInfo)
 }
 
+/**
+ * Resolves the entity position associated with a property's
+ * domain or range depending on the board layout.
+ */
 const resolveEntityPosition = (propertyPosition: string, DR: 'domain' | 'range') => {
   if (DR === 'domain') {
     return propertyPosition === 'pleft' ? 'eleft' : 'emiddle'
@@ -57,6 +71,10 @@ const resolveEntityPosition = (propertyPosition: string, DR: 'domain' | 'range')
   }
 }
 
+/**
+ * Navigates to the entity referenced by the property's
+ * domain or range.
+ */
 const switchCard = (aboutValue: string, propertyPosition: Position, DR: 'domain' | 'range') => {
   const newCard = props.entityDataCards.find((c) => c.about === aboutValue)
   const resolvedPosition = resolveEntityPosition(propertyPosition, DR)

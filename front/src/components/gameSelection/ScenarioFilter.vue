@@ -11,6 +11,13 @@ import {
 import OntologieFilter from './OntologieFilter.vue'
 import { selectedOntology } from '@/utils/game-selection-filters'
 
+/**
+ * When the available domain codes change,
+ * we automatically select all domains.
+ *
+ * ⚠️ This enforces a "select all by default" behavior.
+ * Be careful: it can override user choices.
+ */
 watch(allDomainCodes, (codes) => {
   selectedDomains.value = [...codes]
 })

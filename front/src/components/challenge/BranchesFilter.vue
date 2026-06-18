@@ -9,6 +9,12 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string[]): void
 }>()
+
+/**
+ * Toggle selected branches
+ * - "entity" is a special exclusive mode
+ * - otherwise standard toggle behavior
+ */
 const toggleBranch = (branches: string[]) => {
   const currentValue = [...props.modelValue]
 
@@ -31,6 +37,7 @@ const toggleBranch = (branches: string[]) => {
     }
   })
 
+  // fallback if nothing is selected
   if (currentValue.length === 0) {
     emit('update:modelValue', ['entity'])
   } else {

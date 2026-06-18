@@ -53,10 +53,16 @@ const getIcon = (branches: BranchName[] | null | undefined): string[] => {
   return branches.map((b) => colors[b]?.icon).filter((icon): icon is string => Boolean(icon))
 }
 
+/**
+ * Emits updated card info after navigation or changes
+ */
 const handleCardInfoUpdate = (newCardInfo: CardPositionInfo) => {
   emit('update:cardInfo', newCardInfo)
 }
 
+/**
+ * True if there are no cards available for this position
+ */
 const isEmpty = computed(() => {
   return (
     !props.totalCards.cards ||
@@ -64,6 +70,9 @@ const isEmpty = computed(() => {
   )
 })
 
+/**
+ * True if there are no cards available for this challenge
+ */
 const isNoCard = computed(() => {
   return props.totalCards.cards === 'no card'
 })

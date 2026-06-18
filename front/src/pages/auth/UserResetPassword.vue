@@ -26,6 +26,13 @@ const emailSent = ref(false)
 const infosModal = ref(false)
 const creditsModal = ref(false)
 
+/**
+ * Handles login form submission:
+ * - validates email existence and account status
+ * - attempts authentication
+ * - redirects on success
+ * - sets error messages on failure
+ */
 const handleSubmit = async (data: ResetPasswordFormData) => {
   const checking = await handleCheckingForm(data.email)
   if (!checking) return
@@ -86,7 +93,7 @@ const handleCreditsModal = (display: boolean) => {
           v-model="formData"
           v-model:errors="errors"
           @submit="handleSubmit"
-          :isLoading
+          :isLoading="isLoading"
         />
         <div class="signup-redirection">
           <router-link to="/">
