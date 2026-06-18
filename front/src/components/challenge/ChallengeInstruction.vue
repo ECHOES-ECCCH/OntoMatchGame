@@ -15,7 +15,7 @@ const { finishChallenge } = useFinishChallenge()
 
 const props = defineProps<{
   chapterData: ChapterData | null
-  chapterStats: ChapterStats
+  chapterStats: ChapterStats | null
   showInstruction: boolean
   showExplanation: boolean
 }>()
@@ -28,6 +28,8 @@ const firstText = computed(() => splitStatement(props.chapterData?.Statement).be
 const secondText = computed(() => splitStatement(props.chapterData?.Statement).after)
 
 const handleDisplaySolution = () => {
+  if (!props.chapterStats) return
+
   displaySolution(props.chapterStats)
 
   finishChallenge(0)

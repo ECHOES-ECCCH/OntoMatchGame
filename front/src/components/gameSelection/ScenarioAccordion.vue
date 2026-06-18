@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import Accordion from '@/components/TemplateAccordion.vue'
 import { createSession } from '@/services/sessions.service'
 import { isResetProgressionLoading, resetProgression } from '@/services/reset.service'
@@ -13,13 +14,23 @@ import { selectedOntology } from '@/utils/game-selection-filters'
 import { getChapterProgression, isChapterStarted } from '@/utils/chapters-progression'
 
 const userStore = useUserInformations()
+const router = useRouter()
 
 defineProps<{
   scenario: Scenario[]
 }>()
 
-function goToChallenge(scenario: Scenario, chapter: Chapter) {
-  handleCreateSessionData(scenario['scenario-title'], chapter['chapter-filename'])
+async function goToChallenge(scenario: Scenario, chapter: Chapter) {
+  await handleCreateSessionData(scenario['scenario-title'], chapter['chapter-filename'])
+
+  router.push({
+    path: '/challenge',
+    query: {
+      ontology: selectedOntology.value,
+      scenario: scenario['scenario-title'],
+      chapterName: chapter['chapter-title'],
+    },
+  })
 }
 
 const isFullyLoaded = computed(() => {
@@ -31,7 +42,7 @@ const isFullyLoaded = computed(() => {
 })
 
 const handleCreateSessionData = (scenario: string, chapter: string) => {
-  createSession({
+  return createSession({
     userId: userStore.userInfo.userId,
     scenarioTitle: scenario,
     chapterTitle: chapter,
@@ -88,6 +99,13 @@ const handleCreateSessionData = (scenario: string, chapter: string) => {
               }}%</span
             >
             <router-link
+              v-if="
+                isChapterStarted(
+                  chapter,
+                  scenario[index]?.['scenario-title'] ?? '',
+                  scenario[index]?.ontologyTags?.[0] ?? '',
+                )
+              "
               :to="{
                 path: '/challenge',
                 query: {
@@ -97,28 +115,16 @@ const handleCreateSessionData = (scenario: string, chapter: string) => {
                 },
               }"
             >
-              <button
-                class="play-challenge"
-                title="Play"
-                v-if="
-                  isChapterStarted(
-                    chapter,
-                    scenario[index]?.['scenario-title'] ?? '',
-                    scenario[index]?.ontologyTags?.[0] ?? '',
-                  )
-                "
-              >
-                ►
-              </button>
-              <button
-                class="play-challenge"
-                title="Play"
-                v-else
-                @click="goToChallenge(scenario[index]!, chapter)"
-              >
-                ►
-              </button>
+              <button class="play-challenge" title="Play">►</button>
             </router-link>
+            <button
+              v-else
+              class="play-challenge"
+              title="Play"
+              @click="goToChallenge(scenario[index]!, chapter)"
+            >
+              ►
+            </button>
             <ButtonLoader v-if="isResetProgressionLoading" />
             <button
               class="reset-challenge"

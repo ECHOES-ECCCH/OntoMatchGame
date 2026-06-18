@@ -74,12 +74,13 @@ export function useChapterData() {
       return
     }
     if (!ontology || !chapterName || !scenario || !info) {
+      // chapterStats pas encore disponible (ex: session juste créée, stats pas
+      // encore rechargées) : on vide les données plutôt que de garder celles
+      // du chapitre précédent affichées avec un chapterStats désynchronisé.
+      chapterData.value = null
       isLoadingChapter.value = false
       return
     }
-
-    if (showSolution.value) return
-    if (!ontology || !chapterName || !scenario || !info) return
 
     // Use import.meta.env.BASE_URL to ensure correct path in production
     const basePath = import.meta.env.BASE_URL
