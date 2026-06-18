@@ -1,3 +1,5 @@
 php/.env.local
 php/.env.*.local
 php/vendor
+StreamingAssets
+

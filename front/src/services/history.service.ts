@@ -3,7 +3,7 @@ import { handleApiError } from './error.handler'
 
 export const getUserHistory = async (userId: string) => {
   try {
-    const { data } = await api.get(`/gethistory.php?userId=${userId}`)
+    const { data } = await api.get(`/gethistory.php`)
     return data
   } catch (error) {
     handleApiError(error)

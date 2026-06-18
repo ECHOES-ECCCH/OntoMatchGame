@@ -1,6 +1,7 @@
 <?php
 	include("connect.php");
-	
+	include("auth.php");
+
 	header('Content-Type: application/json');
 
 	//Check & log DB connexion
@@ -12,10 +13,14 @@
 	class SigninModelDown
 	{
 		public $login;
+		public $userId;
+		public $username;
 
-		public function __construct($b) 
+		public function __construct($b, $userId = null, $username = null)
 		{
 			$this->login = $b;
+			$this->userId = $userId;
+			$this->username = $username;
 		}
 	}
 
@@ -49,22 +54,28 @@
 
 
 	//Search for email / password in DB.UserAccount
-	$query = "SELECT * from ontomatchgame.UserAccount WHERE email = '".$email."'"." AND password ='".$password."'"; 
-
-	$result = $connection->query($query);
+	$stmt = $connection->prepare("SELECT userId, username FROM ontomatchgame.UserAccount WHERE email = ? AND password = ?");
+	$stmt->bind_param("ss", $email, $password);
+	$stmt->execute();
+	$result = $stmt->get_result();
 
 	if ($result->num_rows > 0)
 	{//Email found
-		//Get Username and history from here ?
-		//Wuld avoid 2 more requests
-		$result = new SigninModelDown(true);
+		$row = $result->fetch_assoc();
+
+		startSecureSession();
+		session_regenerate_id(true);
+		$_SESSION['userId'] = $row['userId'];
+		$_SESSION['email'] = $email;
+
+		$result = new SigninModelDown(true, (int)$row['userId'], $row['username']);
 		echo json_encode($result);
 	}
 	else
 	{
 	  $result = new SigninModelDown(false);
 	  echo json_encode($result);
-  	} 
+  	}
 
-	mysqli_close($connection);	
+	mysqli_close($connection);
 ?>

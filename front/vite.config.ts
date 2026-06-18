@@ -18,5 +18,15 @@ export default defineConfig(({ mode }) => {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
+    // Dev-only: proxy API calls to the local PHP server so the browser sees a
+    // single origin (no CORS needed). Ignored by `vite build` / production.
+    server: {
+      proxy: {
+        '/php': {
+          target: 'http://localhost:8080',
+          changeOrigin: true,
+        },
+      },
+    },
   }
 })

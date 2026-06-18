@@ -18,11 +18,12 @@ export const useSelectedXML = () => {
 
     try {
       const basePath = import.meta.env.BASE_URL
-
-      // Fetch XML ontology file
-      const xml = await fetch(`${basePath}/data/${ontology}/data.xml`).then((r) => r.text())
-
-      // Parse XML document
+      const dataUrl = `${basePath}data/${ontology}/data.xml`
+      const response = await fetch(dataUrl)
+      if (!response.ok) {
+        throw new Error(`Données introuvables : ${dataUrl} (${response.status})`)
+      }
+      const xml = await response.text()
       const doc: Document = new DOMParser().parseFromString(xml, 'text/xml')
 
       // Extract entity and property cards from XML

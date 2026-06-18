@@ -17,7 +17,7 @@ export const fetchUserStats = async (userId: string) => {
   userStatsError.value = null
 
   try {
-    const { data } = await api.get<ChapterStats[]>(`/getuserstats.php?userId=${userId}`)
+    const { data } = await api.get<ChapterStats[]>(`/getuserstats.php`)
     userStats.value = data
   } catch (error) {
     handleApiError(error)
