@@ -15,11 +15,11 @@
   RewriteEngine On
 
   # If an existing asset or directory is requested, serve it
-  # (REQUEST_URI already includes the /ontomatchgame prefix)
+  # (REQUEST_URI already includes the / prefix)
   RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
   RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
   RewriteRule ^ - [L]
 
   # Otherwise, serve index.html for all routes
-  RewriteRule ^ /ontomatchgame/index.html [L]
+  RewriteRule ^ /index.html [L]
 </IfModule>
