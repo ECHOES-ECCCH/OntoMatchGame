@@ -2,6 +2,15 @@
   Options -MultiViews
 </IfModule>
 
+<IfModule mod_headers.c>
+  # index.html, favicon and game content (json/, data/) are not fingerprinted
+  # by the build, so browsers must always revalidate with the server before
+  # reusing a cached copy. Otherwise a stale index.html keeps referencing
+  # hashed asset filenames a new deploy has already removed, and users have
+  # to hard-refresh to see the new version. /assets/ overrides this below.
+  Header set Cache-Control "no-cache"
+</IfModule>
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
 

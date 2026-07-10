@@ -1,0 +1,6 @@
+<IfModule mod_headers.c>
+  # Vite fingerprints every file's name from its content, so a filename here
+  # never changes meaning: caching forever is safe, and a new deploy simply
+  # emits new filenames instead of reusing old ones.
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</IfModule>
