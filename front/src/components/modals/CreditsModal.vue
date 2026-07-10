@@ -16,6 +16,12 @@ defineProps({
         <button @click="handleCreditsModal?.(false)"><img :src="close" alt="close" /></button>
         <div class="more-infos">
           <p>
+            {{ langStore.t('static-text.FullCreditsScene.fullcredits-scene-echoes-text') }}
+          </p>
+          <a href="https://www.echoes-eccch.eu/" target="_blank">https://www.echoes-eccch.eu/</a>
+        </div>
+        <div class="more-infos">
+          <p>
             {{ langStore.t('static-text.FullCreditsScene.fullcredits-scene-masa-text') }}
           </p>
           <a href=" https://masa.hypotheses.org/" target="_blank"> https://masa.hypotheses.org/</a>
