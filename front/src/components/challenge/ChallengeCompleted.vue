@@ -6,8 +6,8 @@ import { useFinishChallenge } from '@/composables/useSessionsChallenge'
 import type { ChapterData, ChapterStats } from '@/types/chapter'
 
 const props = defineProps<{
-  chapterStats: ChapterStats
-  chapterData: ChapterData
+  chapterStats: ChapterStats | null
+  chapterData: ChapterData | null
 }>()
 
 const emit = defineEmits(['close'])

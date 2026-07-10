@@ -87,14 +87,15 @@ export function useChapterData() {
     }
 
     if (!ontology || !chapterName || !scenario || !info) {
+      // chapterStats pas encore disponible (ex: session juste créée, stats pas
+      // encore rechargées) : on vide les données plutôt que de garder celles
+      // du chapitre précédent affichées avec un chapterStats désynchronisé.
+      chapterData.value = null
       isLoadingChapter.value = false
       return
     }
 
-    if (showSolution.value) return
-    if (!ontology || !chapterName || !scenario || !info) return
-
-    // Build dynamic paths for chapter and instances
+    // Use import.meta.env.BASE_URL to ensure correct path in production
     const basePath = import.meta.env.BASE_URL
     const chapterPath = `${basePath}json/${ontology}/${info.lang}/chapter/${scenario}/${info.filename}.json`
     const instancesPath = `${basePath}json/${ontology}/${info.lang}/chapter/${scenario}/Instances/Instances.json`

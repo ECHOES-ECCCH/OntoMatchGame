@@ -19,7 +19,7 @@ export const createSession = async (createSessionData: CreateSessionData) => {
 
     if (data.result && createSessionData.userId) {
       shouldReloadHistory.value = true
-      fetchUserStats(createSessionData.userId)
+      await fetchUserStats(createSessionData.userId)
     }
 
     return data
@@ -43,7 +43,7 @@ export const updateSession = async (updateSessionData: UpdateSessionData) => {
 
     if (data.result && updateSessionData.userId) {
       shouldReloadHistory.value = true
-      fetchUserStats(updateSessionData.userId)
+      await fetchUserStats(updateSessionData.userId)
     }
 
     return data
