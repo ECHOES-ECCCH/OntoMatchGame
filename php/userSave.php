@@ -61,6 +61,14 @@
     if(isset($parsed->email) && $parsed->email != '')
     {
         $email = $parsed->email;
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+        {
+            error_log("[OntoMatchGame] Invalid email format. Can't create account.", 0);
+            ReturnEmptyString();
+            exit("[OntoMatchGame] Invalid email format. Can't create account.");
+        }
+
         $activationcode =  hash("sha256", $email, $binary=false);
     }
     else
@@ -153,39 +161,33 @@
     }
 
     //Create UserAccount
-    $query = "INSERT INTO ontomatchgame.UserAccount(
-        `username`,
-        `email`,
-        `password`,
-        `activationcode`,
-        `age`,
-        `firstname`,
-        `lastname`,
-        `country`,
-        `countryCode`,
-        `status`,
-        `optin`
-        )
-        VALUES(
-            '$username',
-            '$email',
-            '$password',
-            '$activationcode',
-            '$age',
-            '$firstname',
-            '$lastname',
-            '$country',
-            '$countryCode',
-            '$status',
-            '$optin'
-            )";
+    $stmt = $connection->prepare("
+        INSERT INTO ontomatchgame.UserAccount
+            (username, email, password, activationcode, age, firstname, lastname, country, countryCode, status, optin)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ");
+    $stmt->bind_param(
+        "ssssisssii",
+        $username,
+        $email,
+        $password,
+        $activationcode,
+        $age,
+        $firstname,
+        $lastname,
+        $country,
+        $countryCode,
+        $status,
+        $optin
+    );
 
-    $add = mysqli_query($connection, $query);
+    $add = $stmt->execute();
 
     if ($add)
     {
         //Encapsulate as JSON object
-        $instance = new SignupModelDown($activationcode);
+        //Only report success/failure to the client, never the activation code itself
+        $instance = new SignupModelDown(true);
         echo json_encode($instance);
 
 
@@ -213,15 +215,17 @@
 
     //Create User HistoryID
     //Search UserId from email
-    $sql = " SELECT * FROM ontomatchgame.UserAccount WHERE ontomatchgame.UserAccount.email = '{$email}' ";
-    $result = mysqli_query($connection, $sql);
+    $stmt = $connection->prepare("SELECT * FROM ontomatchgame.UserAccount WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
     $userId="";
-    
+
     if($result)
     {
         if($result -> num_rows > 0)
         {
-            while($row = mysqli_fetch_array($result))
+            while($row = $result->fetch_assoc())
             {
                 $userId = $row['userId'];
             }
@@ -233,8 +237,9 @@
     }
 
     //Insert USerId in HistoryTable
-    $sql = " INSERT INTO ontomatchgame.History (historyId, userId) VALUES (DEFAULT, '{$userId}') ";
-    $result = mysqli_query($connection, $sql);
+    $stmt = $connection->prepare("INSERT INTO ontomatchgame.History (historyId, userId) VALUES (DEFAULT, ?)");
+    $stmt->bind_param("i", $userId);
+    $result = $stmt->execute();
 
     // if($result)
     // {
@@ -249,7 +254,7 @@
     // }
 
     function ReturnEmptyString() {
-        $instance = new SignupModelDown("");
+        $instance = new SignupModelDown(false);
         echo json_encode($instance);
     }
 
