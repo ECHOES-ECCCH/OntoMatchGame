@@ -75,7 +75,7 @@ const loadAllInstances = async () => {
 
       const base = import.meta.env.BASE_URL
 
-      const url = `${base}/json/${props.selectedOntology}/${lang}/chapter/${scenario['scenario-title']}/Instances/Instances.json`
+      const url = `${base}json/${props.selectedOntology}/${lang}/chapter/${scenario['scenario-title']}/Instances/Instances.json`
 
       const res = await fetch(url)
 
@@ -86,7 +86,7 @@ const loadAllInstances = async () => {
       const formatted = data.map((instance: CardInstances) => ({
         ...instance,
         Scenario: scenario['scenario-title'],
-        ImageName: `${base}/json/${props.selectedOntology}/${lang}/chapter/${scenario['scenario-title']}/Instances/Images/${instance.ImageName}`,
+        ImageName: `${base}json/${props.selectedOntology}/${lang}/chapter/${scenario['scenario-title']}/Instances/Images/${instance.ImageName}`,
       }))
 
       allInstances.push(...formatted)
