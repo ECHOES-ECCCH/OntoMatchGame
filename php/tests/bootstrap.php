@@ -35,8 +35,32 @@ if (!@fsockopen($dbHost, $dbPort, $errno, $errstr, 0.5)) {
         fwrite(STDERR, implode("\n", $output) . "\n");
         throw new RuntimeException('Failed to start the test MySQL container (see output above). Is Docker running?');
     }
-    fwrite(STDERR, "[bootstrap] Test DB is up.\n");
+    fwrite(STDERR, "[bootstrap] Container reports healthy, waiting for the real networked server...\n");
 }
+
+// The MySQL image's healthcheck can report "healthy" while pinging its own
+// temporary init-script server (socket-only), just before it restarts into
+// the real networked one — so confirm with an actual query, not just a
+// TCP connect or the container healthcheck.
+$dbDeadline = microtime(true) + 30;
+$dbReady = false;
+$lastError = null;
+while (microtime(true) < $dbDeadline) {
+    try {
+        $probe = @new mysqli($dbHost, 'ontomatchgame_test', 'test_password', 'ontomatchgame', $dbPort);
+        $probe->query('SELECT 1');
+        $probe->close();
+        $dbReady = true;
+        break;
+    } catch (\mysqli_sql_exception $e) {
+        $lastError = $e->getMessage();
+        usleep(300_000);
+    }
+}
+if (!$dbReady) {
+    throw new RuntimeException('Test DB never became queryable: ' . $lastError);
+}
+fwrite(STDERR, "[bootstrap] Test DB is up.\n");
 
 // --- 3. Route mail() to a capture file instead of actually sending. ---
 $mailCaptureFile = sys_get_temp_dir() . '/ontomatchgame-test-mail.eml';
@@ -51,17 +75,40 @@ $host = '127.0.0.1';
 $port = 8098;
 define('TEST_BASE_URL', "http://{$host}:{$port}");
 
+// A server from a previous run that was killed without going through the
+// shutdown function (e.g. the process was SIGKILL'd) leaves this port bound.
+// A plain "does something answer" check would then pass against that stale
+// server instead of the one we're about to start, silently running tests
+// against outdated ini settings/code. Since this port is dedicated to the
+// test suite, just reclaim it.
+if (@fsockopen($host, $port, $errno, $errstr, 0.2)) {
+    fwrite(STDERR, "[bootstrap] Port {$port} already bound by a stale process, freeing it...\n");
+    exec(sprintf('fuser -k %d/tcp 2>/dev/null', $port));
+    usleep(300_000);
+}
+
 $fakeSendmail = $testsDir . '/Support/fake-sendmail.php';
+$router = $testsDir . '/Support/router.php';
 $phpBinary = PHP_BINARY;
 $sendmailPath = escapeshellcmd($phpBinary) . ' ' . escapeshellarg($fakeSendmail);
 
 $serverCmd = sprintf(
-    '%s -d sendmail_path=%s -d display_errors=1 -d error_reporting=E_ALL -S %s:%d -t %s',
+    '%s -d sendmail_path=%s -d display_errors=1 -d error_reporting=%s -S %s:%d -t %s %s',
     escapeshellcmd($phpBinary),
     escapeshellarg($sendmailPath),
+    // Exclude deprecation notices: the legacy endpoints under test call
+    // things like mysqli::ping() that PHP 8.4 flags as deprecated, and
+    // display_errors=1 would otherwise prepend that HTML to every
+    // response body, corrupting the JSON we assert on.
+    escapeshellarg('E_ALL & ~E_DEPRECATED'),
     $host,
     $port,
-    escapeshellarg($phpDir)
+    escapeshellarg($phpDir),
+    // Without this router, per-request $_SERVER/$_ENV don't carry APP_ENV
+    // (only getenv() does), so connect.php's Dotenv cascade silently loads
+    // .env/.env.local — the real database — instead of .env.test. See
+    // tests/Support/router.php.
+    escapeshellarg($router)
 );
 
 $descriptors = [

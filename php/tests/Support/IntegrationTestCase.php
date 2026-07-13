@@ -70,7 +70,7 @@ abstract class IntegrationTestCase extends TestCase
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ');
         $stmt->bind_param(
-            'ssssisssii',
+            'ssssissssii',
             $user['username'],
             $user['email'],
             $user['password'],
