@@ -167,7 +167,7 @@
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ");
     $stmt->bind_param(
-        "ssssisssii",
+        "ssssissssii",
         $username,
         $email,
         $password,
