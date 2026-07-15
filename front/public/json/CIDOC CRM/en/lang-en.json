@@ -100,7 +100,7 @@
       "mainmenu-scene-quitbutton-text": "Quit",
       "mainmenu-scene-more-label": "More info",
       "mainmenu-scene-credits-label": "Full credits",
-      "mainmenu-scene-freemode-label": "Mode libre"
+      "mainmenu-scene-freemode-label": "Free Mode"
     },
 
     "BoardScene": {
@@ -149,6 +149,8 @@
       "fullcredits-scene-masa-text": "A digital game funded by Huma-Num MASA Consortium",
       "fullcredits-scene-originalgame-text": "Original Card Game and Prototype Digital Game:\nGeorge Bruseker (george@takin.solutions) and Anais Guillem (aguillem@ucmerced.edu)",
       "fullcredits-scene-digitalgameproducer-text": "Digital game executive producer: Olivier Marlet (olivier.marlet@univ-tours.fr)",
+      "fullcredits-scene-digitalgamesoftwaredevfirst-text": "Software development for the first version: François-Xavier Talgorn and Henri Hanot",
+      "fullcredits-scene-digitalgamesoftwaredevsecond-text": "Software development for the second version: Clémence Cazin",
       "fullcredits-scene-digitalcreationteam-text": "Digital game design: 'Fanch' Fx. Talgorn, G. Bruseker, O. Marlet, A. Guillem",
       "fullcredits-scene-digitalversionproduction-text": "Digital version: 'Fanch' - INDYTION (<link=\"mailto:fx.talgorn@indytion.com\">fx.talgorn@indytion.com</link>)",
       "fullcredits-scene-graphicdesign-text": "Graphic design: Alexandre Moulineau (alex_41100@hotmail.fr)",

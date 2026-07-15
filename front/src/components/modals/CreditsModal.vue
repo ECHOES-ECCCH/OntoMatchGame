@@ -18,12 +18,7 @@ defineProps({
           <p>
             {{ langStore.t('static-text.FullCreditsScene.fullcredits-scene-echoes-text') }}
           </p>
-          <a href="https://www.echoes-eccch.eu/" target="_blank">https://www.echoes-eccch.eu/</a>
-        </div>
-        <div class="more-infos">
-          <p>
-            {{ langStore.t('static-text.FullCreditsScene.fullcredits-scene-masa-text') }}
-          </p>
+          <a href="https://www.echoes-eccch.eu/" style="margin-right:1rem;" target="_blank">https://www.echoes-eccch.eu/</a>
           <a href=" https://masa.hypotheses.org/" target="_blank"> https://masa.hypotheses.org/</a>
         </div>
         <div class="more-infos">
@@ -38,6 +33,16 @@ defineProps({
             }}
           </p>
         </div>
+                <div class="more-infos">
+          <p>
+            {{
+              langStore.t('static-text.FullCreditsScene.fullcredits-scene-digitalgamesoftwaredevfirst-text')
+            }}
+            <br />
+            {{ langStore.t('static-text.FullCreditsScene.fullcredits-scene-digitalgamesoftwaredevsecond-text') }}
+          </p>
+        </div>
+
       </div>
       <div class="info-back">
         <button @click="handleCreditsModal?.(false)">

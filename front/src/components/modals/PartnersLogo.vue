@@ -9,11 +9,11 @@ import masa from '@/assets/img/MASAplus_logo.png'
 
 <template>
   <ul class="logos">
-    <li><img alt="logo" :src="echoes" /></li>
-    <li><img alt="logo" :src="takin" /></li>
-    <li><img alt="logo" :src="hn" /></li>
-    <li><img alt="logo" :src="indytion" /></li>
-    <li><img alt="logo" :src="ucMerced" /></li>
-    <li><img alt="logo" :src="masa" /></li>
+    <li><a class="logo-link" href="https://www.echoes-eccch.eu/" target="_blank"><img alt="logo" :src="echoes" /></a></li>
+    <li><a class="logo-link" href="https://www.takinsolutions.com/" target="_blank"><img alt="logo" :src="takin" /></a></li>
+    <li><a class="logo-link" href="https://www.huma-num.fr/" target="_blank"><img alt="logo" :src="hn" /></a></li>
+    <li><a class="logo-link" href="" target="_blank"><img alt="logo" :src="indytion" /></a></li>
+    <li><a class="logo-link" href="https://www.ucmerced.edu/" target="_blank"><img alt="logo" :src="ucMerced" /></a></li>
+    <li><a class="logo-link" href="https://masa.hypotheses.org/" target="_blank"><img alt="logo" :src="masa" /></a></li>
   </ul>
 </template>
