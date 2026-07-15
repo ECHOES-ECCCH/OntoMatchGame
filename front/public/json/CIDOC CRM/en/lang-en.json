@@ -39,7 +39,7 @@
       "signup-scene-termsandconditions-text": "Your personal data will never be shared with third parties",
       "signup-scene-accountcreated-text": "Your account has been created!\nCheck your email and activate it before login",
       "signup-scene-waitingmessage-text": "Creating account. Please wait...",
-      "signup-scene-accountcreatedfailed-text": "Ooops! Something went wrong\nPlease try again",
+      "signup-scene-accountcreatedfailed-text": "Ooops! Something went wrong\nPlease contact olivier.marlet@univ-tours.fr",
       "signup-scene-backbutton-text": "Back",
       "signup-scene-existingaccount-label": "Already have an account ?",
       "signup-scene-signin-label": "Sign in"
@@ -54,7 +54,7 @@
       "resetpassword-scene-waiting-text": "Checking email\nPlease wait...",
       "resetpassword-scene-Resetbutton-text": "Reset",
       "resetpassword-scene-confirmationmessage-text": "We have sent you an email!\nOpen it and follow instructions",
-      "resetpassword-scene-errormessage-text": "Ooops! Something went wrong\nPlease contact game administrator",
+      "resetpassword-scene-errormessage-text": "Ooops! Something went wrong\nPlease contact game administrator olivier.marlet@univ-tours.fr",
       "resetpassword-scene-notactivated-text": "Account not activated\nCheck your email and follow instructions",
       "resetpassword-scene-backbutton-text": "Back"
     },

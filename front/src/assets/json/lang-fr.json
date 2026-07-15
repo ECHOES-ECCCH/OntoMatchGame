@@ -41,7 +41,7 @@
       "signup-scene-termsandconditions-text": "Vos données personnelles ne seront jamais partagées avec des tiers",
       "signup-scene-accountcreated-text": "Votre compte a été créé !\nVérifiez vos emails pour l'activer",
       "signup-scene-waitingmessage-text": "Création du compte.\nPatientez...",
-      "signup-scene-accountcreatedfailed-text": "Ooops! Une erreur est survenue\nVeuillez réessayer",
+      "signup-scene-accountcreatedfailed-text": "Ooops! Une erreur est survenue\nVeuillez contacter olivier.marlet@univ-tours.fr",
       "signup-scene-backbutton-text": "Retour",
       "signup-scene-existingaccount-label": "Déjà un compte ?",
       "signup-scene-signin-label": "Connexion"
@@ -56,7 +56,7 @@
       "resetpassword-scene-waiting-text": "Vérification de l'email\nPatientez...",
       "resetpassword-scene-Resetbutton-text": "Réinitialiser",
       "resetpassword-scene-confirmationmessage-text": "Un email vous a été envoyé !\nOuvrez-le et suivez les instructions",
-      "resetpassword-scene-errormessage-text": "Ooops! Une erreur est survenue\nVeuillez contacter l'administrateur",
+      "resetpassword-scene-errormessage-text": "Ooops! Une erreur est survenue\nVeuillez contacter l'administrateur olivier.marlet@univ-tours.fr",
       "resetpassword-scene-notactivated-text": "Compte non activé\nVérifiez vos emails et suivez les instructions",
       "resetpassword-scene-backbutton-text": "Retour"
     },
