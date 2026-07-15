@@ -756,6 +756,13 @@ progress::-moz-progress-bar {
   background-color: #ff6b6b54;
 }
 
+.infos-modal-content .logo-link {
+  text-decoration: none;
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+}
+
 ul.logos {
   display: grid;
   grid-template-columns: repeat(6, 1fr);

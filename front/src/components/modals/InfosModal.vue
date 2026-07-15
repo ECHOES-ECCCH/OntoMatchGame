@@ -21,8 +21,8 @@ defineProps({
               langStore.t('static-text.GoingFurtherScene.goingfurther-scene-CidocGameWebSite-label')
             }}
           </p>
-          <a href="https://www.cidoc-crm-game.org/" target="_blank"
-            >https://www.cidoc-crm-game.org/</a
+          <a href="https://ontomatchgame.huma-num.fr/papercards/" target="_blank"
+            >https://ontomatchgame.huma-num.fr/papercards/</a
           >
         </div>
         <div class="more-infos">
