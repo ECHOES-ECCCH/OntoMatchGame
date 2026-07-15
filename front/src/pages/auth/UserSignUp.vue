@@ -22,6 +22,7 @@ const errors = ref({
 })
 
 const accountCreated = ref(false)
+const accountCreationFailed = ref(false)
 const infosModal = ref(false)
 const creditsModal = ref(false)
 
@@ -32,24 +33,35 @@ const creditsModal = ref(false)
  * - creates account if all validations pass
  */
 const handleSubmit = async (data: SignupFormData) => {
-  const checkUser = await checkUsername(data.username)
-  if (!checkUser) return
-  if (checkUser.doesExist) {
-    errors.value.username = 'static-text.SignupScene.signup-scene-usernamealreadyexists-text'
-    return
-  }
+  accountCreated.value = false
+  accountCreationFailed.value = false
 
-  const checking = await handleCheckingForm(data.email)
-  if (!checking) return
-  if (checking.doesExist) {
-    errors.value.email = 'static-text.SignupScene.signup-scene-emailalreadyexists-text'
-    return
-  }
+  try {
+    const checkUser = await checkUsername(data.username)
+    if (!checkUser) {
+      accountCreationFailed.value = true
+      return
+    }
+    if (checkUser.doesExist) {
+      errors.value.username = 'static-text.SignupScene.signup-scene-usernamealreadyexists-text'
+      return
+    }
 
-  const success = await signup(data)
+    const checking = await handleCheckingForm(data.email)
+    if (!checking) {
+      accountCreationFailed.value = true
+      return
+    }
+    if (checking.doesExist) {
+      errors.value.email = 'static-text.SignupScene.signup-scene-emailalreadyexists-text'
+      return
+    }
 
-  if (success) {
-    accountCreated.value = true
+    const success = await signup(data)
+    accountCreated.value = !!success
+    accountCreationFailed.value = !success
+  } catch (error) {
+    accountCreationFailed.value = true
   }
 }
 
@@ -77,6 +89,9 @@ const handleCreditsModal = (display: boolean) => {
       <h3>{{ langStore.t('static-text.SignupScene.signup-scene-title-text') }}</h3>
       <p v-if="accountCreated" class="accountActivated">
         {{ langStore.t('static-text.SignupScene.signup-scene-accountcreated-text') }}
+      </p>
+      <p v-else-if="accountCreationFailed" class="accountActivated accountFailed">
+        {{ langStore.t('static-text.SignupScene.signup-scene-accountcreatedfailed-text') }}
       </p>
       <div class="account">
         <SignupForm
