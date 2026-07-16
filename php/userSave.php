@@ -1,4 +1,7 @@
 <?php
+  ini_set('display_errors', 0);
+  error_reporting(0);
+
   session_start();
 
     include("connect.php");
@@ -185,18 +188,18 @@
 
     if ($add)
     {
-        //Encapsulate as JSON object
-        //Only report success/failure to the client, never the activation code itself
-        $instance = new SignupModelDown(true);
-        echo json_encode($instance);
-
+        //Create User HistoryID from the id of the row we just inserted
+        $userId = $connection->insert_id;
+        $stmt = $connection->prepare("INSERT INTO ontomatchgame.History (historyId, userId) VALUES (DEFAULT, ?)");
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
 
         //Send email with activation code
         $recipients = array(
             $email,
             "olivier.marlet@univ-tours.fr"
             );
-        
+
         $email_to = implode(',', $recipients); // your email address
         $subject = $lang['activate_email_subject'];
         $txt = $lang['activate_email_text'].":\nhttps://ontomatchgame.huma-num.fr/php/verification.php?code=".$activationcode."&lang=".$_SESSION['lang'];
@@ -204,6 +207,11 @@
 
         mail($email_to,$subject,$txt,$headers);
 
+        //Encapsulate as JSON object
+        //Only report success/failure to the client, never the activation code itself
+        //Echoed last, and nothing below writes to stdout, so the response body stays valid JSON
+        $instance = new SignupModelDown(true);
+        echo json_encode($instance);
     }
     else
     {
@@ -212,46 +220,6 @@
         ReturnEmptyString();
         exit("[OntoMatchGame] Sorry. Database server error. Can't create account. See DB administrator for details.");
     }
-
-    //Create User HistoryID
-    //Search UserId from email
-    $stmt = $connection->prepare("SELECT * FROM ontomatchgame.UserAccount WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $userId="";
-
-    if($result)
-    {
-        if($result -> num_rows > 0)
-        {
-            while($row = $result->fetch_assoc())
-            {
-                $userId = $row['userId'];
-            }
-        }
-        else
-        {
-            //echo "[User creation] Sorry, could not fetch userID. Please contact administrator."
-        }
-    }
-
-    //Insert USerId in HistoryTable
-    $stmt = $connection->prepare("INSERT INTO ontomatchgame.History (historyId, userId) VALUES (DEFAULT, ?)");
-    $stmt->bind_param("i", $userId);
-    $result = $stmt->execute();
-
-    // if($result)
-    // {
-    //     if($result -> num_row > 0)
-    //     {
-    //         //echo "History created successfully";
-    //     }
-    //     else
-    //     {
-    //         //echo "[User creation] Sorry, could not create HistoryID. Please contact administrator."
-    //     }
-    // }
 
     function ReturnEmptyString() {
         $instance = new SignupModelDown(false);
