@@ -1,0 +1,33 @@
+name: PHP tests
+
+on:
+  push:
+    branches: [ "main" ]
+    paths: [ "php/**" ]
+  pull_request:
+    paths: [ "php/**" ]
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mysqli
+          coverage: none
+
+      - name: Install dependencies
+        working-directory: php
+        run: composer install --no-interaction --prefer-dist
+
+      # tests/bootstrap.php starts the disposable MySQL container itself
+      # (docker compose, see php/tests/docker-compose.yml) if it isn't
+      # already reachable, and GitHub-hosted runners ship Docker preinstalled.
+      - name: Run PHPUnit
+        working-directory: php
+        run: vendor/bin/phpunit --testdox

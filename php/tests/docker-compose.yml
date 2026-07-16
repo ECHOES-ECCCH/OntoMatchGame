@@ -1,0 +1,24 @@
+# Disposable MySQL for integration tests only. Never used in production.
+#
+# Some endpoints (userSave.php) hardcode the `ontomatchgame.` schema prefix
+# in their SQL, so the database must literally be named `ontomatchgame` —
+# not just whatever DB_NAME the test env points at.
+services:
+  mysql-test:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: test_root_password
+      MYSQL_DATABASE: ontomatchgame
+      MYSQL_USER: ontomatchgame_test
+      MYSQL_PASSWORD: test_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./schema/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    tmpfs:
+      - /var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ptest_root_password"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
