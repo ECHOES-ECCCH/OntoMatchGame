@@ -172,37 +172,6 @@
       ]
     },
     {
-      "scenario-title": "Rigny FR",
-      "ontologyTags": ["CIDOC CRM"],
-      "domainTags": ["Histoire", "Archéologie", "Patrimoine culturel"],
-      "domainCodes": ["HIS", "ARC", "CUL"],
-      "authorTags": ["MASA", "Huma-num"],
-      "languageTag": "Français",
-      "scenario-description": "Modélise l'anthropologie funéraire du site de Rigny avec le CIDOC CRM",
-      "chapters": [
-        {
-          "chapter-title": "Instanciation (1)",
-          "chapter-description": "Associer une instance à une classe du CIDOC",
-          "chapter-filename": "Chapter1.json"
-        },
-        {
-          "chapter-title": "Instanciation (2)",
-          "chapter-description": "Connecter deux instances avec une propriété",
-          "chapter-filename": "Chapter2.json"
-        },
-        {
-          "chapter-title": "Instanciation (3)",
-          "chapter-description": "Modélisation de l'anthropologie funéraire",
-          "chapter-filename": "Chapter3.json"
-        },
-        {
-          "chapter-title": "Instanciation (4)",
-          "chapter-description": "Modélisation des méthodes de détermination",
-          "chapter-filename": "Chapter4.json"
-        }
-      ]
-    },
-    {
       "scenario-title": "CND3D FR",
       "ontologyTags": ["CIDOC CRMdig"],
       "domainTags": ["3D", "Archéologie", "Patrimoine culturel"],
