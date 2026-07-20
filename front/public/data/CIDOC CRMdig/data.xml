@@ -1492,7 +1492,7 @@ The input of a D7 Digital Machine Event may be parameter settings and/or data to
 	<rdfs:Class rdf:about="D8_Digital_Device">
 		<rdfs:label xml:lang="en">Digital Device</rdfs:label>
 		<rdfs:comment>This class comprises identifiable material items such as computers, scanners, cameras, etc. that have the capability to process or produce instances of D1 Digital Object.</rdfs:comment>
-		<rdfs:subClassOf rdf:resource="E22_Man-Made_Object"/>
+		<rdfs:subClassOf rdf:resource="E22_Human-Made_Object"/>
 	</rdfs:Class>
 	<rdfs:Class rdf:about="D9_Data_Object">
 		<rdfs:label xml:lang="en">Data Object</rdfs:label>
