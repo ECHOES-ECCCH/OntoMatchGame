@@ -48,6 +48,16 @@ watch(
 )
 
 /**
+ * Reset the hint visibility whenever a new challenge is loaded.
+ */
+watch(
+  () => chapterData.value,
+  () => {
+    showExplanation.value = false
+  },
+)
+
+/**
  * Indicates whether the completion modal is visible.
  */
 const showCompleted = ref(false)
