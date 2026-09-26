@@ -23,7 +23,7 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         '/php': {
-          target: 'http://localhost:8080',
+          target: 'http://localhost',
           changeOrigin: true,
         },
       },

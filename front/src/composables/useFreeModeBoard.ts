@@ -50,6 +50,37 @@ export function useFreeModeBoard() {
   }
 
   /**
+   * Retourne les nodes propriété du board qui n'ont pas exactement une
+   * connexion "domain" ET une connexion "range" (0 ou 1 seul côté connecté).
+   * Centralisé ici pour être réutilisé par le bouton Save et la modale Save As.
+   */
+  const getIncompletePropertyNodes = () => {
+    return nodes.value.filter((n: any) => {
+      if (n.data?.card?.kind !== 'property') return false
+
+      const hasDomain = edges.value.some(
+        (e: any) => e.source === n.id && e.sourceHandle === 'domain',
+      )
+      const hasRange = edges.value.some((e: any) => e.source === n.id && e.sourceHandle === 'range')
+
+      return !(hasDomain && hasRange)
+    })
+  }
+
+  /**
+   * Message d'erreur prêt à afficher si des propriétés sont incomplètes,
+   * ou null si tout est valide. Pratique pour un contrôle en un appel avant
+   * de sauvegarder (Save ou Save As).
+   */
+  const validatePropertiesCompleteness = (): string | null => {
+    const incomplete = getIncompletePropertyNodes()
+    if (incomplete.length === 0) return null
+
+    const names = incomplete.map((n: any) => n.data?.card?.about ?? n.id).join(', ')
+    return `Certaines propriétés n'ont pas de domaine et/ou co-domaine connecté : ${names}`
+  }
+
+  /**
    * Exports the current board as a downloadable JSON file.
    */
   const exportFlow = (ontology: string) => {
@@ -149,5 +180,13 @@ export function useFreeModeBoard() {
     currentBoard.value = board
     return nodesInfos(board.freemodeData)
   }
-  return { exportFlow, importFlow, freeModeBoardData, openSaveBoard, currentBoard, errorImportFlow }
+  return {
+    exportFlow,
+    importFlow,
+    freeModeBoardData,
+    openSaveBoard,
+    currentBoard,
+    errorImportFlow,
+    validatePropertiesCompleteness,
+  }
 }

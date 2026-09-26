@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useVueFlow } from '@vue-flow/core'
+import { Handle, Position, useVueFlow } from '@vue-flow/core'
 import rotateIcon from '@/assets/img/rotate.svg'
 import { useSelectedXML } from '@/stores/cards.store'
 import type { CardInfo } from '@/types/card/cardInfo'
@@ -78,6 +78,38 @@ const startRotate = (e: PointerEvent) => {
     :class="{ 'node--selected': selected }"
     :style="{ transform: `rotate(${data.rotation || 0}deg)`, transformOrigin: 'center center' }"
   >
+    <!--
+      Handles de connexion (edges) :
+      - Une carte propriété a 2 handles "source" : domain (gauche) et range (droite)
+      - Une carte entité a 2 handles "target" (gauche et droite) pour pouvoir
+        recevoir une connexion peu importe où elle se trouve par rapport à la propriété
+      - Pas de handle pour les instances (leur association passe par la proximité, pas un edge)
+    -->
+    <Handle
+      v-if="data.card.kind === 'property'"
+      id="domain"
+      type="source"
+      :position="Position.Left"
+    />
+    <Handle
+      v-if="data.card.kind === 'property'"
+      id="range"
+      type="source"
+      :position="Position.Right"
+    />
+    <Handle
+      v-if="data.card.kind === 'entity'"
+      id="entity-left"
+      type="target"
+      :position="Position.Left"
+    />
+    <Handle
+      v-if="data.card.kind === 'entity'"
+      id="entity-right"
+      type="target"
+      :position="Position.Right"
+    />
+
     <EntityFreeModeCard
       v-if="data.card.kind === 'entity'"
       :entityDataCards="entityDataCards"
@@ -103,3 +135,10 @@ const startRotate = (e: PointerEvent) => {
     <img class="rotate-icon" :src="rotateIcon" @pointerdown="startRotate" />
   </div>
 </template>
+
+<style scoped>
+:deep(.vue-flow__handle) {
+  width: 10px;
+  height: 10px;
+}
+</style>

@@ -40,14 +40,23 @@ const modal = ref(false)
 const instanceModal = ref(false)
 const fullscreen = ref(false)
 const instructionsModal = ref(false)
-const { nodes, edges, nodeTypes, onDragStart, onDrop, onSelectionChange, resetFlow } =
-  useFreeModeFlow()
+const {
+  nodes,
+  edges,
+  nodeTypes,
+  onDragStart,
+  onDrop,
+  onSelectionChange: onFlowSelectionChange,
+  onNodeDragStop,
+  resetFlow,
+} = useFreeModeFlow()
 const showSidebar = ref(true)
 const layoutRef = ref()
 const entityBranches = ref(['entity'])
 const { zoomIn, zoomOut } = useVueFlow('free-mode-flow')
 const { exportFlow, importFlow } = useFreeModeBoard()
-const { freeModeBoardData, currentBoard, errorImportFlow } = useFreeModeBoard()
+const { freeModeBoardData, currentBoard, errorImportFlow, validatePropertiesCompleteness } =
+  useFreeModeBoard()
 
 document.addEventListener('fullscreenchange', () => {
   fullscreen.value = !!document.fullscreenElement
@@ -89,12 +98,97 @@ const handleOpenBoards = () => {
   openBoards.value = true
 }
 
+const toArray = (v: string | string[] | undefined) => (Array.isArray(v) ? v : v ? [v] : [])
+
+/**
+ * Lookup "about" -> liste des enfants DIRECTS (entités qui ont ce "about"
+ * dans leur propre subClasses). C'est l'inverse de subClasses.
+ */
+const directChildrenByAbout = computed(() => {
+  const map = new Map<string, string[]>()
+
+  ;(entityDataCards.value ?? []).forEach((e: any) => {
+    const parents = Array.isArray(e.subClasses) ? e.subClasses : []
+    parents.forEach((parentAbout: string) => {
+      const existing = map.get(parentAbout) ?? []
+      existing.push(e.about)
+      map.set(parentAbout, existing)
+    })
+  })
+
+  return map
+})
+
+/**
+ * Vérifie si une propriété est autorisée pour une entité, en tenant compte
+ * de ses parents DIRECTS (subClasses) et de ses enfants DIRECTS (recherche
+ * inverse), sans remonter/descendre plus loin.
+ *
+ * Règle spéciale : si l'entité a subClasses vide, c'est une classe racine ->
+ * toutes les propriétés lui sont autorisées.
+ */
+const isPropertyAllowedForEntity = (property: any, entity: any) => {
+  if (!property || !entity) return false
+
+  const parents = entity.subClasses
+  const isRoot =
+    !parents ||
+    (Array.isArray(parents) && parents.length === 0) ||
+    (typeof parents === 'object' && !Array.isArray(parents) && Object.keys(parents).length === 0)
+
+  if (isRoot) return true
+
+  const directParents: string[] = Array.isArray(parents) ? parents : []
+  const directChildren: string[] = directChildrenByAbout.value.get(entity.about) ?? []
+  const relevantAbouts = [entity.about, ...directParents, ...directChildren]
+
+  const allowed = [...toArray(property.domain), ...toArray(property.range)]
+  return relevantAbouts.some((about) => allowed.includes(about))
+}
+
+const activePropertyCard = ref<CardInfo | null>(null)
+const activeEntityCard = ref<CardInfo | null>(null)
+const selectedEntityIds = ref<string[]>([])
+const selectedEntityCards = ref<CardInfo[]>([])
+
 /**
  * Filter entity cards based on selected branches
  */
 const filteredCard = computed(() => {
   if (!entityDataCards.value?.length) return []
-  return filteredEntityCardsByBranch(entityDataCards.value, entityBranches.value)
+
+  // 1. Filtre existant par branche
+  let result = filteredEntityCardsByBranch(entityDataCards.value, entityBranches.value)
+
+  // 2. Filtre additionnel par propriété sélectionnée sur le board (avec héritage)
+  if (activePropertyCard.value) {
+    result = result.filter((entity) => isPropertyAllowedForEntity(activePropertyCard.value, entity))
+  }
+
+  return result
+})
+
+/**
+ * Filter property cards based on entité(s) sélectionnée(s) sur le board
+ */
+const filteredProperties = computed(() => {
+  if (!propertyDataCards.value?.length) return propertyDataCards.value ?? []
+
+  // Plusieurs entités sélectionnées -> union des propriétés valides pour chacune (avec héritage)
+  if (selectedEntityCards.value.length >= 2) {
+    return propertyDataCards.value.filter((property) =>
+      selectedEntityCards.value.some((entity) => isPropertyAllowedForEntity(property, entity)),
+    )
+  }
+
+  // Une seule entité sélectionnée (avec héritage)
+  if (activeEntityCard.value) {
+    return propertyDataCards.value.filter((property) =>
+      isPropertyAllowedForEntity(property, activeEntityCard.value!),
+    )
+  }
+
+  return propertyDataCards.value
 })
 
 /**
@@ -112,11 +206,21 @@ const onSelectInstance = (instance: CardInstances) => {
   instanceModal.value = false
 }
 
+const propertyCompletionError = ref<string | null>(null)
+
 /**
  * Save current board state to backend
  */
 const saveCurrentBoard = async () => {
   if (!currentBoard.value) return
+
+  const error = validatePropertiesCompleteness()
+  if (error) {
+    propertyCompletionError.value = error
+    return
+  }
+
+  propertyCompletionError.value = null
 
   const flow = freeModeBoardData(selectedOntology.value)
 
@@ -125,6 +229,137 @@ const saveCurrentBoard = async () => {
     ontologyName: selectedOntology.value,
     freemodeData: flow,
   })
+}
+
+const onSelectionChange = (params: any) => {
+  onFlowSelectionChange(params)
+}
+
+/**
+ * Gère le clic sur une carte du board :
+ * - property : filtre les entités (domain/range)
+ * - entity : cumule la sélection avec Shift/Cmd, sinon remplace
+ */
+const onNodeClick = ({ event, node }: any) => {
+  const isMultiSelect = event?.shiftKey || event?.metaKey
+
+  if (node.data.card.kind === 'property') {
+    activePropertyCard.value = node.data.card
+    selectedEntityIds.value = []
+    selectedEntityCards.value = []
+    activeEntityCard.value = null
+  }
+
+  if (node.data.card.kind === 'entity') {
+    activePropertyCard.value = null
+
+    if (isMultiSelect) {
+      if (selectedEntityIds.value.includes(node.id)) {
+        selectedEntityIds.value = selectedEntityIds.value.filter((id) => id !== node.id)
+      } else {
+        selectedEntityIds.value = [...selectedEntityIds.value, node.id]
+      }
+    } else {
+      selectedEntityIds.value = [node.id]
+    }
+
+    selectedEntityCards.value = selectedEntityIds.value
+      .map((id) => nodes.value.find((n: any) => n.id === id)?.data.card)
+      .filter(Boolean)
+
+    activeEntityCard.value =
+      selectedEntityCards.value.length === 1 ? selectedEntityCards.value[0] : null
+  }
+
+  /**
+   * Sélection d'une instance : on filtre les propriétés comme si on avait
+   * sélectionné son entité liée (une instance n'a pas de domain/range propre,
+   * c'est celui de son entité associée qui fait foi).
+   */
+  if (node.data.card.kind === 'instance') {
+    activePropertyCard.value = null
+    selectedEntityIds.value = []
+
+    const linkedEntityNode = node.data.linkedEntityId
+      ? nodes.value.find((n: any) => n.id === node.data.linkedEntityId)
+      : null
+
+    if (linkedEntityNode) {
+      selectedEntityCards.value = [linkedEntityNode.data.card]
+      activeEntityCard.value = linkedEntityNode.data.card
+    } else {
+      // Instance posée librement, pas encore associée à une entité
+      selectedEntityCards.value = []
+      activeEntityCard.value = null
+    }
+  }
+}
+
+const onPaneClick = () => {
+  activePropertyCard.value = null
+  activeEntityCard.value = null
+  selectedEntityIds.value = []
+  selectedEntityCards.value = []
+}
+
+/**
+ * Appelé quand l'utilisateur relâche une connexion tirée entre deux handles.
+ * Valide en temps réel avant d'ajouter l'edge :
+ * - l'entité connectée doit être compatible avec le rôle domain/range de la propriété
+ * - une propriété ne peut avoir qu'une seule entité en domain et une seule en range
+ */
+const onConnect = (connection: any) => {
+  const { source, sourceHandle, target } = connection
+
+  // Le node "source" est toujours la propriété (handles domain/range sont sur la carte propriété)
+  const propertyNode = nodes.value.find((n: any) => n.id === source)
+  const entityNode = nodes.value.find((n: any) => n.id === target)
+
+  if (!propertyNode || !entityNode) return
+  if (propertyNode.data.card.kind !== 'property' || entityNode.data.card.kind !== 'entity') return
+
+  const role = sourceHandle // 'domain' ou 'range'
+  if (role !== 'domain' && role !== 'range') return
+
+  // 1. Vérifier la cohérence : l'entité doit être valide pour ce rôle précis
+  const allowedForRole = toArray(propertyNode.data.card[role])
+  const relevantAbouts = [
+    entityNode.data.card.about,
+    ...toArray(entityNode.data.card.subClasses),
+    ...(directChildrenByAbout.value.get(entityNode.data.card.about) ?? []),
+  ]
+  const isRoot =
+    !entityNode.data.card.subClasses ||
+    (Array.isArray(entityNode.data.card.subClasses) &&
+      entityNode.data.card.subClasses.length === 0) ||
+    (typeof entityNode.data.card.subClasses === 'object' &&
+      !Array.isArray(entityNode.data.card.subClasses) &&
+      Object.keys(entityNode.data.card.subClasses).length === 0)
+
+  const isValidForRole = isRoot || relevantAbouts.some((about) => allowedForRole.includes(about))
+
+  if (!isValidForRole) {
+    console.warn(
+      `Connexion refusée : ${entityNode.data.card.about} n'est pas valide comme ${role} pour ${propertyNode.data.card.about}`,
+    )
+    return
+  }
+
+  // 2. Vérifier qu'aucune autre entité n'est déjà connectée sur ce même handle (domain ou range)
+  const alreadyConnected = edges.value.some(
+    (e: any) => e.source === source && e.sourceHandle === role,
+  )
+
+  if (alreadyConnected) {
+    console.warn(`Connexion refusée : ${propertyNode.data.card.about} a déjà une entité en ${role}`)
+    return
+  }
+
+  const newEdge = {
+    id: `edge-${connection.source}-${connection.sourceHandle}-${connection.target}-${connection.targetHandle}`,
+    ...connection,
+  }
+  edges.value = [...edges.value, newEdge]
 }
 </script>
 
@@ -171,7 +406,7 @@ const saveCurrentBoard = async () => {
           />
           <PropertyFreeModeCard
             :entityDataCards="entityDataCards"
-            :propertyDataCards="propertyDataCards"
+            :propertyDataCards="filteredProperties"
             :onDragStart="onDragStart"
             position="aside"
           />
@@ -212,6 +447,10 @@ const saveCurrentBoard = async () => {
           :multi-selection-key="'Shift'"
           @selection-change="onSelectionChange"
           :default-viewport="{ zoom: 1 }"
+          @node-click="onNodeClick"
+          @node-drag-stop="onNodeDragStop"
+          @pane-click="onPaneClick"
+          @connect="onConnect"
           :nodes-selectable="true"
           :delete-key-code="['Delete', 'Backspace']"
         >
@@ -252,6 +491,9 @@ const saveCurrentBoard = async () => {
           <Controls :show-zoom="true" :show-fit-view="true" :show-interactive="false" />
           <p class="error-import" v-if="errorImportFlow">
             {{ errorImportFlow }}
+          </p>
+          <p class="error-import" v-if="propertyCompletionError">
+            {{ propertyCompletionError }}
           </p></VueFlow
         >
       </div>
