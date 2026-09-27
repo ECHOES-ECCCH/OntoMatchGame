@@ -16,12 +16,16 @@ import FooterHome from '@/components/footer/FooterHome.vue'
 import CreditsModal from '@/components/modals/CreditsModal.vue'
 import { getChapterProgression } from '@/utils/chapters-progression'
 import { resetGame, isResetLoading, resetProgression } from '@/services/reset.service'
+import { createSession } from '@/services/sessions.service'
+import router from '@/router'
 
 const user = useUserInformations()
 
 const modal = ref(false)
 const infosModal = ref(false)
 const creditsModal = ref(false)
+const selectedLanguage = computed(() => langStore.state.language)
+const userStore = useUserInformations()
 
 const lastChallenge = ref()
 
@@ -43,6 +47,9 @@ const handleCreditsModal = (display: boolean) => {
   modal.value = false
 }
 
+const chapterTitle = computed(() =>
+  selectedLanguage.value === 'fr' ? 'Base des ontologies' : 'Basic Ontology',
+)
 /**
  * Reset user progression:
  * - Reset backend game state
@@ -71,6 +78,32 @@ onMounted(() => {
     return userHistory?.value.historyId ? true : false
   })
 })
+
+const handleCreateSessionData = (scenario: string, chapter: string) => {
+  return createSession({
+    userId: userStore.userInfo.userId,
+    scenarioTitle: scenario,
+    chapterTitle: chapter,
+  })
+}
+
+/**
+ * Navigate to a challenge and create a session
+ */
+async function goToChallenge(scenario: string, chapterTitle: string, chapterFilename: string) {
+  await handleCreateSessionData(scenario, chapterFilename)
+
+  router.push({
+    path: '/challenge',
+    query: {
+      ontology: 'CIDOC CRM',
+      scenario: scenario,
+      chapterName: chapterTitle,
+    },
+  })
+}
+
+console.log('selectedLanguage:', selectedLanguage.value)
 </script>
 
 <template>
@@ -95,6 +128,19 @@ onMounted(() => {
         {{ user.userInfo.userName }}
       </h2>
       <ul class="menu">
+        <li class="discover-game">
+          <div
+            @click="
+              goToChallenge(
+                'Marmoutier ' + selectedLanguage.toUpperCase(),
+                chapterTitle,
+                'Chapter1.json',
+              )
+            "
+          >
+            clcik
+          </div>
+        </li>
         <li class="menu-challenge">
           <router-link
             :to="{
