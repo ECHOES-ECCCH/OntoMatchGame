@@ -50,6 +50,7 @@ export const createFreeModeBoard = async (board: FreeModeBoard) => {
         Entities: board.freemodeData.Entities,
         Properties: board.freemodeData.Properties,
         Instances: board.freemodeData.Instances,
+        Edges: board.freemodeData.Edges,
       },
     })
 
@@ -78,6 +79,7 @@ export const updateFreeModeBoard = async (updateBoard: FreeModeBoard) => {
         Properties: updateBoard.freemodeData.Properties,
         Instances: updateBoard.freemodeData.Instances,
         ZoomLevel: updateBoard.freemodeData.ZoomLevel,
+        Edges: updateBoard.freemodeData.Edges,
       },
     })
 

@@ -11,7 +11,8 @@ const currentBoard = ref<FreeModeBoard | null>(null)
 const errorImportFlow = ref<string | null>(null)
 
 export function useFreeModeBoard() {
-  const { nodes, edges, viewport, setNodes, setEdges, setViewport } = useVueFlow()
+  const { nodes, edges, viewport, setNodes, setEdges, setViewport, updateNodeInternals } =
+    useVueFlow()
 
   type NodeKind = 'entity' | 'property' | 'instance'
 
@@ -29,11 +30,13 @@ export function useFreeModeBoard() {
         .filter((n) => n?.data?.card?.kind === kind)
         .map((n) => ({
           ontology,
-          Id: n.data?.card?.id ?? n.data?.card?.Id ?? n.id,
+          Id: n.id,
           Position: { x: n.position.x, y: n.position.y },
           Rotation: n.data?.rotation ?? 0,
           Kind: n.data?.card?.kind,
           Card: n.data?.card ? JSON.parse(JSON.stringify(n.data.card)) : null,
+          LinkedEntityId: n.data?.linkedEntityId ?? null,
+          LinkedInstanceId: n.data?.linkedInstanceId ?? null,
         }))
     }
 
@@ -43,7 +46,14 @@ export function useFreeModeBoard() {
       Entities: mapNodesByKind('entity'),
       Properties: mapNodesByKind('property'),
       Instances: mapNodesByKind('instance'),
-      Edges: edges.value.map((e) => ({ ...e })),
+      Edges: edges.value.map((e: any) => ({
+        id: e.id,
+        source: e.source,
+        target: e.target,
+        sourceHandle: e.sourceHandle,
+        targetHandle: e.targetHandle,
+        type: e.type ?? 'default',
+      })),
     }
 
     return flow
@@ -63,7 +73,7 @@ export function useFreeModeBoard() {
       )
       const hasRange = edges.value.some((e: any) => e.source === n.id && e.sourceHandle === 'range')
 
-      return !(hasDomain && hasRange)
+      return !(hasDomain || hasRange)
     })
   }
 
@@ -77,7 +87,7 @@ export function useFreeModeBoard() {
     if (incomplete.length === 0) return null
 
     const names = incomplete.map((n: any) => n.data?.card?.about ?? n.id).join(', ')
-    return `Certaines propriétés n'ont pas de domaine et/ou co-domaine connecté : ${names}`
+    return `Certaines propriétés n'ont ni domaine ni co-domaine connecté : ${names}`
   }
 
   /**
@@ -94,6 +104,12 @@ export function useFreeModeBoard() {
     a.click()
     URL.revokeObjectURL(url)
   }
+
+  /**
+   * Attend la prochaine frame d'affichage (le temps qu'un ResizeObserver
+   * mesure effectivement les dimensions des nodes fraîchement montés).
+   */
+  const waitFrame = () => new Promise((resolve) => requestAnimationFrame(resolve))
 
   /**
    * Converts a saved board into Vue Flow nodes.
@@ -117,6 +133,8 @@ export function useFreeModeBoard() {
             kind: item.Kind ?? 'entity',
             card: item.Card ?? null,
             rotation: item.Rotation ?? 0,
+            ...(item.LinkedEntityId ? { linkedEntityId: item.LinkedEntityId } : {}),
+            ...(item.LinkedInstanceId ? { linkedInstanceId: item.LinkedInstanceId } : {}),
           },
         }))
 
@@ -132,8 +150,20 @@ export function useFreeModeBoard() {
 
     await nextTick()
 
-    // Apply imported graph data
+    // Apply imported nodes first
     setNodes(nodesImported)
+
+    await nextTick()
+    await waitFrame()
+
+    // Force Vue Flow to remeasure handle positions for programmatically added
+    // nodes, sinon les edges restent invisibles même si les données sont correctes
+    updateNodeInternals(nodesImported.map((n) => n.id))
+
+    await nextTick()
+    await waitFrame()
+
+    // Now that handles are positioned, restore the edges
     setEdges(flow.Edges ?? [])
 
     await nextTick()
