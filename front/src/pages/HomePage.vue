@@ -6,6 +6,8 @@ import {
   shouldReloadHistory,
   userOntology,
 } from '@/composables/useUserHistory'
+import router from '@/router'
+import discover from '@/assets/img/discover.svg'
 import { fetchUserStats } from '@/composables/useUserStats'
 import { langStore } from '@/stores/lang.store'
 import { useUserInformations } from '@/stores/userInformations.store'
@@ -17,7 +19,6 @@ import CreditsModal from '@/components/modals/CreditsModal.vue'
 import { getChapterProgression } from '@/utils/chapters-progression'
 import { resetGame, isResetLoading, resetProgression } from '@/services/reset.service'
 import { createSession } from '@/services/sessions.service'
-import router from '@/router'
 
 const user = useUserInformations()
 
@@ -48,7 +49,7 @@ const handleCreditsModal = (display: boolean) => {
 }
 
 const chapterTitle = computed(() =>
-  selectedLanguage.value === 'fr' ? 'Base des ontologies' : 'Basic Ontology',
+  selectedLanguage.value === 'fr' ? 'Base des ontologies' : 'Ontology basics',
 )
 /**
  * Reset user progression:
@@ -88,7 +89,7 @@ const handleCreateSessionData = (scenario: string, chapter: string) => {
 }
 
 /**
- * Navigate to a challenge and create a session
+ * Navigate to the discover challenge and create a session
  */
 async function goToChallenge(scenario: string, chapterTitle: string, chapterFilename: string) {
   await handleCreateSessionData(scenario, chapterFilename)
@@ -102,8 +103,6 @@ async function goToChallenge(scenario: string, chapterTitle: string, chapterFile
     },
   })
 }
-
-console.log('selectedLanguage:', selectedLanguage.value)
 </script>
 
 <template>
@@ -128,7 +127,7 @@ console.log('selectedLanguage:', selectedLanguage.value)
         {{ user.userInfo.userName }}
       </h2>
       <ul class="menu">
-        <li class="discover-game">
+        <li v-if="!userHistory?.historyId" class="discover-game">
           <div
             @click="
               goToChallenge(
@@ -138,10 +137,11 @@ console.log('selectedLanguage:', selectedLanguage.value)
               )
             "
           >
-            clcik
+            <p>{{ langStore.t('static-text.MainMenuScene.mainmenu-scene-discover') }}</p>
+            <img :src="discover" />
           </div>
         </li>
-        <li class="menu-challenge">
+        <li v-if="userHistory?.historyId" class="menu-challenge">
           <router-link
             :to="{
               path: '/challenge',
@@ -151,7 +151,6 @@ console.log('selectedLanguage:', selectedLanguage.value)
                 chapterName: userHistory?.['chapterName'],
               },
             }"
-            v-if="userHistory?.historyId"
           >
             <div class="last-challenge">
               <div>
@@ -183,7 +182,9 @@ console.log('selectedLanguage:', selectedLanguage.value)
               </div>
             </div>
           </router-link>
-          <div class="no-session" v-else>
+        </li>
+        <li class="menu-challenge no-session" v-else>
+          <div class="no-session">
             {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-nocontinue-text') }}
           </div>
         </li>
