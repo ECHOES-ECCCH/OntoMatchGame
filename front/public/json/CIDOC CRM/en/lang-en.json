@@ -100,7 +100,8 @@
       "mainmenu-scene-quitbutton-text": "Quit",
       "mainmenu-scene-more-label": "More info",
       "mainmenu-scene-credits-label": "Full credits",
-      "mainmenu-scene-freemode-label": "Free Mode"
+      "mainmenu-scene-freemode-label": "Free Mode",
+      "mainmenu-scene-discover": "Discover"
     },
 
     "BoardScene": {

@@ -6,6 +6,8 @@ import {
   shouldReloadHistory,
   userOntology,
 } from '@/composables/useUserHistory'
+import router from '@/router'
+import discover from '@/assets/img/discover.svg'
 import { fetchUserStats } from '@/composables/useUserStats'
 import { langStore } from '@/stores/lang.store'
 import { useUserInformations } from '@/stores/userInformations.store'
@@ -16,12 +18,15 @@ import FooterHome from '@/components/footer/FooterHome.vue'
 import CreditsModal from '@/components/modals/CreditsModal.vue'
 import { getChapterProgression } from '@/utils/chapters-progression'
 import { resetGame, isResetLoading, resetProgression } from '@/services/reset.service'
+import { createSession } from '@/services/sessions.service'
 
 const user = useUserInformations()
 
 const modal = ref(false)
 const infosModal = ref(false)
 const creditsModal = ref(false)
+const selectedLanguage = computed(() => langStore.state.language)
+const userStore = useUserInformations()
 
 const lastChallenge = ref()
 
@@ -43,6 +48,9 @@ const handleCreditsModal = (display: boolean) => {
   modal.value = false
 }
 
+const chapterTitle = computed(() =>
+  selectedLanguage.value === 'fr' ? 'Base des ontologies' : 'Ontology basics',
+)
 /**
  * Reset user progression:
  * - Reset backend game state
@@ -71,6 +79,30 @@ onMounted(() => {
     return userHistory?.value.historyId ? true : false
   })
 })
+
+const handleCreateSessionData = (scenario: string, chapter: string) => {
+  return createSession({
+    userId: userStore.userInfo.userId,
+    scenarioTitle: scenario,
+    chapterTitle: chapter,
+  })
+}
+
+/**
+ * Navigate to the discover challenge and create a session
+ */
+async function goToChallenge(scenario: string, chapterTitle: string, chapterFilename: string) {
+  await handleCreateSessionData(scenario, chapterFilename)
+
+  router.push({
+    path: '/challenge',
+    query: {
+      ontology: 'CIDOC CRM',
+      scenario: scenario,
+      chapterName: chapterTitle,
+    },
+  })
+}
 </script>
 
 <template>
@@ -95,7 +127,21 @@ onMounted(() => {
         {{ user.userInfo.userName }}
       </h2>
       <ul class="menu">
-        <li class="menu-challenge">
+        <li v-if="!userHistory?.historyId" class="discover-game">
+          <div
+            @click="
+              goToChallenge(
+                'Marmoutier ' + selectedLanguage.toUpperCase(),
+                chapterTitle,
+                'Chapter1.json',
+              )
+            "
+          >
+            <p>{{ langStore.t('static-text.MainMenuScene.mainmenu-scene-discover') }}</p>
+            <img :src="discover" />
+          </div>
+        </li>
+        <li v-if="userHistory?.historyId" class="menu-challenge">
           <router-link
             :to="{
               path: '/challenge',
@@ -105,7 +151,6 @@ onMounted(() => {
                 chapterName: userHistory?.['chapterName'],
               },
             }"
-            v-if="userHistory?.historyId"
           >
             <div class="last-challenge">
               <div>
@@ -137,7 +182,9 @@ onMounted(() => {
               </div>
             </div>
           </router-link>
-          <div class="no-session" v-else>
+        </li>
+        <li class="menu-challenge no-session" v-else>
+          <div class="no-session">
             {{ langStore.t('static-text.MainMenuScene.mainmenu-scene-nocontinue-text') }}
           </div>
         </li>
