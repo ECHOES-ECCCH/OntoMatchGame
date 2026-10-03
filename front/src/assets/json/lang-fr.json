@@ -104,7 +104,8 @@
       "mainmenu-scene-quitbutton-text": "Déconnexion",
       "mainmenu-scene-more-label": "Plus d'info",
       "mainmenu-scene-credits-label": "Crédits",
-      "mainmenu-scene-freemode-label": "Mode libre"
+      "mainmenu-scene-freemode-label": "Mode libre",
+      "mainmenu-scene-discover": "Découvrir"
     },
 
     "BoardScene": {

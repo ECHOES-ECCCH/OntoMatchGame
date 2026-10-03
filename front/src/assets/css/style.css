@@ -422,6 +422,8 @@ button.submit:hover {
   grid-template-columns: repeat(6, 1fr);
   column-gap: 35px;
   row-gap: 20px;
+  width: clamp(280px, 70vw, 1048px);
+  padding-left: 0;
 }
 
 .homepage .homepage-content ul.menu li {
@@ -439,15 +441,52 @@ button.submit:hover {
 .homepage .homepage-content ul.menu li.menu-challenge {
   grid-column: span 6 / span 6;
   height: clamp(100px, 15vw, 148px);
-  width: clamp(280px, 70vw, 1048px);
+  width: auto;
   background-color: rgb(248, 248, 248);
   /* border: solid 1px var(--main-color1); */
   border-left: 7px solid var(--main-color1);
 }
 
+.homepage .homepage-content ul.menu li.discover-game {
+  grid-column: 1 / span 1;
+  grid-row-start: 1;
+  width: calc(100% + 20px);
+  height: clamp(100px, 15vw, 148px);
+  padding: 0;
+  justify-content: center;
+  box-sizing: border-box;
+  background-color: rgb(248, 248, 248);
+  border-left: 7px solid var(--main-color1);
+}
+
+.homepage .homepage-content ul.menu li.discover-game > div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.homepage .homepage-content ul.menu li.discover-game img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+}
+
+.homepage .homepage-content ul.menu li.discover-game p {
+  margin: 0;
+  text-transform: uppercase;
+}
+
 .homepage .homepage-content ul.menu li.menu-challenge .no-session {
   text-align: center;
   width: 100%;
+  grid-column: 2 / span 5;
+  grid-row-start: 1;
+  width: auto;
+  margin-left: 20px;
 }
 
 .homepage .homepage-content ul.menu li.menu-challenge:hover {
@@ -488,6 +527,11 @@ button.submit:hover {
   cursor: not-allowed !important;
   box-shadow: none;
   border-color: rgb(196, 196, 196) !important;
+  grid-column: 2 / span 5;
+  grid-row-start: 1;
+  width: auto;
+  margin-left: 20px;
+  background-color: rgb(248, 248, 248);
 }
 
 .homepage .homepage-content ul.menu li.menu-challenge a .last-challenge {
