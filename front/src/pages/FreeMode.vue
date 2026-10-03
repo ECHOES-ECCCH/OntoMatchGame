@@ -31,7 +31,7 @@ import save from '@/assets/img/save.svg'
 import open from '@/assets/img/open.svg'
 import backDoor from '@/assets/img/back-door.svg'
 import instances from '@/assets/img/instances.jpg'
-import type { CardInstances } from '@/types/card/cardInfo'
+import type { CardInfo, CardInstances, CardPropertyInfo } from '@/types/card/cardInfo'
 import { updateFreeModeBoard, isUpdateFreeModeBoardLoading } from '@/services/freemode.service'
 import { langStore } from '@/stores/lang.store'
 
@@ -74,6 +74,7 @@ watch(
   (newValue) => {
     loadCard(newValue)
     resetFlow()
+    currentBoard.value = null
   },
   { immediate: true },
 )
@@ -101,8 +102,8 @@ const handleOpenBoards = () => {
 const toArray = (v: string | string[] | undefined) => (Array.isArray(v) ? v : v ? [v] : [])
 
 /**
- * Lookup "about" -> liste des enfants DIRECTS (entités qui ont ce "about"
- * dans leur propre subClasses). C'est l'inverse de subClasses.
+ * Lookup "about" -> list of DIRECT children (entities that have this "about"
+ * in their own subClasses). This is the reverse of subClasses.
  */
 const directChildrenByAbout = computed(() => {
   const map = new Map<string, string[]>()
@@ -120,14 +121,14 @@ const directChildrenByAbout = computed(() => {
 })
 
 /**
- * Vérifie si une propriété est autorisée pour une entité, en tenant compte
- * de ses parents DIRECTS (subClasses) et de ses enfants DIRECTS (recherche
- * inverse), sans remonter/descendre plus loin.
+ * Checks whether a property is allowed for an entity, taking into account
+ * its DIRECT parents (subClasses) and its DIRECT children (reverse lookup),
+ * without traversing any further up or down the hierarchy.
  *
- * Règle spéciale : si l'entité a subClasses vide, c'est une classe racine ->
- * toutes les propriétés lui sont autorisées.
+ * Special rule: if the entity has an empty subClasses list, it is a root class ->
+ * all properties are allowed for it.
  */
-const isPropertyAllowedForEntity = (property: any, entity: any) => {
+const isPropertyAllowedForEntity = (property: CardPropertyInfo, entity: CardInfo) => {
   if (!property || !entity) return false
 
   const parents = entity.subClasses
@@ -146,7 +147,7 @@ const isPropertyAllowedForEntity = (property: any, entity: any) => {
   return relevantAbouts.some((about) => allowed.includes(about))
 }
 
-const activePropertyCard = ref<CardInfo | null>(null)
+const activePropertyCard = ref<CardPropertyInfo | null>(null)
 const activeEntityCard = ref<CardInfo | null>(null)
 const selectedEntityIds = ref<string[]>([])
 const selectedEntityCards = ref<CardInfo[]>([])
@@ -157,10 +158,10 @@ const selectedEntityCards = ref<CardInfo[]>([])
 const filteredCard = computed(() => {
   if (!entityDataCards.value?.length) return []
 
-  // 1. Filtre existant par branche
+  // 1. Existing branch filter
   let result = filteredEntityCardsByBranch(entityDataCards.value, entityBranches.value)
 
-  // 2. Filtre additionnel par propriété sélectionnée sur le board (avec héritage)
+  // 2. Additional filter by property selected on the board (with inheritance)
   if (activePropertyCard.value) {
     result = result.filter((entity) => isPropertyAllowedForEntity(activePropertyCard.value, entity))
   }
@@ -169,19 +170,19 @@ const filteredCard = computed(() => {
 })
 
 /**
- * Filter property cards based on entité(s) sélectionnée(s) sur le board
+ * Filter property cards based on the selected entity/entities on the board
  */
 const filteredProperties = computed(() => {
   if (!propertyDataCards.value?.length) return propertyDataCards.value ?? []
 
-  // Plusieurs entités sélectionnées -> union des propriétés valides pour chacune (avec héritage)
+  // Multiple entities selected -> union of properties valid for each (with inheritance)
   if (selectedEntityCards.value.length >= 2) {
     return propertyDataCards.value.filter((property) =>
       selectedEntityCards.value.some((entity) => isPropertyAllowedForEntity(property, entity)),
     )
   }
 
-  // Une seule entité sélectionnée (avec héritage)
+  // A single selected entity (with inheritance)
   if (activeEntityCard.value) {
     return propertyDataCards.value.filter((property) =>
       isPropertyAllowedForEntity(property, activeEntityCard.value!),
@@ -207,6 +208,19 @@ const onSelectInstance = (instance: CardInstances) => {
 }
 
 const propertyCompletionError = ref<string | null>(null)
+const connectionError = ref<string | null>(null)
+let connectionErrorTimeout: ReturnType<typeof setTimeout> | null = null
+
+/**
+ * Shows a connection error message for a few seconds, then hides it automatically.
+ */
+const showConnectionError = (message: string) => {
+  connectionError.value = message
+  if (connectionErrorTimeout) clearTimeout(connectionErrorTimeout)
+  connectionErrorTimeout = setTimeout(() => {
+    connectionError.value = null
+  }, 4000)
+}
 
 /**
  * Save current board state to backend
@@ -236,10 +250,10 @@ const onSelectionChange = (params: any) => {
 }
 
 /**
- * Gère le clic sur une carte du board :
- * - property : filtre les entités (domain/range)
- * - entity : cumule la sélection avec Shift/Cmd, sinon remplace
- */
+ * Handles a click on a board card:
+ * - property: filters the entities (domain/range)
+ * - entity: adds to the selection with Shift/Cmd, otherwise replaces it
+ *  */
 const onNodeClick = ({ event, node }: any) => {
   const isMultiSelect = event?.shiftKey || event?.metaKey
 
@@ -272,10 +286,11 @@ const onNodeClick = ({ event, node }: any) => {
   }
 
   /**
-   * Sélection d'une instance : on filtre les propriétés comme si on avait
-   * sélectionné son entité liée (une instance n'a pas de domain/range propre,
-   * c'est celui de son entité associée qui fait foi).
+   * Instance selection: filters the properties as if its linked entity had been
+   * selected (an instance has no domain/range of its own; the domain/range of its
+   * associated entity is what matters).
    */
+
   if (node.data.card.kind === 'instance') {
     activePropertyCard.value = null
     selectedEntityIds.value = []
@@ -288,7 +303,7 @@ const onNodeClick = ({ event, node }: any) => {
       selectedEntityCards.value = [linkedEntityNode.data.card]
       activeEntityCard.value = linkedEntityNode.data.card
     } else {
-      // Instance posée librement, pas encore associée à une entité
+      // Freely placed instance, not yet associated with an entity
       selectedEntityCards.value = []
       activeEntityCard.value = null
     }
@@ -303,25 +318,25 @@ const onPaneClick = () => {
 }
 
 /**
- * Appelé quand l'utilisateur relâche une connexion tirée entre deux handles.
- * Valide en temps réel avant d'ajouter l'edge :
- * - l'entité connectée doit être compatible avec le rôle domain/range de la propriété
- * - une propriété ne peut avoir qu'une seule entité en domain et une seule en range
+ * Called when the user releases a connection drawn between two handles.
+ * Validates in real time before adding the edge:
+ * * the connected entity must be compatible with the property's domain/range role
+ * * a property can have only one entity as its domain and one as its range
  */
 const onConnect = (connection: any) => {
   const { source, sourceHandle, target } = connection
 
-  // Le node "source" est toujours la propriété (handles domain/range sont sur la carte propriété)
+  // The "source" node is always the property (domain/range handles are on the property card)
   const propertyNode = nodes.value.find((n: any) => n.id === source)
   const entityNode = nodes.value.find((n: any) => n.id === target)
 
   if (!propertyNode || !entityNode) return
   if (propertyNode.data.card.kind !== 'property' || entityNode.data.card.kind !== 'entity') return
 
-  const role = sourceHandle // 'domain' ou 'range'
+  const role = sourceHandle // 'domain' or 'range'
   if (role !== 'domain' && role !== 'range') return
 
-  // 1. Vérifier la cohérence : l'entité doit être valide pour ce rôle précis
+  // 1. Check consistency: the entity must be valid for this specific role
   const allowedForRole = toArray(propertyNode.data.card[role])
   const relevantAbouts = [
     entityNode.data.card.about,
@@ -339,19 +354,19 @@ const onConnect = (connection: any) => {
   const isValidForRole = isRoot || relevantAbouts.some((about) => allowedForRole.includes(about))
 
   if (!isValidForRole) {
-    console.warn(
-      `Connexion refusée : ${entityNode.data.card.about} n'est pas valide comme ${role} pour ${propertyNode.data.card.about}`,
+    showConnectionError(
+      `${entityNode.data.card.about} is not valid as ${role} for ${propertyNode.data.card.about}.`,
     )
     return
   }
 
-  // 2. Vérifier qu'aucune autre entité n'est déjà connectée sur ce même handle (domain ou range)
+  // 2. Check that no other entity is already connected to this same handle (domain or range)
   const alreadyConnected = edges.value.some(
     (e: any) => e.source === source && e.sourceHandle === role,
   )
 
   if (alreadyConnected) {
-    console.warn(`Connexion refusée : ${propertyNode.data.card.about} a déjà une entité en ${role}`)
+    showConnectionError(`${propertyNode.data.card.about} already has an entity as ${role}.`)
     return
   }
 
@@ -418,7 +433,7 @@ const onConnect = (connection: any) => {
           />
         </div>
 
-        <!-- TOUJOURS VISIBLE -->
+        <!-- ALWAYS VISIBLE -->
         <button class="toggle-sidebar" @click="showSidebar = !showSidebar">
           <img :src="closeMenu" />
         </button>
@@ -464,7 +479,6 @@ const onConnect = (connection: any) => {
             >
               <label class="file-label"> <img :src="save" alt="save" title="save" /></label>
             </button>
-
             <button @click="handleOpenBoards">
               <label class="file-label">
                 <img :src="open" alt="open" title="open existing" />
@@ -485,6 +499,10 @@ const onConnect = (connection: any) => {
                 title="import"
               />
             </label>
+            <div class="board-title" v-if="currentBoard?.title">
+              {{ langStore.t('static-text.FreeModeScene.freemode-scene-project') }} :
+              {{ currentBoard?.title }}
+            </div>
           </div>
           <Background variant="dots" :gap="18" :size="1" color="#ccc" />
           <MiniMap />
@@ -494,6 +512,9 @@ const onConnect = (connection: any) => {
           </p>
           <p class="error-import" v-if="propertyCompletionError">
             {{ propertyCompletionError }}
+          </p>
+          <p class="error-import" v-if="connectionError">
+            {{ connectionError }}
           </p></VueFlow
         >
       </div>

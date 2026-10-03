@@ -9,7 +9,7 @@ import {
 } from '@/services/freemode.service'
 import ButtonLoader from '../loader/ButtonLoader.vue'
 
-const { freeModeBoardData, validatePropertiesCompleteness } = useFreeModeBoard()
+const { freeModeBoardData, validatePropertiesCompleteness, currentBoard } = useFreeModeBoard()
 
 const props = defineProps<{
   open: boolean
@@ -49,7 +49,13 @@ const handleSaveAs = async () => {
     freemodeData: freeModeData,
   })
 
-  if (result) {
+  if (result?.success) {
+    currentBoard.value = {
+      freemodeId: result.freemodeId,
+      title: boardName.value.trim(),
+      ontologyName: props.ontology,
+      freemodeData: freeModeData,
+    }
     closeModal()
   }
 }

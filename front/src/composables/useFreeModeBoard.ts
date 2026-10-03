@@ -1,3 +1,4 @@
+import { langStore } from '@/stores/lang.store'
 import type { BoardCards, FreeModeBoard } from '@/types/freemode'
 import { useVueFlow } from '@vue-flow/core'
 import { nextTick, ref } from 'vue'
@@ -60,9 +61,9 @@ export function useFreeModeBoard() {
   }
 
   /**
-   * Retourne les nodes propriété du board qui n'ont pas exactement une
-   * connexion "domain" ET une connexion "range" (0 ou 1 seul côté connecté).
-   * Centralisé ici pour être réutilisé par le bouton Save et la modale Save As.
+   * Returns the property nodes on the board that do not have exactly one
+   * "domain" connection AND one "range" connection (0 or only one side connected).
+   * Centralized here so it can be reused by the Save button and the Save As modal.
    */
   const getIncompletePropertyNodes = () => {
     return nodes.value.filter((n: any) => {
@@ -78,16 +79,17 @@ export function useFreeModeBoard() {
   }
 
   /**
-   * Message d'erreur prêt à afficher si des propriétés sont incomplètes,
-   * ou null si tout est valide. Pratique pour un contrôle en un appel avant
-   * de sauvegarder (Save ou Save As).
+   * Error message ready to be displayed if there are incomplete properties,
+   * or null if everything is valid. Useful for a one-call validation before
+   * saving (Save or Save As).
    */
+
   const validatePropertiesCompleteness = (): string | null => {
     const incomplete = getIncompletePropertyNodes()
     if (incomplete.length === 0) return null
 
     const names = incomplete.map((n: any) => n.data?.card?.about ?? n.id).join(', ')
-    return `Certaines propriétés n'ont ni domaine ni co-domaine connecté : ${names}`
+    return `${langStore.t('static-text.FreeModeScene.freemode-scene-property-connection')} : ${names}`
   }
 
   /**
@@ -106,8 +108,8 @@ export function useFreeModeBoard() {
   }
 
   /**
-   * Attend la prochaine frame d'affichage (le temps qu'un ResizeObserver
-   * mesure effectivement les dimensions des nodes fraîchement montés).
+   * Waits for the next rendering frame (giving the ResizeObserver enough time
+   * to actually measure the dimensions of newly mounted nodes).
    */
   const waitFrame = () => new Promise((resolve) => requestAnimationFrame(resolve))
 
@@ -178,6 +180,8 @@ export function useFreeModeBoard() {
   const importFlow = async (event: Event) => {
     errorImportFlow.value = null
 
+    currentBoard.value = null
+
     try {
       const file = (event.target as HTMLInputElement).files?.[0]
       if (!file) return
@@ -185,7 +189,7 @@ export function useFreeModeBoard() {
       const text = await file.text()
       const flow = JSON.parse(text)
 
-      // Validation minimale
+      // Minimal validation
       if (
         !flow ||
         !Array.isArray(flow.Entities) ||

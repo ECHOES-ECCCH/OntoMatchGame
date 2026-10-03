@@ -3332,6 +3332,17 @@ li.user-ranking {
   z-index: 1000;
   pointer-events: all;
   cursor: pointer;
+  display: flex;
+}
+
+.free-mode-container .toolbar .board-title {
+  /* background-color: white; */
+  color: var(--black);
+  padding: 3px 10px;
+  border-radius: var(--box-radius);
+  font-size: clamp(0.8rem, 1.1vw, 1.4rem);
+  align-self: center;
+  /* border: solid 1px var(--black); */
 }
 
 .free-mode-container .modal-container .carousel-container {
@@ -3709,6 +3720,12 @@ li.user-ranking {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 60px;
+  background-color: white;
+  border: solid 1px red;
+  border-radius: 5px;
+  margin: 60px 100px;
+  padding: 5px;
 }
 
 .node--selected {

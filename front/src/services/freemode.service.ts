@@ -36,7 +36,6 @@ export const getFreeModeBoardByName = async (ontology: string) => {
 export const createFreeModeBoard = async (board: FreeModeBoard) => {
   isCreateFreeModeBoardLoading.value = true
   isError.value = false
-  console.log(board)
 
   if (!userId.value) throw new Error('User not loaded')
 
@@ -67,7 +66,6 @@ export const updateFreeModeBoard = async (updateBoard: FreeModeBoard) => {
   isUpdateFreeModeBoardLoading.value = true
 
   if (!userId.value) throw new Error('User not loaded')
-  console.log(updateBoard)
   try {
     const { data } = await api.put('/freemode.php', {
       id: updateBoard.freemodeId,

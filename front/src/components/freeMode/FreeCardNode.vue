@@ -22,7 +22,7 @@ defineProps<{
   }
 }>()
 
-const { updateNodeData, getNodes } = useVueFlow('free-mode-flow')
+const { updateNodeData, getNodes, updateNodeInternals } = useVueFlow('free-mode-flow')
 const { entityDataCards, propertyDataCards } = useSelectedXML()
 
 /**
@@ -59,6 +59,11 @@ const startRotate = (e: PointerEvent) => {
         rotation: (initialRotations.get(node.id) || 0) + delta,
       })
     })
+
+    // Force Vue Flow to recalculate the handle positions after rotation,
+    // otherwise the edges remain visually attached to the old position
+    // (a simple CSS rotation change does not trigger ResizeObserver)
+    updateNodeInternals(selectedNodes.map((node) => node.id))
   }
 
   const stop = () => {
@@ -79,11 +84,10 @@ const startRotate = (e: PointerEvent) => {
     :style="{ transform: `rotate(${data.rotation || 0}deg)`, transformOrigin: 'center center' }"
   >
     <!--
-      Handles de connexion (edges) :
-      - Une carte propriété a 2 handles "source" : domain (gauche) et range (droite)
-      - Une carte entité a 2 handles "target" (gauche et droite) pour pouvoir
-        recevoir une connexion peu importe où elle se trouve par rapport à la propriété
-      - Pas de handle pour les instances (leur association passe par la proximité, pas un edge)
+     Connection handles (edges): 
+     - A property card has 2 "source" handles: domain (left) and range (right) 
+     - An entity card has 2 "target" handles (left and right) so that it can receive a connection regardless of where it is located relative to the property 
+     - No handle for instances (their association is based on proximity, not an edge)
     -->
     <Handle
       v-if="data.card.kind === 'property'"

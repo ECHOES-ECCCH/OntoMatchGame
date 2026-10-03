@@ -168,7 +168,9 @@
       "freemode-scene-instructions-modal-selection": "Select multiple cards: CTRL + left click",
       "freemode-scene-instructions-modal-rotation": "Rotation: Left-click on the rotation icon + mouse or touchpad movement",
       "freemode-scene-instructions-modal-removal": "Removal one or multiple cards: 'suppr' key or 'backspace' key",
-      "freemode-scene-instructions-modal-zoom": "Zoom: mouse wheel or + or - button"
+      "freemode-scene-instructions-modal-zoom": "Zoom: mouse wheel or + or - button",
+      "freemode-scene-property-connection": "Some properties have neither a domain nor a codomain connected",
+      "freemode-scene-project": "Project"
     },
 
     "FullCreditsScene": {

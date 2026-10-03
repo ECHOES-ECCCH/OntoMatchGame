@@ -172,7 +172,9 @@
       "freemode-scene-instructions-modal-selection": "Sélection de plusieurs cartes : CTRL + clic gauche",
       "freemode-scene-instructions-modal-rotation": "Rotation : Clic gauche sur l'icône de rotation + mouvement de la souris ou du touchapad",
       "freemode-scene-instructions-modal-removal": "Retirer une ou plusieurs cartes : touche « suppr » ou touche « retour arrière ».",
-      "freemode-scene-instructions-modal-zoom": "Zoom : molette de la souris ou bouton + ou -"
+      "freemode-scene-instructions-modal-zoom": "Zoom : molette de la souris ou bouton + ou -",
+      "freemode-scene-property-connection": "Certaines propriétés n'ont ni domaine ni co-domaine connecté",
+      "freemode-scene-project": "Projet"
     },
 
     "FullCreditsScene": {
