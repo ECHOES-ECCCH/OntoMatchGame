@@ -2204,15 +2204,18 @@ button.solution {
   align-items: stretch;
   position: relative;
   overflow: hidden;
-  flex: 0 0 clamp(150px, 12vw, 300px);
-  height: clamp(135px, 8.5vw, 170px);
   width: 100%;
   min-width: 0;
-  min-height: 0;
   max-width: 100%;
   box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.1),
     0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.free-mode-container .carousel-container .property-card {
+  flex: 0 0 clamp(150px, 12vw, 300px);
+  height: clamp(135px, 8.5vw, 170px);
+  min-height: 0;
 }
 
 .cards-container .content-cards .carousel-container .property-card h2,
