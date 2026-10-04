@@ -1594,18 +1594,6 @@ button.solution {
   font-size: clamp(0.5rem, 0.7vw, 1rem);
 }
 
-.cards-container .content-cards .carousel-container .property-card,
-.free-mode-container .carousel-container .property-card {
-  flex: 1 0 clamp(180px, 14vw, 350px);
-  /* height: clamp(160px, 10vw, 200px); */
-  width: 100%;
-  min-width: 0;
-  max-width: 100%;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.1),
-    0 8px 16px rgba(0, 0, 0, 0.1);
-}
-
 .cards-container .content-cards .carousel-container .entity-card::before,
 .free-mode-container .carousel-container .entity-card::before {
   content: '';
@@ -2216,6 +2204,15 @@ button.solution {
   align-items: stretch;
   position: relative;
   overflow: hidden;
+  flex: 0 0 clamp(150px, 12vw, 300px);
+  height: clamp(135px, 8.5vw, 170px);
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  max-width: 100%;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 .cards-container .content-cards .carousel-container .property-card h2,
@@ -2243,6 +2240,7 @@ button.solution {
   display: flex;
   flex-direction: column;
   flex: 1;
+  margin-bottom: 8px;
 }
 
 .cards-container .content-cards .carousel-container .property-card.wrong {
