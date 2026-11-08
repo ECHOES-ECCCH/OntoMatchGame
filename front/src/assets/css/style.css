@@ -2454,6 +2454,10 @@ button.solution {
   align-items: center;
 }
 
+.free-mode-container .content-cards .carousel-container .instance.prefix {
+  margin: 0;
+}
+
 .cards-container .content-cards .carousel-container .card-name .instance.name,
 .free-mode-container .content-cards .carousel-container .instance.name {
   font-size: clamp(0.4rem, 0.7vw, 0.8rem);
@@ -2475,6 +2479,11 @@ button.solution {
 }
 
 .free-mode-container .content-cards .carousel-container .instance.link.board {
+  font-size: clamp(0.4rem, 0.5vw, 0.8rem);
+  padding: 0;
+}
+
+.free-mode-container .content-cards .carousel-container .instance.label {
   font-size: clamp(0.4rem, 0.5vw, 0.8rem);
   padding: 0;
 }
