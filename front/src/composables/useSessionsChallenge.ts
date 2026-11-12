@@ -49,7 +49,7 @@ export function useFinishChallenge() {
     if (showSolution.value) return
 
     if (!showSolution.value) {
-      const nextId = String(parseInt(chapterStats.value?.lastChallengeId ?? '1') + 1)
+      const nextId = String(parseInt(chapterStats.value?.lastChallengeId ?? '1'))
       router.replace({
         path: '/challenge',
         query: {

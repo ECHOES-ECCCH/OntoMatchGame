@@ -1,3 +1,4 @@
+import { langStore } from '@/stores/lang.store'
 import type { BoardCards, FreeModeBoard } from '@/types/freemode'
 import { useVueFlow } from '@vue-flow/core'
 import { nextTick, ref } from 'vue'
@@ -11,7 +12,8 @@ const currentBoard = ref<FreeModeBoard | null>(null)
 const errorImportFlow = ref<string | null>(null)
 
 export function useFreeModeBoard() {
-  const { nodes, edges, viewport, setNodes, setEdges, setViewport } = useVueFlow()
+  const { nodes, edges, viewport, setNodes, setEdges, setViewport, updateNodeInternals } =
+    useVueFlow()
 
   type NodeKind = 'entity' | 'property' | 'instance'
 
@@ -29,11 +31,13 @@ export function useFreeModeBoard() {
         .filter((n) => n?.data?.card?.kind === kind)
         .map((n) => ({
           ontology,
-          Id: n.data?.card?.id ?? n.data?.card?.Id ?? n.id,
+          Id: n.id,
           Position: { x: n.position.x, y: n.position.y },
           Rotation: n.data?.rotation ?? 0,
           Kind: n.data?.card?.kind,
           Card: n.data?.card ? JSON.parse(JSON.stringify(n.data.card)) : null,
+          LinkedEntityId: n.data?.linkedEntityId ?? null,
+          LinkedInstanceId: n.data?.linkedInstanceId ?? null,
         }))
     }
 
@@ -43,10 +47,49 @@ export function useFreeModeBoard() {
       Entities: mapNodesByKind('entity'),
       Properties: mapNodesByKind('property'),
       Instances: mapNodesByKind('instance'),
-      Edges: edges.value.map((e) => ({ ...e })),
+      Edges: edges.value.map((e: any) => ({
+        id: e.id,
+        source: e.source,
+        target: e.target,
+        sourceHandle: e.sourceHandle,
+        targetHandle: e.targetHandle,
+        type: e.type ?? 'default',
+      })),
     }
 
     return flow
+  }
+
+  /**
+   * Returns the property nodes on the board that do not have exactly one
+   * "domain" connection AND one "range" connection (0 or only one side connected).
+   * Centralized here so it can be reused by the Save button and the Save As modal.
+   */
+  const getIncompletePropertyNodes = () => {
+    return nodes.value.filter((n: any) => {
+      if (n.data?.card?.kind !== 'property') return false
+
+      const hasDomain = edges.value.some(
+        (e: any) => e.source === n.id && e.sourceHandle === 'domain',
+      )
+      const hasRange = edges.value.some((e: any) => e.source === n.id && e.sourceHandle === 'range')
+
+      return !(hasDomain || hasRange)
+    })
+  }
+
+  /**
+   * Error message ready to be displayed if there are incomplete properties,
+   * or null if everything is valid. Useful for a one-call validation before
+   * saving (Save or Save As).
+   */
+
+  const validatePropertiesCompleteness = (): string | null => {
+    const incomplete = getIncompletePropertyNodes()
+    if (incomplete.length === 0) return null
+
+    const names = incomplete.map((n: any) => n.data?.card?.about ?? n.id).join(', ')
+    return `${langStore.t('static-text.FreeModeScene.freemode-scene-property-connection')} : ${names}`
   }
 
   /**
@@ -63,6 +106,12 @@ export function useFreeModeBoard() {
     a.click()
     URL.revokeObjectURL(url)
   }
+
+  /**
+   * Waits for the next rendering frame (giving the ResizeObserver enough time
+   * to actually measure the dimensions of newly mounted nodes).
+   */
+  const waitFrame = () => new Promise((resolve) => requestAnimationFrame(resolve))
 
   /**
    * Converts a saved board into Vue Flow nodes.
@@ -86,6 +135,8 @@ export function useFreeModeBoard() {
             kind: item.Kind ?? 'entity',
             card: item.Card ?? null,
             rotation: item.Rotation ?? 0,
+            ...(item.LinkedEntityId ? { linkedEntityId: item.LinkedEntityId } : {}),
+            ...(item.LinkedInstanceId ? { linkedInstanceId: item.LinkedInstanceId } : {}),
           },
         }))
 
@@ -101,8 +152,20 @@ export function useFreeModeBoard() {
 
     await nextTick()
 
-    // Apply imported graph data
+    // Apply imported nodes first
     setNodes(nodesImported)
+
+    await nextTick()
+    await waitFrame()
+
+    // Force Vue Flow to remeasure handle positions for programmatically added
+    // nodes, sinon les edges restent invisibles même si les données sont correctes
+    updateNodeInternals(nodesImported.map((n) => n.id))
+
+    await nextTick()
+    await waitFrame()
+
+    // Now that handles are positioned, restore the edges
     setEdges(flow.Edges ?? [])
 
     await nextTick()
@@ -117,6 +180,8 @@ export function useFreeModeBoard() {
   const importFlow = async (event: Event) => {
     errorImportFlow.value = null
 
+    currentBoard.value = null
+
     try {
       const file = (event.target as HTMLInputElement).files?.[0]
       if (!file) return
@@ -124,7 +189,7 @@ export function useFreeModeBoard() {
       const text = await file.text()
       const flow = JSON.parse(text)
 
-      // Validation minimale
+      // Minimal validation
       if (
         !flow ||
         !Array.isArray(flow.Entities) ||
@@ -149,5 +214,13 @@ export function useFreeModeBoard() {
     currentBoard.value = board
     return nodesInfos(board.freemodeData)
   }
-  return { exportFlow, importFlow, freeModeBoardData, openSaveBoard, currentBoard, errorImportFlow }
+  return {
+    exportFlow,
+    importFlow,
+    freeModeBoardData,
+    openSaveBoard,
+    currentBoard,
+    errorImportFlow,
+    validatePropertiesCompleteness,
+  }
 }

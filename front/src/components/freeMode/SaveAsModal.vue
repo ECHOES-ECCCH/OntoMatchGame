@@ -9,13 +9,14 @@ import {
 } from '@/services/freemode.service'
 import ButtonLoader from '../loader/ButtonLoader.vue'
 
-const { freeModeBoardData } = useFreeModeBoard()
+const { freeModeBoardData, validatePropertiesCompleteness, currentBoard } = useFreeModeBoard()
 
 const props = defineProps<{
   open: boolean
   ontology: string
 }>()
 const boardName = ref('')
+const completionError = ref<string | null>(null)
 
 const emit = defineEmits<{
   (e: 'update:open', value: boolean): void
@@ -24,11 +25,20 @@ const emit = defineEmits<{
 const closeModal = () => {
   emit('update:open', false)
   isError.value = false
+  completionError.value = null
   boardName.value = ''
 }
 
 const handleSaveAs = async () => {
   if (!boardName.value.trim()) return
+
+  const error = validatePropertiesCompleteness()
+  if (error) {
+    completionError.value = error
+    return
+  }
+
+  completionError.value = null
 
   const freeModeData = freeModeBoardData(props.ontology)
 
@@ -39,7 +49,13 @@ const handleSaveAs = async () => {
     freemodeData: freeModeData,
   })
 
-  if (result) {
+  if (result?.success) {
+    currentBoard.value = {
+      freemodeId: result.freemodeId,
+      title: boardName.value.trim(),
+      ontologyName: props.ontology,
+      freemodeData: freeModeData,
+    }
     closeModal()
   }
 }
@@ -62,6 +78,9 @@ const handleSaveAs = async () => {
         />
         <div class="error-request" v-if="isError">
           {{ langStore.t('static-text.FreeModeScene.freemode-scene-save-as-error') }}
+        </div>
+        <div class="error-request" v-if="completionError">
+          {{ completionError }}
         </div>
         <div class="button">
           <button @click="closeModal">
