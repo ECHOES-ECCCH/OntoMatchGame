@@ -3872,6 +3872,11 @@ li.user-ranking {
   cursor: pointer;
   box-shadow: var(--shadow);
   margin-right: 10px;
+  color: white;
+}
+
+.free-mode-container .file-label.RDF {
+  padding: 14px;
 }
 
 .free-mode-container button {

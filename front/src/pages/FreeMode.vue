@@ -20,6 +20,7 @@ import { toggleFullscreen } from '@/utils/togglefullscreen'
 import { useFreeModeFlow } from '@/composables/useFreeModeFlow'
 import { filteredEntityCardsByBranch } from '@/composables/useSelectedCards'
 import { useFreeModeBoard } from '@/composables/useFreeModeBoard'
+import { useFreeModeRdf } from '@/composables/useFreeModeRdf'
 import fullscreenLogo from '@/assets/img/fullscreen.svg'
 import edit from '@/assets/img/edit.svg'
 import closeMenu from '@/assets/img/close-arrow.svg'
@@ -55,6 +56,7 @@ const layoutRef = ref()
 const entityBranches = ref(['entity'])
 const { zoomIn, zoomOut } = useVueFlow('free-mode-flow')
 const { exportFlow, importFlow } = useFreeModeBoard()
+const { exportRdf } = useFreeModeRdf()
 const { freeModeBoardData, currentBoard, errorImportFlow, validatePropertiesCompleteness } =
   useFreeModeBoard()
 
@@ -220,6 +222,24 @@ const showConnectionError = (message: string) => {
   connectionErrorTimeout = setTimeout(() => {
     connectionError.value = null
   }, 4000)
+}
+
+const rdfExportWarning = ref<string | null>(null)
+let rdfExportWarningTimeout: ReturnType<typeof setTimeout> | null = null
+
+/**
+ * Exports the board as RDF (Turtle) and tells the user what had to be skipped, if anything.
+ */
+const handleExportRdf = () => {
+  const { warnings, stats } = exportRdf(selectedOntology.value)
+
+  if (rdfExportWarningTimeout) clearTimeout(rdfExportWarningTimeout)
+
+  const summary = `RDF export: ${stats.relations} relation(s) written (board: ${stats.instances} instance(s), ${stats.properties} property(ies), ${stats.edges} edge(s)).`
+  rdfExportWarning.value = warnings.length ? `${summary} Skipped: ${warnings.join(' ; ')}` : summary
+  rdfExportWarningTimeout = setTimeout(() => {
+    rdfExportWarning.value = null
+  }, 15000)
 }
 
 /**
@@ -499,6 +519,9 @@ const onConnect = (connection: any) => {
                 title="import"
               />
             </label>
+            <button @click="handleExportRdf" title="export RDF">
+              <label class="file-label RDF"><span>RDF</span></label>
+            </button>
             <div class="board-title" v-if="currentBoard?.title">
               {{ langStore.t('static-text.FreeModeScene.freemode-scene-project') }} :
               {{ currentBoard?.title }}
@@ -515,6 +538,9 @@ const onConnect = (connection: any) => {
           </p>
           <p class="error-import" v-if="connectionError">
             {{ connectionError }}
+          </p>
+          <p class="error-import" v-if="rdfExportWarning">
+            {{ rdfExportWarning }}
           </p></VueFlow
         >
       </div>

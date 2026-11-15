@@ -60,7 +60,7 @@ export function useFreeModeBoard() {
     return flow
   }
 
-  /**
+   /**
    * Returns the property nodes on the board that do not have exactly one
    * "domain" connection AND one "range" connection (0 or only one side connected).
    * Centralized here so it can be reused by the Save button and the Save As modal.
@@ -83,7 +83,6 @@ export function useFreeModeBoard() {
    * or null if everything is valid. Useful for a one-call validation before
    * saving (Save or Save As).
    */
-
   const validatePropertiesCompleteness = (): string | null => {
     const incomplete = getIncompletePropertyNodes()
     if (incomplete.length === 0) return null
@@ -107,7 +106,7 @@ export function useFreeModeBoard() {
     URL.revokeObjectURL(url)
   }
 
-  /**
+   /**
    * Waits for the next rendering frame (giving the ResizeObserver enough time
    * to actually measure the dimensions of newly mounted nodes).
    */
@@ -179,7 +178,8 @@ export function useFreeModeBoard() {
    */
   const importFlow = async (event: Event) => {
     errorImportFlow.value = null
-
+    // A local import is not linked to any board existing in the database: the
+    // "Save" button must no longer point to the board that was previously open.
     currentBoard.value = null
 
     try {
