@@ -83,7 +83,6 @@ export function useFreeModeBoard() {
    * or null if everything is valid. Useful for a one-call validation before
    * saving (Save or Save As).
    */
-
   const validatePropertiesCompleteness = (): string | null => {
     const incomplete = getIncompletePropertyNodes()
     if (incomplete.length === 0) return null
@@ -179,7 +178,8 @@ export function useFreeModeBoard() {
    */
   const importFlow = async (event: Event) => {
     errorImportFlow.value = null
-
+    // A local import is not linked to any board existing in the database: the
+    // "Save" button must no longer point to the board that was previously open.
     currentBoard.value = null
 
     try {
