@@ -134,7 +134,7 @@ export function useFreeModeRdf() {
     const url = URL.createObjectURL(new Blob([content], { type: 'text/turtle' }))
     const a = document.createElement('a')
     a.href = url
-    a.download = 'OMG_ExportedBoard.ttl'
+    a.download = 'OMG_ExportedBoard_RDF.ttl'
     a.click()
     URL.revokeObjectURL(url)
 
