@@ -231,15 +231,19 @@ let rdfExportWarningTimeout: ReturnType<typeof setTimeout> | null = null
  * Exports the board as RDF (Turtle) and tells the user what had to be skipped, if anything.
  */
 const handleExportRdf = () => {
-  const { warnings, stats } = exportRdf(selectedOntology.value)
+  const { warnings } = exportRdf()
 
   if (rdfExportWarningTimeout) clearTimeout(rdfExportWarningTimeout)
 
-  const summary = `RDF export: ${stats.relations} relation(s) written (board: ${stats.instances} instance(s), ${stats.properties} property(ies), ${stats.edges} edge(s)).`
-  rdfExportWarning.value = warnings.length ? `${summary} Skipped: ${warnings.join(' ; ')}` : summary
+  if (!warnings.length) {
+    rdfExportWarning.value = null
+    return
+  }
+
+  rdfExportWarning.value = `RDF export, skipped: ${warnings.join(' ; ')}`
   rdfExportWarningTimeout = setTimeout(() => {
     rdfExportWarning.value = null
-  }, 15000)
+  }, 10000)
 }
 
 /**

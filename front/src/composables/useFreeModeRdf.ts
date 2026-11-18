@@ -1,16 +1,8 @@
 import { useVueFlow } from '@vue-flow/core'
 
-/**
- * RDF (Turtle) export of the free-mode board.
- *
- * - buildFreeModeRdf: pure function (nodes + edges in, Turtle text out), no Vue dependency
- * - useFreeModeRdf: composable that reads the current board and downloads the .ttl file
- */
-
-// Placeholders taken from the example file: adapt them if needed
-const DATA_NAMESPACE = 'http://yourdataset.com/'
-const INSTANCE_TYPE_PREDICATE = 'rdfs:a' // the example uses rdfs:a (standard Turtle would be "a" / rdf:type)
-const ONTOLOGY_PREFIX = 'crm'
+const DATA_NAMESPACE = 'https://ontomatchgame.huma-num.fr/data/'
+const PREFIX = 'crm' // every class and property is exported with this prefix
+const TYPE_PREDICATE = 'rdfs:a' // the example file uses rdfs:a (standard Turtle would be "a" / rdf:type)
 
 const HEADER = `@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
 @prefix sci: <http://www.ics.forth.gr/isl/CRMsci/> .
@@ -29,120 +21,90 @@ const HEADER = `@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
 @prefix data: <${DATA_NAMESPACE}> .
 `
 
-export interface RdfExportStats {
-  instances: number
-  properties: number
-  edges: number
-  relations: number
-}
-
-export interface RdfBuildResult {
-  content: string
-  warnings: string[]
-  stats: RdfExportStats
-}
-
 // "E21 Person" -> "E21_Person", "P4 has time-span" -> "P4_has_time-span"
 const toLocalName = (label: string) => label.trim().replace(/\s+/g, '_')
 
 /**
- * Builds the Turtle text of the board.
- *
- * - Each instance linked to an entity gives a "type" line:  data:I2 rdfs:a crm:E21_Person .
- * - Each property gives a relation between the instances sitting on its domain entity and
- *   on its range entity, followed by its inverse (from the property card's `inverseOf`).
- *   If only one end is connected, the missing end is written as an anonymous node (_:...).
- *
- * Items that cannot produce a triple are skipped and reported in `warnings`
- * (and as comments at the end of the file, followed by a diagnostic of the board).
+ * Builds the Turtle text of the board:
+ * - each instance placed on an entity gives a type line  (data:I2 rdfs:a crm:E21_Person .)
+ * - each property gives a relation between the instances sitting on its domain and range
+ *   entities, followed by its inverse (from the card's `inverseOf`). If only one end is
+ *   connected, the missing end is an anonymous node (_:...).
+ * Items that cannot be exported are skipped and listed in `warnings`.
  */
-export function buildFreeModeRdf(
-  allNodes: any[],
-  allEdges: any[],
-  ontology: string,
-): RdfBuildResult {
+export function buildFreeModeRdf(nodes: any[], edges: any[]) {
   const warnings: string[] = []
+  const nodeById = new Map<string, any>(nodes.map((n): [string, any] => [n.id, n]))
 
-  // if (ontology !== 'CIDOC CRM') {
-  //   warnings.push(
-  //     `Ontology "${ontology}": every class/property is exported with the "${ONTOLOGY_PREFIX}:" prefix, check it is the right one`,
-  //   )
-  // }
+  const instanceNodes = nodes.filter((n) => n.data?.card?.kind === 'instance')
+  const instanceId = (n: any): string => String(n.data.card.Id ?? n.data.card.id)
 
-  const nodeById = new Map<string, any>(allNodes.map((n): [string, any] => [n.id, n]))
-
-  const instanceNodes = allNodes.filter((n) => n.data?.card?.kind === 'instance')
-  const instanceKey = (n: any) => n.data.card.Id ?? n.data.card.id
-  const instanceLabel = (n: any) => `${instanceKey(n)} (${n.data.card.Title ?? '?'})`
-
-  // entity node id -> instance node placed on it
-  const instanceByEntityNodeId = new Map<string, any>()
+  // entity node id -> instance placed on it
+  const instanceByEntity = new Map<string, any>()
   instanceNodes.forEach((n) => {
-    if (n.data.linkedEntityId) instanceByEntityNodeId.set(n.data.linkedEntityId, n)
+    if (n.data.linkedEntityId) instanceByEntity.set(n.data.linkedEntityId, n)
   })
 
-  // --- Instance definitions ---
+  // --- Instances ---
   const typeLines = new Set<string>()
-  instanceNodes.forEach((instanceNode) => {
-    const entityNode = nodeById.get(instanceNode.data.linkedEntityId)
-    if (!entityNode) {
-      warnings.push(`Instance ${instanceLabel(instanceNode)} skipped: no entity associated`)
+  instanceNodes.forEach((instance) => {
+    const entity = nodeById.get(instance.data.linkedEntityId)
+    if (!entity) {
+      warnings.push(
+        `Instance ${instanceId(instance)} (${instance.data.card.Title ?? '?'}) skipped: no entity associated`,
+      )
       return
     }
     typeLines.add(
-      `data:${instanceKey(instanceNode)} ${INSTANCE_TYPE_PREDICATE} ${ONTOLOGY_PREFIX}:${toLocalName(entityNode.data.card.about)} .`,
+      `data:${instanceId(instance)} ${TYPE_PREDICATE} ${PREFIX}:${toLocalName(entity.data.card.about)} .`,
     )
   })
 
   // --- Relations ---
   const relationBlocks = new Set<string>()
-  allNodes
+  nodes
     .filter((n) => n.data?.card?.kind === 'property')
-    .forEach((propertyNode) => {
-      const card = propertyNode.data.card
-      const edgeForRole = (role: 'domain' | 'range') =>
-        allEdges.find((e) => e.source === propertyNode.id && e.sourceHandle === role)
+    .forEach((property) => {
+      const card = property.data.card
+      const edgeFor = (role: string) =>
+        edges.find((e) => e.source === property.id && e.sourceHandle === role)
+      const domainEdge = edgeFor('domain')
+      const rangeEdge = edgeFor('range')
 
-      const domainEdge = edgeForRole('domain')
-      const rangeEdge = edgeForRole('range')
       if (!domainEdge && !rangeEdge) {
         warnings.push(`Property ${card.about} skipped: not connected to any entity`)
         return
       }
 
-      const domainEntity = domainEdge ? nodeById.get(domainEdge.target) : undefined
-      const rangeEntity = rangeEdge ? nodeById.get(rangeEdge.target) : undefined
-      const subject = domainEntity ? instanceByEntityNodeId.get(domainEntity.id) : undefined
-      const object = rangeEntity ? instanceByEntityNodeId.get(rangeEntity.id) : undefined
-
-      // A connected end must carry an instance, otherwise there is nothing to write
-      if (domainEdge && !subject) {
-        warnings.push(
-          `Property ${card.about} skipped: entity ${domainEntity?.data?.card?.about ?? '?'} has no instance`,
-        )
-        return
-      }
-      if (rangeEdge && !object) {
-        warnings.push(
-          `Property ${card.about} skipped: entity ${rangeEntity?.data?.card?.about ?? '?'} has no instance`,
-        )
-        return
+      // Term of one end: the instance on the connected entity, an anonymous node if that end
+      // is not connected, or null (with a warning) if the connected entity has no instance.
+      const blank = `_:missing_${String(property.id).replace(/\W/g, '_')}`
+      const termFor = (edge: any): string | null => {
+        if (!edge) return blank
+        const entity = nodeById.get(edge.target)
+        const instance = entity && instanceByEntity.get(entity.id)
+        if (!instance) {
+          warnings.push(
+            `Property ${card.about} skipped: entity ${entity?.data?.card?.about ?? '?'} has no instance`,
+          )
+          return null
+        }
+        return `data:${instanceId(instance)}`
       }
 
-      // Only one end connected: the missing end is an anonymous node, shared by the
-      // relation and its inverse.
-      const blankNode = `_:missing_${String(propertyNode.id).replace(/[^A-Za-z0-9_]/g, '_')}`
-      const subjectTerm = subject ? `data:${instanceKey(subject)}` : blankNode
-      const objectTerm = object ? `data:${instanceKey(object)}` : blankNode
+      const subject = termFor(domainEdge)
+      if (!subject) return
+      const object = termFor(rangeEdge)
+      if (!object) return
 
       const lines: string[] = []
-      if (!subject || !object) {
-        lines.push(`# ${card.about}: ${!subject ? 'domain' : 'range'} not connected`)
+      if (!domainEdge || !rangeEdge) {
+        lines.push(`# ${card.about}: ${!domainEdge ? 'domain' : 'range'} not connected`)
       }
-      lines.push(`${subjectTerm} ${ONTOLOGY_PREFIX}:${toLocalName(card.about)} ${objectTerm} .`)
+      lines.push(`${subject} ${PREFIX}:${toLocalName(card.about)} ${object} .`)
       const inverses: string[] = Array.isArray(card.inverseOf) ? card.inverseOf : []
       inverses.forEach((inverse) => {
-        lines.push(`${objectTerm} ${ONTOLOGY_PREFIX}:${toLocalName(inverse)} ${subjectTerm} .`)
+        lines.push(`${object} ${PREFIX}:${toLocalName(inverse)} ${subject} .`)
       })
       relationBlocks.add(lines.join('\n'))
     })
@@ -155,74 +117,28 @@ export function buildFreeModeRdf(
     '### Définition des relations',
     [...relationBlocks].join('\n\n'),
   ]
-
   if (warnings.length) {
     parts.push('', '### Éléments ignorés', ...warnings.map((w) => `# ${w}`))
-
-    // Diagnostic: what the export actually sees on the board
-    const kindOf = (n: any) => n.data?.card?.kind ?? `(none, data.kind=${n.data?.kind})`
-    const round = (v: any) => (typeof v === 'number' ? Math.round(v) : '?')
-    const aboutOf = (id: any) => nodeById.get(id)?.data?.card?.about ?? 'none'
-    const targetOf = (propertyId: string, role: string) =>
-      aboutOf(allEdges.find((e) => e.source === propertyId && e.sourceHandle === role)?.target)
-
-    const counts = new Map<string, number>()
-    allNodes.forEach((n) => counts.set(kindOf(n), (counts.get(kindOf(n)) ?? 0) + 1))
-
-    const diagnostic = [
-      `node kinds: ${[...counts].map(([kind, count]) => `${kind}=${count}`).join(', ')}`,
-      ...allNodes.map((n) => {
-        const card = n.data?.card ?? {}
-        const kind = kindOf(n)
-        const label = card.about ?? card.Title ?? card.Id ?? card.id ?? '?'
-        const box = `x=${round(n.position?.x)} y=${round(n.position?.y)} w=${round(n.dimensions?.width)} h=${round(n.dimensions?.height)}`
-
-        let link = ''
-        if (kind === 'instance') link = ` -> entity: ${aboutOf(n.data?.linkedEntityId)}`
-        if (kind === 'entity') {
-          const instance = instanceByEntityNodeId.get(n.id)
-          link = ` -> instance: ${instance ? instanceKey(instance) : 'none'}`
-        }
-        if (kind === 'property') {
-          link = ` -> domain: ${targetOf(n.id, 'domain')}, range: ${targetOf(n.id, 'range')}`
-        }
-        return `${kind} ${label} [${n.id}] ${box}${link}`
-      }),
-    ]
-    parts.push('', '### Diagnostic', ...diagnostic.map((d) => `# ${d}`))
   }
 
-  return {
-    content: parts.join('\n') + '\n',
-    warnings,
-    stats: {
-      instances: instanceNodes.length,
-      properties: allNodes.filter((n) => n.data?.card?.kind === 'property').length,
-      edges: allEdges.length,
-      relations: relationBlocks.size,
-    },
-  }
+  return { content: parts.join('\n') + '\n', warnings }
 }
 
 export function useFreeModeRdf() {
   const { nodes, edges } = useVueFlow()
 
-  /**
-   * Builds the RDF of the current board and downloads it as a .ttl file.
-   * Returns the warnings (skipped items) and some stats about what was exported.
-   */
-  const exportRdf = (ontology: string) => {
-    const { content, warnings, stats } = buildFreeModeRdf(nodes.value, edges.value, ontology)
+  /** Builds the RDF of the current board and downloads it as a Turtle (.ttl) file. */
+  const exportRdf = () => {
+    const { content, warnings } = buildFreeModeRdf(nodes.value, edges.value)
 
-    const blob = new Blob([content], { type: 'text/turtle' })
-    const url = URL.createObjectURL(blob)
+    const url = URL.createObjectURL(new Blob([content], { type: 'text/turtle' }))
     const a = document.createElement('a')
     a.href = url
-    a.download = 'OMG_ExportedBoard_RDF.ttl'
+    a.download = 'OMG_ExportedBoard.ttl'
     a.click()
     URL.revokeObjectURL(url)
 
-    return { warnings, stats }
+    return { warnings }
   }
 
   return { exportRdf }

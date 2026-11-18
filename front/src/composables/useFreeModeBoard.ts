@@ -60,7 +60,7 @@ export function useFreeModeBoard() {
     return flow
   }
 
-   /**
+  /**
    * Returns the property nodes on the board that do not have exactly one
    * "domain" connection AND one "range" connection (0 or only one side connected).
    * Centralized here so it can be reused by the Save button and the Save As modal.
@@ -106,7 +106,7 @@ export function useFreeModeBoard() {
     URL.revokeObjectURL(url)
   }
 
-   /**
+  /**
    * Waits for the next rendering frame (giving the ResizeObserver enough time
    * to actually measure the dimensions of newly mounted nodes).
    */
